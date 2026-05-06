@@ -91,15 +91,15 @@ const ServicesManager: React.FC = () => {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>صفحات الخدمات ({rows.length})</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between gap-2 flex-wrap">
+        <CardTitle className="text-base sm:text-xl">صفحات الخدمات ({rows.length})</CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => { setEditing(empty); setOpen(true); }} className="gap-2">
               <Plus className="w-4 h-4" /> صفحة خدمة
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" dir="rtl">
+          <DialogContent className="max-w-2xl w-[95vw] max-h-[90vh] overflow-y-auto" dir="rtl">
             <DialogHeader>
               <DialogTitle>{editing.id ? 'تعديل خدمة' : 'خدمة جديدة'}</DialogTitle>
             </DialogHeader>
@@ -165,9 +165,9 @@ const ServicesManager: React.FC = () => {
         ) : (
           <div className="space-y-2">
             {rows.map(r => (
-              <div key={r.id} className="border rounded-lg p-3 flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
+              <div key={r.id} className="border rounded-lg p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-bold">{r.title_ar}</h3>
                     <Badge variant={r.is_published ? 'default' : 'secondary'}>
                       {r.is_published ? 'منشور' : 'مخفي'}
@@ -176,7 +176,7 @@ const ServicesManager: React.FC = () => {
                   </div>
                   {r.subtitle_ar && <p className="text-sm text-muted-foreground">{r.subtitle_ar}</p>}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 self-end sm:self-auto">
                   <Button variant="outline" size="sm" onClick={() => { setEditing({ ...r }); setOpen(true); }}>
                     <Edit className="w-4 h-4" />
                   </Button>

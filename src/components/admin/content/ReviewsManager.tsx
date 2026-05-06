@@ -123,9 +123,9 @@ const ReviewsManager: React.FC = () => {
           <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin" /></div>
         ) : (
           <Tabs defaultValue="pending">
-            <TabsList>
-              <TabsTrigger value="pending">بانتظار المراجعة ({pending.length})</TabsTrigger>
-              <TabsTrigger value="approved">معتمد ({approved.length})</TabsTrigger>
+            <TabsList className="w-full sm:w-auto">
+              <TabsTrigger value="pending" className="flex-1">بانتظار ({pending.length})</TabsTrigger>
+              <TabsTrigger value="approved" className="flex-1">معتمد ({approved.length})</TabsTrigger>
             </TabsList>
             <TabsContent value="pending" className="mt-4">{renderList(pending)}</TabsContent>
             <TabsContent value="approved" className="mt-4">{renderList(approved)}</TabsContent>

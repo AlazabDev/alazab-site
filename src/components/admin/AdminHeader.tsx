@@ -36,18 +36,18 @@ export const AdminHeader: React.FC = () => {
         boxShadow: 'var(--azab-shadow-sm)'
       }}
     >
-      <div className="flex items-center justify-between px-6 py-4">
+      <div className="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 gap-2">
         {/* Right Side - Logo & Title */}
-        <div className="flex items-center space-x-4 space-x-reverse">
+        <div className="flex items-center space-x-2 sm:space-x-4 space-x-reverse min-w-0">
           <Logo variant="compact" linkTo="/admin-dashboard" showText={false} />
-          <div>
+          <div className="min-w-0">
             <h1 
-              className="text-xl font-bold"
+              className="text-sm sm:text-xl font-bold truncate"
               style={{ color: 'var(--azab-primary)' }}
             >
               لوحة تحكم المدير
             </h1>
-            <p className="text-sm text-gray-500">شركة العزب للمقاولات</p>
+            <p className="text-xs sm:text-sm text-gray-500 hidden sm:block">شركة العزب للمقاولات</p>
           </div>
         </div>
 

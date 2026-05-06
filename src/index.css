@@ -103,7 +103,7 @@ textarea::placeholder {
 @layer base {
   :root {
     /* هوية مجموعة العزب — كحلي #0f1b3d + أمبر #FFB900 + كريمي #f5f0e0 */
-    --background: 45 56% 96%;
+    --background: 220 14% 96%;
     --foreground: 224 60% 12%;
     --card: 0 0% 100%;
     --card-foreground: 224 60% 12%;
@@ -113,8 +113,8 @@ textarea::placeholder {
     --primary-foreground: 45 56% 96%;
     --secondary: 213 52% 25%;        /* #1e3a5f */
     --secondary-foreground: 45 56% 96%;
-    --muted: 45 30% 92%;
-    --muted-foreground: 224 20% 35%;
+    --muted: 220 14% 92%;
+    --muted-foreground: 224 15% 40%;
     --accent: 43 100% 50%;           /* #FFB900 */
     --accent-foreground: 224 60% 12%;
     --destructive: 0 75% 45%;

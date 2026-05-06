@@ -215,6 +215,90 @@ export type Database = {
         }
         Relationships: []
       }
+      cost_estimate_requests: {
+        Row: {
+          accuracy: string | null
+          area: number | null
+          category: string | null
+          city: string | null
+          client_name: string
+          client_phone: string
+          client_type: string | null
+          condition: string | null
+          contingency_pct: number | null
+          created_at: string
+          enabled_items: Json | null
+          estimated_total: number | null
+          finish_level: string | null
+          floors: number | null
+          id: string
+          location: string | null
+          management_pct: number | null
+          notes: string | null
+          per_meter: number | null
+          project_name: string | null
+          range_max: number | null
+          range_min: number | null
+          scope: string | null
+          status: string | null
+          subtype: string | null
+        }
+        Insert: {
+          accuracy?: string | null
+          area?: number | null
+          category?: string | null
+          city?: string | null
+          client_name: string
+          client_phone: string
+          client_type?: string | null
+          condition?: string | null
+          contingency_pct?: number | null
+          created_at?: string
+          enabled_items?: Json | null
+          estimated_total?: number | null
+          finish_level?: string | null
+          floors?: number | null
+          id?: string
+          location?: string | null
+          management_pct?: number | null
+          notes?: string | null
+          per_meter?: number | null
+          project_name?: string | null
+          range_max?: number | null
+          range_min?: number | null
+          scope?: string | null
+          status?: string | null
+          subtype?: string | null
+        }
+        Update: {
+          accuracy?: string | null
+          area?: number | null
+          category?: string | null
+          city?: string | null
+          client_name?: string
+          client_phone?: string
+          client_type?: string | null
+          condition?: string | null
+          contingency_pct?: number | null
+          created_at?: string
+          enabled_items?: Json | null
+          estimated_total?: number | null
+          finish_level?: string | null
+          floors?: number | null
+          id?: string
+          location?: string | null
+          management_pct?: number | null
+          notes?: string | null
+          per_meter?: number | null
+          project_name?: string | null
+          range_max?: number | null
+          range_min?: number | null
+          scope?: string | null
+          status?: string | null
+          subtype?: string | null
+        }
+        Relationships: []
+      }
       finishing_levels: {
         Row: {
           created_at: string
@@ -928,6 +1012,54 @@ export type Database = {
           inserted_at?: string
           name?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      tax_invoices: {
+        Row: {
+          commercial_register: string | null
+          created_at: string
+          description: string | null
+          id: string
+          invoice_date: string | null
+          invoice_number: string | null
+          item: string | null
+          source_section: string | null
+          tax_amount: number | null
+          tax_card: string | null
+          tax_type: string | null
+          taxable_amount: number | null
+          taxpayer: string | null
+        }
+        Insert: {
+          commercial_register?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          invoice_date?: string | null
+          invoice_number?: string | null
+          item?: string | null
+          source_section?: string | null
+          tax_amount?: number | null
+          tax_card?: string | null
+          tax_type?: string | null
+          taxable_amount?: number | null
+          taxpayer?: string | null
+        }
+        Update: {
+          commercial_register?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          invoice_date?: string | null
+          invoice_number?: string | null
+          item?: string | null
+          source_section?: string | null
+          tax_amount?: number | null
+          tax_card?: string | null
+          tax_type?: string | null
+          taxable_amount?: number | null
+          taxpayer?: string | null
         }
         Relationships: []
       }

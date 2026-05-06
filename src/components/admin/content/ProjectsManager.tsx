@@ -143,7 +143,7 @@ const ProjectsManager: React.FC = () => {
               <Plus className="w-4 h-4" /> مشروع جديد
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto" dir="rtl">
+          <DialogContent className="max-w-3xl w-[95vw] max-h-[90vh] overflow-y-auto" dir="rtl">
             <DialogHeader>
               <DialogTitle>{editing.id ? 'تعديل مشروع' : 'مشروع جديد'}</DialogTitle>
             </DialogHeader>

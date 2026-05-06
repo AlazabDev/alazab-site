@@ -496,5 +496,3 @@ export function ContentArticlePage({ section }: SectionProps) {
   );
 }
 
-// Re-export icons used (silence unused warnings if tree-shaken)
-export const _icons = { Copy };

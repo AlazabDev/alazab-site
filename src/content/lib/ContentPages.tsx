@@ -13,7 +13,6 @@ import {
   ListTree,
   X,
   Share2,
-  Copy,
   Check,
 } from "lucide-react";
 import { contentStyles as s, sectionMeta } from "./contentStyles";

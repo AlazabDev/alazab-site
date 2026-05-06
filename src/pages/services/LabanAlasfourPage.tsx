@@ -6,7 +6,7 @@ import { ArrowRight, Package, Globe, Search, Shield, CheckCircle, Truck, MapPin,
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroImg from '@/assets/services/laban-alasfour-hero.jpg';
+import heroImg from '@/assets/services/file_22.jpg';
 
 const LabanAlasfourPage: React.FC = () => {
   const { t, isRTL } = useLanguage();

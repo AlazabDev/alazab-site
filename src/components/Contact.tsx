@@ -68,9 +68,9 @@ const Contact: React.FC = () => {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-bold text-lg">فرع جدة - السعودية</h4>
-                    <p className="text-gray-600">المملكة العربية السعودية، جدة، حي الصفا، بجوار مستشفى الجدعاني</p>
-                    <p className="text-gray-600">+966547330897</p>
+                    <h4 className="font-bold text-lg">فرع الإسكندرية</h4>
+                    <p className="text-gray-600">مصر، الإسكندرية، سموحة، طريق الحرية</p>
+                    <p className="text-gray-600">+201004006620</p>
                   </div>
                 </div>
                 

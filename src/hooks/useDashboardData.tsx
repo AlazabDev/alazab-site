@@ -95,14 +95,14 @@ export const useDashboardData = () => {
               id: '1',
               name: 'مشروع تطوير المكاتب الإدارية',
               status: 'active',
-              location: 'الرياض',
+              location: 'القاهرة',
               created_at: new Date().toISOString()
             },
             {
               id: '2',
               name: 'صيانة مبنى سكني',
               status: 'planning',
-              location: 'جدة',
+              location: 'الإسكندرية',
               created_at: new Date(Date.now() - 86400000).toISOString()
             }
           ]

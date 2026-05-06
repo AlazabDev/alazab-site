@@ -194,13 +194,13 @@ const MaintenanceRequestDetails: React.FC = () => {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600">المدينة:</label>
-                    <p className="font-semibold">الرياض</p>
+                    <p className="font-semibold">القاهرة</p>
                   </div>
                 </div>
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium text-gray-600">الدولة:</label>
-                    <p className="font-semibold">المملكة العربية السعودية</p>
+                    <p className="font-semibold">جمهورية مصر العربية</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600">الموقع الجغرافي:</label>

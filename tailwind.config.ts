@@ -53,13 +53,13 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // نظام الألوان الجديد - الأزرق الغامق جداً والأصفر
+        // هوية مجموعة العزب — كحلي عميق + أمبر دافئ
         construction: {
-          primary: "#0f1629", // أزرق غامق جداً
-          secondary: "#1e293b", // أزرق متوسط
-          accent: "#fbbf24", // أصفر ذهبي
-          dark: "#020617", // أزرق أسود عميق
-          light: "#e2e8f0", // رمادي فاتح
+          primary: "#0f1b3d",   // كحلي عميق
+          secondary: "#1e3a5f", // كحلي متوسط
+          accent: "#FFB900",    // أمبر/ذهبي دافئ
+          dark: "#0a1228",      // أعمق درجة كحلي
+          light: "#f5f0e0",     // كريمي دافئ
         },
       },
       borderRadius: {

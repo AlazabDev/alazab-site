@@ -18,10 +18,10 @@ const CompanyLocations: React.FC = () => {
       iframe: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d854.1247240780544!2d31.30022173046193!3d31.095862998400694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDA1JzQ1LjEiTiAzMcKwMTcnNTguNSJF!5e0!3m2!1sar!2seg!4v1749127640901!5m2!1sar!2seg"
     },
     {
-      title: "فرع المملكة العربية السعودية - جدة",
-      address: "المملكة العربية السعودية، جدة، حي الصفا، بجوار مستشفى الجدعاني",
-      phone: "+966547330897",
-      iframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2205.9910846456487!2d39.21113249079207!3d21.585142778180533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15c3d10016d8abc5%3A0xd29d8ed509df7eeb!2sAlazab%20Contruction!5e0!3m2!1sar!2seg!4v1749129206014!5m2!1sar!2seg"
+      title: "فرع الإسكندرية",
+      address: "مصر، الإسكندرية، سموحة، طريق الحرية",
+      phone: "+201004006620",
+      iframe: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d54678!2d29.9553!3d31.2156!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDEyJzU2LjIiTiAyOcKwNTcnMTkuMSJF!5e0!3m2!1sar!2seg!4v1749129206014!5m2!1sar!2seg"
     }
   ];
 
@@ -30,10 +30,10 @@ const CompanyLocations: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            مقراتنا وفروعنا
+            مقراتنا وفروعنا في مصر
           </h2>
           <p className="text-construction-light max-w-2xl mx-auto">
-            نخدمكم من خلال مقراتنا في مصر والمملكة العربية السعودية
+            نخدمكم من خلال شبكة فروع مصر — القاهرة والدقهلية والإسكندرية
           </p>
         </div>
 

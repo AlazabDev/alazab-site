@@ -71,7 +71,7 @@ const About: React.FC = () => {
             </h2>
             <p className="text-base text-gray-600 mb-6 leading-relaxed">
               {t(
-                'تأسست شركة العزب للمقاولات منذ أكثر من 20 عاماً لتصبح من الشركات الرائدة في مجال المقاولات والبناء في المملكة العربية السعودية ومصر. قمنا بتطوير هيكلنا التشغيلي ليشمل أربعة خطوط إنتاج متكاملة، يدير كل منها فريق خبراء متخصصين، لتقديم حلول أكثر عمقاً تلبي احتياجات عملائنا.',
+                'تأسست شركة العزب للمقاولات منذ أكثر من 20 عاماً لتصبح من الشركات الرائدة في مجال المقاولات والبناء في جمهورية مصر العربية. قمنا بتطوير هيكلنا التشغيلي ليشمل أربعة خطوط إنتاج متكاملة، يدير كل منها فريق خبراء متخصصين، لتقديم حلول أكثر عمقاً تلبي احتياجات عملائنا.',
                 'Founded over 20 years ago, Alazab Contracting has become a leading company in the construction sector in Saudi Arabia and Egypt. We have strategically developed our operational structure to include four integrated production lines, each managed by a team of specialized experts, to provide deeper solutions that meet our clients\' needs.'
               )}
             </p>

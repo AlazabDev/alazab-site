@@ -20,7 +20,7 @@ const projects = [
     title: "برج الأمير السكني",
     category: "المباني السكنية",
     image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?q=80&w=2670&auto=format&fit=crop",
-    location: "الرياض، المملكة العربية السعودية",
+    location: "القاهرة، جمهورية مصر العربية",
     year: "2023",
     client: "شركة الأمير للاستثمار العقاري",
     featured: true
@@ -30,7 +30,7 @@ const projects = [
     title: "مجمع التميز التجاري",
     category: "المباني التجارية",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop",
-    location: "جدة، المملكة العربية السعودية",
+    location: "الإسكندرية، جمهورية مصر العربية",
     year: "2022",
     client: "مجموعة التميز"
   },
@@ -39,7 +39,7 @@ const projects = [
     title: "فيلا الواحة الخضراء",
     category: "الفلل الخاصة",
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2675&auto=format&fit=crop",
-    location: "الدمام، المملكة العربية السعودية",
+    location: "المنصورة، جمهورية مصر العربية",
     year: "2024",
     client: "عائلة السعيد"
   },
@@ -48,7 +48,7 @@ const projects = [
     title: "مجمع النخيل السكني",
     category: "المجمعات السكنية",
     image: "https://images.unsplash.com/photo-1517059224940-d4af9eec41b7?q=80&w=2605&auto=format&fit=crop",
-    location: "الخبر، المملكة العربية السعودية",
+    location: "الجيزة، جمهورية مصر العربية",
     year: "2023",
     client: "شركة النخيل للعقارات",
     featured: true
@@ -58,16 +58,16 @@ const projects = [
     title: "برج المستقبل",
     category: "المباني التجارية",
     image: "https://images.unsplash.com/photo-1693314212095-3659d9ca30c9?q=80&w=2574&auto=format&fit=crop",
-    location: "مكة، المملكة العربية السعودية",
+    location: "أسيوط، جمهورية مصر العربية",
     year: "2021",
-    client: "هيئة تطوير مكة المكرمة"
+    client: "هيئة تطوير الصعيد"
   },
   {
     id: 6,
     title: "مجمع الأندلس",
     category: "المجمعات السكنية",
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2573&auto=format&fit=crop",
-    location: "المدينة المنورة، المملكة العربية السعودية",
+    location: "طنطا، جمهورية مصر العربية",
     year: "2022",
     client: "شركة إعمار"
   }

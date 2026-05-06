@@ -110,8 +110,8 @@ const Footer: React.FC = () => {
             <div className="space-y-4 text-sm">
               {[
                 { title: 'المقر الرئيسي - القاهرة', address: 'مصر، القاهرة، المعادي', phone: '201004006620+' },
-                { title: 'فرع جدة - السعودية', address: 'المملكة العربية السعودية، جدة', phone: '966547330897+' },
-                { title: 'فرع الدقهلية - مصر', address: 'مصر، الدقهلية، مدينة نبروه', phone: '201014536600+' },
+                { title: 'فرع الدقهلية - نبروه', address: 'مصر، الدقهلية، مدينة نبروه', phone: '201014536600+' },
+                { title: 'فرع الإسكندرية', address: 'مصر، الإسكندرية، سموحة', phone: '201004006620+' },
               ].map((branch) => (
                 <div key={branch.title} className="bg-white/5 rounded-lg p-3">
                   <p className="font-medium text-white text-xs mb-1">{branch.title}</p>

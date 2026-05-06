@@ -55,6 +55,7 @@ const Header: React.FC = () => {
     { name: t('الرئيسية', 'Home'), href: '/' },
     { name: t('من نحن', 'About Us'), href: '/about' },
     { name: t('خدماتنا', 'Our Services'), href: '#', isDropdown: true },
+    { name: t('خدمات الصيانة', 'Maintenance Services'), href: '/maintenance-services' },
     { name: t('مشاريعنا', 'Projects'), href: '/projects' },
     { name: t('اتصل بنا', 'Contact Us'), href: '/contact' },
   ];

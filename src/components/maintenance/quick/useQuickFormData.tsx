@@ -54,12 +54,12 @@ export const useQuickFormData = () => {
         });
         
         setBranches([
-          { id: "1", name: "الرياض" },
-          { id: "2", name: "جدة" },
-          { id: "3", name: "مكة" },
-          { id: "4", name: "المدينة" },
-          { id: "5", name: "الدمام" },
-          { id: "6", name: "الخبر" }
+          { id: "1", name: "القاهرة" },
+          { id: "2", name: "الجيزة" },
+          { id: "3", name: "الإسكندرية" },
+          { id: "4", name: "الدقهلية" },
+          { id: "5", name: "الشرقية" },
+          { id: "6", name: "المنصورة" }
         ]);
         
         setServiceTypes([

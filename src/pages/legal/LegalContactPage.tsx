@@ -68,8 +68,8 @@ const LegalContactPage = () => (
       <div className="space-y-3">
         {[
           { name: 'المقر الرئيسي - القاهرة', address: 'مصر، القاهرة، المعادي', phone: '+201004006620' },
-          { name: 'فرع جدة - السعودية', address: 'المملكة العربية السعودية، جدة', phone: '+966547330897' },
-          { name: 'فرع الدقهلية - مصر', address: 'مصر، الدقهلية، مدينة نبروه', phone: '+201014536600' },
+          { name: 'فرع الدقهلية - نبروه', address: 'مصر، الدقهلية، مدينة نبروه', phone: '+201014536600' },
+          { name: 'فرع الإسكندرية', address: 'مصر، الإسكندرية، سموحة', phone: '+201004006620' },
         ].map((branch) => (
           <div key={branch.name} className="flex items-start gap-3 bg-muted rounded-lg p-4">
             <MapPin className="w-5 h-5 text-construction-accent mt-1 shrink-0" />

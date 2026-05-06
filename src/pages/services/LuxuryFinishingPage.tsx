@@ -223,8 +223,8 @@ const LuxuryFinishingPage: React.FC = () => {
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <Award className="w-12 h-12 text-amber-300 mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('جاهز لتحويل مساحتك؟', 'Ready to transform your space?')}</h2>
-          <p className="text-xl mb-8 text-amber-100 max-w-2xl mx-auto">{t('دعنا نحول منزلك إلى تحفة فنية تعكس ذوقك الرفيع وتفوق كل التوقعات', 'Let us turn your home into a masterpiece that reflects your refined taste and exceeds all expectations')}</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('قبل ما تختار مهندس تشطيب…', 'Before you pick a finishing contractor…')}</h2>
+          <p className="text-xl mb-8 text-amber-100 max-w-2xl mx-auto">{t('احجز جلسة 90 دقيقة مع كبير المصممين عندنا. مجاناً، في مكتبنا أو عندك. هتطلع منها بميزانية واقعية وتصور أوضح — حتى لو ما اشتغلتش معانا.', 'Book a 90-minute session with our lead designer. Free, at our office or yours. You leave with a realistic budget and a clearer picture — even if you don\'t hire us.')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-amber-700 hover:bg-gray-100 rounded-full px-8 text-lg">
               <Link to="/contact">{t('احجز استشارة مجانية', 'Book a Free Consultation')}</Link>

@@ -91,15 +91,15 @@ const ServicesManager: React.FC = () => {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>صفحات الخدمات ({rows.length})</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between gap-2 flex-wrap">
+        <CardTitle className="text-base sm:text-xl">صفحات الخدمات ({rows.length})</CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button onClick={() => { setEditing(empty); setOpen(true); }} className="gap-2">
               <Plus className="w-4 h-4" /> صفحة خدمة
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto" dir="rtl">
+          <DialogContent className="max-w-2xl w-[95vw] max-h-[90vh] overflow-y-auto" dir="rtl">
             <DialogHeader>
               <DialogTitle>{editing.id ? 'تعديل خدمة' : 'خدمة جديدة'}</DialogTitle>
             </DialogHeader>

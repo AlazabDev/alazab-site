@@ -12,30 +12,30 @@ const LabanAlasfourPage: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   const services = [
-    { icon: Search, titleAr: "بحث عالمي عن الخامات", titleEn: "Global Material Search", descriptionAr: "نبحث في جميع أنحاء العالم عن أندر وأجود الخامات المعمارية التي يصعب إيجادها محلياً", descriptionEn: "We search worldwide for the rarest and finest architectural materials that are hard to find locally" },
-    { icon: Globe, titleAr: "شبكة موردين في 30+ دولة", titleEn: "Suppliers in 30+ Countries", descriptionAr: "شبكة واسعة من الموردين المعتمدين في أكثر من 30 دولة حول العالم", descriptionEn: "A vast network of certified suppliers in over 30 countries worldwide" },
-    { icon: Shield, titleAr: "ضمان الجودة والمطابقة", titleEn: "Quality & Compliance Assurance", descriptionAr: "جميع الخامات مفحوصة ومطابقة للمواصفات العالمية مع شهادات الجودة", descriptionEn: "All materials are inspected and meet international standards with quality certificates" },
-    { icon: Package, titleAr: "توريد متخصص ومعقد", titleEn: "Specialized Complex Supply", descriptionAr: "نوفر الخامات الأكثر تعقيداً وندرة التي يعجز الآخرون عن توفيرها", descriptionEn: "We source the most complex and rare materials others can't provide" },
-    { icon: Truck, titleAr: "شحن وتوصيل آمن", titleEn: "Safe Shipping & Delivery", descriptionAr: "خدمات شحن متخصصة تضمن وصول الخامات بأمان تام مع التأمين الكامل", descriptionEn: "Specialized shipping services ensuring materials arrive safely with full insurance" },
-    { icon: Sparkles, titleAr: "استشارات الخامات", titleEn: "Material Consulting", descriptionAr: "فريق استشاري متخصص يساعدك في اختيار الخامات الأنسب لمشروعك", descriptionEn: "A specialized consulting team helps you choose the best materials for your project" },
+    { icon: Search, titleAr: "بنلاقي اللي مفيش حد لاقيه", titleEn: "We Find What Others Can't", descriptionAr: "محتاج رخام Calacatta Borghini لوح بسماكة 6 سم؟ خشب جاك أوف مجفف غرفة بنسبة 8%؟ بنطلع عرض في 72 ساعة.", descriptionEn: "Need 6cm-thick Calacatta Borghini slabs? Kiln-dried Jacaranda at 8% moisture? You'll have a quote in 72 hours." },
+    { icon: Globe, titleAr: "مكاتب اتصال في 6 دول", titleEn: "Offices in 6 Countries", descriptionAr: "مكاتب اتصال دائمة في كرارا، فالنسيا، إستانبول، فرانكفورت، شنغهاي، وساوباولو. زيارة المصنع قبل الشحن.", descriptionEn: "Permanent liaisons in Carrara, Valencia, Istanbul, Frankfurt, Shanghai, and São Paulo. We visit the factory before shipping." },
+    { icon: Shield, titleAr: "فحص جودة قبل وبعد الشحن", titleEn: "Pre- and Post-Shipment QC", descriptionAr: "فحص بصري وكيميائي للعينات في مختبر معتمد. تقرير مفصل قبل ما توافق على الشحنة.", descriptionEn: "Visual and chemical inspection at an accredited lab. Detailed report before you approve the shipment." },
+    { icon: Package, titleAr: "خامات الـ Spec الصعبة", titleEn: "The 'Difficult Spec' Materials", descriptionAr: "خامات بمواصفات معمارية معقدة: زجاج بريستول مقاوم للحريق، رخام بألوان وعروق محددة، أخشاب بشهادة FSC.", descriptionEn: "Materials with complex specs: Pristol fire-rated glass, marble matched to specific veining, FSC-certified woods." },
+    { icon: Truck, titleAr: "شحن بحري وجوي مؤمَّن 100%", titleEn: "Sea & Air Freight, Fully Insured", descriptionAr: "شحن من المصنع لباب موقعك. تأمين كامل ضد الكسر. التخليص الجمركي على حسابنا.", descriptionEn: "Door-to-site shipping with full breakage insurance. Customs clearance is on us." },
+    { icon: Sparkles, titleAr: "استشارة تقنية للمصممين", titleEn: "Technical Consulting for Designers", descriptionAr: "تقدر تكلّم مهندس عندنا قبل ما تحدد الخامة في الـ Spec — هنوريك بدائل أفضل أو أرخص في 80% من الحالات.", descriptionEn: "Talk to our engineer before you spec a material — we suggest better or cheaper alternatives in 80% of cases." },
   ];
 
   const materials = [
-    { icon: Gem, ar: "الرخام والجرانيت النادر من إيطاليا وتركيا والبرازيل", en: "Rare marble and granite from Italy, Turkey, and Brazil" },
-    { icon: TreePine, ar: "الأخشاب الفاخرة والمعالجة من أوروبا وأمريكا الجنوبية", en: "Premium treated woods from Europe and South America" },
-    { icon: Sparkles, ar: "المعادن والسبائك الخاصة للتطبيقات المعمارية المتقدمة", en: "Special metals and alloys for advanced architectural applications" },
-    { icon: Shield, ar: "الزجاج المعماري المتقدم والزجاج الذكي من اليابان وألمانيا", en: "Advanced and smart glass from Japan and Germany" },
-    { icon: Package, ar: "مواد العزل المتطورة والمستدامة بأحدث التقنيات", en: "Advanced sustainable insulation materials with latest technology" },
-    { icon: Globe, ar: "الخامات الصديقة للبيئة والمستدامة المعتمدة دولياً", en: "Internationally certified eco-friendly and sustainable materials" },
+    { icon: Gem, ar: "رخام كرارا، كالاكاتا، بيانكو ثاسوس، ترافرتين روماني", en: "Carrara, Calacatta, Bianco Thassos, and Roman travertine" },
+    { icon: TreePine, ar: "أخشاب الإيبي البرازيلي، جاك أوف الأفريقي، البلوط الأمريكي الأبيض", en: "Brazilian Ipê, African Iroko, American White Oak" },
+    { icon: Sparkles, ar: "نحاس وبرونز معماري بألوان مخصصة (Patina) للواجهات", en: "Architectural copper and bronze with custom patina for facades" },
+    { icon: Shield, ar: "زجاج معماري Saint-Gobain + زجاج ذكي PDLC من اليابان", en: "Saint-Gobain architectural glass and Japanese PDLC smart glass" },
+    { icon: Package, ar: "عوازل Rockwool ودانمركية بأعلى تصنيف حريق A1", en: "Rockwool and Danish insulation with A1 fire rating" },
+    { icon: Globe, ar: "خامات معتمدة LEED Platinum وWELL للمشاريع المستدامة", en: "LEED Platinum and WELL-certified materials for sustainable projects" },
   ];
 
   const countries = [
-    { ar: "إيطاليا", en: "Italy", specialtyAr: "الرخام والسيراميك", specialtyEn: "Marble & Ceramics" },
-    { ar: "ألمانيا", en: "Germany", specialtyAr: "الزجاج والمعادن", specialtyEn: "Glass & Metals" },
-    { ar: "تركيا", en: "Turkey", specialtyAr: "الجرانيت والحجر", specialtyEn: "Granite & Stone" },
-    { ar: "البرازيل", en: "Brazil", specialtyAr: "الأخشاب الاستوائية", specialtyEn: "Tropical Woods" },
-    { ar: "اليابان", en: "Japan", specialtyAr: "التقنيات الذكية", specialtyEn: "Smart Technologies" },
-    { ar: "إسبانيا", en: "Spain", specialtyAr: "البلاط والموزاييك", specialtyEn: "Tiles & Mosaics" },
+    { ar: "إيطاليا", en: "Italy", specialtyAr: "الرخام (كرارا، فيرونا)", specialtyEn: "Marble (Carrara, Verona)" },
+    { ar: "ألمانيا", en: "Germany", specialtyAr: "Saint-Gobain، Knauf", specialtyEn: "Saint-Gobain, Knauf" },
+    { ar: "تركيا", en: "Turkey", specialtyAr: "جرانيت، أونيكس", specialtyEn: "Granite, Onyx" },
+    { ar: "البرازيل", en: "Brazil", specialtyAr: "إيبي، جاراندا", specialtyEn: "Ipê, Jacaranda" },
+    { ar: "اليابان", en: "Japan", specialtyAr: "زجاج PDLC، Toto", specialtyEn: "PDLC glass, Toto" },
+    { ar: "إسبانيا", en: "Spain", specialtyAr: "بورسلين Inalco، Porcelanosa", specialtyEn: "Inalco, Porcelanosa porcelain" },
   ];
 
   return (

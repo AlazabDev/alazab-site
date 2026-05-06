@@ -17,11 +17,13 @@ export const AdminDashboardLayout: React.FC<AdminDashboardLayoutProps> = ({ chil
       <AdminHeader />
       
       <div className="flex">
-        {/* Sidebar */}
-        <AdminSidebar />
-        
+        {/* Sidebar - hidden on mobile */}
+        <div className="hidden lg:block">
+          <AdminSidebar />
+        </div>
+
         {/* Main Content */}
-        <main className="flex-1 overflow-x-hidden">
+        <main className="flex-1 overflow-x-hidden min-w-0">
           {children}
         </main>
       </div>

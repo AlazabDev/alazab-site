@@ -85,8 +85,8 @@ const LabanAlasfourPage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('لماذا لبن العصفور؟', 'Why Laban Alasfour?')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('لأننا نؤمن أن المشاريع الاستثنائية تستحق خامات استثنائية', 'Because we believe exceptional projects deserve exceptional materials')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('ليه عملاؤنا بيعتمدوا علينا', "Why Our Clients Rely On Us")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('الفرق بين \"خامة قريبة\" و\"الخامة المظبوطة\" هو الفرق بين مشروع عادي ومشروع مميز', "The gap between 'close enough' and 'exactly right' is the gap between an ordinary project and a memorable one")}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => {

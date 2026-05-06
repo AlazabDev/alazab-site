@@ -200,6 +200,8 @@ function App() {
         <Route path="/guidance/:slug" element={<ContentArticlePage section="guidance" />} />
         <Route path="/faq" element={<ContentSectionPage section="faq" />} />
         <Route path="/faq/:slug" element={<ContentArticlePage section="faq" />} />
+        <Route path="/maintenance-services" element={<ContentSectionPage section="services" />} />
+        <Route path="/maintenance-services/:slug" element={<ContentArticlePage section="services" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>

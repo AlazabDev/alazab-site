@@ -29,6 +29,12 @@ const menuItems = [
     badge: null
   },
   {
+    title: 'إدارة المحتوى',
+    icon: FileText,
+    path: '/admin/content',
+    badge: 'جديد'
+  },
+  {
     title: 'طلبات الصيانة',
     icon: Wrench,
     path: '/maintenance-list',

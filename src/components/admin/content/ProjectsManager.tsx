@@ -135,8 +135,8 @@ const ProjectsManager: React.FC = () => {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>المشروعات ({rows.length})</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between gap-2 flex-wrap">
+        <CardTitle className="text-base sm:text-xl">المشروعات ({rows.length})</CardTitle>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button onClick={openNew} className="gap-2">

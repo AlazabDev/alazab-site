@@ -137,8 +137,8 @@ const LuxuryFinishingPage: React.FC = () => {
               <img src={bathroomImg} alt={t('حمام فاخر', 'Luxury Bathroom')} className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1024} height={1024} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <div>
-                  <h3 className="text-white text-xl font-bold">{t('حمامات بمعايير فندقية', 'Hotel-Standard Bathrooms')}</h3>
-                  <p className="text-gray-300 text-sm">{t('رخام كالاكاتا مع تركيبات ذهبية', 'Calacatta marble with golden fixtures')}</p>
+                  <h3 className="text-white text-xl font-bold">{t('حمام ماستر — فيلا التجمع', 'Master Bath — Fifth Settlement Villa')}</h3>
+                  <p className="text-gray-300 text-sm">{t('رخام كالاكاتا أصلي + كرات ذهبية مات من Hansgrohe', 'Authentic Calacatta marble with matte gold Hansgrohe fixtures')}</p>
                 </div>
               </div>
             </div>
@@ -146,8 +146,8 @@ const LuxuryFinishingPage: React.FC = () => {
               <img src={kitchenImg} alt={t('مطبخ فاخر', 'Luxury Kitchen')} className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1024} height={1024} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <div>
-                  <h3 className="text-white text-xl font-bold">{t('مطابخ عصرية متكاملة', 'Modern Integrated Kitchens')}</h3>
-                  <p className="text-gray-300 text-sm">{t('تصميم عصري مع أسطح رخام وإضاءة مخفية', 'Modern design with marble countertops and concealed lighting')}</p>
+                  <h3 className="text-white text-xl font-bold">{t('مطبخ مفتوح — شالية الساحل', 'Open Kitchen — North Coast Chalet')}</h3>
+                  <p className="text-gray-300 text-sm">{t('أبواب لاكيه مات + رخام ديكتون Sirius + جزيرة 3.20 متر', 'Matte lacquer doors, Dekton Sirius slab, and a 3.20m island')}</p>
                 </div>
               </div>
             </div>

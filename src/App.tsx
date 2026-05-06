@@ -62,6 +62,7 @@ const FacebookPage = lazy(() => import("./pages/FacebookPage"));
 const SitemapPage = lazy(() => import("./pages/SitemapPage"));
 const MetaAccountsPage = lazy(() => import("./pages/MetaAccountsPage"));
 const InternalWebhookPage = lazy(() => import("./pages/InternalWebhookPage"));
+const CostCalculator = lazy(() => import("./pages/CostCalculator"));
 const ContentSectionPage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentSectionPage })));
 const ContentArticlePage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentArticlePage })));
 
@@ -90,6 +91,7 @@ function App() {
           </ProtectedRoute>
         } />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/cost-calculator" element={<CostCalculator />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/chatbot" element={<ChatbotPage />} />
         <Route path="/chatbot-training" element={

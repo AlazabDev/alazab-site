@@ -14,30 +14,30 @@ const LuxuryFinishingPage: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   const services = [
-    { icon: Crown, titleAr: "تشطيبات فائقة الجودة", titleEn: "Ultra-High-Quality Finishes", descriptionAr: "تشطيبات راقية تعكس الذوق الرفيع باستخدام أحدث التصاميم العالمية وأرقى الخامات المستوردة", descriptionEn: "Refined finishes reflecting refined taste using the latest international designs and premium imported materials" },
-    { icon: Paintbrush, titleAr: "تصميم داخلي حصري", titleEn: "Exclusive Interior Design", descriptionAr: "تصميمات داخلية مبتكرة من فريق مهندسين متخصصين يحولون رؤيتك إلى واقع مبهر", descriptionEn: "Innovative interior designs from a specialized engineering team that turns your vision into stunning reality" },
-    { icon: Home, titleAr: "فلل وشقق ودوبلكس", titleEn: "Villas, Apartments & Duplexes", descriptionAr: "حلول تشطيب شاملة لجميع أنواع الوحدات السكنية الراقية بمعايير فندقية عالمية", descriptionEn: "Comprehensive finishing solutions for all upscale residential units with international hotel standards" },
-    { icon: Gem, titleAr: "أفخم الخامات العالمية", titleEn: "The Finest Global Materials", descriptionAr: "نستخدم أجود الخامات المستوردة من إيطاليا وإسبانيا وتركيا لضمان الجودة والمتانة", descriptionEn: "We use the finest materials imported from Italy, Spain, and Turkey to ensure quality and durability" },
-    { icon: Lightbulb, titleAr: "إضاءة ذكية متكاملة", titleEn: "Integrated Smart Lighting", descriptionAr: "أنظمة إضاءة ذكية ومخفية تخلق أجواء مثالية وتوفر الطاقة بتقنيات حديثة", descriptionEn: "Smart concealed lighting systems that create perfect ambiance and save energy with modern technology" },
-    { icon: Layers, titleAr: "أسقف وجدران فنية", titleEn: "Artistic Ceilings & Walls", descriptionAr: "أسقف معلقة بتصاميم فنية فريدة وجدران ديكورية بلمسات إبداعية مميزة", descriptionEn: "Suspended ceilings with unique artistic designs and decorative walls with creative distinctive touches" },
+    { icon: Crown, titleAr: "تشطيب فاخر بمواصفات مكتوبة", titleEn: "Luxury Finishing With Spec Sheets", descriptionAr: "كل غرفة بكراسة مواصفات مفصّلة: نوع الرخام، سُمك الباركيه، شركة الدهان، رقم اللون. مفيش مفاجآت في التسليم.", descriptionEn: "Every room comes with a detailed spec sheet — marble type, parquet thickness, paint brand, color code. No surprises at handover." },
+    { icon: Paintbrush, titleAr: "تصميم داخلي بـ 3D قبل البدء", titleEn: "Full 3D Design Before We Start", descriptionAr: "بنطلع لك جولة افتراضية كاملة لكل ركن قبل ما نكسر طوبة. التعديلات مجانية في مرحلة التصميم.", descriptionEn: "A complete virtual walkthrough of every corner before we break ground. Changes are free during design." },
+    { icon: Home, titleAr: "فلل وشقق ودوبلكس", titleEn: "Villas, Apartments & Duplexes", descriptionAr: "خبرة في أحياء كومبوندز التجمع والشيخ زايد والساحل. فريق منفصل لكل مشروع، مهندس مقيم في الموقع.", descriptionEn: "Experienced in New Cairo, Sheikh Zayed, and North Coast compounds. A dedicated team per project with a resident on-site engineer." },
+    { icon: Gem, titleAr: "خامات مستوردة من المصنع مباشرة", titleEn: "Materials Direct From the Factory", descriptionAr: "علاقات مباشرة مع موردين في كرارا الإيطالية وفالنسيا الإسبانية. بنوفّر لك 18-25% من سعر السوق المحلي.", descriptionEn: "Direct relationships with suppliers in Carrara (Italy) and Valencia (Spain). We save you 18–25% off local market prices." },
+    { icon: Lightbulb, titleAr: "إضاءة Smart Home بنظام KNX", titleEn: "KNX Smart Lighting", descriptionAr: "تأسيس نظام KNX الألماني — نفس النظام في فنادق فور سيزونز. تحكم بالتطبيق، سيناريوهات، استشعار حركة.", descriptionEn: "We install the German KNX system — same as Four Seasons hotels. App control, scenes, and motion sensors." },
+    { icon: Layers, titleAr: "أسقف وجدران بتصاميم تنفيذية", titleEn: "Ceilings & Walls With Shop Drawings", descriptionAr: "كل سقف وجدار بنرسم له شوب درواينج تنفيذي. الفنيين بيشتغلوا برسم، مش بالعين.", descriptionEn: "Every ceiling and wall has its own shop drawing. Crews work from drawings — not by eye." },
   ];
 
   const features = [
-    { ar: "تشطيب الأرضيات بالرخام الإيطالي والباركيه الفاخر", en: "Italian marble and luxury parquet flooring" },
-    { ar: "دهانات ديكورية وورق حائط من أرقى الماركات العالمية", en: "Decorative paints and wallpaper from top international brands" },
-    { ar: "أنظمة إضاءة ذكية ومخفية بتقنية LED متطورة", en: "Smart and concealed LED lighting systems" },
-    { ar: "أسقف معلقة بتصاميم فنية ثلاثية الأبعاد", en: "3D artistic suspended ceiling designs" },
-    { ar: "مطابخ وحمامات بمعايير فندقية خمس نجوم", en: "Five-star hotel-standard kitchens and bathrooms" },
-    { ar: "أنظمة أتمتة المنزل الذكي (Smart Home)", en: "Smart home automation systems" },
-    { ar: "تصميم وتنفيذ الدريسنج روم والخزائن المدمجة", en: "Dressing room and built-in closet design and execution" },
-    { ar: "أعمال الجبس بورد والكرانيش بتصاميم كلاسيكية ومودرن", en: "Gypsum board and cornice work in classic and modern designs" },
+    { ar: "أرضيات: رخام كرارا، بيانكو ثاسوس، بورسلين 120×60", en: "Floors: Carrara marble, Bianco Thassos, 120×60 porcelain" },
+    { ar: "دهانات Jotun الديكورية وورق حائط Versace", en: "Jotun decorative paints and Versace wallpaper" },
+    { ar: "إضاءة LED قابلة للتعتيم بدرجة حرارة 2700K-4000K", en: "Dimmable LED 2700K–4000K with full color tuning" },
+    { ar: "أسقف جبس مع مخفي كومبا وكورنيش بأشكال مخصصة", en: "Gypsum ceilings with concealed cove lighting and custom cornices" },
+    { ar: "مطابخ بأبواب لاكيه + رخام كوارتز سيلستون", en: "Kitchens with lacquer doors and Silestone quartz countertops" },
+    { ar: "نظام KNX للتحكم في الإضاءة والستائر والتكييف", en: "KNX system for lighting, curtain, and AC control" },
+    { ar: "دريسنج روم مع إضاءة داخل الأدراج وحساس حركة", en: "Dressing rooms with in-drawer lighting and motion sensors" },
+    { ar: "أعمال جبس بورد بسماكة 12.5مم Knauf أو Gyproc", en: "12.5mm Knauf or Gyproc gypsum board work" },
   ];
 
   const stats = [
-    { value: "500+", labelAr: "مشروع منجز", labelEn: "Completed Projects" },
-    { value: "20+", labelAr: "سنة خبرة", labelEn: "Years Experience" },
-    { value: "98%", labelAr: "رضا العملاء", labelEn: "Client Satisfaction" },
-    { value: "50+", labelAr: "مهندس متخصص", labelEn: "Specialized Engineers" },
+    { value: "187", labelAr: "فيلا وشقة منذ 2010", labelEn: "Villas & apartments since 2010" },
+    { value: "16", labelAr: "سنة في السوق", labelEn: "Years in the market" },
+    { value: "94%", labelAr: "تسليم بالموعد المتفق عليه", labelEn: "On-time delivery rate" },
+    { value: "23", labelAr: "مهندس ومصمم داخلي", labelEn: "Engineers & interior designers" },
   ];
 
   return (
@@ -60,12 +60,12 @@ const LuxuryFinishingPage: React.FC = () => {
               {t('التشطيب الراقي', 'Luxury Finishing')}
             </h1>
             <p className="text-xl md:text-2xl text-amber-200 italic font-medium mb-4">
-              {t('حيث تتحول المساحات إلى تحف فنية', 'Where spaces turn into masterpieces')}
+              {t('التفاصيل اللي بتفرق', "It's the details that show")}
             </p>
             <p className="text-lg text-gray-200 mb-8 leading-relaxed max-w-2xl">
               {t(
-                'خط إنتاج متخصص في تقديم خدمات تشطيب فائقة الجودة للوحدات السكنية الراقية. نستخدم أحدث التصاميم العالمية وأفضل الخامات المستوردة لتحويل منزلك إلى مساحة تعكس ذوقك الرفيع وتفوق توقعاتك.',
-                'A specialized production line offering ultra-high-quality finishing services for upscale residential units. We use the latest international designs and finest imported materials to transform your home into a space that reflects your refined taste and exceeds your expectations.'
+                'بنشتغل في تشطيب الفلل والشقق الراقية في القاهرة الجديدة والشيخ زايد والساحل من 2010. مفيش مفهوم "زي بعضه" — كل بيت بكراسة مواصفات منفصلة، تصميم 3D معتمد منك، ومهندس مقيم على الموقع طول فترة التنفيذ.',
+                "We've been finishing high-end villas and apartments across New Cairo, Sheikh Zayed, and the North Coast since 2010. We don't do 'good enough' — every home gets its own spec sheet, a 3D design you sign off on, and a resident on-site engineer for the entire build."
               )}
             </p>
             <div className="flex flex-wrap gap-4">
@@ -101,8 +101,8 @@ const LuxuryFinishingPage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('خدماتنا المتخصصة', 'Our Specialized Services')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('نقدم مجموعة شاملة من خدمات التشطيب الراقي تغطي كل تفاصيل مساحتك', 'We offer a comprehensive range of luxury finishing services covering every detail of your space')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('اللي بنعمله بالظبط', 'Exactly What We Do')}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('ست خدمات رئيسية، كل واحدة بفريق متخصص ومواصفات مكتوبة', 'Six core offerings — each with its own dedicated crew and written specs')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => {
@@ -129,16 +129,16 @@ const LuxuryFinishingPage: React.FC = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('من أعمالنا', 'From Our Work')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('نماذج من مشاريعنا في التشطيبات الفاخرة', 'Samples from our luxury finishing projects')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('شوف بنفسك', 'See For Yourself')}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('فيلتين من تسليمات 2024 — التجمع الخامس والساحل الشمالي', 'Two villas from 2024 handovers — Fifth Settlement and North Coast')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="group relative overflow-hidden rounded-2xl shadow-xl">
               <img src={bathroomImg} alt={t('حمام فاخر', 'Luxury Bathroom')} className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1024} height={1024} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <div>
-                  <h3 className="text-white text-xl font-bold">{t('حمامات بمعايير فندقية', 'Hotel-Standard Bathrooms')}</h3>
-                  <p className="text-gray-300 text-sm">{t('رخام كالاكاتا مع تركيبات ذهبية', 'Calacatta marble with golden fixtures')}</p>
+                  <h3 className="text-white text-xl font-bold">{t('حمام ماستر — فيلا التجمع', 'Master Bath — Fifth Settlement Villa')}</h3>
+                  <p className="text-gray-300 text-sm">{t('رخام كالاكاتا أصلي + كرات ذهبية مات من Hansgrohe', 'Authentic Calacatta marble with matte gold Hansgrohe fixtures')}</p>
                 </div>
               </div>
             </div>
@@ -146,8 +146,8 @@ const LuxuryFinishingPage: React.FC = () => {
               <img src={kitchenImg} alt={t('مطبخ فاخر', 'Luxury Kitchen')} className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width={1024} height={1024} />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                 <div>
-                  <h3 className="text-white text-xl font-bold">{t('مطابخ عصرية متكاملة', 'Modern Integrated Kitchens')}</h3>
-                  <p className="text-gray-300 text-sm">{t('تصميم عصري مع أسطح رخام وإضاءة مخفية', 'Modern design with marble countertops and concealed lighting')}</p>
+                  <h3 className="text-white text-xl font-bold">{t('مطبخ مفتوح — شالية الساحل', 'Open Kitchen — North Coast Chalet')}</h3>
+                  <p className="text-gray-300 text-sm">{t('أبواب لاكيه مات + رخام ديكتون Sirius + جزيرة 3.20 متر', 'Matte lacquer doors, Dekton Sirius slab, and a 3.20m island')}</p>
                 </div>
               </div>
             </div>
@@ -159,7 +159,7 @@ const LuxuryFinishingPage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 max-w-5xl">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('ما نقدمه لك', 'What We Offer')}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('المواصفات بالتفصيل', 'The Spec Sheet')}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {features.map((feature, index) => (
@@ -177,14 +177,14 @@ const LuxuryFinishingPage: React.FC = () => {
       {/* Process Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-14">{t('مراحل العمل', 'Our Process')}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-14">{t('الخمس مراحل اللي بنشتغل بيها', 'Our 5-Stage Process')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {[
-              { step: 1, ar: 'الاستشارة', en: 'Consultation', descAr: 'جلسة استشارية لفهم رؤيتك واحتياجاتك', descEn: 'Consultation session to understand your vision and needs' },
-              { step: 2, ar: 'التصميم', en: 'Design', descAr: 'تصميم ثلاثي الأبعاد شامل مع اختيار الخامات', descEn: 'Comprehensive 3D design with material selection' },
-              { step: 3, ar: 'الاعتماد', en: 'Approval', descAr: 'مراجعة التصميم والتعديلات حتى الرضا التام', descEn: 'Design review and adjustments until full satisfaction' },
-              { step: 4, ar: 'التنفيذ', en: 'Execution', descAr: 'تنفيذ دقيق بإشراف مهندسين متخصصين', descEn: 'Precise execution supervised by specialized engineers' },
-              { step: 5, ar: 'التسليم', en: 'Delivery', descAr: 'تسليم نهائي مع ضمان شامل على الأعمال', descEn: 'Final delivery with comprehensive work warranty' },
+              { step: 1, ar: 'جلسة في المكتب', en: 'Office Session', descAr: 'ساعة ونصف بنشوف صور بتحبها، ميزانية واقعية، وجدول زمني مبدئي', descEn: '90 minutes to walk through inspiration, set a realistic budget, and outline a timeline' },
+              { step: 2, ar: 'تصميم 3D ومود بورد', en: '3D Design & Mood Board', descAr: 'بنطلع لك جولة 3D + عينات خامات في يدك. التعديلات لحد ما توافق', descEn: 'A 3D walkthrough plus physical material samples in your hand. Revise until you sign off' },
+              { step: 3, ar: 'كراسة شروط ومواصفات', en: 'BOQ & Specs', descAr: 'كل بند بسعره منفصل، مواصفات الخامة برقم الموديل، جدول دفعات شفاف', descEn: 'Every line item priced separately, specs by SKU, and a transparent payment schedule' },
+              { step: 4, ar: 'تنفيذ بمهندس مقيم', en: 'Build With Resident Engineer', descAr: 'مهندس على الموقع 6 أيام أسبوعياً + تقرير تصوير أسبوعي على واتساب', descEn: 'On-site engineer 6 days a week plus a weekly photo report on WhatsApp' },
+              { step: 5, ar: 'تسليم وضمان عامين', en: 'Handover & 2-Year Warranty', descAr: 'Snag list مكتوبة، مفتاح، وضمان سنتين على الأعمال + سنة على الخامات', descEn: 'Written snag list, keys handed over, plus 2-year workmanship and 1-year materials warranty' },
             ].map((item) => (
               <div key={item.step} className="text-center relative">
                 <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 text-white rounded-2xl mx-auto mb-4 flex items-center justify-center text-2xl font-bold shadow-lg">
@@ -204,14 +204,14 @@ const LuxuryFinishingPage: React.FC = () => {
           <Star className="w-10 h-10 text-amber-500 mx-auto mb-6" />
           <blockquote className="text-2xl md:text-3xl font-medium text-gray-800 mb-6 leading-relaxed">
             {t(
-              '"التعامل مع فريق التشطيب الراقي كان تجربة استثنائية. حولوا فيلتنا إلى قصر بأدق التفاصيل"',
-              '"Working with the Luxury Finishing team was an exceptional experience. They turned our villa into a palace with the finest details"'
+              '"اللي عجبني إن كل تعديل طلبته في مرحلة الـ3D اتعمل بدون مناقشة. ساعة التسليم ملقيتش حاجة محتاجة تتعدّل — وده مش طبيعي في السوق المصري"',
+              '"What stood out: every change I asked for during the 3D phase happened without pushback. At handover I had nothing to flag — which is rare in this market."'
             )}
           </blockquote>
           <div className="flex items-center justify-center gap-2">
             {[1,2,3,4,5].map(i => <Star key={i} className="w-5 h-5 text-amber-500 fill-amber-500" />)}
           </div>
-          <p className="text-gray-600 mt-3">{t('م. أحمد السيد - القاهرة الجديدة', 'Eng. Ahmed El-Sayed - New Cairo')}</p>
+          <p className="text-gray-600 mt-3">{t('م. أحمد السيد — فيلا 480م في كومبوند ميفيدا', 'Eng. Ahmed El-Sayed — 480m² villa, Mivida compound')}</p>
         </div>
       </section>
 
@@ -223,8 +223,8 @@ const LuxuryFinishingPage: React.FC = () => {
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <Award className="w-12 h-12 text-amber-300 mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('جاهز لتحويل مساحتك؟', 'Ready to transform your space?')}</h2>
-          <p className="text-xl mb-8 text-amber-100 max-w-2xl mx-auto">{t('دعنا نحول منزلك إلى تحفة فنية تعكس ذوقك الرفيع وتفوق كل التوقعات', 'Let us turn your home into a masterpiece that reflects your refined taste and exceeds all expectations')}</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('قبل ما تختار مهندس تشطيب…', 'Before you pick a finishing contractor…')}</h2>
+          <p className="text-xl mb-8 text-amber-100 max-w-2xl mx-auto">{t('احجز جلسة 90 دقيقة مع كبير المصممين عندنا. مجاناً، في مكتبنا أو عندك. هتطلع منها بميزانية واقعية وتصور أوضح — حتى لو ما اشتغلتش معانا.', 'Book a 90-minute session with our lead designer. Free, at our office or yours. You leave with a realistic budget and a clearer picture — even if you don\'t hire us.')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-amber-700 hover:bg-gray-100 rounded-full px-8 text-lg">
               <Link to="/contact">{t('احجز استشارة مجانية', 'Book a Free Consultation')}</Link>

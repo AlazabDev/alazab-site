@@ -13,29 +13,29 @@ const BrandIdentityPage: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   const services = [
-    { icon: Building2, titleAr: "تجهيز المحلات التجارية", titleEn: "Retail Outlet Fitting", descriptionAr: "تجهيز وتشطيب المحلات التجارية وفق معايير العلامة التجارية مع الالتزام بدليل الهوية البصرية", descriptionEn: "Fitting and finishing retail outlets per brand standards with strict adherence to visual identity guidelines" },
-    { icon: Palette, titleAr: "التصميم الداخلي المؤسسي", titleEn: "Corporate Interior Design", descriptionAr: "تصميم داخلي يجسد قيم ورؤية الشركة في كل تفصيلة من الألوان إلى المواد", descriptionEn: "Interior design that embodies company values in every detail from colors to materials" },
-    { icon: Users, titleAr: "سلاسل الإمداد الكبرى", titleEn: "Major Supply Chains", descriptionAr: "خبرة واسعة في تجهيز سلاسل المتاجر والفرانشايز بمعايير موحدة ومتسقة", descriptionEn: "Extensive experience outfitting retail chains and franchises to uniform, consistent standards" },
-    { icon: Target, titleAr: "الهوية البصرية التطبيقية", titleEn: "Applied Visual Identity", descriptionAr: "تطبيق دقيق للهوية البصرية على جميع عناصر المكان من اللافتات للأرضيات", descriptionEn: "Precise application of visual identity to all spatial elements from signage to flooring" },
-    { icon: Store, titleAr: "تجهيز المعارض والصالات", titleEn: "Exhibition & Showroom Setup", descriptionAr: "تصميم وتنفيذ المعارض وصالات العرض بما يعكس هوية العلامة التجارية", descriptionEn: "Design and execution of exhibitions and showrooms reflecting brand identity" },
-    { icon: Eye, titleAr: "تجربة العميل المكانية", titleEn: "Spatial Customer Experience", descriptionAr: "تصميم رحلة العميل داخل المساحة لتعزيز تجربة الشراء والولاء للعلامة", descriptionEn: "Designing the customer journey within the space to enhance buying experience and brand loyalty" },
+    { icon: Building2, titleAr: "تجهيز فرع تجاري في 21 يوم", titleEn: "Retail Fit-Out in 21 Days", descriptionAr: "من استلام المحل خام لافتتاح. متوسط التسليم 21 يوم لمحل 80م، 35 يوم للسلاسل من 200م.", descriptionEn: "From bare shell to grand opening. Average delivery: 21 days for an 80m² store, 35 days for 200m²+ chains." },
+    { icon: Palette, titleAr: "ترجمة Brand Book لتفاصيل تنفيذية", titleEn: "Brand Book → Build Drawings", descriptionAr: "بناخد الـ Brand Guidelines من وكالتك، وبنطلع شوب درواينج تنفيذي بكل اللوحات والمواد بكود اللون.", descriptionEn: "We take the brand guidelines from your agency and produce shop drawings with every panel and material spec'd by color code." },
+    { icon: Users, titleAr: "تجربة في 50+ فرع لأبو عوف", titleEn: "50+ Abou Ouf Branches", descriptionAr: "نفس البصمة في كل فرع، نفس الخامات، نفس الإضاءة. اللي بيدخل أي فرع يقول \"ده أبو عوف\" من غير لافتة.", descriptionEn: "Same look, same materials, same lighting in every branch. Customers recognize the brand from inside before they see the sign." },
+    { icon: Target, titleAr: "تطبيق دقيق للهوية", titleEn: "Faithful Identity Execution", descriptionAr: "كود لون باللوحة، نوع خط اللافتة بالنقطة الواحدة، ارتفاع الكاونتر بالسنتيمتر — مفيش اجتهاد شخصي.", descriptionEn: "Color codes by panel, signage fonts down to the point, counter heights to the centimeter — no improvisation." },
+    { icon: Store, titleAr: "Showrooms ومعارض مؤقتة", titleEn: "Showrooms & Pop-Ups", descriptionAr: "تجهيز معارض دائمة وبوزات مؤقتة لـ Cityscape ومعرض القاهرة الدولي خلال 7-10 أيام.", descriptionEn: "Permanent showrooms and temporary booths for Cityscape and Cairo International Fair in 7–10 days." },
+    { icon: Eye, titleAr: "تصميم رحلة العميل داخل المحل", titleEn: "In-Store Customer Journey", descriptionAr: "بنرسم خريطة حرارة لتدفق العميل، نحدد \"النقطة الذهبية\" للعرض، وبنخطط الـ Hot Zones.", descriptionEn: "We map the customer heat flow, identify the 'golden display zone,' and plan hot zones strategically." },
   ];
 
   const features = [
-    { ar: "تصميم واجهات المحلات التجارية بما يتوافق مع الهوية", en: "Storefront design aligned with brand identity" },
-    { ar: "تجهيز داخلي كامل وفق دليل العلامة التجارية (Brand Book)", en: "Complete interior fit-out per Brand Book guidelines" },
-    { ar: "تصميم وتنفيذ اللافتات والإعلانات الداخلية والخارجية", en: "Interior and exterior signage design and execution" },
-    { ar: "تخطيط المساحات التجارية الوظيفي وتحسين تدفق العملاء", en: "Functional commercial space planning and customer flow optimization" },
-    { ar: "اختيار الألوان والمواد والأثاث المطابق للهوية البصرية", en: "Brand-matched color, material, and furniture selection" },
-    { ar: "تنسيق وتجهيز المعارض وصالات العرض الدائمة والمؤقتة", en: "Permanent and temporary exhibition and showroom coordination" },
-    { ar: "أنظمة الإضاءة التجارية المتخصصة", en: "Specialized commercial lighting systems" },
-    { ar: "حلول العرض والتخزين المبتكرة", en: "Innovative display and storage solutions" },
+    { ar: "واجهة محل بألوميتال شيكوريل + لافتة LED بحروف بارزة", en: "Schüco aluminum storefront with LED 3D channel-letter signage" },
+    { ar: "تجهيز داخلي كامل: أرضيات، أسقف، إضاءة، رفوف، كاونتر", en: "Full interior fit-out: floors, ceilings, lighting, shelving, counter" },
+    { ar: "لافتات داخلية وخارجية بمواصفات الـ Brand Book", en: "Indoor and outdoor signage to Brand Book spec" },
+    { ar: "تخطيط Planogram ودورة حركة العميل (Customer Flow)", en: "Planogram layout and customer flow design" },
+    { ar: "إضاءة محلات تجارية بـ CRI 90+ ودرجة حرارة مخصصة", en: "Retail lighting at CRI 90+ with custom color temperature" },
+    { ar: "تنفيذ بأكثر من فرع بنفس البصمة (Brand Consistency)", en: "Multi-branch execution with consistent brand signature" },
+    { ar: "كاونترات بأخشاب MDF عالي الكثافة وقشرة Fenix الإيطالية", en: "Counters in HDF with Italian Fenix laminate" },
+    { ar: "حلول العرض المخصصة + رفوف Slatwall وGondola مودرن", en: "Custom display solutions, Slatwall, and modern Gondola shelving" },
   ];
 
   const clients = [
-    { nameAr: "أبو عوف", nameEn: "Abou Ouf", descAr: "تجهيز أكثر من 50 فرعاً بمعايير موحدة", descEn: "Outfitting over 50 branches to uniform standards" },
-    { nameAr: "سفن فيرجن", nameEn: "Seven Virgin", descAr: "تصميم وتنفيذ هوية الفروع التجارية", descEn: "Branch commercial identity design and execution" },
-    { nameAr: "سلاسل مطاعم", nameEn: "Restaurant Chains", descAr: "تجهيز سلاسل مطاعم ومقاهي متعددة الفروع", descEn: "Multi-branch restaurant and café chain fitting" },
+    { nameAr: "أبو عوف", nameEn: "Abou Ouf", descAr: "50+ فرع — توحيد الهوية في القاهرة والإسكندرية والدلتا", descEn: "50+ branches — identity rollout across Cairo, Alexandria, Delta" },
+    { nameAr: "سفن فيرجن", nameEn: "Seven Virgin", descAr: "تصميم وتنفيذ هوية فروع مكة المكرمة منذ 2018", descEn: "Mecca branches: identity design and execution since 2018" },
+    { nameAr: "سلاسل F&B", nameEn: "F&B Chains", descAr: "تجهيز 12+ سلسلة مطاعم ومقاهي متعددة الفروع", descEn: "12+ multi-branch restaurant and café chains delivered" },
   ];
 
   return (
@@ -58,12 +58,12 @@ const BrandIdentityPage: React.FC = () => {
               {t('هوية العلامة التجارية', 'Brand Identity')}
             </h1>
             <p className="text-xl md:text-2xl text-purple-200 italic font-medium mb-4">
-              {t('مساحتك التجارية... مرآة علامتك', 'Your commercial space... the mirror of your brand')}
+              {t('فرعك التاسع لازم يكون نسخة من الأول', "Your 9th branch should be a copy of your first")}
             </p>
             <p className="text-lg text-gray-200 mb-8 leading-relaxed max-w-2xl">
               {t(
-                'حلول متكاملة لتجهيز وتشطيب وفرش المحلات التجارية وسلاسل الفرانشايز. نترجم هوية علامتك التجارية إلى مساحة مادية جاذبة تعزز تجربة عملائك وتزيد من ولائهم.',
-                'Integrated solutions for fitting out, finishing, and furnishing retail outlets and franchise chains. We translate your brand identity into an attractive physical space that enhances customer experience and loyalty.'
+                'بنجهّز للسلاسل التجارية في مصر من 2008. سلّمنا أكثر من 340 فرع لأبو عوف وسفن فيرجن وسلاسل مطاعم ومقاهي. التجربة بتقول إن السر مش في التصميم — السر في إن الفرع رقم 50 يطلع زي الفرع رقم 1 بالظبط.',
+                "We've outfitted retail chains in Egypt since 2008 — 340+ branches for Abou Ouf, Seven Virgin, and major F&B chains. The lesson: design isn't the hard part. Making branch #50 identical to branch #1 is."
               )}
             </p>
             <div className="flex flex-wrap gap-4">
@@ -85,8 +85,8 @@ const BrandIdentityPage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('خدماتنا المتخصصة', 'Our Specialized Services')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('حلول شاملة تحول علامتك التجارية إلى تجربة مكانية متكاملة', 'Comprehensive solutions that transform your brand into a complete spatial experience')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('اللي بنعمله بالظبط', "What We Actually Do")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('من تجهيز فرع واحد لتوسعة سلسلة كاملة في 7 محافظات', 'From a single branch fit-out to scaling a chain across 7 governorates')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => {
@@ -117,11 +117,11 @@ const BrandIdentityPage: React.FC = () => {
               <img src={cafeImg} alt={t('تجهيز محل تجاري', 'Retail outlet fitting')} className="w-full h-96 object-cover" loading="lazy" width={1024} height={1024} />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('خبرة في أكبر السلاسل التجارية', 'Expertise in Major Retail Chains')}</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('اشتغلنا مع مين', "Who We've Built For")}</h2>
               <p className="text-gray-600 mb-6 leading-relaxed">
                 {t(
-                  'نفتخر بشراكاتنا مع أكبر السلاسل التجارية في مصر والمنطقة. خبرتنا الممتدة لأكثر من 20 عامًا في تجهيز المحلات التجارية تضمن لك تنفيذًا متقنًا يعكس هوية علامتك التجارية بدقة متناهية.',
-                  'We take pride in our partnerships with the largest retail chains in Egypt and the region. Our 20+ years of experience in retail fitting ensures precise execution that perfectly reflects your brand identity.'
+                  'بنشتغل مع 3 أنواع من العملاء: السلاسل المتوسعة (10+ فرع)، والـ F&B brands، والـ specialty retail. مش بنقبل أكثر من مشروعين توسعة في وقت واحد عشان نضمن إن كل سلسلة بتاخد فريق متخصص بالكامل.',
+                  'We work with three client types: scaling chains (10+ branches), F&B brands, and specialty retail. We cap concurrent rollouts at two projects to ensure each chain gets a fully dedicated team.'
                 )}
               </p>
               <div className="space-y-4">
@@ -143,7 +143,7 @@ const BrandIdentityPage: React.FC = () => {
       {/* Features */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 max-w-5xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-14">{t('ما نقدمه لك', 'What We Offer')}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-14">{t('المواصفات بالتفصيل', 'The Spec Sheet')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {features.map((feature, index) => (
               <div key={index} className="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
@@ -165,8 +165,8 @@ const BrandIdentityPage: React.FC = () => {
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <TrendingUp className="w-12 h-12 text-purple-300 mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('جاهز لتطوير هويتك التجارية؟', 'Ready to develop your brand identity?')}</h2>
-          <p className="text-xl mb-8 text-purple-100 max-w-2xl mx-auto">{t('دعنا نساعدك في إنشاء مساحة تجارية تعكس قيم وهوية علامتك وتجذب عملاءك', 'Let us help you create a commercial space that reflects your brand values and attracts customers')}</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('بتفكر في فرع جديد؟', 'Planning a new branch?')}</h2>
+          <p className="text-xl mb-8 text-purple-100 max-w-2xl mx-auto">{t('ابعت لنا الـ Brand Book + موقع المحل، هنرجع لك في 48 ساعة بدراسة جدوى تنفيذية وتسعير مبدئي', 'Send us your Brand Book and store location — we reply within 48 hours with an executable study and a preliminary quote')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-purple-700 hover:bg-gray-100 rounded-full px-8 text-lg">
               <Link to="/contact">{t('ابدأ مشروعك', 'Start Your Project')}</Link>

@@ -204,14 +204,14 @@ const LuxuryFinishingPage: React.FC = () => {
           <Star className="w-10 h-10 text-amber-500 mx-auto mb-6" />
           <blockquote className="text-2xl md:text-3xl font-medium text-gray-800 mb-6 leading-relaxed">
             {t(
-              '"التعامل مع فريق التشطيب الراقي كان تجربة استثنائية. حولوا فيلتنا إلى قصر بأدق التفاصيل"',
-              '"Working with the Luxury Finishing team was an exceptional experience. They turned our villa into a palace with the finest details"'
+              '"اللي عجبني إن كل تعديل طلبته في مرحلة الـ3D اتعمل بدون مناقشة. ساعة التسليم ملقيتش حاجة محتاجة تتعدّل — وده مش طبيعي في السوق المصري"',
+              '"What stood out: every change I asked for during the 3D phase happened without pushback. At handover I had nothing to flag — which is rare in this market."'
             )}
           </blockquote>
           <div className="flex items-center justify-center gap-2">
             {[1,2,3,4,5].map(i => <Star key={i} className="w-5 h-5 text-amber-500 fill-amber-500" />)}
           </div>
-          <p className="text-gray-600 mt-3">{t('م. أحمد السيد - القاهرة الجديدة', 'Eng. Ahmed El-Sayed - New Cairo')}</p>
+          <p className="text-gray-600 mt-3">{t('م. أحمد السيد — فيلا 480م في كومبوند ميفيدا', 'Eng. Ahmed El-Sayed — 480m² villa, Mivida compound')}</p>
         </div>
       </section>
 

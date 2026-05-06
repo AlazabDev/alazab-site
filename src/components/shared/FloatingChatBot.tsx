@@ -54,6 +54,26 @@ const FloatingChatBot: React.FC = () => {
     if (isOpen && activeTab === 'chat') setTimeout(() => inputRef.current?.focus(), 300);
   }, [isOpen, activeTab]);
 
+  // ربط ثنائي الاتجاه مع حاسبة التكلفة
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ prefill?: string }>).detail;
+      setIsOpen(true);
+      setActiveTab('chat');
+      if (detail?.prefill) setInput(detail.prefill);
+    };
+    window.addEventListener('azabot:open', handler);
+    // فحص sessionStorage عند التحميل
+    if (sessionStorage.getItem('azabot_open') === '1') {
+      const prefill = sessionStorage.getItem('azabot_prefill') || '';
+      setIsOpen(true);
+      if (prefill) setInput(prefill);
+      sessionStorage.removeItem('azabot_open');
+      sessionStorage.removeItem('azabot_prefill');
+    }
+    return () => window.removeEventListener('azabot:open', handler);
+  }, []);
+
   const sendMessage = useCallback(async (text?: string) => {
     const msg = (text || input).trim();
     if (!msg || isLoading) return;

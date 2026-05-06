@@ -150,10 +150,10 @@ const UberFixPage: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-14">{t('كيف يعمل UberFix؟', 'How UberFix Works')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
-              { step: 1, ar: 'طلب الخدمة', en: 'Request Service', descAr: 'تواصل معنا عبر الموقع أو الهاتف وحدد نوع الصيانة المطلوبة بالتفصيل', descEn: 'Contact us via website or phone and specify the required maintenance in detail' },
-              { step: 2, ar: 'المعاينة المجانية', en: 'Free Inspection', descAr: 'فريقنا المتخصص يقوم بمعاينة شاملة للموقع وتقديم عرض سعر تفصيلي', descEn: 'Our specialized team conducts a comprehensive site inspection and provides a detailed quote' },
-              { step: 3, ar: 'التنفيذ السريع', en: 'Rapid Execution', descAr: 'تنفيذ الأعمال بأعلى معايير الجودة مع الالتزام بالجدول الزمني المتفق عليه', descEn: 'Work execution with highest quality standards while adhering to agreed timeline' },
-              { step: 4, ar: 'الضمان والمتابعة', en: 'Warranty & Follow-up', descAr: 'ضمان شامل على جميع الأعمال مع متابعة دورية لضمان رضاك التام', descEn: 'Comprehensive warranty on all work with periodic follow-up to ensure your full satisfaction' },
+              { step: 1, ar: 'بتبعت بلاغ', en: 'Send a Report', descAr: 'واتساب أو نموذج الموقع — صورة + وصف بسيط للمشكلة كفاية', descEn: 'WhatsApp or our form — a photo and a quick description is enough' },
+              { step: 2, ar: 'معاينة وتسعير واضح', en: 'Inspection & Clear Quote', descAr: 'فني بيعدّي خلال 24 ساعة (أو ساعتين للطوارئ) ويطلع لك عرض مكتوب بالأسعار التفصيلية', descEn: 'A technician arrives within 24h (or 2h for emergencies) and gives you an itemized written quote' },
+              { step: 3, ar: 'تنفيذ بمواعيد ثابتة', en: 'Execution On Schedule', descAr: 'موعد بداية ونهاية متفق عليه. لو اتأخرنا يوم، بنخصم 5% — مكتوب في العقد', descEn: "Agreed start and end dates. If we're a day late, you get 5% off — it's in the contract" },
+              { step: 4, ar: 'تسليم وضمان', en: 'Handover & Warranty', descAr: 'فاتورة تفصيلية + كرت ضمان فيه رقم الفني وتاريخ الانتهاء', descEn: "Itemized invoice plus a warranty card with the technician's number and expiry date" },
             ].map((item) => (
               <div key={item.step} className="text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-700 text-white rounded-2xl mx-auto mb-4 flex items-center justify-center text-3xl font-bold shadow-lg">

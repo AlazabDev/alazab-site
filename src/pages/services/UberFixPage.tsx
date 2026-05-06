@@ -122,9 +122,9 @@ const UberFixPage: React.FC = () => {
               <img src={repairImg} alt={t('صيانة', 'Maintenance')} className="w-full h-96 object-cover" loading="lazy" width={1024} height={1024} />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('أنواع الصيانة', 'Maintenance Types')}</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('شغلات تحت السقف الواحد', 'All Trades Under One Roof')}</h2>
               <p className="text-gray-600 mb-8 leading-relaxed">
-                {t('فريق UberFix يغطي جميع أنواع أعمال الصيانة المعمارية بخبرة تمتد لأكثر من عقدين', 'The UberFix team covers all types of architectural maintenance with over two decades of experience')}
+                {t('بدل ما تجيب نجار من حتة وكهربائي من حتة وسبّاك من تالتة — فريق واحد بتنسيق واحد. كل فني مدرّب داخلياً ومعاه بطاقة هوية بصورة، عشان تطمن.', 'Instead of juggling a separate carpenter, electrician, and plumber — one coordinated team. Every technician is trained in-house and carries a photo ID — so you know who walked in.')}
               </p>
               <div className="space-y-3">
                 {maintenanceTypes.map((item, i) => {

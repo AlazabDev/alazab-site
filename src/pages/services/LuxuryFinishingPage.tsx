@@ -177,14 +177,14 @@ const LuxuryFinishingPage: React.FC = () => {
       {/* Process Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-14">{t('مراحل العمل', 'Our Process')}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-14">{t('الخمس مراحل اللي بنشتغل بيها', 'Our 5-Stage Process')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
             {[
-              { step: 1, ar: 'الاستشارة', en: 'Consultation', descAr: 'جلسة استشارية لفهم رؤيتك واحتياجاتك', descEn: 'Consultation session to understand your vision and needs' },
-              { step: 2, ar: 'التصميم', en: 'Design', descAr: 'تصميم ثلاثي الأبعاد شامل مع اختيار الخامات', descEn: 'Comprehensive 3D design with material selection' },
-              { step: 3, ar: 'الاعتماد', en: 'Approval', descAr: 'مراجعة التصميم والتعديلات حتى الرضا التام', descEn: 'Design review and adjustments until full satisfaction' },
-              { step: 4, ar: 'التنفيذ', en: 'Execution', descAr: 'تنفيذ دقيق بإشراف مهندسين متخصصين', descEn: 'Precise execution supervised by specialized engineers' },
-              { step: 5, ar: 'التسليم', en: 'Delivery', descAr: 'تسليم نهائي مع ضمان شامل على الأعمال', descEn: 'Final delivery with comprehensive work warranty' },
+              { step: 1, ar: 'جلسة في المكتب', en: 'Office Session', descAr: 'ساعة ونصف بنشوف صور بتحبها، ميزانية واقعية، وجدول زمني مبدئي', descEn: '90 minutes to walk through inspiration, set a realistic budget, and outline a timeline' },
+              { step: 2, ar: 'تصميم 3D ومود بورد', en: '3D Design & Mood Board', descAr: 'بنطلع لك جولة 3D + عينات خامات في يدك. التعديلات لحد ما توافق', descEn: 'A 3D walkthrough plus physical material samples in your hand. Revise until you sign off' },
+              { step: 3, ar: 'كراسة شروط ومواصفات', en: 'BOQ & Specs', descAr: 'كل بند بسعره منفصل، مواصفات الخامة برقم الموديل، جدول دفعات شفاف', descEn: 'Every line item priced separately, specs by SKU, and a transparent payment schedule' },
+              { step: 4, ar: 'تنفيذ بمهندس مقيم', en: 'Build With Resident Engineer', descAr: 'مهندس على الموقع 6 أيام أسبوعياً + تقرير تصوير أسبوعي على واتساب', descEn: 'On-site engineer 6 days a week plus a weekly photo report on WhatsApp' },
+              { step: 5, ar: 'تسليم وضمان عامين', en: 'Handover & 2-Year Warranty', descAr: 'Snag list مكتوبة، مفتاح، وضمان سنتين على الأعمال + سنة على الخامات', descEn: 'Written snag list, keys handed over, plus 2-year workmanship and 1-year materials warranty' },
             ].map((item) => (
               <div key={item.step} className="text-center relative">
                 <div className="w-16 h-16 bg-gradient-to-br from-amber-500 to-amber-700 text-white rounded-2xl mx-auto mb-4 flex items-center justify-center text-2xl font-bold shadow-lg">

@@ -80,6 +80,7 @@ const mainSections: SidebarSection[] = [
       { title: "الشات بوت", href: "/chatbot", icon: MessageSquare, description: "مساعد ذكي للإجابة على استفساراتك" },
       { title: "طلب صيانة", href: "/maintenance-request", icon: Wrench, description: "تقديم طلب صيانة جديد", badge: "جديد" },
       { title: "تتبع الطلبات", href: "/maintenance-tracking", icon: Search, description: "تتبع حالة طلبات الصيانة" },
+      { title: "حاسبة التكلفة", href: "/cost-calculator", icon: Calculator, description: "تقدير تكلفة مشروعك في 3 خطوات", badge: "جديد" },
     ]
   },
   {
@@ -157,7 +158,6 @@ const futureSections: SidebarSection[] = [
   {
     title: "ميزات قادمة",
     items: [
-      { title: "حاسبة التكلفة", href: "#", icon: Calculator, description: "احسب تكلفة مشروعك", comingSoon: true },
       { title: "شهادات الجودة", href: "#", icon: Award, description: "شهاداتنا ومعاييرنا", comingSoon: true },
       { title: "رؤيتنا", href: "#", icon: Target, description: "رؤية ومهمة الشركة", comingSoon: true },
     ]

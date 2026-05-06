@@ -21,6 +21,18 @@ import slide1 from '@/assets/services/file_32.jpg';
 import slide2 from '@/assets/services/file_33.jpg';
 import slide3 from '@/assets/services/file_34.jpg';
 
+export interface ProjectStats {
+  surfaceWithoutWalls?: string;
+  floorArea?: string;
+  volume?: string;
+  rooms?: number;
+  doors?: number;
+  windows?: number;
+  ceilingHeight?: string;
+  interiorWallThickness?: string;
+  exteriorWallThickness?: string;
+}
+
 export interface ProjectMetadata {
   id: number;
   name: string;
@@ -38,6 +50,8 @@ export interface ProjectMetadata {
   year: string;
   link: string;
   model3dUrl?: string;
+  model3dUrls?: string[];
+  stats?: ProjectStats;
 }
 
 export const projectsData: ProjectMetadata[] = [
@@ -418,5 +432,182 @@ export const projectsData: ProjectMetadata[] = [
     year: "2024",
     link: "#",
     model3dUrl: "https://3d.magicplan.app/#embed/?key=ZjI0ODhhMTY1ZTE3NTJkYzEzODBmOGJkMzNiYjlhNjAxOTY1NGQyODQxN2E3MGEzNTczN2I5OGMwZGU1YjNmMwmkQQ%2BOofXD0kjmJX1zq8yiFTlGO9FNzIl3WcIm2YdHffr2stJ7PZcc4ZWboojiRQ%3D%3D"
+  },
+  {
+    id: 22,
+    name: "فرع أبو عوف – بنها",
+    teaser: "فرع تجاري بمعايير العلامة الكاملة وارتفاع سقف يمنح إحساس الفخامة.",
+    image: gallery1,
+    caption: "مخطط فرع أبو عوف ببنها – مسح ميداني ثلاثي الأبعاد دقيق.",
+    intro: "تنفيذ فرع أبو عوف في مدينة بنها وفق دليل العلامة التجارية، بمساحة مفتوحة وارتفاع سقف 3.40 م يعزّز تجربة العميل داخل المعرض.",
+    challenge: "إعادة توزيع فراغ كبير برؤية موحّدة، مع 4 نقاط دخول/خروج وضمان حركة سلسة للزبائن وكفاءة عرض المنتج.",
+    outcome: "فرع منفذ بدقة المسح ثلاثي الأبعاد ومخطط معتمد، جاهز لإجراءات التشغيل والتسويق الفوري.",
+    quote: "المسح ثلاثي الأبعاد قبل التنفيذ وفّر علينا أسابيع من التعديلات.",
+    quoteAuthor: "إدارة مشاريع أبو عوف",
+    category: "تجاري – فرع تجزئة",
+    client: "أبو عوف Abu Auf",
+    location: "بنها، القليوبية",
+    year: "2024",
+    link: "#",
+    model3dUrl: "https://3d.magicplan.app/#embed/?key=Y2M4MjY0ZWM4ZGQ0OGU4MzI4NjhhZDI1OWEyNjk1NDE5ZDU4NTk5MjVhMDA2NTljNDc1NTUzMGQ4MjNjZTMwMxPgr%2BAeXhBzlZ7j4k1EstSMTgd%2BQAnjaQcoq3n0tstBI8Hgu%2BagyEOCICZ42XlHIKL22SlYevbWMHWvj0yow2HQmi8NDwa%2Fnmui0bpt010b",
+    stats: {
+      surfaceWithoutWalls: "76.9 م²",
+      floorArea: "46.3 م",
+      volume: "192 م³",
+      rooms: 1,
+      doors: 4,
+      windows: 0,
+      ceilingHeight: "3.40 م",
+      interiorWallThickness: "0.10 م",
+      exteriorWallThickness: "0.15 م"
+    }
+  },
+  {
+    id: 23,
+    name: "فرع أبو عوف – أركان بلازا",
+    teaser: "فرع متكامل بـ 12 غرفة و7 نوافذ يجمع الإدارة والمعرض والمخازن في موقع حيوي.",
+    image: gallery2,
+    caption: "مخطط فرع أركان بلازا – توزيع تشغيلي متعدد الوظائف.",
+    intro: "تنفيذ شامل لفرع أبو عوف داخل أركان بلازا بمساحة 183 م²، يضم منطقة عرض، مكاتب إدارية، ومخازن خلفية وفق التشغيل اليومي للعلامة.",
+    challenge: "تقسيم مرن لـ 12 غرفة وظيفية مع 12 بابًا و7 نوافذ، مع الحفاظ على هوية بصرية واضحة ومسارات حركة احترافية.",
+    outcome: "بيئة تشغيل متكاملة جاهزة للعمل بكفاءة عالية، تدعم تجربة العميل وكفاءة الفريق التشغيلي.",
+    quote: "كل متر مربع تم استثماره بذكاء، الفرع يعمل كآلة دقيقة.",
+    quoteAuthor: "مدير فرع أركان بلازا",
+    category: "تجاري – فرع تجزئة متكامل",
+    client: "أبو عوف Abu Auf",
+    location: "أركان بلازا، الشيخ زايد",
+    year: "2024",
+    link: "#",
+    model3dUrl: "https://3d.magicplan.app/#embed/?key=OTBiNTEzNjMzYTIyNWE0YTM1ZGZiZDMwZjRkOGQ1NDdmNDc3ZDhlMDQ0NzY2OGEwMTE5NGY1NGRmZTUxMTYyMWV8DT%2BlvMX1HW%2B65c5%2FPiv6Vn7EdSqdvS6h95mGfLdcfDK30Ylbs8maJwpyvuxjZLXln537hAEXG3YGxjvtRE4IWooddLyj5Rd6WjiYCucy",
+    stats: {
+      surfaceWithoutWalls: "183 م²",
+      floorArea: "114 م",
+      volume: "516 م³",
+      rooms: 12,
+      doors: 12,
+      windows: 7,
+      ceilingHeight: "2.50 م",
+      interiorWallThickness: "0.12 م",
+      exteriorWallThickness: "0.25 م"
+    }
+  },
+  {
+    id: 24,
+    name: "فرع أبو عوف – متعدد الطوابق",
+    teaser: "فرع تجاري بـ 4 مستويات وعرض ثلاثي الأبعاد متعدد الزوايا للمسح الكامل.",
+    image: gallery3,
+    caption: "مسح ميداني متعدد الطوابق بعرض تفاعلي شامل.",
+    intro: "فرع أبو عوف متعدد الطوابق بمساحة 92.1 م²، يضم 6 غرف موزعة لخدمة الجمهور والإدارة والتخزين، مع مسح ثلاثي الأبعاد دقيق لكل طابق.",
+    challenge: "توحيد التصميم عبر الطوابق الأربعة مع الحفاظ على هوية الفرع وتدفق العميل بين المستويات بسلاسة.",
+    outcome: "مخطط نهائي معتمد جاهز للتنفيذ بدقة عالية، يوفر مرونة تشغيلية كاملة.",
+    quote: "رؤية المشروع من كل زاوية قبل التنفيذ غيّرت طريقة اتخاذ القرار.",
+    quoteAuthor: "مدير المشاريع",
+    category: "تجاري – فرع متعدد الطوابق",
+    client: "أبو عوف Abu Auf",
+    location: "جمهورية مصر العربية",
+    year: "2024",
+    link: "#",
+    model3dUrl: "https://3d.magicplan.app/#embed/?key=MGNjM2MwZGRjMDIxODdhMTMwZWMyZTIwNjhjZTBhNDJkNDc1MzJjODE4OTQxM2Y2ZTk5Mzk4OTI1OGQ0NDQzNhLqDjboFyJcjRzvgta4Ki93h6dxwdKtVTEJKPoGXCgRbiujSFBlozOIwAj3rj5DT8M%2Fz0nXbZ8Rr4x4xA4q3J0cqBglPkQJWKhJDZk8z9Rj",
+    model3dUrls: [
+      "https://3d.magicplan.app/#embed/?key=MGNjM2MwZGRjMDIxODdhMTMwZWMyZTIwNjhjZTBhNDJkNDc1MzJjODE4OTQxM2Y2ZTk5Mzk4OTI1OGQ0NDQzNhLqDjboFyJcjRzvgta4Ki93h6dxwdKtVTEJKPoGXCgRbiujSFBlozOIwAj3rj5DT8M%2Fz0nXbZ8Rr4x4xA4q3J0cqBglPkQJWKhJDZk8z9Rj"
+    ],
+    stats: {
+      surfaceWithoutWalls: "92.1 م²",
+      floorArea: "83.0 م",
+      volume: "274 م³",
+      rooms: 6,
+      doors: 6,
+      windows: 6,
+      ceilingHeight: "2.44 م",
+      interiorWallThickness: "0.12 م",
+      exteriorWallThickness: "0.25 م"
+    }
+  },
+  {
+    id: 25,
+    name: "فرع أبو عوف – وحدة مدمجة",
+    teaser: "فرع مدمج بكفاءة عالية، مساحة مدروسة لكل سنتيمتر.",
+    image: gallery4,
+    caption: "مخطط وحدة تجارية مدمجة بمسح ميداني دقيق.",
+    intro: "فرع مدمج بمساحة 52.8 م² صُمم بأقصى كفاءة استثمارية، يخدم الزبائن في موقع حيوي بأقل تكلفة تشغيل.",
+    challenge: "تحقيق وظائف فرع متكامل ضمن مساحة محدودة دون التأثير على هوية العلامة أو راحة العميل.",
+    outcome: "نموذج تشغيلي رشيق قابل للتكرار في فروع جديدة بنفس المعايير.",
+    quote: "مساحة صغيرة، لكن تجربة عميل كاملة.",
+    quoteAuthor: "فريق التطوير",
+    category: "تجاري – فرع مدمج",
+    client: "أبو عوف Abu Auf",
+    location: "جمهورية مصر العربية",
+    year: "2024",
+    link: "#",
+    model3dUrl: "https://3d.magicplan.app/#embed/?key=YWViZDAxMzE4ODc4M2I4MzVlZmE1YTQ1YmRiZDQwYmUxZTNmYjQ5OWUwYTYwYjMxMWY5YjVlNTRhZDNiMTU1Y1bOh1jIn1asxuqQvO3mAoB%2BQ6sjI12jBGPyKYJPvh%2F7AVBiwxrKEedkTOjTkAAPmnpkeY8oYqFz%2BKFNbPgxEcOQ%2FRiQKZUC0KmPGWZ5RkU8",
+    stats: {
+      surfaceWithoutWalls: "52.8 م²",
+      floorArea: "39.5 م",
+      volume: "195 م³",
+      rooms: 2,
+      doors: 2,
+      windows: 0,
+      ceilingHeight: "2.44 م",
+      interiorWallThickness: "0.12 م",
+      exteriorWallThickness: "0.25 م"
+    }
+  },
+  {
+    id: 26,
+    name: "فرع أبو عوف – Elxe Loran",
+    teaser: "فرع برج لوران بإسكندرية، ارتفاع سقف 3.70 م يمنح حضورًا بصريًا فاخرًا.",
+    image: gallery5,
+    caption: "مخطط فرع Elxe Loran – طابع كلاسيكي بسقوف مرتفعة.",
+    intro: "فرع أبو عوف Elxe Loran في الإسكندرية بمساحة 49.1 م² وارتفاع 3.70 م يمنح المعرض رحابة بصرية مميزة تليق بالموقع التاريخي.",
+    challenge: "توظيف الارتفاع الكبير للسقف لإبراز هوية العلامة التجارية، مع الحفاظ على دفء التجربة وكفاءة العرض.",
+    outcome: "فرع متميز يعكس هوية أبو عوف وسط معمار الإسكندرية الكلاسيكي.",
+    quote: "الارتفاع والإضاءة الطبيعية صنعا تجربة لا تُنسى داخل الفرع.",
+    quoteAuthor: "إدارة فروع الإسكندرية",
+    category: "تجاري – فرع تجزئة",
+    client: "أبو عوف Abu Auf",
+    location: "لوران، الإسكندرية",
+    year: "2024",
+    link: "#",
+    model3dUrl: "https://3d.magicplan.app/#embed/?key=ZGU0YjY4MzczOTk3OWVjNGJjMWNlODViOGFmNWU4NzBkOWJkODM4NTQ5ODA0ZTQ0NmYyYzliNzM2YzBhYjYyZFhszvHnRcw%2FZZxLuH744UTToZiy2%2BEPrd%2Fxswny3VkBz6RomXXPH%2B8BV61crDdw5w%3D%3D",
+    stats: {
+      surfaceWithoutWalls: "49.1 م²",
+      floorArea: "40.9 م",
+      volume: "177 م³",
+      rooms: 2,
+      doors: 2,
+      windows: 0,
+      ceilingHeight: "3.70 م",
+      interiorWallThickness: "0.10 م",
+      exteriorWallThickness: "0.15 م"
+    }
+  },
+  {
+    id: 27,
+    name: "فرع أبو عوف – المنصورة المشاية",
+    teaser: "فرع بمنطقة المشاية بالمنصورة بسقف 3.60 م وحضور بصري قوي.",
+    image: gallery6,
+    caption: "مخطط فرع المنصورة المشاية – واجهة تجارية مميزة.",
+    intro: "فرع أبو عوف بمنطقة المشاية في المنصورة بمساحة 60.1 م²، صُمم ليتكامل مع طبيعة الشارع التجاري النابض ويستقطب جمهور المشاة.",
+    challenge: "تحويل واجهة المتجر إلى عنصر جذب رئيسي مع تنظيم داخلي يخدم حركة الزبائن المستمرة.",
+    outcome: "فرع نشط أصبح من أبرز معالم المشاية بأداء مبيعات قوي منذ افتتاحه.",
+    quote: "الفرع جزء من هوية المشاية الآن، ليس مجرد متجر.",
+    quoteAuthor: "إدارة فروع الدلتا",
+    category: "تجاري – فرع شارع",
+    client: "أبو عوف Abu Auf",
+    location: "المشاية، المنصورة",
+    year: "2024",
+    link: "#",
+    model3dUrl: "https://3d.magicplan.app/#embed/?key=OThjY2VjZjVhMDJiMWJjZjUwMDk1OTRlYmY3MmI5OGE5NmY2MDMyNDhiMDM0MDMxYTQwNzllMjQzMDJlMWIwZFcHIQj6JXi1MqT5h6RYI%2Bw8CIBkSfHEDsK5z7Fuq2sfxYi5wklhp4ZRZrpg%2BEOEeC%2Foj1L9mC%2FPis2x5LsNzRL107giHOtKGnBsahI9wBzC",
+    stats: {
+      surfaceWithoutWalls: "60.1 م²",
+      floorArea: "41.2 م",
+      volume: "205 م³",
+      rooms: 2,
+      doors: 2,
+      windows: 0,
+      ceilingHeight: "3.60 م",
+      interiorWallThickness: "0.12 م",
+      exteriorWallThickness: "0.25 م"
+    }
   }
 ];

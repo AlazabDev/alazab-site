@@ -97,22 +97,23 @@ function escapeHtml(s: string) {
 }
 
 function inline(s: string) {
-  // images first ![alt](src)
-  let out = s.replace(
-    /!\[([^\]]*)\]\(([^)]+)\)/g,
-    (_, alt, src) =>
-      `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" class="content-img" />`,
-  );
-  out = escapeHtml(out)
-    // restore img tags we just emitted
-    .replace(/&lt;img src=&quot;([^&]+)&quot; alt=&quot;([^&]*)&quot; loading=&quot;lazy&quot; class=&quot;content-img&quot; \/&gt;/g,
-      (_, src, alt) => `<img src="${src}" alt="${alt}" loading="lazy" class="content-img" />`)
+  const imgs: string[] = [];
+  const links: string[] = [];
+  let work = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+    imgs.push(`<img src="${src}" alt="${alt}" loading="lazy" class="content-img" />`);
+    return `\u0000IMG${imgs.length - 1}\u0000`;
+  });
+  work = work.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, href) => {
+    links.push(`<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`);
+    return `\u0000LNK${links.length - 1}\u0000`;
+  });
+  work = escapeHtml(work)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,
-      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-  return out;
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+  work = work.replace(/\u0000IMG(\d+)\u0000/g, (_, n) => imgs[+n]);
+  work = work.replace(/\u0000LNK(\d+)\u0000/g, (_, n) => links[+n]);
+  return work;
 }
 
 function slugify(s: string) {

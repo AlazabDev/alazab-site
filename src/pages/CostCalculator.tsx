@@ -162,8 +162,7 @@ export default function CostCalculator() {
         range_max: breakdown.rangeMax,
         accuracy: breakdown.accuracy,
       };
-      // محاولة الإرسال للقاعدة (إن وجد الجدول)
-      // @ts-expect-error - جدول اختياري
+      // إرسال الطلب للقاعدة
       await supabase.from("cost_estimate_requests").insert(payload);
       toast({
         title: "تم إرسال طلبك",

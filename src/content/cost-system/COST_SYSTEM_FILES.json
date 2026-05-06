@@ -1,0 +1,260 @@
+{
+  "project": "Cost Calculation System",
+  "version": "1.0.0",
+  "date": "2026",
+  "totalFiles": 14,
+  "totalLines": 3701,
+  "codeLines": 2167,
+  "docLines": 1534,
+  
+  "files": {
+    "services": [
+      {
+        "name": "lib/cost-calculator-service.ts",
+        "lines": 324,
+        "priority": 3,
+        "description": "الخدمة الأساسية لحسابات التكاليف المتقدمة",
+        "mainFunctions": [
+          "calculateCost",
+          "addItem",
+          "removeItem",
+          "calculateWithAdjustments",
+          "formatCurrency"
+        ],
+        "classes": [
+          "CostCalculatorService",
+          "CostItem",
+          "CalculationResult"
+        ]
+      },
+      {
+        "name": "lib/cost-database-service.ts",
+        "lines": 252,
+        "priority": 3,
+        "description": "خدمة قاعدة البيانات مع Supabase",
+        "mainFunctions": [
+          "saveEstimate",
+          "loadEstimate",
+          "getEstimates",
+          "deleteEstimate",
+          "exportJSON",
+          "importJSON"
+        ],
+        "classes": [
+          "CostDatabaseService",
+          "Estimate",
+          "EstimateItem"
+        ]
+      },
+      {
+        "name": "lib/cost-reports-service.ts",
+        "lines": 408,
+        "priority": 3,
+        "description": "خدمة إنشاء التقارير والتصدير",
+        "mainFunctions": [
+          "generateHTMLReport",
+          "generateTextReport",
+          "generateCSVReport",
+          "generateComparison",
+          "exportToPDF",
+          "printReport"
+        ],
+        "classes": [
+          "CostReportsService",
+          "ReportData",
+          "ComparisonData"
+        ]
+      }
+    ],
+    
+    "components": [
+      {
+        "name": "components/cost-calculator-advanced.tsx",
+        "lines": 593,
+        "priority": 3,
+        "type": "React Component",
+        "description": "حاسبة التكاليف المتقدمة الاحترافية",
+        "isMain": true,
+        "features": [
+          "3 تبويبات (حساب، تقرير، مقارنة)",
+          "عرض فوري للتكاليف",
+          "إضافة عناصر مخصصة",
+          "حفظ وتحميل",
+          "طباعة وتحميل التقارير"
+        ],
+        "states": [
+          "activeTab",
+          "items",
+          "calculatedCost",
+          "isLoading"
+        ]
+      },
+      {
+        "name": "components/cost-estimates-list.tsx",
+        "lines": 178,
+        "priority": 2,
+        "type": "React Component",
+        "description": "قائمة العروض المحفوظة",
+        "features": [
+          "عرض جميع العروض",
+          "تعديل وحذف",
+          "تصدير وتحميل",
+          "بحث وترتيب"
+        ]
+      },
+      {
+        "name": "components/cost-comparison.tsx",
+        "lines": 163,
+        "priority": 2,
+        "type": "React Component",
+        "description": "مكون المقارنة بين عروض متعددة",
+        "features": [
+          "مقارنة عرضين",
+          "عرض الفروقات بصرياً",
+          "ملخص تحليلي",
+          "رسوم بيانية"
+        ]
+      },
+      {
+        "name": "components/cost-calculator.tsx",
+        "lines": 150,
+        "priority": 1,
+        "type": "React Component",
+        "description": "حاسبة التكاليف الأساسية (القديمة)",
+        "isLegacy": true
+      }
+    ],
+    
+    "pages": [
+      {
+        "name": "app/cost-calculator/page.tsx",
+        "lines": 66,
+        "path": "/cost-calculator",
+        "description": "صفحة الحاسبة المتقدمة",
+        "components": ["cost-calculator-advanced.tsx"]
+      },
+      {
+        "name": "app/cost-estimates/page.tsx",
+        "lines": 33,
+        "path": "/cost-estimates",
+        "description": "صفحة قائمة العروض",
+        "components": ["cost-estimates-list.tsx"]
+      }
+    ],
+    
+    "documentation": [
+      {
+        "name": "COST_CALCULATOR_DOCUMENTATION.md",
+        "lines": 402,
+        "priority": 1,
+        "type": "Documentation",
+        "description": "وثائق شاملة لنظام الحساب",
+        "readingTime": "30 دقيقة",
+        "topics": [
+          "نظرة عامة",
+          "البنية المعمارية",
+          "شرح الخدمات",
+          "شرح المكونات",
+          "أمثلة الاستخدام"
+        ]
+      },
+      {
+        "name": "COST_SYSTEM_SETUP.md",
+        "lines": 233,
+        "priority": 1,
+        "type": "Setup Guide",
+        "description": "دليل الإعداد والتثبيت",
+        "readingTime": "20 دقيقة",
+        "topics": [
+          "متطلبات النظام",
+          "خطوات التثبيت",
+          "إعداد قاعدة البيانات",
+          "متطلبات البيئة"
+        ]
+      },
+      {
+        "name": "COST_QUICK_START.md",
+        "lines": 124,
+        "priority": 1,
+        "type": "Quick Start",
+        "description": "دليل البدء السريع",
+        "readingTime": "10 دقائق",
+        "topics": [
+          "خطوات بسيطة",
+          "أمثلة سريعة",
+          "الأسئلة الشائعة"
+        ]
+      },
+      {
+        "name": "COST_SYSTEM_DELIVERY.md",
+        "lines": 374,
+        "priority": 2,
+        "type": "Delivery Document",
+        "description": "ملخص التسليم الشامل"
+      },
+      {
+        "name": "COST_SYSTEM_FINAL_SUMMARY.md",
+        "lines": 401,
+        "priority": 2,
+        "type": "Final Summary",
+        "description": "الملخص النهائي الشامل"
+      }
+    ]
+  },
+  
+  "statistics": {
+    "services": {
+      "count": 3,
+      "totalLines": 984
+    },
+    "components": {
+      "count": 4,
+      "totalLines": 1084
+    },
+    "pages": {
+      "count": 2,
+      "totalLines": 99
+    },
+    "documentation": {
+      "count": 5,
+      "totalLines": 1534
+    }
+  },
+  
+  "mainFiles": {
+    "calculation": "lib/cost-calculator-service.ts",
+    "database": "lib/cost-database-service.ts",
+    "reports": "lib/cost-reports-service.ts",
+    "primaryUI": "components/cost-calculator-advanced.tsx",
+    "mainPage": "app/cost-calculator/page.tsx"
+  },
+  
+  "dependencies": {
+    "cost-calculator-advanced.tsx": [
+      "lib/cost-calculator-service.ts",
+      "lib/cost-database-service.ts",
+      "lib/cost-reports-service.ts",
+      "components/cost-comparison.tsx"
+    ],
+    "cost-estimates-list.tsx": [
+      "lib/cost-database-service.ts",
+      "lib/cost-reports-service.ts"
+    ]
+  },
+  
+  "tags": {
+    "critical": [
+      "lib/cost-calculator-service.ts",
+      "lib/cost-database-service.ts",
+      "components/cost-calculator-advanced.tsx"
+    ],
+    "important": [
+      "lib/cost-reports-service.ts",
+      "components/cost-estimates-list.tsx",
+      "components/cost-comparison.tsx"
+    ],
+    "legacy": [
+      "components/cost-calculator.tsx"
+    ]
+  }
+}

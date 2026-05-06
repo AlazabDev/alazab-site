@@ -174,8 +174,8 @@ const UberFixPage: React.FC = () => {
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <Wrench className="w-12 h-12 text-orange-300 mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('تحتاج صيانة؟ UberFix هنا لخدمتك', 'Need Maintenance? UberFix is Here')}</h2>
-          <p className="text-xl mb-8 text-orange-100 max-w-2xl mx-auto">{t('لا تنتظر حتى تتفاقم المشكلة. تواصل معنا الآن واحصل على معاينة مجانية', 'Don\'t wait until the problem gets worse. Contact us now and get a free inspection')}</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('عندك مشكلة دلوقتي؟', 'Got a problem right now?')}</h2>
+          <p className="text-xl mb-8 text-orange-100 max-w-2xl mx-auto">{t('ابعت لنا صورة على واتساب — هنرد عليك في 30 دقيقة بمعاينة وعرض سعر مبدئي مجاني', 'Send us a WhatsApp photo — we reply within 30 minutes with an inspection and a free initial quote')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-gray-100 rounded-full px-8 text-lg">
               <Link to="/maintenance-request">{t('اطلب صيانة الآن', 'Request Maintenance Now')}</Link>

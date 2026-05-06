@@ -57,6 +57,41 @@ const ProjectStoryPage: React.FC = () => {
             </div>
           </section>
 
+          {project.stats && (
+            <section className="mb-8">
+              <h3 className="text-lg font-bold mb-3 text-construction-primary">المواصفات والإحصاءات</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {project.stats.surfaceWithoutWalls && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">المساحة بدون جدران</div><div className="font-bold text-construction-primary">{project.stats.surfaceWithoutWalls}</div></div>
+                )}
+                {project.stats.floorArea && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">مساحة الأرضية</div><div className="font-bold text-construction-primary">{project.stats.floorArea}</div></div>
+                )}
+                {project.stats.volume && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">الحجم</div><div className="font-bold text-construction-primary">{project.stats.volume}</div></div>
+                )}
+                {project.stats.rooms !== undefined && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">الغرف</div><div className="font-bold text-construction-primary">{project.stats.rooms}</div></div>
+                )}
+                {project.stats.doors !== undefined && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">الأبواب</div><div className="font-bold text-construction-primary">{project.stats.doors}</div></div>
+                )}
+                {project.stats.windows !== undefined && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">النوافذ</div><div className="font-bold text-construction-primary">{project.stats.windows}</div></div>
+                )}
+                {project.stats.ceilingHeight && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">ارتفاع السقف</div><div className="font-bold text-construction-primary">{project.stats.ceilingHeight}</div></div>
+                )}
+                {project.stats.interiorWallThickness && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">سُمك الجدار الداخلي</div><div className="font-bold text-construction-primary">{project.stats.interiorWallThickness}</div></div>
+                )}
+                {project.stats.exteriorWallThickness && (
+                  <div className="bg-white p-3 rounded border"><div className="text-xs text-gray-500">سُمك الجدار الخارجي</div><div className="font-bold text-construction-primary">{project.stats.exteriorWallThickness}</div></div>
+                )}
+              </div>
+            </section>
+          )}
+
           {project.model3dUrl && (
             <section className="mb-8">
               <h3 className="text-lg font-bold mb-3 text-construction-primary">استكشف في ثلاثي الأبعاد</h3>
@@ -64,11 +99,11 @@ const ProjectStoryPage: React.FC = () => {
                 <iframe
                   src={project.model3dUrl}
                   width="100%"
-                  height="400"
+                  height="500"
                   style={{ border: "none", borderRadius: "10px" }}
                   allowFullScreen
                   loading="lazy"
-                  title="عرض تفاعلي ثلاثي الأبعاد"
+                  title={`عرض ثلاثي الأبعاد – ${project.name}`}
                 ></iframe>
               </div>
             </section>

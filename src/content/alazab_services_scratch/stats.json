@@ -1,0 +1,95 @@
+{
+  "package": "alazab_services_batch_01_from_scratch",
+  "created_at": "2026-05-05",
+  "service_pages_count": 10,
+  "files_count": 12,
+  "total_lines": 1094,
+  "total_non_empty_lines": 822,
+  "total_words": 7050,
+  "files": [
+    {
+      "file": "README.md",
+      "lines_total": 25,
+      "lines_non_empty": 18,
+      "words": 134,
+      "characters": 1132
+    },
+    {
+      "file": "index.md",
+      "lines_total": 33,
+      "lines_non_empty": 28,
+      "words": 258,
+      "characters": 2195
+    },
+    {
+      "file": "services/01-electrician.md",
+      "lines_total": 105,
+      "lines_non_empty": 79,
+      "words": 785,
+      "characters": 4665
+    },
+    {
+      "file": "services/02-maintenance-worker.md",
+      "lines_total": 100,
+      "lines_non_empty": 74,
+      "words": 698,
+      "characters": 4140
+    },
+    {
+      "file": "services/03-high-signage.md",
+      "lines_total": 104,
+      "lines_non_empty": 78,
+      "words": 676,
+      "characters": 4006
+    },
+    {
+      "file": "services/04-redesign.md",
+      "lines_total": 103,
+      "lines_non_empty": 77,
+      "words": 655,
+      "characters": 3890
+    },
+    {
+      "file": "services/05-data-communications.md",
+      "lines_total": 107,
+      "lines_non_empty": 81,
+      "words": 641,
+      "characters": 3870
+    },
+    {
+      "file": "services/06-commercial-carpentry.md",
+      "lines_total": 104,
+      "lines_non_empty": 78,
+      "words": 624,
+      "characters": 3879
+    },
+    {
+      "file": "services/07-doors-folding-curtains-grilles.md",
+      "lines_total": 104,
+      "lines_non_empty": 78,
+      "words": 651,
+      "characters": 3847
+    },
+    {
+      "file": "services/08-general-contractor-multidiscipline.md",
+      "lines_total": 102,
+      "lines_non_empty": 76,
+      "words": 659,
+      "characters": 3986
+    },
+    {
+      "file": "services/09-general-carpentry-maintenance.md",
+      "lines_total": 104,
+      "lines_non_empty": 78,
+      "words": 621,
+      "characters": 3670
+    },
+    {
+      "file": "services/10-overhead-doors.md",
+      "lines_total": 103,
+      "lines_non_empty": 77,
+      "words": 648,
+      "characters": 3743
+    }
+  ]
+}

@@ -6,9 +6,9 @@ import { ArrowRight, Crown, Home, Paintbrush, Gem, CheckCircle, Star, Award, Lay
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroImg from '@/assets/services/luxury-finishing-hero.jpg';
-import bathroomImg from '@/assets/services/luxury-finishing-2.jpg';
-import kitchenImg from '@/assets/services/luxury-finishing-3.jpg';
+import heroImg from '@/assets/services/file_12.jpg';
+import bathroomImg from '@/assets/services/file_15.jpg';
+import kitchenImg from '@/assets/services/file_16.jpg';
 
 const LuxuryFinishingPage: React.FC = () => {
   const { t, isRTL } = useLanguage();

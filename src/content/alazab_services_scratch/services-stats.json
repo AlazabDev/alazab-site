@@ -1,0 +1,502 @@
+{
+  "created_at": "2026-05-06T06:12:50",
+  "source_zip": "/mnt/data/services.zip",
+  "service_count": 61,
+  "total_service_words": 60194,
+  "total_service_lines": 7829,
+  "min_words": 621,
+  "max_words": 1122,
+  "avg_words": 986.79,
+  "upgraded_pages": 51,
+  "preserved_standard_pages": 10,
+  "services": [
+    {
+      "file": "services/01-electrician.md",
+      "number": 1,
+      "title": "خدمات الكهربائي التجاري",
+      "words": 785,
+      "lines": 106,
+      "upgraded": false
+    },
+    {
+      "file": "services/02-maintenance-worker.md",
+      "number": 2,
+      "title": "عامل صيانة تجارية متعدد المهام",
+      "words": 698,
+      "lines": 101,
+      "upgraded": false
+    },
+    {
+      "file": "services/03-high-signage.md",
+      "number": 3,
+      "title": "خدمات اللافتات المرتفعة",
+      "words": 676,
+      "lines": 105,
+      "upgraded": false
+    },
+    {
+      "file": "services/04-redesign.md",
+      "number": 4,
+      "title": "خدمات إعادة التصميم للمنشآت التجارية",
+      "words": 655,
+      "lines": 104,
+      "upgraded": false
+    },
+    {
+      "file": "services/05-data-communications.md",
+      "number": 5,
+      "title": "خدمات البيانات والاتصالات",
+      "words": 641,
+      "lines": 108,
+      "upgraded": false
+    },
+    {
+      "file": "services/06-commercial-carpentry.md",
+      "number": 6,
+      "title": "أعمال النجارة التجارية",
+      "words": 624,
+      "lines": 105,
+      "upgraded": false
+    },
+    {
+      "file": "services/07-doors-folding-curtains-grilles.md",
+      "number": 7,
+      "title": "الأبواب والستائر القابلة للطي والشبكات",
+      "words": 651,
+      "lines": 105,
+      "upgraded": false
+    },
+    {
+      "file": "services/08-general-contractor-multidiscipline.md",
+      "number": 8,
+      "title": "المقاول العام للمشاريع متعددة التخصصات",
+      "words": 659,
+      "lines": 103,
+      "upgraded": false
+    },
+    {
+      "file": "services/09-general-carpentry-maintenance.md",
+      "number": 9,
+      "title": "خدمات النجارة العامة والصيانة الخشبية",
+      "words": 621,
+      "lines": 105,
+      "upgraded": false
+    },
+    {
+      "file": "services/10-overhead-doors.md",
+      "number": 10,
+      "title": "خدمات الأبواب العلوية",
+      "words": 648,
+      "lines": 104,
+      "upgraded": false
+    },
+    {
+      "file": "services/11-disaster-recovery.md",
+      "number": 11,
+      "title": "خدمات التعافي من الكوارث",
+      "words": 1087,
+      "lines": 128,
+      "upgraded": true
+    },
+    {
+      "file": "services/12-signage.md",
+      "number": 12,
+      "title": "خدمات اللافتات التجارية",
+      "words": 1053,
+      "lines": 128,
+      "upgraded": true
+    },
+    {
+      "file": "services/13-tile-installation-repair.md",
+      "number": 13,
+      "title": "خدمات تركيب وإصلاح البلاط",
+      "words": 1043,
+      "lines": 129,
+      "upgraded": true
+    },
+    {
+      "file": "services/14-leak-detection.md",
+      "number": 14,
+      "title": "خدمات كشف التسرب",
+      "words": 1047,
+      "lines": 128,
+      "upgraded": true
+    },
+    {
+      "file": "services/15-backflow-testing.md",
+      "number": 15,
+      "title": "خدمات اختبار التدفق العكسي",
+      "words": 1057,
+      "lines": 127,
+      "upgraded": true
+    },
+    {
+      "file": "services/16-folding-security-gates.md",
+      "number": 16,
+      "title": "خدمات البوابات الأمنية القابلة للطي",
+      "words": 1039,
+      "lines": 128,
+      "upgraded": true
+    },
+    {
+      "file": "services/17-sealant-painting.md",
+      "number": 17,
+      "title": "خدمات الطلاء المانع للتسرب",
+      "words": 1032,
+      "lines": 127,
+      "upgraded": true
+    },
+    {
+      "file": "services/18-gutters.md",
+      "number": 18,
+      "title": "خدمات المزاريب وتصريف مياه الأمطار",
+      "words": 1032,
+      "lines": 128,
+      "upgraded": true
+    },
+    {
+      "file": "services/19-division-10-specialties.md",
+      "number": 19,
+      "title": "خدمات تخصصات القسم العاشر",
+      "words": 1034,
+      "lines": 128,
+      "upgraded": true
+    },
+    {
+      "file": "services/20-drywall.md",
+      "number": 20,
+      "title": "خدمات الألواح الجبسية",
+      "words": 1036,
+      "lines": 129,
+      "upgraded": true
+    },
+    {
+      "file": "services/21-audio-video.md",
+      "number": 21,
+      "title": "خدمات الصوت والفيديو",
+      "words": 1104,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/22-cabinets.md",
+      "number": 22,
+      "title": "خدمات الخزائن والوحدات التخزينية",
+      "words": 1062,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/23-fire-safety.md",
+      "number": 23,
+      "title": "خدمات السلامة من الحرائق",
+      "words": 1067,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/24-flooring.md",
+      "number": 24,
+      "title": "خدمات الأرضيات التجارية",
+      "words": 1046,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/25-locksmith.md",
+      "number": 25,
+      "title": "خدمات القفال والأقفال التجارية",
+      "words": 1081,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/26-painting.md",
+      "number": 26,
+      "title": "خدمات الدهانات التجارية",
+      "words": 1047,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/27-safe-repair.md",
+      "number": 27,
+      "title": "خدمات إصلاح الخزائن الآمنة",
+      "words": 1058,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/28-wallpaper.md",
+      "number": 28,
+      "title": "خدمات ورق الجدران",
+      "words": 1036,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/29-loading-dock-repairs.md",
+      "number": 29,
+      "title": "خدمات إصلاحات رصيف التحميل",
+      "words": 1054,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/30-grease-trap-service.md",
+      "number": 30,
+      "title": "خدمة مصائد الشحوم",
+      "words": 1031,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/31-window-tinting.md",
+      "number": 31,
+      "title": "خدمات تظليل النوافذ",
+      "words": 1099,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/32-glass.md",
+      "number": 32,
+      "title": "خدمات الزجاج التجاري",
+      "words": 1058,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/33-pressure-washing.md",
+      "number": 33,
+      "title": "خدمات غسيل الضغط",
+      "words": 1058,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/34-low-voltage.md",
+      "number": 34,
+      "title": "خدمات الجهد المنخفض",
+      "words": 1052,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/35-fire-protection-sprinkler-isolation.md",
+      "number": 35,
+      "title": "خدمات الحماية من الحرائق وعزل الرشاشات",
+      "words": 1122,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/36-exterior-building-maintenance.md",
+      "number": 36,
+      "title": "خدمات صيانة المباني الخارجية",
+      "words": 1056,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/37-pest-control.md",
+      "number": 37,
+      "title": "خدمات مكافحة الآفات",
+      "words": 1045,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/38-plaster.md",
+      "number": 38,
+      "title": "خدمات الجص والمحارة",
+      "words": 1040,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/39-layout-planning.md",
+      "number": 39,
+      "title": "خدمات التخطيط وتوزيع المساحات",
+      "words": 1033,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/40-fixtures.md",
+      "number": 40,
+      "title": "خدمات التجهيزات والتركيبات التجارية",
+      "words": 1039,
+      "lines": 135,
+      "upgraded": true
+    },
+    {
+      "file": "services/41-carpet-installation-repair.md",
+      "number": 41,
+      "title": "خدمات تركيب وإصلاح السجاد",
+      "words": 1063,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/42-construction.md",
+      "number": 42,
+      "title": "خدمات البناء والأعمال الإنشائية الخفيفة",
+      "words": 1061,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/43-irrigation-systems.md",
+      "number": 43,
+      "title": "خدمات أنظمة الري",
+      "words": 1040,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/44-tree-services.md",
+      "number": 44,
+      "title": "خدمات الأشجار والمساحات الخضراء",
+      "words": 1035,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/45-tile-regrouting.md",
+      "number": 45,
+      "title": "خدمات إعادة تجصيص وترويب البلاط",
+      "words": 1031,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/46-cleaning.md",
+      "number": 46,
+      "title": "خدمات التنظيف التجاري",
+      "words": 1036,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/47-metal-fabrication.md",
+      "number": 47,
+      "title": "خدمات تصنيع المعادن",
+      "words": 1009,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/48-welding.md",
+      "number": 48,
+      "title": "خدمات اللحام التجاري",
+      "words": 1028,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/49-hvac-refrigeration.md",
+      "number": 49,
+      "title": "خدمات التدفئة والتهوية وتكييف الهواء والتبريد",
+      "words": 1046,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/50-window-cleaning.md",
+      "number": 50,
+      "title": "خدمات تنظيف النوافذ والزجاج",
+      "words": 1037,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/51-restaurant-equipment.md",
+      "number": 51,
+      "title": "خدمات معدات المطاعم",
+      "words": 1108,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/52-appliance-repair.md",
+      "number": 52,
+      "title": "خدمات إصلاح الأجهزة",
+      "words": 1028,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/53-plumbing.md",
+      "number": 53,
+      "title": "خدمات السباكة التجارية",
+      "words": 1027,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/54-fence-installation-repair.md",
+      "number": 54,
+      "title": "خدمات تركيب وإصلاح الأسوار",
+      "words": 1021,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/55-rolling-grilles-security-grilles.md",
+      "number": 55,
+      "title": "خدمات الشبكات الدوارة وشبكات الأمان",
+      "words": 1053,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/56-septic-tanks.md",
+      "number": 56,
+      "title": "خدمات خزانات الصرف الصحي",
+      "words": 1047,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/57-storefront-installation-repair.md",
+      "number": 57,
+      "title": "خدمات تركيب وإصلاح واجهات المتاجر",
+      "words": 1052,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/58-roofing.md",
+      "number": 58,
+      "title": "خدمات التسقيف وصيانة الأسطح",
+      "words": 1035,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/59-cement-concrete-repairs.md",
+      "number": 59,
+      "title": "خدمات الأسمنت والإصلاحات الخرسانية الخفيفة",
+      "words": 1043,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/60-alarm-system.md",
+      "number": 60,
+      "title": "خدمات نظام الإنذار",
+      "words": 1058,
+      "lines": 134,
+      "upgraded": true
+    },
+    {
+      "file": "services/61-restroom-services.md",
+      "number": 61,
+      "title": "خدمات دورات المياه التجارية",
+      "words": 1030,
+      "lines": 135,
+      "upgraded": true
+    }
+  ]
+}

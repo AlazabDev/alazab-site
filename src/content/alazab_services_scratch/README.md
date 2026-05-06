@@ -1,27 +1,34 @@
-# Alazab / UberFix Services Knowledge Base — Batch 06
+# Alazab / UberFix Services Knowledge Base — Complete Upgraded Final
 
-هذه الحزمة تحتوي على الدفعة السادسة من صفحات الخدمات المستقلة، وتشمل الخدمات المتبقية من القائمة الأصلية.
+هذه الحزمة تحتوي على النسخة النهائية المطورة لملفات الخدمات.
 
 ## المحتوى
 
-- index.md
-- services/51-restaurant-equipment.md
-- services/52-appliance-repair.md
-- services/53-plumbing.md
-- services/54-fence-installation-repair.md
-- services/55-rolling-grilles-security-grilles.md
-- services/56-septic-tanks.md
-- services/57-storefront-installation-repair.md
-- services/58-roofing.md
-- services/59-cement-concrete-repairs.md
-- services/60-alarm-system.md
-- services/61-restroom-services.md
+- `index.md` فهرس روابط الخدمات.
+- `services/` يحتوي 61 صفحة خدمة مستقلة.
+- `combined-review.md` ملف مجمع للمراجعة فقط.
+- `services-stats.json` إحصاء الكلمات والأسطر وحالة الترقية.
 
-## طريقة الاستخدام
+## قرار الجودة
 
-- صفحة `index.md` تعرض روابط الخدمات.
-- كل ملف داخل `services/` هو صفحة خدمة مستقلة.
-- المحتوى مناسب كبداية لصفحات الموقع، قاعدة معرفة للبوت، وتصنيف داخلي للخدمات.
-- يجب ربط كل صفحة لاحقًا بمعرّف خدمة داخل قاعدة البيانات المركزية `alazab_core_db`.
+- الخدمات 01 إلى 10 محفوظة كمعيار الجودة الأصلي.
+- الخدمات 11 إلى 61 تم توسيعها وترقيتها بأقسام إضافية:
+  - أهمية الخدمة داخل المنشآت التجارية.
+  - مشكلات واقعية تعالجها الخدمة.
+  - نطاق الأعمال التفصيلي المعتمد.
+  - القطاعات التي نخدمها.
+  - إدارة الخدمة عبر فروع متعددة.
+  - معايير الجودة والتسليم.
+  - مؤشرات الأولوية والتصعيد.
+  - سيناريوهات فهم النظام لرسائل العملاء.
 
-Created at: 2026-05-06T05:36:08
+## الاستخدام المقترح
+
+هذه الملفات تصلح كبداية مباشرة لـ:
+
+- صفحات خدمات على الموقع.
+- قاعدة معرفة للبوت.
+- مصدر محتوى للبحث الداخلي.
+- مرجع لخدمات `alazab_core_db`.
+
+Created at: 2026-05-06T06:12:50

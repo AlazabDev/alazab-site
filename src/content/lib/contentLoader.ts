@@ -331,6 +331,17 @@ export function getSection(section: ContentSection): ContentItem[] {
       const fname = path.split("/").pop() || "";
       meta.slug = fname.replace(/\.md$/, "");
     }
+    if (!meta.title || meta.title === "Untitled") {
+      const h1 = body.match(/^#\s+(.+)$/m);
+      if (h1) meta.title = h1[1].trim();
+    }
+    if (!meta.description) {
+      const firstPara = body
+        .split(/\n\s*\n/)
+        .map((s) => s.trim())
+        .find((s) => s && !s.startsWith("#") && !s.startsWith("**"));
+      if (firstPara) meta.description = firstPara.replace(/[*_`#>]/g, "").slice(0, 160);
+    }
     const { html, headings } = renderMarkdown(body);
     items.push({
       meta,

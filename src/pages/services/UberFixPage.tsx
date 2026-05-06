@@ -13,21 +13,21 @@ const UberFixPage: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   const services = [
-    { icon: Wrench, titleAr: "صيانة معمارية شاملة", titleEn: "Comprehensive Maintenance", descriptionAr: "حلول صيانة متكاملة لجميع جوانب المبنى من الهيكل الإنشائي إلى التشطيبات", descriptionEn: "Integrated maintenance solutions for all building aspects from structure to finishes" },
-    { icon: Zap, titleAr: "استجابة سريعة 24/7", titleEn: "24/7 Rapid Response", descriptionAr: "فريق جاهز للتدخل السريع على مدار الساعة في حالات الطوارئ والأعطال المفاجئة", descriptionEn: "A team ready for rapid 24/7 intervention in emergencies and unexpected breakdowns" },
-    { icon: Clock, titleAr: "صيانة دورية وقائية", titleEn: "Preventive Maintenance", descriptionAr: "برامج صيانة منتظمة ومجدولة تمنع الأعطال قبل حدوثها وتطيل عمر المبنى", descriptionEn: "Regular scheduled maintenance programs that prevent breakdowns and extend building life" },
-    { icon: ShieldCheck, titleAr: "ضمان شامل على الأعمال", titleEn: "Comprehensive Warranty", descriptionAr: "نضمن جودة عملنا ونقدم ضمانًا شاملًا يمتد حتى عام على جميع الأعمال", descriptionEn: "We guarantee work quality with a comprehensive warranty up to one year on all work" },
-    { icon: Droplets, titleAr: "أعمال السباكة والصرف", titleEn: "Plumbing & Drainage", descriptionAr: "إصلاح وتجديد شبكات المياه والصرف الصحي بأحدث التقنيات", descriptionEn: "Repair and renewal of water and sewage networks with latest technologies" },
-    { icon: Plug, titleAr: "الأعمال الكهربائية", titleEn: "Electrical Work", descriptionAr: "صيانة وإصلاح الشبكات الكهربائية وأنظمة الإضاءة والتيار الخفيف", descriptionEn: "Maintenance and repair of electrical networks, lighting, and low-current systems" },
+    { icon: Wrench, titleAr: "صيانة المباني من الألف للياء", titleEn: "Building Maintenance, End-to-End", descriptionAr: "من شرخ في الحائط لمشكلة في الأساسات. فني واحد يفحص ويحدد المشكلة الحقيقية، ومش بنعالج العَرَض.", descriptionEn: "From a wall crack to a foundation issue. One technician inspects and pinpoints the real problem — we don't just patch symptoms." },
+    { icon: Zap, titleAr: "بنرد عليك في 30 دقيقة", titleEn: "We Respond in 30 Minutes", descriptionAr: "بلاغك بيوصل لفريق المناوبة فوراً. لو الحالة طارئة، فني عندك خلال ساعتين في القاهرة الكبرى.", descriptionEn: "Your report reaches the on-call team instantly. For emergencies, a technician is on-site within 2 hours across Greater Cairo." },
+    { icon: Clock, titleAr: "عقد صيانة سنوي يوفّر عليك", titleEn: "Annual Contract That Saves You Money", descriptionAr: "زيارتين شهرياً مجدولتين، فحص دوري للسباكة والكهرباء، وتقرير مكتوب. متوسط توفير العميل: 35% سنوياً.", descriptionEn: "Two scheduled monthly visits, regular plumbing/electrical checks, and a written report. Average client savings: 35% per year." },
+    { icon: ShieldCheck, titleAr: "ضمان مكتوب على كل شغلة", titleEn: "Written Warranty on Every Job", descriptionAr: "12 شهر ضمان على الأعمال، 6 شهور على المواد. الضمان مكتوب في الفاتورة، مش وعد كلامي.", descriptionEn: "12 months on workmanship, 6 months on materials. The warranty is printed on the invoice — not a verbal promise." },
+    { icon: Droplets, titleAr: "سباكة وتسريبات", titleEn: "Plumbing & Leaks", descriptionAr: "كشف تسريبات بالكاميرا الحرارية بدون كسر. تغيير مواسير، سخانات، طلمبات، وأعمال الصرف الصحي.", descriptionEn: "Thermal-camera leak detection — no demolition. Pipe replacement, water heaters, pumps, and drainage work." },
+    { icon: Plug, titleAr: "كهرباء وتيار خفيف", titleEn: "Electrical & Low-Current", descriptionAr: "تأسيس وتعديل لوحات الكهرباء، إنترلوك، إنتركم، كاميرات مراقبة، وتركيب مفاتيح ذكية.", descriptionEn: "New panels and modifications, interlocks, intercoms, CCTV, and smart switch installations." },
   ];
 
   const maintenanceTypes = [
-    { icon: Hammer, ar: "أعمال النجارة والألوميتال", en: "Carpentry and aluminum work" },
-    { icon: PaintBucket, ar: "الدهانات والديكورات الداخلية", en: "Paints and interior decorations" },
-    { icon: Droplets, ar: "العزل المائي والحراري", en: "Waterproofing and thermal insulation" },
-    { icon: Wind, ar: "صيانة أنظمة التكييف والتهوية", en: "HVAC system maintenance" },
-    { icon: Plug, ar: "الأعمال الكهربائية والإضاءة", en: "Electrical and lighting work" },
-    { icon: Wrench, ar: "صيانة المصاعد والأنظمة الميكانيكية", en: "Elevator and mechanical system maintenance" },
+    { icon: Hammer, ar: "نجارة وألوميتال (أبواب، شبابيك، مطابخ)", en: "Carpentry & aluminum (doors, windows, kitchens)" },
+    { icon: PaintBucket, ar: "دهانات وورق حائط وديكورات جبس", en: "Paint, wallpaper, and gypsum decor" },
+    { icon: Droplets, ar: "عزل أسطح وحمامات (ضمان 5 سنوات)", en: "Roof and bathroom waterproofing (5-year warranty)" },
+    { icon: Wind, ar: "تركيب وصيانة تكييفات سبليت ومركزي", en: "Split & central AC installation and service" },
+    { icon: Plug, ar: "تمديدات كهربائية وإضاءة LED", en: "Electrical wiring and LED lighting" },
+    { icon: Wrench, ar: "صيانة مصاعد وطلمبات ومولدات", en: "Elevators, pumps, and generators" },
   ];
 
   return (

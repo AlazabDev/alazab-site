@@ -202,6 +202,8 @@ function App() {
         <Route path="/faq/:slug" element={<ContentArticlePage section="faq" />} />
         <Route path="/maintenance-services" element={<ContentSectionPage section="services" />} />
         <Route path="/maintenance-services/:slug" element={<ContentArticlePage section="services" />} />
+        {/* Fallback: any unmatched /services/:slug renders the matching maintenance service article */}
+        <Route path="/services/:slug" element={<ContentArticlePage section="services" />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>

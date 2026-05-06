@@ -58,12 +58,12 @@ const BrandIdentityPage: React.FC = () => {
               {t('هوية العلامة التجارية', 'Brand Identity')}
             </h1>
             <p className="text-xl md:text-2xl text-purple-200 italic font-medium mb-4">
-              {t('مساحتك التجارية... مرآة علامتك', 'Your commercial space... the mirror of your brand')}
+              {t('فرعك التاسع لازم يكون نسخة من الأول', "Your 9th branch should be a copy of your first")}
             </p>
             <p className="text-lg text-gray-200 mb-8 leading-relaxed max-w-2xl">
               {t(
-                'حلول متكاملة لتجهيز وتشطيب وفرش المحلات التجارية وسلاسل الفرانشايز. نترجم هوية علامتك التجارية إلى مساحة مادية جاذبة تعزز تجربة عملائك وتزيد من ولائهم.',
-                'Integrated solutions for fitting out, finishing, and furnishing retail outlets and franchise chains. We translate your brand identity into an attractive physical space that enhances customer experience and loyalty.'
+                'بنجهّز للسلاسل التجارية في مصر من 2008. سلّمنا أكثر من 340 فرع لأبو عوف وسفن فيرجن وسلاسل مطاعم ومقاهي. التجربة بتقول إن السر مش في التصميم — السر في إن الفرع رقم 50 يطلع زي الفرع رقم 1 بالظبط.',
+                "We've outfitted retail chains in Egypt since 2008 — 340+ branches for Abou Ouf, Seven Virgin, and major F&B chains. The lesson: design isn't the hard part. Making branch #50 identical to branch #1 is."
               )}
             </p>
             <div className="flex flex-wrap gap-4">

@@ -147,15 +147,23 @@ export function ContentSectionPage({ section }: SectionProps) {
       <Header />
 
       <section className={s.hero}>
+        <div className={s.heroBg} />
         {heroImg && (
           <img
             src={heroImg}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover opacity-20"
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.12] mix-blend-luminosity"
             loading="eager"
           />
         )}
-        <div className={`${s.heroBg} bg-gradient-to-br ${meta.color}`} />
+        <div
+          className="absolute inset-0 opacity-[0.06] pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(#FFB900 1px, transparent 1px), linear-gradient(90deg, #FFB900 1px, transparent 1px)",
+            backgroundSize: "48px 48px",
+          }}
+        />
         <div className={s.heroInner}>
           <span className={s.badge}>
             <span aria-hidden>{meta.emoji}</span> {meta.title}
@@ -163,14 +171,14 @@ export function ContentSectionPage({ section }: SectionProps) {
           <h1 className={s.title}>{meta.title}</h1>
           <p className={s.subtitle}>{meta.description}</p>
 
-          <div className="mt-8 max-w-xl relative">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <div className="mt-10 max-w-2xl relative">
+            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#0f1b3d]/60 pointer-events-none" />
             <input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="ابحث في المحتوى..."
-              className={`${s.searchInput} pr-10`}
+              className={`${s.searchInput} pr-12`}
               dir="rtl"
             />
           </div>
@@ -180,23 +188,23 @@ export function ContentSectionPage({ section }: SectionProps) {
               <button
                 type="button"
                 onClick={() => setActiveCat("")}
-                className={`px-3 py-1.5 rounded-full text-xs border transition ${
+                className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border-2 transition ${
                   !activeCat
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background/60 border-border hover:border-primary"
+                    ? "bg-[#FFB900] text-[#0f1b3d] border-[#FFB900]"
+                    : "bg-transparent text-[#f5f0e0]/80 border-[#f5f0e0]/20 hover:border-[#FFB900] hover:text-[#FFB900]"
                 }`}
               >
-                الكل ({items.length})
+                الكل · {items.length}
               </button>
               {categories.map((c) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setActiveCat(c === activeCat ? "" : c)}
-                  className={`px-3 py-1.5 rounded-full text-xs border transition ${
+                  className={`px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border-2 transition ${
                     activeCat === c
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-background/60 border-border hover:border-primary"
+                      ? "bg-[#FFB900] text-[#0f1b3d] border-[#FFB900]"
+                      : "bg-transparent text-[#f5f0e0]/80 border-[#f5f0e0]/20 hover:border-[#FFB900] hover:text-[#FFB900]"
                   }`}
                 >
                   {c}
@@ -205,8 +213,8 @@ export function ContentSectionPage({ section }: SectionProps) {
             </div>
           )}
 
-          <p className="mt-3 text-xs text-muted-foreground">
-            {filtered.length} من {items.length} عنصراً
+          <p className="mt-4 text-xs text-[#f5f0e0]/60 font-medium">
+            عرض {filtered.length} من {items.length} عنصراً
           </p>
         </div>
       </section>
@@ -216,7 +224,7 @@ export function ContentSectionPage({ section }: SectionProps) {
           <div className={s.empty}>لا توجد نتائج مطابقة لبحثك.</div>
         ) : (
           <div className={s.grid}>
-            {filtered.map((item) => {
+            {filtered.map((item, idx) => {
               const img =
                 (item.meta.cover as string | undefined) ||
                 pickImage(item.meta.slug, banners);
@@ -235,28 +243,34 @@ export function ContentSectionPage({ section }: SectionProps) {
                         className={s.cardImageInner}
                       />
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0f1b3d]/90 via-[#0f1b3d]/20 to-transparent" />
+                    <span className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#FFB900] text-[#0f1b3d] text-xs font-black shadow-lg">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    {item.meta.category && (
+                      <span className="absolute bottom-3 right-3 inline-flex items-center rounded-full bg-[#FFB900]/95 backdrop-blur px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#0f1b3d]">
+                        {String(item.meta.category)}
+                      </span>
+                    )}
                   </div>
                   <div className={s.cardBody}>
-                    {item.meta.category && (
-                      <span className={s.tag}>{String(item.meta.category)}</span>
-                    )}
-                    <h2 className={`${s.cardTitle} mt-3`}>{item.meta.title}</h2>
+                    <h2 className={s.cardTitle}>{item.meta.title}</h2>
                     {item.meta.description && (
                       <p className={s.cardDesc}>{item.meta.description}</p>
                     )}
                     <div className={s.cardMeta}>
                       {item.meta.brandName && (
-                        <span className="inline-flex items-center gap-1">
+                        <span className="inline-flex items-center gap-1.5">
                           <Tag className="w-3 h-3" /> {item.meta.brandName}
                         </span>
                       )}
-                      <span className="inline-flex items-center gap-1">
+                      <span className="inline-flex items-center gap-1.5">
                         <Clock className="w-3 h-3" /> {item.readingTimeMin} د قراءة
                       </span>
+                      <span className="ms-auto inline-flex items-center gap-1 text-[#0f1b3d] font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                        اقرأ <ArrowLeft className="w-3.5 h-3.5" />
+                      </span>
                     </div>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                      اقرأ المزيد <ArrowLeft className="w-4 h-4" />
-                    </span>
                   </div>
                 </Link>
               );

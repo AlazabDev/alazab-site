@@ -85,8 +85,8 @@ const BrandIdentityPage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('خدماتنا المتخصصة', 'Our Specialized Services')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('حلول شاملة تحول علامتك التجارية إلى تجربة مكانية متكاملة', 'Comprehensive solutions that transform your brand into a complete spatial experience')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('اللي بنعمله بالظبط', "What We Actually Do")}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('من تجهيز فرع واحد لتوسعة سلسلة كاملة في 7 محافظات', 'From a single branch fit-out to scaling a chain across 7 governorates')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => {

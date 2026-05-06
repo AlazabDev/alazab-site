@@ -101,8 +101,8 @@ const LuxuryFinishingPage: React.FC = () => {
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('خدماتنا المتخصصة', 'Our Specialized Services')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('نقدم مجموعة شاملة من خدمات التشطيب الراقي تغطي كل تفاصيل مساحتك', 'We offer a comprehensive range of luxury finishing services covering every detail of your space')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('اللي بنعمله بالظبط', 'Exactly What We Do')}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('ست خدمات رئيسية، كل واحدة بفريق متخصص ومواصفات مكتوبة', 'Six core offerings — each with its own dedicated crew and written specs')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => {

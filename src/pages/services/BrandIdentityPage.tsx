@@ -165,8 +165,8 @@ const BrandIdentityPage: React.FC = () => {
         </div>
         <div className="container mx-auto px-4 text-center relative z-10">
           <TrendingUp className="w-12 h-12 text-purple-300 mx-auto mb-6" />
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('جاهز لتطوير هويتك التجارية؟', 'Ready to develop your brand identity?')}</h2>
-          <p className="text-xl mb-8 text-purple-100 max-w-2xl mx-auto">{t('دعنا نساعدك في إنشاء مساحة تجارية تعكس قيم وهوية علامتك وتجذب عملاءك', 'Let us help you create a commercial space that reflects your brand values and attracts customers')}</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('بتفكر في فرع جديد؟', 'Planning a new branch?')}</h2>
+          <p className="text-xl mb-8 text-purple-100 max-w-2xl mx-auto">{t('ابعت لنا الـ Brand Book + موقع المحل، هنرجع لك في 48 ساعة بدراسة جدوى تنفيذية وتسعير مبدئي', 'Send us your Brand Book and store location — we reply within 48 hours with an executable study and a preliminary quote')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-white text-purple-700 hover:bg-gray-100 rounded-full px-8 text-lg">
               <Link to="/contact">{t('ابدأ مشروعك', 'Start Your Project')}</Link>

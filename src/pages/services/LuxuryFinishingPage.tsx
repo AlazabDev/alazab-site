@@ -60,12 +60,12 @@ const LuxuryFinishingPage: React.FC = () => {
               {t('التشطيب الراقي', 'Luxury Finishing')}
             </h1>
             <p className="text-xl md:text-2xl text-amber-200 italic font-medium mb-4">
-              {t('حيث تتحول المساحات إلى تحف فنية', 'Where spaces turn into masterpieces')}
+              {t('التفاصيل اللي بتفرق', "It's the details that show")}
             </p>
             <p className="text-lg text-gray-200 mb-8 leading-relaxed max-w-2xl">
               {t(
-                'خط إنتاج متخصص في تقديم خدمات تشطيب فائقة الجودة للوحدات السكنية الراقية. نستخدم أحدث التصاميم العالمية وأفضل الخامات المستوردة لتحويل منزلك إلى مساحة تعكس ذوقك الرفيع وتفوق توقعاتك.',
-                'A specialized production line offering ultra-high-quality finishing services for upscale residential units. We use the latest international designs and finest imported materials to transform your home into a space that reflects your refined taste and exceeds your expectations.'
+                'بنشتغل في تشطيب الفلل والشقق الراقية في القاهرة الجديدة والشيخ زايد والساحل من 2010. مفيش مفهوم "زي بعضه" — كل بيت بكراسة مواصفات منفصلة، تصميم 3D معتمد منك، ومهندس مقيم على الموقع طول فترة التنفيذ.',
+                "We've been finishing high-end villas and apartments across New Cairo, Sheikh Zayed, and the North Coast since 2010. We don't do 'good enough' — every home gets its own spec sheet, a 3D design you sign off on, and a resident on-site engineer for the entire build."
               )}
             </p>
             <div className="flex flex-wrap gap-4">

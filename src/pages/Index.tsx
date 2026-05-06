@@ -53,10 +53,10 @@ const Index: React.FC = () => {
       {/* SEO Meta Tags */}
       <Helmet>
         <title>شركة العزب للمقاولات العامة - خدمات إنشاء وصيانة متميزة</title>
-        <meta name="description" content="شركة العزب للمقاولات العامة - رائدة في مجال المقاولات والإنشاءات في المملكة العربية السعودية. نقدم خدمات متميزة في البناء والصيانة والتطوير العقاري." />
-        <meta name="keywords" content="مقاولات, إنشاءات, صيانة, السعودية, البناء, التطوير العقاري" />
+        <meta name="description" content="شركة العزب للمقاولات العامة - رائدة في مجال المقاولات والإنشاءات في جمهورية مصر العربية. نقدم خدمات متميزة في البناء والصيانة والتطوير العقاري." />
+        <meta name="keywords" content="مقاولات, إنشاءات, صيانة, مصر, البناء, التطوير العقاري" />
         <meta property="og:title" content="شركة العزب للمقاولات العامة" />
-        <meta property="og:description" content="رائدة في مجال المقاولات والإنشاءات في المملكة العربية السعودية" />
+        <meta property="og:description" content="رائدة في مجال المقاولات والإنشاءات في جمهورية مصر العربية" />
         <meta property="og:type" content="website" />
         <meta property="fb:app_id" content="889346333913449" />
         <meta property="og:image" content="https://alazab.com/alazab-icon.png" />

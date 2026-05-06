@@ -72,7 +72,7 @@ export const projectsData: ProjectMetadata[] = [
     quoteAuthor: "أ. جلال السالم – مالك",
     category: "فيلا خاصة – تصميم وتنفيذ",
     client: "عائلة السالم",
-    location: "الرياض",
+    location: "القاهرة",
     year: "2024",
     link: "#",
     model3dUrl: "https://3d.magicplan.app/#embed/?key=ZjI0ODhhMTY1ZTE3NTJkYzEzODBmOGJkMzNiYjlhNjAxOTY1NGQyODQxN2E3MGEzNTczN2I5OGMwZGU1YjNmMwmkQQ%2BOofXD0kjmJX1zq8yiFTlGO9FNzIl3WcIm2YdHffr2stJ7PZcc4ZWboojiRQ%3D%3D"
@@ -180,7 +180,7 @@ export const projectsData: ProjectMetadata[] = [
     quoteAuthor: "أ. فاطمة الزهراني – مقيمة",
     category: "سكني – شقق فاخرة",
     client: "شركة السكن الهادئ",
-    location: "جدة",
+    location: "الإسكندرية",
     year: "2024",
     link: "#",
     model3dUrl: "https://3d.magicplan.app/#embed/?key=ZjI0ODhhMTY1ZTE3NTJkYzEzODBmOGJkMzNiYjlhNjAxOTY1NGQyODQxN2E3MGEzNTczN2I5OGMwZGU1YjNmMwmkQQ%2BOofXD0kjmJX1zq8yiFTlGO9FNzIl3WcIm2YdHffr2stJ7PZcc4ZWboojiRQ%3D%3D"
@@ -198,7 +198,7 @@ export const projectsData: ProjectMetadata[] = [
     quoteAuthor: "د. محمد العلي – مدرب محترف",
     category: "تعليمي – مركز تدريب",
     client: "معهد التطوير المهني",
-    location: "الرياض",
+    location: "القاهرة",
     year: "2023",
     link: "#",
     model3dUrl: "https://3d.magicplan.app/#embed/?key=ZjI0ODhhMTY1ZTE3NTJkYzEzODBmOGJkMzNiYjlhNjAxOTY1NGQyODQxN2E3MGEzNTczN2I5OGMwZGU1YjNmMwmkQQ%2BOofXD0kjmJX1zq8yiFTlGO9FNzIl3WcIm2YdHffr2stJ7PZcc4ZWboojiRQ%3D%3D"
@@ -324,7 +324,7 @@ export const projectsData: ProjectMetadata[] = [
     quoteAuthor: "د. عبدالرحمن الفيصل – مالك قصر",
     category: "سكني – قصور فاخرة",
     client: "مجموعة القصور الملكية",
-    location: "الرياض",
+    location: "القاهرة",
     year: "2024",
     link: "#",
     model3dUrl: "https://3d.magicplan.app/#embed/?key=ZjI0ODhhMTY1ZTE3NTJkYzEzODBmOGJkMzNiYjlhNjAxOTY1NGQyODQxN2E3MGEzNTczN2I5OGMwZGU1YjNmMwmkQQ%2BOofXD0kjmJX1zq8yiFTlGO9FNzIl3WcIm2YdHffr2stJ7PZcc4ZWboojiRQ%3D%3D"

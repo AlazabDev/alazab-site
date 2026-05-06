@@ -367,7 +367,7 @@ const ProjectsPage: React.FC = () => {
       <div className="mt-16 bg-gradient-to-r from-construction-primary/5 via-construction-accent/5 to-construction-primary/5 p-8 rounded-2xl text-center border border-construction-primary/10">
         <h3 className="text-2xl font-bold text-construction-primary mb-4">هل لديك مشروع تود تنفيذه؟</h3>
         <p className="text-gray-600 mb-6 max-w-2xl mx-auto text-lg leading-relaxed">
-          نحن في شركة العزب للمقاولات نقدم خدمات متكاملة في مجال المقاولات والبناء بأعلى معايير الجودة والدقة في جميع أنحاء المملكة العربية السعودية
+          نحن في شركة العزب للمقاولات نقدم خدمات متكاملة في مجال المقاولات والبناء بأعلى معايير الجودة والدقة في جميع أنحاء جمهورية مصر العربية
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link to="/contact">

@@ -48,12 +48,12 @@ const UberFixPage: React.FC = () => {
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">UberFix</h1>
             <p className="text-xl md:text-2xl text-orange-200 italic font-medium mb-4">
-              {t('لمسة إصلاح سريعة... تدوم طويلاً', 'A quick fix... that lasts')}
+              {t('بنصلح صح من أول مرة', 'We fix it right the first time')}
             </p>
             <p className="text-lg text-gray-200 mb-8 leading-relaxed max-w-2xl">
               {t(
-                'خط إنتاجي متخصص في تقديم حلول الصيانة المعمارية السريعة والمبتكرة. سواء للمحلات التجارية أو الوحدات السكنية، يضمن فريق UberFix إعادة الحياة إلى مساحاتك بأعلى كفاءة وأسرع وقت.',
-                'A specialized production line offering rapid and innovative architectural maintenance solutions. Whether for commercial shops or residential units, the UberFix team ensures your spaces are revitalized with maximum efficiency and speed.'
+                'فريق UberFix شغّال في القاهرة الكبرى من 2009. خدمنا أكثر من 4,800 وحدة سكنية و340 فرع تجاري. كل فني عنده 7 سنوات خبرة على الأقل، وكل شغلة بتنزل بضمان مكتوب — مش وعد كلامي.',
+                "Operating across Greater Cairo since 2009. We've serviced 4,800+ residential units and 340+ commercial branches. Every technician brings 7+ years of experience, and every job ships with a written warranty — not a verbal one."
               )}
             </p>
             <div className="flex flex-wrap gap-4">

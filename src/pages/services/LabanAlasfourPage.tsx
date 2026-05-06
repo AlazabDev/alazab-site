@@ -58,12 +58,12 @@ const LabanAlasfourPage: React.FC = () => {
               {t('لبن العصفور', 'Laban Alasfour')}
             </h1>
             <p className="text-xl md:text-2xl text-blue-200 italic font-medium mb-4">
-              {t('نوفر المستحيل... لنبني المستحيل', 'We provide the impossible... to build the impossible')}
+              {t('لو موجودة في العالم… بنوصلها لموقعك', "If it exists in the world… we'll get it to your site")}
             </p>
             <p className="text-lg text-gray-200 mb-8 leading-relaxed max-w-2xl">
               {t(
-                'خط إنتاج متخصص في توفير الخامات المعمارية التي يصعب العثور عليها. نبحث ونجلب لكم أندر وأجود الخامات من أكثر من 30 دولة حول العالم لتلبية احتياجات مشاريعكم الأكثر تطلباً وتميزاً.',
-                'A specialized production line focused on sourcing hard-to-find architectural materials. We search for and procure the rarest and highest quality materials from over 30 countries worldwide to meet the demands of your most challenging and distinctive projects.'
+                'ذراع التوريد المعماري لمجموعة العزب. بنخدم المهندسين والمصممين اللي عايزين خامة بـ Spec محدد ومش لاقيينها في السوق المحلي. شغّالين من 2014 — وفّرنا أكثر من 1,200 طلب خاص لـ 180 مكتب استشاري وفندق ومول.',
+                "Al-Azab Group's architectural sourcing arm. We serve designers and engineers who need a material with a precise spec that isn't on the local market. Operating since 2014 — 1,200+ special orders fulfilled for 180+ consultancies, hotels, and malls."
               )}
             </p>
             <div className="flex flex-wrap gap-4">

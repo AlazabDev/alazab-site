@@ -6,8 +6,8 @@ import { ArrowRight, Palette, Building2, Users, Target, CheckCircle, Eye, Ruler,
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroImg from '@/assets/services/brand-identity-hero.jpg';
-import cafeImg from '@/assets/services/brand-identity-2.jpg';
+import heroImg from '@/assets/services/file_3.jpg';
+import cafeImg from '@/assets/services/file_11.jpg';
 
 const BrandIdentityPage: React.FC = () => {
   const { t, isRTL } = useLanguage();

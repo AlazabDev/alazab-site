@@ -117,11 +117,11 @@ const BrandIdentityPage: React.FC = () => {
               <img src={cafeImg} alt={t('تجهيز محل تجاري', 'Retail outlet fitting')} className="w-full h-96 object-cover" loading="lazy" width={1024} height={1024} />
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('خبرة في أكبر السلاسل التجارية', 'Expertise in Major Retail Chains')}</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('اشتغلنا مع مين', "Who We've Built For")}</h2>
               <p className="text-gray-600 mb-6 leading-relaxed">
                 {t(
-                  'نفتخر بشراكاتنا مع أكبر السلاسل التجارية في مصر والمنطقة. خبرتنا الممتدة لأكثر من 20 عامًا في تجهيز المحلات التجارية تضمن لك تنفيذًا متقنًا يعكس هوية علامتك التجارية بدقة متناهية.',
-                  'We take pride in our partnerships with the largest retail chains in Egypt and the region. Our 20+ years of experience in retail fitting ensures precise execution that perfectly reflects your brand identity.'
+                  'بنشتغل مع 3 أنواع من العملاء: السلاسل المتوسعة (10+ فرع)، والـ F&B brands، والـ specialty retail. مش بنقبل أكثر من مشروعين توسعة في وقت واحد عشان نضمن إن كل سلسلة بتاخد فريق متخصص بالكامل.',
+                  'We work with three client types: scaling chains (10+ branches), F&B brands, and specialty retail. We cap concurrent rollouts at two projects to ensure each chain gets a fully dedicated team.'
                 )}
               </p>
               <div className="space-y-4">

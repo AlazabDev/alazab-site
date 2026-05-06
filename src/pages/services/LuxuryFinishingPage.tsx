@@ -14,30 +14,30 @@ const LuxuryFinishingPage: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   const services = [
-    { icon: Crown, titleAr: "تشطيبات فائقة الجودة", titleEn: "Ultra-High-Quality Finishes", descriptionAr: "تشطيبات راقية تعكس الذوق الرفيع باستخدام أحدث التصاميم العالمية وأرقى الخامات المستوردة", descriptionEn: "Refined finishes reflecting refined taste using the latest international designs and premium imported materials" },
-    { icon: Paintbrush, titleAr: "تصميم داخلي حصري", titleEn: "Exclusive Interior Design", descriptionAr: "تصميمات داخلية مبتكرة من فريق مهندسين متخصصين يحولون رؤيتك إلى واقع مبهر", descriptionEn: "Innovative interior designs from a specialized engineering team that turns your vision into stunning reality" },
-    { icon: Home, titleAr: "فلل وشقق ودوبلكس", titleEn: "Villas, Apartments & Duplexes", descriptionAr: "حلول تشطيب شاملة لجميع أنواع الوحدات السكنية الراقية بمعايير فندقية عالمية", descriptionEn: "Comprehensive finishing solutions for all upscale residential units with international hotel standards" },
-    { icon: Gem, titleAr: "أفخم الخامات العالمية", titleEn: "The Finest Global Materials", descriptionAr: "نستخدم أجود الخامات المستوردة من إيطاليا وإسبانيا وتركيا لضمان الجودة والمتانة", descriptionEn: "We use the finest materials imported from Italy, Spain, and Turkey to ensure quality and durability" },
-    { icon: Lightbulb, titleAr: "إضاءة ذكية متكاملة", titleEn: "Integrated Smart Lighting", descriptionAr: "أنظمة إضاءة ذكية ومخفية تخلق أجواء مثالية وتوفر الطاقة بتقنيات حديثة", descriptionEn: "Smart concealed lighting systems that create perfect ambiance and save energy with modern technology" },
-    { icon: Layers, titleAr: "أسقف وجدران فنية", titleEn: "Artistic Ceilings & Walls", descriptionAr: "أسقف معلقة بتصاميم فنية فريدة وجدران ديكورية بلمسات إبداعية مميزة", descriptionEn: "Suspended ceilings with unique artistic designs and decorative walls with creative distinctive touches" },
+    { icon: Crown, titleAr: "تشطيب فاخر بمواصفات مكتوبة", titleEn: "Luxury Finishing With Spec Sheets", descriptionAr: "كل غرفة بكراسة مواصفات مفصّلة: نوع الرخام، سُمك الباركيه، شركة الدهان، رقم اللون. مفيش مفاجآت في التسليم.", descriptionEn: "Every room comes with a detailed spec sheet — marble type, parquet thickness, paint brand, color code. No surprises at handover." },
+    { icon: Paintbrush, titleAr: "تصميم داخلي بـ 3D قبل البدء", titleEn: "Full 3D Design Before We Start", descriptionAr: "بنطلع لك جولة افتراضية كاملة لكل ركن قبل ما نكسر طوبة. التعديلات مجانية في مرحلة التصميم.", descriptionEn: "A complete virtual walkthrough of every corner before we break ground. Changes are free during design." },
+    { icon: Home, titleAr: "فلل وشقق ودوبلكس", titleEn: "Villas, Apartments & Duplexes", descriptionAr: "خبرة في أحياء كومبوندز التجمع والشيخ زايد والساحل. فريق منفصل لكل مشروع، مهندس مقيم في الموقع.", descriptionEn: "Experienced in New Cairo, Sheikh Zayed, and North Coast compounds. A dedicated team per project with a resident on-site engineer." },
+    { icon: Gem, titleAr: "خامات مستوردة من المصنع مباشرة", titleEn: "Materials Direct From the Factory", descriptionAr: "علاقات مباشرة مع موردين في كرارا الإيطالية وفالنسيا الإسبانية. بنوفّر لك 18-25% من سعر السوق المحلي.", descriptionEn: "Direct relationships with suppliers in Carrara (Italy) and Valencia (Spain). We save you 18–25% off local market prices." },
+    { icon: Lightbulb, titleAr: "إضاءة Smart Home بنظام KNX", titleEn: "KNX Smart Lighting", descriptionAr: "تأسيس نظام KNX الألماني — نفس النظام في فنادق فور سيزونز. تحكم بالتطبيق، سيناريوهات، استشعار حركة.", descriptionEn: "We install the German KNX system — same as Four Seasons hotels. App control, scenes, and motion sensors." },
+    { icon: Layers, titleAr: "أسقف وجدران بتصاميم تنفيذية", titleEn: "Ceilings & Walls With Shop Drawings", descriptionAr: "كل سقف وجدار بنرسم له شوب درواينج تنفيذي. الفنيين بيشتغلوا برسم، مش بالعين.", descriptionEn: "Every ceiling and wall has its own shop drawing. Crews work from drawings — not by eye." },
   ];
 
   const features = [
-    { ar: "تشطيب الأرضيات بالرخام الإيطالي والباركيه الفاخر", en: "Italian marble and luxury parquet flooring" },
-    { ar: "دهانات ديكورية وورق حائط من أرقى الماركات العالمية", en: "Decorative paints and wallpaper from top international brands" },
-    { ar: "أنظمة إضاءة ذكية ومخفية بتقنية LED متطورة", en: "Smart and concealed LED lighting systems" },
-    { ar: "أسقف معلقة بتصاميم فنية ثلاثية الأبعاد", en: "3D artistic suspended ceiling designs" },
-    { ar: "مطابخ وحمامات بمعايير فندقية خمس نجوم", en: "Five-star hotel-standard kitchens and bathrooms" },
-    { ar: "أنظمة أتمتة المنزل الذكي (Smart Home)", en: "Smart home automation systems" },
-    { ar: "تصميم وتنفيذ الدريسنج روم والخزائن المدمجة", en: "Dressing room and built-in closet design and execution" },
-    { ar: "أعمال الجبس بورد والكرانيش بتصاميم كلاسيكية ومودرن", en: "Gypsum board and cornice work in classic and modern designs" },
+    { ar: "أرضيات: رخام كرارا، بيانكو ثاسوس، بورسلين 120×60", en: "Floors: Carrara marble, Bianco Thassos, 120×60 porcelain" },
+    { ar: "دهانات Jotun الديكورية وورق حائط Versace", en: "Jotun decorative paints and Versace wallpaper" },
+    { ar: "إضاءة LED قابلة للتعتيم بدرجة حرارة 2700K-4000K", en: "Dimmable LED 2700K–4000K with full color tuning" },
+    { ar: "أسقف جبس مع مخفي كومبا وكورنيش بأشكال مخصصة", en: "Gypsum ceilings with concealed cove lighting and custom cornices" },
+    { ar: "مطابخ بأبواب لاكيه + رخام كوارتز سيلستون", en: "Kitchens with lacquer doors and Silestone quartz countertops" },
+    { ar: "نظام KNX للتحكم في الإضاءة والستائر والتكييف", en: "KNX system for lighting, curtain, and AC control" },
+    { ar: "دريسنج روم مع إضاءة داخل الأدراج وحساس حركة", en: "Dressing rooms with in-drawer lighting and motion sensors" },
+    { ar: "أعمال جبس بورد بسماكة 12.5مم Knauf أو Gyproc", en: "12.5mm Knauf or Gyproc gypsum board work" },
   ];
 
   const stats = [
-    { value: "500+", labelAr: "مشروع منجز", labelEn: "Completed Projects" },
-    { value: "20+", labelAr: "سنة خبرة", labelEn: "Years Experience" },
-    { value: "98%", labelAr: "رضا العملاء", labelEn: "Client Satisfaction" },
-    { value: "50+", labelAr: "مهندس متخصص", labelEn: "Specialized Engineers" },
+    { value: "187", labelAr: "فيلا وشقة منذ 2010", labelEn: "Villas & apartments since 2010" },
+    { value: "16", labelAr: "سنة في السوق", labelEn: "Years in the market" },
+    { value: "94%", labelAr: "تسليم بالموعد المتفق عليه", labelEn: "On-time delivery rate" },
+    { value: "23", labelAr: "مهندس ومصمم داخلي", labelEn: "Engineers & interior designers" },
   ];
 
   return (

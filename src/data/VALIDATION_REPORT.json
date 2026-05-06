@@ -1,0 +1,44 @@
+[
+  {
+    "source": "alazab-brands(5).json",
+    "output": "src/data/alazabBrandsData.ts",
+    "type": "array",
+    "count": 5,
+    "bytes": 25443
+  },
+  {
+    "source": "alazab-content-index(5).json",
+    "output": "src/data/alazabContentIndexData.ts",
+    "type": "array",
+    "count": 85,
+    "bytes": 44690
+  },
+  {
+    "source": "alazab-faq(5).json",
+    "output": "src/data/alazabFaqData.ts",
+    "type": "array",
+    "count": 50,
+    "bytes": 28760
+  },
+  {
+    "source": "alazab-master-knowledge(5).json",
+    "output": "src/data/alazabMasterKnowledgeData.ts",
+    "type": "object",
+    "count": 7,
+    "bytes": 29983
+  },
+  {
+    "source": "alazab-routing-rules(5).json",
+    "output": "src/data/alazabRoutingRulesData.ts",
+    "type": "object",
+    "count": 7,
+    "bytes": 13639
+  },
+  {
+    "source": "alazab-source-audit(5).json",
+    "output": "src/data/alazabSourceAuditData.ts",
+    "type": "object",
+    "count": 5,
+    "bytes": 802
+  }
+]

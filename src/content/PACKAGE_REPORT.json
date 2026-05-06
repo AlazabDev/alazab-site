@@ -1,0 +1,609 @@
+{
+  "package_name": "alazab_main_site_production_content_final",
+  "generated_at": "2026-05-05T08:45:00Z",
+  "source_zip": "alazab_knowledge_base_v2(1).zip",
+  "status": "PRODUCTION_CONTENT_FINAL_READY",
+  "total_files": 110,
+  "total_size_bytes": 528398,
+  "content_markdown_files": 85,
+  "json_files": 7,
+  "empty_files": [],
+  "short_non_faq_markdown_files_under_250_words": [],
+  "markdown_word_stats": {
+    "min": 210,
+    "max": 924,
+    "avg": 331.44,
+    "by_section": {
+      "blogs": {
+        "files": 10,
+        "min": 491,
+        "max": 750,
+        "avg": 593.2
+      },
+      "knowledge": {
+        "files": 12,
+        "min": 280,
+        "max": 924,
+        "avg": 393.83
+      },
+      "brands": {
+        "files": 5,
+        "min": 747,
+        "max": 784,
+        "avg": 764.0
+      },
+      "guidance": {
+        "files": 7,
+        "min": 271,
+        "max": 348,
+        "avg": 300.29
+      },
+      "faq": {
+        "files": 51,
+        "min": 210,
+        "max": 248,
+        "avg": 227.29
+      }
+    }
+  },
+  "quality_gates": {
+    "json_valid": true,
+    "markdown_frontmatter_present": true,
+    "no_empty_files": true,
+    "manifest_matches_actual_files": true,
+    "production_content_rebuild": true,
+    "founder_word_preserved_verbatim": true
+  },
+  "files": [
+    {
+      "path": "PACKAGE_REPORT.json",
+      "bytes": 22571,
+      "sha256": "c3078716dbc39812b85365a8b5f8e25b0dd42d45cae7a355a1ce096be3fd1cec"
+    },
+    {
+      "path": "README_ALAZAB_CONTENT_PACKAGE.md",
+      "bytes": 1477,
+      "sha256": "a323cbb5f3a1958575f85ad87e7f63185a031c3213a0068e308f1c13d8b9b5a2"
+    },
+    {
+      "path": "VALIDATION_OK.txt",
+      "bytes": 145,
+      "sha256": "d3cff2ca3564cd0dfaf46ad686196dce02b85400934242a112185840b5fc687a"
+    },
+    {
+      "path": "src/assets/README.md",
+      "bytes": 135,
+      "sha256": "829f61f54d63d7bd179421d758d14a77866c6e75e91a307bef373c516b3871b9"
+    },
+    {
+      "path": "src/data/alazab-brands.json",
+      "bytes": 24706,
+      "sha256": "b5e3f96f7ccb7d2c77ef3bac8f87e28ea928c1ab7a5acef0bdd12c1bb77d7f4f"
+    },
+    {
+      "path": "src/data/alazab-faq.json",
+      "bytes": 28310,
+      "sha256": "6cc52597889ff77472ec8a01e1763ae69ff4b00cb533fe51f96f65c88a8f8bdb"
+    },
+    {
+      "path": "src/data/alazab-routing-rules.json",
+      "bytes": 13068,
+      "sha256": "44c4bf02fccb0a1b14ce56fa9b63b9d4b059815cc27fa50dbf39120da8e8e306"
+    },
+    {
+      "path": "src/data/alazab-master-knowledge.json",
+      "bytes": 29379,
+      "sha256": "af88f70761ada828d878df43d8c316f2371dd0360488cf92606d838b53661eb2"
+    },
+    {
+      "path": "src/data/alazab-source-audit.json",
+      "bytes": 345,
+      "sha256": "39fcf3542f3201087b65cc518849dcde6756f41fbe6fa6742f90fde825ab324d"
+    },
+    {
+      "path": "src/data/alazab-content-index.json",
+      "bytes": 44186,
+      "sha256": "a071203b6d95e814cd5bff0ae2fde97a17f808168e5f5292be47c86e846ed559"
+    },
+    {
+      "path": "src/hooks/README.md",
+      "bytes": 170,
+      "sha256": "1f59c8084563cf6c0760e3f3929afb5fb6039f910337c2bc63261c571ae5a2d9"
+    },
+    {
+      "path": "src/integrations/README.md",
+      "bytes": 247,
+      "sha256": "a969b2e858d1dc92ef74a1c0bea4a059c769d0f0113a4a4c003708bb1dac4e8a"
+    },
+    {
+      "path": "src/lib/alazabContent.ts",
+      "bytes": 4210,
+      "sha256": "9c6499a579757985cafe3876b661e3961099e3a739e0f496c82adbe6f0d5b33e"
+    },
+    {
+      "path": "src/lib/alazabContentViews.tsx",
+      "bytes": 3296,
+      "sha256": "635464bd1554f554b693b49042a79e06040f0dc4e7a959fd06afef93e430be50"
+    },
+    {
+      "path": "src/types/alazab-content.ts",
+      "bytes": 598,
+      "sha256": "f68bd07e3e932e242a9221b51d2928f17927b67728ebe9c217c0b420ad163d62"
+    },
+    {
+      "path": "src/pages/blogs/index.tsx",
+      "bytes": 531,
+      "sha256": "9bfdbf4259f8de6c3a9cfb49553edd919cc66a13bcb9079508450286d45816c5"
+    },
+    {
+      "path": "src/pages/blogs/[slug].tsx",
+      "bytes": 782,
+      "sha256": "69b36e3c212496456b9ba7e4b628e9a5c1200ae1e14cefe69d39177c25af8bce"
+    },
+    {
+      "path": "src/pages/knowledge/index.tsx",
+      "bytes": 535,
+      "sha256": "4a93d64b0ce7fc32dfa73743e06741b34c1c93ab947527f7be0f58385d117c28"
+    },
+    {
+      "path": "src/pages/knowledge/[slug].tsx",
+      "bytes": 786,
+      "sha256": "0e157476fc6a4eb349a44cecb9a954ab238de950fa3dda82e2140d1d6f9669c6"
+    },
+    {
+      "path": "src/pages/brands/index.tsx",
+      "bytes": 532,
+      "sha256": "22214735a012aa22d0c1efb980f9fb03c4ee7c10abee6b2cefb0c4b55d9d0c24"
+    },
+    {
+      "path": "src/pages/brands/[slug].tsx",
+      "bytes": 783,
+      "sha256": "c2b7774aaa2c377b5a94e1e51fb6cbf7d4675dadfc3942274388018da3c62d3e"
+    },
+    {
+      "path": "src/pages/guidance/index.tsx",
+      "bytes": 534,
+      "sha256": "3edc5e916fd4fd6d3360476ce35d9f5f01eec515b79674af17e685b8f8c6090d"
+    },
+    {
+      "path": "src/pages/guidance/[slug].tsx",
+      "bytes": 785,
+      "sha256": "c93a8ea9385ec3ee2c2f212ae400fb33584df2e3a59c8dcd77de32f1a2d5f332"
+    },
+    {
+      "path": "src/pages/faq/index.tsx",
+      "bytes": 529,
+      "sha256": "f851c7d956a022ee238a98a768cad07176f8c442e806d5a0361358a24ec04f8e"
+    },
+    {
+      "path": "src/pages/faq/[slug].tsx",
+      "bytes": 780,
+      "sha256": "a62170d72af9c696cae67b22ee40de5dbb55cf35ad6df4b3d1e35c50234d5cc0"
+    },
+    {
+      "path": "src/content/blogs/alazab-operating-system.md",
+      "bytes": 8758,
+      "sha256": "0f5c2c6bb00a98fefca4ce3f8921d4d3c2f8090704e6e7f5b579d84061ffbd0b"
+    },
+    {
+      "path": "src/content/blogs/data-as-enterprise-asset.md",
+      "bytes": 7540,
+      "sha256": "409092b5b07fa481470b9a54064c4dc96a059ab842fed5e407f085255dc11295"
+    },
+    {
+      "path": "src/content/blogs/uberfix-maintenance-lifecycle.md",
+      "bytes": 5812,
+      "sha256": "133d0477d1c4a02add77b28e9d509ca7450b2a53fa66554950fae64c7362c511"
+    },
+    {
+      "path": "src/content/blogs/brand-identity-commercial-space.md",
+      "bytes": 8144,
+      "sha256": "c08745238105f2f35e48429602cf5b1412267586f7b7179b95e7029db99cba93"
+    },
+    {
+      "path": "src/content/blogs/luxury-finishing-quiet-elegance.md",
+      "bytes": 6151,
+      "sha256": "7acd22c53f819daad728abf76d723b4a5c72cc81fbbb71627abc7a5a1b40c1db"
+    },
+    {
+      "path": "src/content/blogs/laban-alasfour-supply-model.md",
+      "bytes": 5947,
+      "sha256": "66ef6d1dee5431e603714d625c2880e50232aeb96ebdb931650d07c6bbea4e33"
+    },
+    {
+      "path": "src/content/blogs/knowledge-base-as-growth-engine.md",
+      "bytes": 6286,
+      "sha256": "9f6f14f3397aa16b41c56acce17c93fa6aca114d09938f7b68c873a2ebfce645"
+    },
+    {
+      "path": "src/content/blogs/customer-request-routing.md",
+      "bytes": 7358,
+      "sha256": "f135ea0d5ea95391cfa67a65b251ca1d91ab96591faf416d572a44ed723f8abb"
+    },
+    {
+      "path": "src/content/blogs/facilities-management-for-branches.md",
+      "bytes": 6753,
+      "sha256": "081e630a194cef9f471837311e470c21100a518950c95f06154533ad3eb2afb1"
+    },
+    {
+      "path": "src/content/blogs/founder-word-and-culture.md",
+      "bytes": 6106,
+      "sha256": "41405382108a750708935a1907f9f0c3a9c3a69933081515899c7c23fb7cb41e"
+    },
+    {
+      "path": "src/content/knowledge/enterprise-master-knowledge.md",
+      "bytes": 9683,
+      "sha256": "5b7be3ef3ff56facd3e09027c5909e1e4141de57398726e3541a008f73cbbf48"
+    },
+    {
+      "path": "src/content/knowledge/operating-model.md",
+      "bytes": 4188,
+      "sha256": "582b5336b2c846cbbe6eeb8e357aa85ae68ca148575f9c3a7ff527ace16913e0"
+    },
+    {
+      "path": "src/content/knowledge/data-is-future-oil.md",
+      "bytes": 4340,
+      "sha256": "8922d38c9904e308a1e3a93e8ed1005a9129d499e08676028b0dff9342e97ab5"
+    },
+    {
+      "path": "src/content/knowledge/routing-rules.md",
+      "bytes": 3826,
+      "sha256": "057edcf704b8fefc5a9f860d6207d9a6bc271a251ce2648b11448fdb339c7f6e"
+    },
+    {
+      "path": "src/content/knowledge/assistant-policy.md",
+      "bytes": 4916,
+      "sha256": "0d3584cb4358c4a3db5dc4f4e58e2a0577d44790afb5b414ddbdb2158cebd1b5"
+    },
+    {
+      "path": "src/content/knowledge/minimum-lead-data.md",
+      "bytes": 3739,
+      "sha256": "9785e0cf4aa5876229f92824c799f16d9d473939b5d3e2e37365ab25fb794412"
+    },
+    {
+      "path": "src/content/knowledge/official-links.md",
+      "bytes": 4398,
+      "sha256": "329f06271f62ccc1b0a7d9107d6ef1277b276e868a6425a1ab7e6e2b75b1ff60"
+    },
+    {
+      "path": "src/content/knowledge/founder-word.md",
+      "bytes": 3335,
+      "sha256": "4b117349053cff91baabfc3a16139e14f17d44ee9dd07a93fee408621e273c37"
+    },
+    {
+      "path": "src/content/knowledge/maintenance-knowledge-layer.md",
+      "bytes": 4155,
+      "sha256": "a567631b262421df25a25f992931369e2caebd0c41c057ca632434eb5e39de77"
+    },
+    {
+      "path": "src/content/knowledge/commercial-projects-knowledge-layer.md",
+      "bytes": 4516,
+      "sha256": "d02083ef65870bbb84b4886ba76737fe0f20ea8592eb1bc4cf3e15ea61f8d6ed"
+    },
+    {
+      "path": "src/content/knowledge/residential-projects-knowledge-layer.md",
+      "bytes": 3882,
+      "sha256": "58f762c65df44e1b8ad9fcb2ac6faddd5f196be28b365f6ccc8df950a8f607aa"
+    },
+    {
+      "path": "src/content/knowledge/supply-knowledge-layer.md",
+      "bytes": 3690,
+      "sha256": "e4cd12943b9e218d96aa1fa7eda8b6a10224a56c7844fb71a901680b79964477"
+    },
+    {
+      "path": "src/content/brands/alazab-group.md",
+      "bytes": 9015,
+      "sha256": "cee87cec7cc1b0b71d1a9ec69dd5396e0c644ae69586263448e15db1b2034bc5"
+    },
+    {
+      "path": "src/content/brands/brand-identity.md",
+      "bytes": 8747,
+      "sha256": "f569c78b225f8cfddb3365bdf1a73e55b9e4102486134107dd238e0a74095fff"
+    },
+    {
+      "path": "src/content/brands/luxury-finishing.md",
+      "bytes": 8405,
+      "sha256": "d3ea5f23621bf36d7a7178bcdd3d509823b4b4904b75d67a01455d21adad6fdf"
+    },
+    {
+      "path": "src/content/brands/uberfix.md",
+      "bytes": 8537,
+      "sha256": "1c6bea28db120696f190736ca6d71a79918986c20c0d4ad9cc0dd73755a151f6"
+    },
+    {
+      "path": "src/content/brands/laban-alasfour.md",
+      "bytes": 8505,
+      "sha256": "a7e683f612f5fc7a75c784c27a06315898b21af7c8b0cd15e5863806cb9c8eaa"
+    },
+    {
+      "path": "src/content/guidance/customer-routing-guide.md",
+      "bytes": 3537,
+      "sha256": "336d9cbd429f0fa956858c630238d3901eca2b0de6ff66f18b08bd3c375f9657"
+    },
+    {
+      "path": "src/content/guidance/maintenance-request-guide.md",
+      "bytes": 3229,
+      "sha256": "f9315a82730fe2522206a5e3f740d67c6b1f4f0477f422e9d7463a4911e20af2"
+    },
+    {
+      "path": "src/content/guidance/commercial-branch-opening-guide.md",
+      "bytes": 3981,
+      "sha256": "5ab21cdd4db759e0b5239bd089a2da3e2a8853903ffedcc867046c61542b30f5"
+    },
+    {
+      "path": "src/content/guidance/residential-finishing-start-guide.md",
+      "bytes": 3300,
+      "sha256": "3e4def911a5b385b57f4ae5043454c058fce701522f4e361e174c6638774d2e5"
+    },
+    {
+      "path": "src/content/guidance/supply-request-guide.md",
+      "bytes": 3123,
+      "sha256": "9f6e1b4cafe4e1e06fb3fb8cdf13da51f12fbe6e3e1c13d5d9cc75d7d6e18b3b"
+    },
+    {
+      "path": "src/content/guidance/internal-content-governance.md",
+      "bytes": 3590,
+      "sha256": "6a04933dae404d69aaaab9efd6c8755d224428f5c2139496655ee292ebc42dd8"
+    },
+    {
+      "path": "src/content/guidance/internal-deployment-runbook.md",
+      "bytes": 3295,
+      "sha256": "a4e35010f0ad75f575316b160bfe2d80e080f288d0e51faefe95abd599aa24d9"
+    },
+    {
+      "path": "src/content/faq/faq_001-ما-هي-مجموعه-العزب؟.md",
+      "bytes": 3154,
+      "sha256": "39a8edda4d80379d47e9d7727c3b647b251d9ac6779de95d514a3528d13848e7"
+    },
+    {
+      "path": "src/content/faq/faq_002-ما-العلامات-التابعه-لمجموعه-العزب؟.md",
+      "bytes": 3310,
+      "sha256": "12760482d526a71f6d118b499fba22732a2260fa8630dacadc410fd07765322c"
+    },
+    {
+      "path": "src/content/faq/faq_003-كيف-اعرف-المسار-المناسب-لطلبي؟.md",
+      "bytes": 3156,
+      "sha256": "df31f0236ae6beb8ea8d51e91e92656fe30f344c150ddfdeb33f281d6d241424"
+    },
+    {
+      "path": "src/content/faq/faq_004-هل-يمكن-اعطاء-سعر-من-اول-رساله؟.md",
+      "bytes": 3280,
+      "sha256": "219cd15a2d93ddb76344c2489a8629d5e2a123d0ed95cadb867d380575936b0c"
+    },
+    {
+      "path": "src/content/faq/faq_005-ما-البيانات-العامه-المطلوبه-لفتح-طلب-جديد؟.md",
+      "bytes": 3319,
+      "sha256": "cc776f00e5d425b707cb02a7ed353ad83621206e1c14aff78be27d6798c3f929"
+    },
+    {
+      "path": "src/content/faq/faq_006-هل-مجموعه-العزب-شركه-مقاولات-فقط؟.md",
+      "bytes": 3281,
+      "sha256": "197182f5203c0688d6c902ced9ebd4be15a3b722792a2293c01d47e205c4d2e5"
+    },
+    {
+      "path": "src/content/faq/faq_007-ما-الفرق-بين-الموقع-الرييسي-والمواقع-الفرعيه؟.md",
+      "bytes": 3315,
+      "sha256": "33309877dcaa6db1253924c67c17a0b92e9b765a55ffc18cc65b748240aa8efe"
+    },
+    {
+      "path": "src/content/faq/faq_008-ما-السياسه-عند-عدم-وضوح-طلب-العميل؟.md",
+      "bytes": 3198,
+      "sha256": "b7207002533cab1fc6fcf03741d887602927d231f32884f978b9edef022c6132"
+    },
+    {
+      "path": "src/content/faq/faq_009-ما-هي-خدمه-brand-identity؟.md",
+      "bytes": 3065,
+      "sha256": "4f426030d769dc9ee2c919fb78ec6399e5b68757585f830c42c586112b5e141c"
+    },
+    {
+      "path": "src/content/faq/faq_010-هل-brand-identity-تعني-تصميم-شعار-فقط؟.md",
+      "bytes": 3257,
+      "sha256": "6e9c0dcb82af860065d8faf33742127d9c78033e6d0fe0ba463045d58bc96028"
+    },
+    {
+      "path": "src/content/faq/faq_011-ما-البيانات-المطلوبه-لتجهيز-فرع-تجاري؟.md",
+      "bytes": 3148,
+      "sha256": "a1b7b909c727fb47f5d03c2f9b704142a1f30a4320a181770fbcd516914150c0"
+    },
+    {
+      "path": "src/content/faq/faq_012-هل-يمكن-تجهيز-سلسله-فروع-بنفس-الهويه؟.md",
+      "bytes": 3195,
+      "sha256": "79171982d7cd5c692835babe0efc2cc0dfdec1abefd5d43edd4b6c8da54142b7"
+    },
+    {
+      "path": "src/content/faq/faq_013-ما-الفرق-بين-تصميم-الفرع-وتجهيزه؟.md",
+      "bytes": 3321,
+      "sha256": "5bee13511d9d41382dd9f61e95983df73f2aa081b7410bf5370453a338d0c86e"
+    },
+    {
+      "path": "src/content/faq/faq_014-هل-يتم-العمل-علي-مطاعم-وكافيهات-وصيدليات؟.md",
+      "bytes": 3187,
+      "sha256": "dda17ba09cca1c812bc121eaffcef5ada5fa4e8b310da016a83bd6b304d84e57"
+    },
+    {
+      "path": "src/content/faq/faq_015-هل-يلزم-وجود-هويه-بصريه-قبل-التصميم؟.md",
+      "bytes": 3215,
+      "sha256": "9e51624e6af59e2390d1c7b33dfbabd00396942e13e239fbf79f68ac34b29911"
+    },
+    {
+      "path": "src/content/faq/faq_016-متي-يتحول-الطلب-الي-brand-identity؟.md",
+      "bytes": 3022,
+      "sha256": "56a88cbb401e49933bd68915dff11b0984b667e9bb528bd06d7c5ce263c4ee7c"
+    },
+    {
+      "path": "src/content/faq/faq_017-ما-هي-خدمه-luxury-finishing؟.md",
+      "bytes": 2971,
+      "sha256": "cc8cc2ec800beaee9a4666c2313e0ae728a7b30f71a81fe66e2ab85bdcdc5b81"
+    },
+    {
+      "path": "src/content/faq/faq_018-ما-البيانات-المطلوبه-قبل-عرض-تشطيب؟.md",
+      "bytes": 3102,
+      "sha256": "fde1e577f666cb210ed107e8c8e24eb8f4fc4a5fced6a8451c10b49250384988"
+    },
+    {
+      "path": "src/content/faq/faq_019-هل-يمكن-تشطيب-وحده-علي-الطوب؟.md",
+      "bytes": 3174,
+      "sha256": "6275de966553be0fbdad4e7b9038daeb5b008cc3a75397a202e86a855e31f8b5"
+    },
+    {
+      "path": "src/content/faq/faq_020-هل-يمكن-تجديد-شقه-قايمه؟.md",
+      "bytes": 3087,
+      "sha256": "11e68a026bad0c82d0fb2af75272a63fc51513e418d67387633d2b757489e6c7"
+    },
+    {
+      "path": "src/content/faq/faq_021-هل-التشطيب-الراقي-يعني-تكلفه-مرتفعه-دايمًا؟.md",
+      "bytes": 3205,
+      "sha256": "0f369297b8afe0ff00bc013cd0ad1da5221aafbfaa824a502bcbaf9f9062943e"
+    },
+    {
+      "path": "src/content/faq/faq_022-هل-تقدمون-تصميم-داخلي-فقط؟.md",
+      "bytes": 3063,
+      "sha256": "177e3173d15efd26169c7754768d07efa6ea24353a244b50f46be753f5086dc5"
+    },
+    {
+      "path": "src/content/faq/faq_023-ما-الفرق-بين-luxury-finishing-وbrand-identity؟.md",
+      "bytes": 3099,
+      "sha256": "ee59862cca8fc9b137d6372a657577a636219bfd1940670e9529cfca886ccca2"
+    },
+    {
+      "path": "src/content/faq/faq_024-متي-يتحول-الطلب-الي-luxury-finishing؟.md",
+      "bytes": 2992,
+      "sha256": "44e81f19b23f5660b5e6942e7c37f47798afb1053252426e80ff783521509870"
+    },
+    {
+      "path": "src/content/faq/faq_025-ما-هو-uberfix؟.md",
+      "bytes": 2840,
+      "sha256": "272c89b70528bbed5d50e5f37e98ab1eba946f72c6adcf5ba0841b3cb33eaf13"
+    },
+    {
+      "path": "src/content/faq/faq_026-كيف-اسجل-طلب-صيانه؟.md",
+      "bytes": 2971,
+      "sha256": "9bc2960cd34427caf62d5470667233e55ab98f6db254a9f005b3200496943f06"
+    },
+    {
+      "path": "src/content/faq/faq_027-ما-البيانات-المطلوبه-لبلاغ-صيانه؟.md",
+      "bytes": 3127,
+      "sha256": "1402a10100db8ebefc0979a16b3abc8233d3d8bdb17d820f9790b8eab84ea89b"
+    },
+    {
+      "path": "src/content/faq/faq_028-هل-uberfix-للسكني-ام-التجاري؟.md",
+      "bytes": 3074,
+      "sha256": "fd3d8a2f8157f468dbe3fbd2b0d27eaced6394949abdb749eaddd788d24974d7"
+    },
+    {
+      "path": "src/content/faq/faq_029-هل-يمكن-متابعه-طلب-صيانه-سابق؟.md",
+      "bytes": 2846,
+      "sha256": "22ef357023c78b6b701d1ff750cf2832925a1927a9722b08d6605b70391cb6b5"
+    },
+    {
+      "path": "src/content/faq/faq_030-ما-المقصود-بـ-facilities-management؟.md",
+      "bytes": 3115,
+      "sha256": "16234f73d6a92b7432a6ba889135ab7dbbb14ae3289e783126025a4859e7e924"
+    },
+    {
+      "path": "src/content/faq/faq_031-هل-يمكن-ارسال-صور-العطل؟.md",
+      "bytes": 2891,
+      "sha256": "3b6e6de619146600bb5c934cfae58f13157a7b4bbbef985072057e139e2b64f6"
+    },
+    {
+      "path": "src/content/faq/faq_032-متي-يتحول-الطلب-الي-uberfix؟.md",
+      "bytes": 2935,
+      "sha256": "bf4f5ba3d93e49d8f3a6a2ffe3043c160f24a0af4755f18fb5b5aed534a2c9e3"
+    },
+    {
+      "path": "src/content/faq/faq_033-ما-هو-laban-alasfour؟.md",
+      "bytes": 2930,
+      "sha256": "8a45be8c98fcab9c66359a13e912b16944c5cdd36b03691cf67ac6f8291f53b3"
+    },
+    {
+      "path": "src/content/faq/faq_034-ما-البيانات-المطلوبه-لطلب-توريد؟.md",
+      "bytes": 3135,
+      "sha256": "d4ca2a1b327c38cbc35a67d1a6d02fcc54020f87ff3baae90758a6ee786ccf6f"
+    },
+    {
+      "path": "src/content/faq/faq_035-هل-يمكن-البحث-عن-بديل-لخامه-او-قطعه؟.md",
+      "bytes": 3096,
+      "sha256": "d1a448295eb2188b382857b4d9babe7d8820dac244fc21280b122dbc23c3a6f7"
+    },
+    {
+      "path": "src/content/faq/faq_036-هل-laban-alasfour-يخدم-الصيانه؟.md",
+      "bytes": 3116,
+      "sha256": "edd0eb1b96c8aa2fa0affae2333e82141198d629d7dde70826aa30f04b277b75"
+    },
+    {
+      "path": "src/content/faq/faq_037-هل-يوجد-دعم-لملفات-cad-او-glb؟.md",
+      "bytes": 3155,
+      "sha256": "81726e9f5925c99f252f5fd7858dcd93c588c99e50c99f7a99a87e5c8df94c1f"
+    },
+    {
+      "path": "src/content/faq/faq_038-هل-يمكن-تاكيد-توفر-المنتج-من-اول-رساله؟.md",
+      "bytes": 3040,
+      "sha256": "0a4d6c2b7085efa6456d42e7e825619a71993f4036d654290fbd3297625a6fa5"
+    },
+    {
+      "path": "src/content/faq/faq_039-ما-الفرق-بين-laban-alasfour-وluxury-finishing؟.md",
+      "bytes": 3139,
+      "sha256": "f716deee989aeaa8942a1f66de3c16735056fddad3bed1afd1743fbbf3e20c47"
+    },
+    {
+      "path": "src/content/faq/faq_040-متي-يتحول-الطلب-الي-laban-alasfour؟.md",
+      "bytes": 2902,
+      "sha256": "8d98f4527126d2caabe2f2714b4fd3fdeaa7e3e8abdbd8117da5764c3c0c45b1"
+    },
+    {
+      "path": "src/content/faq/faq_041-هل-البوت-يقرر-بدل-الفريق؟.md",
+      "bytes": 3228,
+      "sha256": "c055a2faf1549101653dd2d2257246582bdc0a59f1b71294d597fcc50bf4312f"
+    },
+    {
+      "path": "src/content/faq/faq_042-ماذا-يحدث-عند-نقص-البيانات؟.md",
+      "bytes": 3087,
+      "sha256": "bb2346e602ae57f8a519241c5a07feca564c46203d1dc326bf3c66d94f4d3b23"
+    },
+    {
+      "path": "src/content/faq/faq_043-هل-يمكن-تصنيف-الاعطال-حسب-الاولويه؟.md",
+      "bytes": 3120,
+      "sha256": "f6991ef6906f9bbe67a730853578b737fc53b54c132918d4480dd0f8478b5e1a"
+    },
+    {
+      "path": "src/content/faq/faq_044-هل-يمكن-البدء-من-صور-فقط؟.md",
+      "bytes": 3032,
+      "sha256": "6f9bbf2fda21be736ab3d75e08ef6f4cf3c6a46e25ee16ef9da329398b236e13"
+    },
+    {
+      "path": "src/content/faq/faq_045-هل-الصور-تكفي-لتقدير-التشطيب؟.md",
+      "bytes": 3023,
+      "sha256": "9b552d77ebf3eb308d2dff348a60df17334aa5eb8f550255696546ccd4a15756"
+    },
+    {
+      "path": "src/content/faq/faq_046-هل-الكميه-توثر-علي-السعر؟.md",
+      "bytes": 2925,
+      "sha256": "49005b0e100d8db79e4776ad2374518fce72ab1d346c356bb5e06d9547831dd3"
+    },
+    {
+      "path": "src/content/faq/faq_047-ما-اسلوب-الرد-المعتمد؟.md",
+      "bytes": 3012,
+      "sha256": "07361971c80b95d51df54a1944a5aa30f4a21fe642d756cd0949b8cb18b72023"
+    },
+    {
+      "path": "src/content/faq/faq_048-هل-يمكن-استخدام-المعرفه-في-mcp؟.md",
+      "bytes": 3087,
+      "sha256": "7fd873c8d6c08f75a09d4da2dbc51218ea23888c15c05395ff9129fd5ecd3b5a"
+    },
+    {
+      "path": "src/content/faq/faq_049-هل-يمكن-استخدام-المعرفه-في-rasa؟.md",
+      "bytes": 3042,
+      "sha256": "35fca0e9b5d834ef7c5b2b3ea0960677ea853cac611d41f7ffe670569f66d917"
+    },
+    {
+      "path": "src/content/faq/faq_050-هل-يمكن-استخدام-المعرفه-في-rag؟.md",
+      "bytes": 3063,
+      "sha256": "cea3422f494c6dbc970c690448296ea9ee5b2bfbe9e99247f0e2c5450593d5df"
+    },
+    {
+      "path": "src/content/faq/index.md",
+      "bytes": 3144,
+      "sha256": "88bbe817fe53c6758b3fb2c5f45f44f803c603615a5860bb88e3fd50c7206a34"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "alazab-server",
+  "version": "1.0.0",
+  "description": "Alazab Backend API Server - Auth, API, Webhooks",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "pm2": "pm2 start ecosystem.config.js",
+    "pm2:prod": "pm2 start ecosystem.config.js --env production",
+    "pm2:reload": "pm2 reload ecosystem.config.js --env production",
+    "pm2:stop": "pm2 stop ecosystem.config.js",
+    "pm2:logs": "pm2 logs",
+    "pm2:monit": "pm2 monit",
+    "check": "node --check index.js && find routes -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write '**/*.js' '**/*.json' '**/*.md'",
+    "deps:check": "depcheck",
+    "update:check": "ncu",
+    "check:postgres": "node scripts/check-postgres.js",
+    "check:websocket": "node scripts/check-websocket.js",
+    "check:infra": "npm run check:postgres && npm run check:websocket"
+  },
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.42.0",
+    "@google-cloud/dialogflow": "^7.5.0",
+    "@supabase/supabase-js": "^2.103.0",
+    "axios": "^1.15.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "facebook-nodejs-business-sdk": "^24.0.1",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.0",
+    "winston": "^3.14.0",
+    "ws": "^8.20.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "depcheck": "^1.4.7",
+    "eslint": "^10.2.1",
+    "npm-check-updates": "^22.0.1",
+    "prettier": "^3.8.3"
+  }
+}

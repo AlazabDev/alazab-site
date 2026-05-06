@@ -1,0 +1,215 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+* {
+  font-family: 'Cairo', sans-serif;
+}
+
+body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* إصلاح تنسيق النصوص للعناصر الإنجليزية */
+input[type="email"], 
+input[type="password"], 
+input[type="url"], 
+input[type="tel"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* تنسيق خاص للنصوص العربية - إصلاح الاتجاه */
+.arabic-text,
+input[type="text"],
+textarea,
+select {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: embed;
+}
+
+/* تنسيق خاص للنصوص الإنجليزية */
+.english-text {
+  direction: ltr;
+  text-align: left;
+}
+
+/* إصلاح إدخال النصوص العربية في الحقول */
+input:not([type="email"]):not([type="password"]):not([type="url"]):not([type="tel"]),
+textarea {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* إصلاح placeholder للنصوص العربية */
+input::placeholder,
+textarea::placeholder {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: embed;
+}
+
+/* Typography Hierarchy */
+@layer components {
+  /* Section Titles - العناوين الرئيسية للأقسام */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-construction-primary text-center mb-4;
+  }
+  
+  /* Section Subtitles - العناوين الفرعية للأقسام */
+  .section-subtitle {
+    @apply text-lg md:text-xl text-gray-600 text-center mb-8 max-w-2xl mx-auto;
+  }
+  
+  /* Card Titles - عناوين البطاقات */
+  .card-title {
+    @apply text-xl md:text-2xl font-bold text-construction-primary mb-3;
+  }
+  
+  /* Card Content - محتوى البطاقات */
+  .card-content {
+    @apply text-base text-gray-600 leading-relaxed;
+  }
+  
+  /* Section Container */
+  .section {
+    @apply py-16 px-4;
+  }
+  
+  /* Container */
+  .container {
+    @apply max-w-7xl mx-auto;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-construction-primary rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-construction-secondary;
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.8s ease-out;
+}
+
+/* Smooth Transitions */
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+/* Custom Gradient */
+.gradient-bg {
+  background: linear-gradient(135deg, #0f1629 0%, #1e293b 100%);
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(15, 22, 41, 0.15);
+}
+
+/* Focus Styles */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-construction-accent focus:ring-offset-2;
+}
+
+/* Responsive Text */
+@media (max-width: 640px) {
+  .responsive-text {
+    font-size: 0.875rem;
+  }
+}

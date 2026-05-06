@@ -101,7 +101,7 @@ function ShareButton({ title }: { title: string }) {
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1.5 text-xs hover:border-primary hover:text-primary transition"
+      className="inline-flex items-center gap-2 rounded-full border border-[#FFB900]/40 bg-[#FFB900]/10 px-4 py-1.5 text-xs font-semibold text-[#FFB900] hover:bg-[#FFB900] hover:text-[#0f1b3d] transition"
     >
       {copied ? <Check className="w-3.5 h-3.5" /> : <Share2 className="w-3.5 h-3.5" />}
       {copied ? "تم النسخ" : "مشاركة"}

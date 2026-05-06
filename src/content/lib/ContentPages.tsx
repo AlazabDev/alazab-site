@@ -392,24 +392,24 @@ export function ContentArticlePage({ section }: SectionProps) {
       <Header />
 
       <section className={s.hero}>
+        <div className={s.heroBg} />
         {heroImg && (
           <img
             src={heroImg}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover opacity-20"
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.15] mix-blend-luminosity"
             loading="eager"
           />
         )}
-        <div className={`${s.heroBg} bg-gradient-to-br ${meta.color}`} />
         <div className={s.heroInner}>
           <Link to={`/${section}`} className={s.backLink}>
-            <ArrowRight className="w-4 h-4" /> {meta.title}
+            <ArrowRight className="w-4 h-4" /> العودة إلى {meta.title}
           </Link>
-          <h1 className={`${s.title} mt-4`}>{item.meta.title}</h1>
+          <h1 className={`${s.title} mt-6`}>{item.meta.title}</h1>
           {item.meta.description && (
             <p className={s.subtitle}>{item.meta.description}</p>
           )}
-          <div className="mt-6 flex flex-wrap items-center gap-2 text-xs">
+          <div className="mt-8 flex flex-wrap items-center gap-2 text-xs">
             {item.meta.category && (
               <span className={s.tag}>{String(item.meta.category)}</span>
             )}
@@ -419,11 +419,11 @@ export function ContentArticlePage({ section }: SectionProps) {
             {item.meta.priority && (
               <span className={s.tag}>أولوية: {String(item.meta.priority)}</span>
             )}
-            <span className="inline-flex items-center gap-1 text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5 text-[#f5f0e0]/70 px-3 py-1">
               <Clock className="w-3.5 h-3.5" /> {item.readingTimeMin} دقيقة قراءة
             </span>
             {item.meta.updatedAt && (
-              <span className="inline-flex items-center gap-1 text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5 text-[#f5f0e0]/70 px-3 py-1">
                 <Calendar className="w-3.5 h-3.5" />
                 {String(item.meta.updatedAt).slice(0, 10)}
               </span>

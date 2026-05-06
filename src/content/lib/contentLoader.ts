@@ -28,17 +28,25 @@ export interface ContentMeta {
   service_number?: string;
   priority?: string;
   brand_context?: string;
+  cover?: string;
   [k: string]: unknown;
+}
+
+export interface Heading {
+  id: string;
+  text: string;
+  level: number;
 }
 
 export interface ContentItem {
   meta: ContentMeta;
   body: string;
   html: string;
+  headings: Heading[];
+  readingTimeMin: number;
   path: string;
 }
 
-// Eagerly load all markdown files at build time
 const rawFiles = import.meta.glob("/src/content/**/*.md", {
   eager: true,
   query: "?raw",
@@ -89,81 +97,207 @@ function escapeHtml(s: string) {
 }
 
 function inline(s: string) {
-  return escapeHtml(s)
+  const imgs: string[] = [];
+  const links: string[] = [];
+  let work = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+    imgs.push(`<img src="${src}" alt="${alt}" loading="lazy" class="content-img" />`);
+    return `\u0000IMG${imgs.length - 1}\u0000`;
+  });
+  work = work.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, href) => {
+    links.push(`<a href="${href}" target="_blank" rel="noopener noreferrer">${text}</a>`);
+    return `\u0000LNK${links.length - 1}\u0000`;
+  });
+  work = escapeHtml(work)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.+?)\*/g, "<em>$1</em>")
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+  work = work.replace(/\u0000IMG(\d+)\u0000/g, (_, n) => imgs[+n]);
+  work = work.replace(/\u0000LNK(\d+)\u0000/g, (_, n) => links[+n]);
+  return work;
+}
+
+function slugify(s: string) {
+  return s
+    .toLowerCase()
+    .replace(/<[^>]+>/g, "")
+    .replace(/[^\p{L}\p{N}\s-]/gu, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .slice(0, 80);
+}
+
+interface RenderResult {
+  html: string;
+  headings: Heading[];
+}
+
+function renderMarkdown(md: string): RenderResult {
+  const lines = md.split(/\r?\n/);
+  const out: string[] = [];
+  const headings: Heading[] = [];
+  // listStack: array of { type: 'ul'|'ol', indent: number }
+  const listStack: { type: "ul" | "ol"; indent: number }[] = [];
+
+  const closeListsTo = (indent: number) => {
+    while (listStack.length && listStack[listStack.length - 1].indent >= indent) {
+      const top = listStack.pop()!;
+      out.push(top.type === "ul" ? "</ul>" : "</ol>");
+    }
+  };
+  const closeAllLists = () => closeListsTo(-1);
+
+  let i = 0;
+  while (i < lines.length) {
+    const raw = lines[i];
+    const line = raw.replace(/\s+$/, "");
+    const trimmed = line.trim();
+
+    // blank line
+    if (!trimmed) {
+      closeAllLists();
+      i++;
+      continue;
+    }
+
+    // fenced code ```lang
+    const fence = trimmed.match(/^```(\w*)\s*$/);
+    if (fence) {
+      closeAllLists();
+      const lang = fence[1] || "";
+      const buf: string[] = [];
+      i++;
+      while (i < lines.length && !/^```\s*$/.test(lines[i].trim())) {
+        buf.push(lines[i]);
+        i++;
+      }
+      i++; // skip closing fence
+      out.push(
+        `<div class="code-block" data-lang="${lang}"><button type="button" class="copy-btn" data-copy>نسخ</button><pre><code class="language-${lang}">${escapeHtml(buf.join("\n"))}</code></pre></div>`,
+      );
+      continue;
+    }
+
+    // horizontal rule
+    if (/^(-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+      closeAllLists();
+      out.push("<hr />");
+      i++;
+      continue;
+    }
+
+    // table: header line, then |---|---| separator, then rows
+    if (
+      /\|/.test(trimmed) &&
+      i + 1 < lines.length &&
+      /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)+\|?\s*$/.test(lines[i + 1])
+    ) {
+      closeAllLists();
+      const splitRow = (r: string) =>
+        r
+          .replace(/^\s*\|/, "")
+          .replace(/\|\s*$/, "")
+          .split("|")
+          .map((c) => c.trim());
+      const headerCells = splitRow(trimmed);
+      i += 2; // skip separator
+      const bodyRows: string[][] = [];
+      while (i < lines.length && /\|/.test(lines[i]) && lines[i].trim()) {
+        bodyRows.push(splitRow(lines[i].trim()));
+        i++;
+      }
+      out.push('<div class="table-wrap"><table>');
+      out.push(
+        "<thead><tr>" +
+          headerCells.map((c) => `<th>${inline(c)}</th>`).join("") +
+          "</tr></thead>",
+      );
+      out.push("<tbody>");
+      for (const row of bodyRows) {
+        out.push(
+          "<tr>" + row.map((c) => `<td>${inline(c)}</td>`).join("") + "</tr>",
+        );
+      }
+      out.push("</tbody></table></div>");
+      continue;
+    }
+
+    // headings
+    const h = trimmed.match(/^(#{1,6})\s+(.*)$/);
+    if (h) {
+      closeAllLists();
+      const level = h[1].length;
+      const text = h[2];
+      const id = slugify(text);
+      if (level >= 2 && level <= 3) headings.push({ id, text, level });
+      out.push(`<h${level} id="${id}">${inline(text)}</h${level}>`);
+      i++;
+      continue;
+    }
+
+    // blockquote
+    if (trimmed.startsWith("> ")) {
+      closeAllLists();
+      const buf: string[] = [];
+      while (i < lines.length && /^>\s?/.test(lines[i].trim())) {
+        buf.push(lines[i].trim().replace(/^>\s?/, ""));
+        i++;
+      }
+      out.push(`<blockquote>${inline(buf.join(" "))}</blockquote>`);
+      continue;
+    }
+
+    // list item (supports nested via leading spaces; 2-space indent = 1 level)
+    const listMatch = raw.match(/^(\s*)([-*+]|\d+\.)\s+(.*)$/);
+    if (listMatch) {
+      const indent = Math.floor(listMatch[1].length / 2);
+      const marker = listMatch[2];
+      const type: "ul" | "ol" = /\d+\./.test(marker) ? "ol" : "ul";
+      closeListsTo(indent);
+      const top = listStack[listStack.length - 1];
+      if (!top || top.indent < indent) {
+        out.push(type === "ul" ? "<ul>" : "<ol>");
+        listStack.push({ type, indent });
+      } else if (top.type !== type) {
+        out.push(top.type === "ul" ? "</ul>" : "</ol>");
+        listStack.pop();
+        out.push(type === "ul" ? "<ul>" : "<ol>");
+        listStack.push({ type, indent });
+      }
+      out.push(`<li>${inline(listMatch[3])}</li>`);
+      i++;
+      continue;
+    }
+
+    // paragraph (collapse consecutive non-blank lines)
+    closeAllLists();
+    const para: string[] = [trimmed];
+    i++;
+    while (i < lines.length) {
+      const nxt = lines[i].trim();
+      if (
+        !nxt ||
+        /^#{1,6}\s/.test(nxt) ||
+        /^```/.test(nxt) ||
+        /^>\s/.test(nxt) ||
+        /^([-*+]|\d+\.)\s/.test(nxt) ||
+        /^(-{3,}|\*{3,}|_{3,})$/.test(nxt) ||
+        /\|/.test(nxt)
+      )
+        break;
+      para.push(nxt);
+      i++;
+    }
+    out.push(`<p>${inline(para.join(" "))}</p>`);
+  }
+  closeAllLists();
+  return { html: out.join("\n"), headings };
 }
 
 export function markdownToHtml(md: string): string {
-  const lines = md.split(/\r?\n/);
-  const out: string[] = [];
-  let inUl = false;
-  let inOl = false;
-  const closeLists = () => {
-    if (inUl) {
-      out.push("</ul>");
-      inUl = false;
-    }
-    if (inOl) {
-      out.push("</ol>");
-      inOl = false;
-    }
-  };
-  for (const raw of lines) {
-    const line = raw.trim();
-    if (!line) {
-      closeLists();
-      continue;
-    }
-    if (line.startsWith("### ")) {
-      closeLists();
-      out.push(`<h3>${inline(line.slice(4))}</h3>`);
-      continue;
-    }
-    if (line.startsWith("## ")) {
-      closeLists();
-      out.push(`<h2>${inline(line.slice(3))}</h2>`);
-      continue;
-    }
-    if (line.startsWith("# ")) {
-      closeLists();
-      out.push(`<h1>${inline(line.slice(2))}</h1>`);
-      continue;
-    }
-    if (line.startsWith("> ")) {
-      closeLists();
-      out.push(`<blockquote>${inline(line.slice(2))}</blockquote>`);
-      continue;
-    }
-    if (/^-\s+/.test(line)) {
-      if (!inUl) {
-        closeLists();
-        out.push("<ul>");
-        inUl = true;
-      }
-      out.push(`<li>${inline(line.replace(/^-\s+/, ""))}</li>`);
-      continue;
-    }
-    if (/^\d+\.\s+/.test(line)) {
-      if (!inOl) {
-        closeLists();
-        out.push("<ol>");
-        inOl = true;
-      }
-      out.push(`<li>${inline(line.replace(/^\d+\.\s+/, ""))}</li>`);
-      continue;
-    }
-    closeLists();
-    out.push(`<p>${inline(line)}</p>`);
-  }
-  closeLists();
-  return out.join("\n");
+  return renderMarkdown(md).html;
 }
 
 function fileSection(path: string): ContentSection | null {
-  // /src/content/<section>/file.md  OR  /src/content/alazab_services_scratch/services/file.md
   if (path.includes("/alazab_services_scratch/services/")) return "services";
   const m = path.match(/\/src\/content\/([^/]+)\//);
   if (!m) return null;
@@ -181,6 +315,11 @@ function fileSection(path: string): ContentSection | null {
 
 const cache = new Map<string, ContentItem[]>();
 
+function readingTime(body: string): number {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
 export function getSection(section: ContentSection): ContentItem[] {
   if (cache.has(section)) return cache.get(section)!;
   const items: ContentItem[] = [];
@@ -188,12 +327,19 @@ export function getSection(section: ContentSection): ContentItem[] {
     if (fileSection(path) !== section) continue;
     const { meta, body } = parseFrontmatter(raw);
     if (meta.published === false) continue;
-    // ensure slug exists (fallback to filename)
     if (!meta.slug) {
       const fname = path.split("/").pop() || "";
       meta.slug = fname.replace(/\.md$/, "");
     }
-    items.push({ meta, body, html: markdownToHtml(body), path });
+    const { html, headings } = renderMarkdown(body);
+    items.push({
+      meta,
+      body,
+      html,
+      headings,
+      readingTimeMin: readingTime(body),
+      path,
+    });
   }
   items.sort((a, b) => {
     const oa = a.meta.order ?? 9999;
@@ -205,6 +351,9 @@ export function getSection(section: ContentSection): ContentItem[] {
   return items;
 }
 
-export function getItem(section: ContentSection, slug: string): ContentItem | null {
+export function getItem(
+  section: ContentSection,
+  slug: string,
+): ContentItem | null {
   return getSection(section).find((i) => i.meta.slug === slug) || null;
 }

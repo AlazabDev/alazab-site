@@ -1,27 +1,34 @@
-// Tailwind class presets shared across content pages
 export const contentStyles = {
   page: "min-h-screen bg-background text-foreground",
-  hero: "relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent/10 border-b border-border",
-  heroInner: "container mx-auto px-4 py-16 md:py-24",
+  hero: "relative overflow-hidden border-b border-border",
+  heroBg:
+    "absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10",
+  heroInner: "container mx-auto px-4 py-16 md:py-24 relative",
   badge:
-    "inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary",
+    "inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 backdrop-blur px-3 py-1 text-xs font-medium text-primary",
   title: "mt-4 text-3xl md:text-5xl font-bold tracking-tight",
-  subtitle: "mt-4 max-w-3xl text-base md:text-lg text-muted-foreground leading-relaxed",
+  subtitle:
+    "mt-4 max-w-3xl text-base md:text-lg text-muted-foreground leading-relaxed",
   container: "container mx-auto px-4 py-10 md:py-16",
   grid: "grid gap-6 sm:grid-cols-2 lg:grid-cols-3",
   card:
-    "group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl",
-  cardTitle: "text-lg font-semibold text-card-foreground group-hover:text-primary transition-colors",
+    "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10",
+  cardImage: "aspect-[16/10] w-full overflow-hidden bg-muted",
+  cardImageInner:
+    "w-full h-full object-cover transition-transform duration-500 group-hover:scale-105",
+  cardBody: "flex-1 p-6 flex flex-col",
+  cardTitle:
+    "text-lg font-semibold text-card-foreground group-hover:text-primary transition-colors",
   cardDesc: "mt-2 text-sm text-muted-foreground line-clamp-3",
   cardMeta: "mt-4 flex flex-wrap items-center gap-2 text-xs text-muted-foreground",
   tag: "inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground",
-  prose:
-    "prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h2:mt-8 prose-h3:text-xl prose-a:text-primary prose-strong:text-foreground prose-blockquote:border-primary prose-li:marker:text-primary",
+  prose: "alazab-prose",
   searchInput:
-    "w-full rounded-xl border border-border bg-background px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
+    "w-full rounded-xl border border-border bg-background/80 backdrop-blur px-4 py-3 text-sm shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
   backLink:
     "inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors",
-  empty: "rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground",
+  empty:
+    "rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground",
 };
 
 export const sectionMeta: Record<

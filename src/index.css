@@ -213,3 +213,61 @@ textarea::placeholder {
     font-size: 0.875rem;
   }
 }
+
+/* ============ Alazab Content Prose ============ */
+.alazab-prose {
+  @apply text-foreground leading-relaxed;
+  font-size: 1.05rem;
+}
+.alazab-prose > * + * { margin-top: 1.1em; }
+.alazab-prose h1 { @apply text-3xl font-bold mt-10 mb-4 text-foreground; }
+.alazab-prose h2 {
+  @apply text-2xl font-bold mt-12 mb-4 pb-2 border-b border-border text-foreground;
+  scroll-margin-top: 6rem;
+}
+.alazab-prose h3 {
+  @apply text-xl font-semibold mt-8 mb-3 text-foreground;
+  scroll-margin-top: 6rem;
+}
+.alazab-prose p { @apply text-foreground/90; }
+.alazab-prose a { @apply text-primary underline underline-offset-4 hover:text-primary/80; }
+.alazab-prose strong { @apply text-foreground font-semibold; }
+.alazab-prose ul, .alazab-prose ol { @apply pr-6 space-y-2; }
+.alazab-prose ul { list-style: disc; }
+.alazab-prose ol { list-style: decimal; }
+.alazab-prose ul ul, .alazab-prose ol ol, .alazab-prose ul ol, .alazab-prose ol ul {
+  @apply mt-2 mb-0;
+}
+.alazab-prose li::marker { color: hsl(var(--primary)); }
+.alazab-prose blockquote {
+  @apply border-r-4 border-primary bg-primary/5 px-5 py-3 my-6 rounded-l-md text-foreground/90 italic;
+}
+.alazab-prose hr { @apply my-10 border-border; }
+.alazab-prose code:not(pre code) {
+  @apply bg-muted px-1.5 py-0.5 rounded text-sm font-mono text-primary;
+}
+.alazab-prose .code-block {
+  @apply relative my-6 rounded-xl overflow-hidden border border-border bg-zinc-950;
+}
+.alazab-prose .code-block pre {
+  @apply m-0 p-4 overflow-x-auto text-sm text-zinc-100;
+  direction: ltr;
+}
+.alazab-prose .code-block .copy-btn {
+  @apply absolute top-2 left-2 text-xs bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded transition;
+}
+.alazab-prose .table-wrap {
+  @apply my-6 overflow-x-auto rounded-xl border border-border;
+}
+.alazab-prose table {
+  @apply w-full text-sm border-collapse;
+}
+.alazab-prose thead { @apply bg-muted; }
+.alazab-prose th, .alazab-prose td {
+  @apply border border-border px-4 py-2.5 text-right;
+}
+.alazab-prose th { @apply font-semibold text-foreground; }
+.alazab-prose tbody tr:nth-child(even) { @apply bg-muted/40; }
+.alazab-prose img.content-img {
+  @apply my-6 rounded-xl border border-border w-full max-w-full transition-transform hover:scale-[1.01];
+}

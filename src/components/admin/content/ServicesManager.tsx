@@ -165,9 +165,9 @@ const ServicesManager: React.FC = () => {
         ) : (
           <div className="space-y-2">
             {rows.map(r => (
-              <div key={r.id} className="border rounded-lg p-3 flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
+              <div key={r.id} className="border rounded-lg p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-bold">{r.title_ar}</h3>
                     <Badge variant={r.is_published ? 'default' : 'secondary'}>
                       {r.is_published ? 'منشور' : 'مخفي'}
@@ -176,7 +176,7 @@ const ServicesManager: React.FC = () => {
                   </div>
                   {r.subtitle_ar && <p className="text-sm text-muted-foreground">{r.subtitle_ar}</p>}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex gap-2 self-end sm:self-auto">
                   <Button variant="outline" size="sm" onClick={() => { setEditing({ ...r }); setOpen(true); }}>
                     <Edit className="w-4 h-4" />
                   </Button>

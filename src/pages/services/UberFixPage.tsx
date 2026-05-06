@@ -6,8 +6,8 @@ import { ArrowRight, Wrench, Zap, Clock, ShieldCheck, CheckCircle, Phone, Hammer
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroImg from '@/assets/services/uberfix-hero.jpg';
-import repairImg from '@/assets/services/uberfix-2.jpg';
+import heroImg from '@/assets/services/file_19.jpg';
+import repairImg from '@/assets/services/file_21.jpg';
 
 const UberFixPage: React.FC = () => {
   const { t, isRTL } = useLanguage();

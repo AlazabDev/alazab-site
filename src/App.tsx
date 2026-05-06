@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import { DirectionProvider } from '@radix-ui/react-direction';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
@@ -75,6 +76,7 @@ const PageLoader = () => (
 function App() {
   return (
     <HelmetProvider>
+    <DirectionProvider dir="rtl">
     <LanguageProvider>
     <ErrorBoundary>
     <BrowserRouter>
@@ -215,6 +217,7 @@ function App() {
     </BrowserRouter>
     </ErrorBoundary>
     </LanguageProvider>
+    </DirectionProvider>
     </HelmetProvider>
   );
 }

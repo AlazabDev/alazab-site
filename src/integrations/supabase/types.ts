@@ -661,57 +661,140 @@ export type Database = {
         }
         Relationships: []
       }
+      project_reviews: {
+        Row: {
+          comment: string
+          created_at: string
+          id: string
+          is_approved: boolean
+          project_id: string
+          rating: number
+          reviewer_email: string | null
+          reviewer_name: string
+          reviewer_phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          project_id: string
+          rating: number
+          reviewer_email?: string | null
+          reviewer_name: string
+          reviewer_phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          id?: string
+          is_approved?: boolean
+          project_id?: string
+          rating?: number
+          reviewer_email?: string | null
+          reviewer_name?: string
+          reviewer_phone?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_reviews_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       projects: {
         Row: {
+          area_sqm: number | null
           budget: number | null
           category: string | null
+          client_name: string | null
           company_name: string | null
+          content_ar: string | null
+          content_en: string | null
           cover_image_url: string | null
           created_at: string
           description: string | null
           end_date: string | null
+          gallery: Json | null
           id: string
+          is_published: boolean
           location: string | null
+          model_3d_embeds: Json | null
           model_3d_url: string | null
           name: string
           progress: number | null
+          slug: string | null
+          sort_order: number
           start_date: string | null
+          stats: Json | null
           status: string | null
+          title_en: string | null
           updated_at: string
+          year: number | null
         }
         Insert: {
+          area_sqm?: number | null
           budget?: number | null
           category?: string | null
+          client_name?: string | null
           company_name?: string | null
+          content_ar?: string | null
+          content_en?: string | null
           cover_image_url?: string | null
           created_at?: string
           description?: string | null
           end_date?: string | null
+          gallery?: Json | null
           id?: string
+          is_published?: boolean
           location?: string | null
+          model_3d_embeds?: Json | null
           model_3d_url?: string | null
           name: string
           progress?: number | null
+          slug?: string | null
+          sort_order?: number
           start_date?: string | null
+          stats?: Json | null
           status?: string | null
+          title_en?: string | null
           updated_at?: string
+          year?: number | null
         }
         Update: {
+          area_sqm?: number | null
           budget?: number | null
           category?: string | null
+          client_name?: string | null
           company_name?: string | null
+          content_ar?: string | null
+          content_en?: string | null
           cover_image_url?: string | null
           created_at?: string
           description?: string | null
           end_date?: string | null
+          gallery?: Json | null
           id?: string
+          is_published?: boolean
           location?: string | null
+          model_3d_embeds?: Json | null
           model_3d_url?: string | null
           name?: string
           progress?: number | null
+          slug?: string | null
+          sort_order?: number
           start_date?: string | null
+          stats?: Json | null
           status?: string | null
+          title_en?: string | null
           updated_at?: string
+          year?: number | null
         }
         Relationships: []
       }
@@ -1011,6 +1094,60 @@ export type Database = {
           id?: number
           inserted_at?: string
           name?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      service_pages: {
+        Row: {
+          content_ar: string | null
+          content_en: string | null
+          created_at: string
+          features: Json | null
+          gallery: Json | null
+          hero_image_url: string | null
+          id: string
+          is_published: boolean
+          slug: string
+          sort_order: number
+          subtitle_ar: string | null
+          subtitle_en: string | null
+          title_ar: string
+          title_en: string | null
+          updated_at: string
+        }
+        Insert: {
+          content_ar?: string | null
+          content_en?: string | null
+          created_at?: string
+          features?: Json | null
+          gallery?: Json | null
+          hero_image_url?: string | null
+          id?: string
+          is_published?: boolean
+          slug: string
+          sort_order?: number
+          subtitle_ar?: string | null
+          subtitle_en?: string | null
+          title_ar: string
+          title_en?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content_ar?: string | null
+          content_en?: string | null
+          created_at?: string
+          features?: Json | null
+          gallery?: Json | null
+          hero_image_url?: string | null
+          id?: string
+          is_published?: boolean
+          slug?: string
+          sort_order?: number
+          subtitle_ar?: string | null
+          subtitle_en?: string | null
+          title_ar?: string
+          title_en?: string | null
           updated_at?: string
         }
         Relationships: []

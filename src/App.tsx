@@ -64,6 +64,7 @@ const SitemapPage = lazy(() => import("./pages/SitemapPage"));
 const MetaAccountsPage = lazy(() => import("./pages/MetaAccountsPage"));
 const InternalWebhookPage = lazy(() => import("./pages/InternalWebhookPage"));
 const CostCalculator = lazy(() => import("./pages/CostCalculator"));
+const AdminContentManager = lazy(() => import("./pages/AdminContentManager"));
 const ContentSectionPage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentSectionPage })));
 const ContentArticlePage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentArticlePage })));
 
@@ -123,6 +124,11 @@ function App() {
         <Route path="/admin-dashboard" element={
           <AdminRoute>
             <AdminDashboard />
+          </AdminRoute>
+        } />
+        <Route path="/admin/content" element={
+          <AdminRoute>
+            <AdminContentManager />
           </AdminRoute>
         } />
         <Route path="/profile" element={

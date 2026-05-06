@@ -129,8 +129,8 @@ const LuxuryFinishingPage: React.FC = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('من أعمالنا', 'From Our Work')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('نماذج من مشاريعنا في التشطيبات الفاخرة', 'Samples from our luxury finishing projects')}</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{t('شوف بنفسك', 'See For Yourself')}</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">{t('فيلتين من تسليمات 2024 — التجمع الخامس والساحل الشمالي', 'Two villas from 2024 handovers — Fifth Settlement and North Coast')}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="group relative overflow-hidden rounded-2xl shadow-xl">

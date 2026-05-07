@@ -10,35 +10,35 @@ const GeneralSuppliesPage: React.FC = () => {
   const features = [
     {
       icon: Package,
-      title: "مواد عالية الجودة",
-      description: "نوفر أفضل المواد والمنتجات من موردين معتمدين"
+      title: "موردين معتمدين بفواتير ضريبية",
+      description: "تعامل مباشر مع وكلاء Jotun وSika وSchneider وLegrand بفاتورة ضريبية ومستندات منشأ كاملة"
     },
     {
       icon: Clock,
-      title: "تسليم سريع",
-      description: "ضمان وصول المواد في المواعيد المحددة"
+      title: "جدول توريد ملتزم بالموقع",
+      description: "تسليم على دفعات حسب جدول المقاول، ومتابعة يومية مع أمين المخزن لضمان عدم توقف العمالة"
     },
     {
       icon: Shield,
-      title: "ضمان الجودة",
-      description: "جميع منتجاتنا مضمونة ومطابقة للمواصفات"
+      title: "مطابقة للمواصفات والكود المصري",
+      description: "كل توريد مرفق به شهادات مطابقة وdata sheet، ونرفض أي خامة لا تطابق العينة المعتمدة"
     },
     {
       icon: Star,
-      title: "خدمة متميزة",
-      description: "فريق متخصص لمتابعة طلباتك على مدار الساعة"
+      title: "مدير حساب لكل مشروع",
+      description: "نقطة تواصل واحدة لمتابعة العروض والطلبيات والشحنات، بدل التشتت بين عشرات الموردين"
     }
   ];
 
   const supplies = [
-    "مواد البناء والإنشاءات",
-    "المعدات والأدوات",
-    "الأجهزة الكهربائية والإلكترونية",
-    "مواد السباكة والصحية",
-    "الدهانات ومواد التشطيب",
-    "الأثاث والمفروشات",
-    "مواد السلامة والأمان",
-    "قطع الغيار والصيانة"
+    "خامات المباني: طوب، أسمنت السويس/العريش، حديد عز/بشاي",
+    "كهرباء جهد منخفض: لوحات Schneider، كابلات السويدي، إكسسوارات Legrand",
+    "سباكة: مواسير Pexal وGeberit، خلاطات Grohe وHansgrohe",
+    "تكييف وتهوية: وحدات Carrier وLG، مجاري هواء معزولة",
+    "تشطيبات: دهانات Jotun وCMB، أرضيات HDF/SPC، رخام وجرانيت",
+    "مواد عزل ومانعات تسرب: Sika، BASF، MasterRoc",
+    "أدوات سلامة: PPE معتمد، طفايات وأنظمة إنذار حريق",
+    "إكسسوارات وقطع غيار للصيانة الدورية للفروع"
   ];
 
   return (
@@ -53,10 +53,10 @@ const GeneralSuppliesPage: React.FC = () => {
               <Truck className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              توريدات عامة
+              توريدات لبن العصفور
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
-              حلول إمداد متكاملة وشاملة لدعم جميع احتياجات مشروعك بأعلى معايير الجودة والكفاءة
+              ذراع التوريد داخل مجموعة العزب: نوصّل خامات ومعدات المشروع من المورد الأصلي للموقع، بفاتورة ضريبية وجدول تسليم ملتزم، ومن غير وسطاء يرفعوا التكلفة.
             </p>
             <Button 
               asChild
@@ -77,10 +77,10 @@ const GeneralSuppliesPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              لماذا تختارنا؟
+              ليه المقاولين بيشتغلوا معانا؟
             </h2>
             <p className="text-lg text-gray-600">
-              نقدم خدمات توريد متميزة تلبي جميع احتياجاتك
+              لأننا نتعامل كأمين مخزن للمشروع مش كتاجر، وبنحمي المقاول من تذبذب الأسعار وتأخر الشحنات
             </p>
           </div>
 
@@ -115,10 +115,10 @@ const GeneralSuppliesPage: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                خدمات التوريد المتاحة
+                فئات التوريد اللي بنغطيها
               </h2>
               <p className="text-lg text-gray-600">
-                نوفر مجموعة واسعة من المواد والمنتجات لتلبية جميع احتياجاتك
+                من البنية التحتية للمشروع لحد إكسسوارات التشطيب وقطع غيار الصيانة الشهرية
               </p>
             </div>
 
@@ -138,10 +138,10 @@ const GeneralSuppliesPage: React.FC = () => {
       <section className="py-16 bg-blue-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            هل تحتاج إلى خدمات التوريد؟
+            عندك BOQ أو قائمة خامات جاهزة؟
           </h2>
           <p className="text-xl mb-8">
-            تواصل معنا الآن وسنقوم بتلبية جميع احتياجاتك
+            ابعتها وهنرجعلك بعرض سعر مفصّل خلال 48 ساعة، وجدول توريد مربوط بمراحل التنفيذ
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 

@@ -183,10 +183,10 @@ const MaintenanceRenovationPage: React.FC = () => {
       <section className="py-16 bg-orange-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            تحتاج إلى خدمات صيانة؟
+            عندك فرع محتاج عقد صيانة؟
           </h2>
           <p className="text-xl mb-8">
-            فريقنا المتخصص جاهز لخدمتك على مدار الساعة
+            ابعتلنا عنوان الفرع ومساحته، وهنرجعلك بعرض شهري واضح خلال يوم عمل
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 

@@ -53,10 +53,10 @@ const GeneralSuppliesPage: React.FC = () => {
               <Truck className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              توريدات عامة
+              توريدات لبن العصفور
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
-              حلول إمداد متكاملة وشاملة لدعم جميع احتياجات مشروعك بأعلى معايير الجودة والكفاءة
+              ذراع التوريد داخل مجموعة العزب: نوصّل خامات ومعدات المشروع من المورد الأصلي للموقع، بفاتورة ضريبية وجدول تسليم ملتزم، ومن غير وسطاء يرفعوا التكلفة.
             </p>
             <Button 
               asChild

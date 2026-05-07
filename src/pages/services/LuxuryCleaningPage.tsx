@@ -126,10 +126,10 @@ const LuxuryCleaningPage: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                أنواع التنظيف المتاحة
+                مين بيتعامل معانا فعلًا
               </h2>
               <p className="text-lg text-gray-600">
-                نخدم جميع أنواع المباني والمساحات بمعايير عالية الجودة
+                عينة من ملف عملاء آخر سنة، بدل قائمة عامة لكل أنواع المباني الموجودة
               </p>
             </div>
 

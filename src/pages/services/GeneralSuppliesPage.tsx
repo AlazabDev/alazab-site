@@ -115,10 +115,10 @@ const GeneralSuppliesPage: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                خدمات التوريد المتاحة
+                فئات التوريد اللي بنغطيها
               </h2>
               <p className="text-lg text-gray-600">
-                نوفر مجموعة واسعة من المواد والمنتجات لتلبية جميع احتياجاتك
+                من البنية التحتية للمشروع لحد إكسسوارات التشطيب وقطع غيار الصيانة الشهرية
               </p>
             </div>
 

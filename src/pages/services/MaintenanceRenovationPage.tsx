@@ -77,10 +77,10 @@ const MaintenanceRenovationPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              خدماتنا المتخصصة
+              4 خطوط خدمة، كل واحد بـ SLA واضح
             </h2>
             <p className="text-lg text-gray-600">
-              نقدم حلول صيانة شاملة لجميع أنواع المباني والمرافق
+              الصيانة عندنا مش "نيجي نشوف"، دي عقد مكتوب بمواعيد استجابة وغرامة تأخير
             </p>
           </div>
 

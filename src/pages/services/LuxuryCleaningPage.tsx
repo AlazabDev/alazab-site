@@ -64,10 +64,10 @@ const LuxuryCleaningPage: React.FC = () => {
               <Home className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              تنظيف فاخر
+              تنظيف احترافي للفلل والمحلات
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
-              حلول تنظيف عالية الجودة ومتطورة لتحويل مساحاتك إلى بيئة نظيفة وصحية ومنعشة
+              مش شركة نظافة منزلية عادية. فريق متخصص في تسليم ما بعد التشطيب، وصيانة نظافة فروع F&B، ومتابعة فلل التجمع والساحل بمعدات Kärcher ومواد Diversey.
             </p>
             <Button 
               asChild

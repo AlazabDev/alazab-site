@@ -13,8 +13,8 @@ const premiumServices = [
     titleEn: "Luxury Finishing",
     taglineAr: "حيث تتحول المساحات إلى تحف فنية",
     taglineEn: "Where spaces turn into masterpieces",
-    descriptionAr: "خط إنتاج متخصص في تقديم خدمات تشطيب فائقة الجودة للوحدات السكنية الراقية (الفلل، الشقق، الدوبلكس).",
-    descriptionEn: "A specialized production line offering ultra-high-quality finishing services for upscale residential units (villas, apartments, duplexes).",
+    descriptionAr: "تشطيب فلل ودوبلكس بنظام 5 مراحل (من جلسة المكتب لحد ضمان سنتين)، بدهانات Jotun وأنظمة KNX ورخام Carrara، مع مدير مشروع مقيم في الموقع.",
+    descriptionEn: "Villa & duplex finishing on a 5-stage system (office session through 2-year warranty), with Jotun paints, KNX smart systems, Carrara marble and an on-site project manager.",
     color: "bg-amber-50 text-amber-700",
     gradient: "from-amber-600 to-amber-800",
     route: "/services/luxury-finishing"
@@ -26,8 +26,8 @@ const premiumServices = [
     titleEn: "Brand Identity",
     taglineAr: "مساحتك التجارية... مرآة علامتك",
     taglineEn: "Your commercial space... the mirror of your brand",
-    descriptionAr: "حلول متكاملة لتجهيز وتشطيب وفرش المحلات التجارية. نترجم هوية علامتك التجارية إلى مساحة مادية جاذبة.",
-    descriptionEn: "Integrated solutions for fitting out, finishing, and furnishing retail outlets. We translate your brand identity into an attractive physical space.",
+    descriptionAr: "فِت أوت كامل لفروع الـ Retail وF&B في 21 يوم: ترجمة الـ Brand Book لرسومات تنفيذية، تنفيذ الديكور والإضاءة، وتسليم الفرع جاهز للافتتاح (مرجعنا: شبكة أبو عوف).",
+    descriptionEn: "Full Retail/F&B fit-out in 21 days: translating your Brand Book into shop drawings, executing décor and lighting, and handing over a ready-to-open branch (reference: Abu Auf chain).",
     color: "bg-purple-50 text-purple-600",
     gradient: "from-purple-600 to-purple-800",
     route: "/services/brand-identity"
@@ -39,8 +39,8 @@ const premiumServices = [
     titleEn: "UberFix",
     taglineAr: "لمسة إصلاح سريعة... تدوم طويلاً",
     taglineEn: "A quick fix... that lasts",
-    descriptionAr: "خط إنتاجي متخصص في تقديم حلول الصيانة المعمارية السريعة والمبتكرة للمحلات التجارية والوحدات السكنية.",
-    descriptionEn: "A specialized production line offering rapid and innovative architectural maintenance solutions for commercial shops and residential units.",
+    descriptionAr: "عقود صيانة شهرية وطوارئ لسلاسل الفروع: استجابة خلال ساعتين، كشف تسريبات بكاميرا حرارية، استبدال لوحات Schneider وقطع Legrand، وتقرير PDF بعد كل زيارة.",
+    descriptionEn: "Monthly + emergency maintenance contracts for branch chains: 2-hour response, thermal-camera leak detection, Schneider panel & Legrand part replacement, and a PDF report after every visit.",
     color: "bg-orange-50 text-orange-600",
     gradient: "from-orange-600 to-orange-800",
     route: "/services/uberfix"
@@ -52,8 +52,8 @@ const premiumServices = [
     titleEn: "Laban Alasfour",
     taglineAr: "نوفر المستحيل... لنبني المستحيل",
     taglineEn: "We provide the impossible... to build the impossible",
-    descriptionAr: "خط إنتاج متخصص في توفير الخامات المعمارية التي يصعب العثور عليها من جميع أنحاء العالم.",
-    descriptionEn: "A specialized production line focused on sourcing hard-to-find architectural materials from around the world.",
+    descriptionAr: "توريد خامات نادرة من 6 دول (إيطاليا، إسبانيا، البرازيل…): زجاج PDLC الذكي، أخشاب FSC، رخام طبيعي وإكسسوارات Grohe/Hansgrohe، بفاتورة ضريبية وتخليص جمركي كامل.",
+    descriptionEn: "Sourcing rare materials from 6 countries (Italy, Spain, Brazil…): PDLC smart glass, FSC woods, natural marble and Grohe/Hansgrohe fixtures — with full tax invoice and customs clearance.",
     color: "bg-blue-50 text-blue-600",
     gradient: "from-blue-600 to-blue-800",
     route: "/services/laban-alasfour"

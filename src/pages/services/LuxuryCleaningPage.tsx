@@ -150,10 +150,10 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              لماذا تختارنا؟
+              الفرق بيننا وبين شركة نظافة عادية
             </h2>
             <p className="text-lg text-gray-600">
-              نتميز بالجودة والاحترافية في جميع خدماتنا
+              تفاصيل تشغيلية مش شعارات تسويقية
             </p>
           </div>
 

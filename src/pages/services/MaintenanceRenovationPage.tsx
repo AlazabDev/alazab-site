@@ -53,10 +53,10 @@ const MaintenanceRenovationPage: React.FC = () => {
               <Hammer className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              الصيانة والتجديدات
+              صيانة وتجديد الفروع التجارية والسكنية
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
-              حلول شاملة وموثوقة للحفاظ على مساحاتك وتجديدها بأحدث التقنيات ومعايير الجودة العالمية
+              عقود صيانة شهرية وتجديدات تتم بدون توقف العمل. خبرتنا اتبنت على إدارة فروع أبو عوف ومحلات تجارية فعّالة، مش على شعارات إعلانية.
             </p>
             <Button 
               asChild

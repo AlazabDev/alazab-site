@@ -88,10 +88,10 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              خدماتنا المتخصصة
+              4 خطوط خدمة، كل واحد بمعداته الخاصة
             </h2>
             <p className="text-lg text-gray-600">
-              نقدم حلول تنظيف شاملة ومتطورة لجميع أنواع المساحات
+              مفيش "كل حاجة لكل حد" — كل قطاع له بروتوكول ومواد ومعدات مختلفة
             </p>
           </div>
 

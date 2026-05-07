@@ -294,10 +294,10 @@ const LuxuryCleaningPage: React.FC = () => {
       <section className="py-16 bg-green-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            جاهز لتجربة التنظيف الفاخر؟
+            عايز معاينة قبل ما تقرر؟
           </h2>
           <p className="text-xl mb-8">
-            فريقنا المتخصص جاهز لتقديم أفضل خدمات التنظيف
+            ابعتلنا العنوان والمساحة، مشرف هيزور الموقع ويرجعلك بعرض مكتوب خلال 48 ساعة
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 

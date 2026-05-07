@@ -238,18 +238,21 @@ const WhatsAppOTPForm: React.FC<WhatsAppOTPFormProps> = ({ onSwitchToEmail, onSu
             </p>
 
             {/* OTP Input */}
-            <div className="flex justify-center gap-2" dir="ltr">
+            <div className="flex justify-center gap-2 sm:gap-3" dir="ltr">
               {otpDigits.map((digit, i) => (
                 <Input
                   key={i}
                   ref={(el) => { inputRefs.current[i] = el; }}
                   type="text"
                   inputMode="numeric"
+                  pattern="[0-9]*"
+                  autoComplete="one-time-code"
                   maxLength={6}
                   value={digit}
                   onChange={(e) => handleOtpChange(i, e.target.value)}
                   onKeyDown={(e) => handleOtpKeyDown(i, e)}
-                  className="w-11 h-12 text-center text-lg font-bold p-0"
+                  className="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl sm:text-3xl font-bold tabular-nums leading-none p-0 rounded-lg border-2 focus-visible:ring-2 focus-visible:ring-green-600"
+                  style={{ textAlignLast: 'center' }}
                 />
               ))}
             </div>

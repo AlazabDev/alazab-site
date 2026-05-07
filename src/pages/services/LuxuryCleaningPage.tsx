@@ -220,28 +220,28 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              باقات الخدمة
+              3 نماذج تعاقد، اختر اللي يناسب تشغيلك
             </h2>
             <p className="text-lg text-gray-600">
-              اختر الباقة التي تناسب احتياجاتك
+              زيارة لمرة واحدة، عقد شهري، أو فريق مقيم — كلها بتقرير وضمان
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <Card className="border-0 shadow-lg text-center">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-green-600">باقة أساسية</CardTitle>
-                <CardDescription>للتنظيف الدوري والأساسي</CardDescription>
+                <CardTitle className="text-2xl font-bold text-green-600">زيارة واحدة (One-Off)</CardTitle>
+                <CardDescription>تسليم بعد تشطيب أو قبل مناسبة</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-right space-y-2 mb-6">
-                  <li>• تنظيف الأرضيات والأسطح</li>
-                  <li>• تنظيف النوافذ والمرايا</li>
-                  <li>• تفريغ سلال المهملات</li>
-                  <li>• تنظيف دورات المياه</li>
+                  <li>• معاينة مجانية وعرض سعر بالمتر</li>
+                  <li>• إزالة بقايا التشطيب والسيليكون</li>
+                  <li>• تلميع رخام وتنظيف زجاج بالحبال</li>
+                  <li>• تسليم خلال 24–48 ساعة من المعاينة</li>
                 </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700 rounded-full">
-                  اطلب الآن
+                <Button asChild className="w-full bg-green-600 hover:bg-green-700 rounded-full">
+                  <Link to="/contact">اطلب معاينة</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -249,40 +249,40 @@ const LuxuryCleaningPage: React.FC = () => {
             <Card className="border-0 shadow-xl text-center bg-green-50 border-green-200 border-2">
               <CardHeader>
                 <div className="bg-green-600 text-white px-4 py-1 rounded-full text-sm mx-auto mb-4 w-fit">
-                  الأكثر شعبية
+                  الأكثر طلبًا
                 </div>
-                <CardTitle className="text-2xl font-bold text-green-600">باقة متقدمة</CardTitle>
-                <CardDescription>للتنظيف الشامل والمتقدم</CardDescription>
+                <CardTitle className="text-2xl font-bold text-green-600">عقد شهري للفروع</CardTitle>
+                <CardDescription>للمحلات والمكاتب والعيادات</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-right space-y-2 mb-6">
-                  <li>• جميع خدمات الباقة الأساسية</li>
-                  <li>• تنظيف الأثاث والمفروشات</li>
-                  <li>• تعقيم وتطهير شامل</li>
-                  <li>• تنظيف المطابخ بالتفصيل</li>
-                  <li>• تنظيف التكييف</li>
+                  <li>• تنظيف يومي + Deep Cleaning شهري</li>
+                  <li>• مشرف ميداني وتقرير أسبوعي</li>
+                  <li>• مواد Diversey وEcolab معتمدة</li>
+                  <li>• استبدال أي عاملة خلال 12 ساعة</li>
+                  <li>• فاتورة ضريبية شهرية موحدة</li>
                 </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700 rounded-full">
-                  اطلب الآن
+                <Button asChild className="w-full bg-green-600 hover:bg-green-700 rounded-full">
+                  <Link to="/contact">احجز عرض شهري</Link>
                 </Button>
               </CardContent>
             </Card>
 
             <Card className="border-0 shadow-lg text-center">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-green-600">باقة فاخرة</CardTitle>
-                <CardDescription>للتنظيف الفاخر والمتكامل</CardDescription>
+                <CardTitle className="text-2xl font-bold text-green-600">هاوس كيبر مقيمة</CardTitle>
+                <CardDescription>للفلل والشقق التنفيذية</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-right space-y-2 mb-6">
-                  <li>• جميع خدمات الباقة المتقدمة</li>
-                  <li>• تنظيف الحدائق والمساحات الخارجية</li>
-                  <li>• خدمة تنظيف السجاد والستائر</li>
-                  <li>• صيانة دورية للنظافة</li>
-                  <li>• خدمة عملاء مخصصة</li>
+                  <li>• عاملة مدربة بدوام كامل أو جزئي</li>
+                  <li>• إقامة داخلية أو يومي حسب الطلب</li>
+                  <li>• إشراف أسبوعي وتغطية الإجازات</li>
+                  <li>• فحوصات طبية وعقد رسمي موثق</li>
+                  <li>• استبدال فوري عند الحاجة</li>
                 </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700 rounded-full">
-                  اطلب الآن
+                <Button asChild className="w-full bg-green-600 hover:bg-green-700 rounded-full">
+                  <Link to="/contact">تقديم طلب</Link>
                 </Button>
               </CardContent>
             </Card>

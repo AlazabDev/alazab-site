@@ -139,10 +139,10 @@ const MaintenanceRenovationPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              كيف نعمل؟
+              من فتح التذكرة لقفلها
             </h2>
             <p className="text-lg text-gray-600">
-              عملية منظمة وموثوقة لضمان أفضل النتائج
+              دورة موثقة على نظام UberFix الداخلي، بتشوفها لحظة بلحظة من بوابة العميل
             </p>
           </div>
 
@@ -151,29 +151,29 @@ const MaintenanceRenovationPage: React.FC = () => {
               <div className="w-16 h-16 bg-orange-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 1
               </div>
-              <h3 className="text-lg font-bold mb-2">طلب الخدمة</h3>
-              <p className="text-gray-600">تواصل معنا وحدد نوع الصيانة المطلوبة</p>
+              <h3 className="text-lg font-bold mb-2">فتح تذكرة</h3>
+              <p className="text-gray-600">واتساب أو بوابة العميل، مع صور ووصف العطل، يصدر رقم تذكرة فوري</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-orange-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 2
               </div>
-              <h3 className="text-lg font-bold mb-2">المعاينة</h3>
-              <p className="text-gray-600">فريقنا يقوم بمعاينة شاملة للموقع</p>
+              <h3 className="text-lg font-bold mb-2">تشخيص وعرض سعر</h3>
+              <p className="text-gray-600">معاينة خلال 24 ساعة + عرض مكتوب بالخامات والوقت قبل أي تنفيذ</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-orange-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 3
               </div>
-              <h3 className="text-lg font-bold mb-2">التنفيذ</h3>
-              <p className="text-gray-600">تنفيذ الأعمال بأعلى معايير الجودة</p>
+              <h3 className="text-lg font-bold mb-2">تنفيذ موثّق</h3>
+              <p className="text-gray-600">صور قبل/أثناء/بعد ترفع على التذكرة، وتوقيع مدير الفرع على الاستلام</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-orange-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 4
               </div>
-              <h3 className="text-lg font-bold mb-2">المتابعة</h3>
-              <p className="text-gray-600">ضمان ومتابعة ما بعد التنفيذ</p>
+              <h3 className="text-lg font-bold mb-2">ضمان 6 شهور</h3>
+              <p className="text-gray-600">على العمالة، وضمان المصنّع على الخامات، مع متابعة بعد 30 يوم</p>
             </div>
           </div>
         </div>

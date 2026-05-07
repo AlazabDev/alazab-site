@@ -105,9 +105,9 @@ Deno.serve(async (req) => {
             },
             {
               type: "button",
-              sub_type: "url",
+              sub_type: "copy_code",
               index: "0",
-              parameters: [{ type: "text", text: otp }],
+              parameters: [{ type: "coupon_code", coupon_code: otp }],
             },
           ],
         },

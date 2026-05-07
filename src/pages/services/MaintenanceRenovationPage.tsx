@@ -115,10 +115,10 @@ const MaintenanceRenovationPage: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                أنواع الصيانة المتاحة
+                الأعمال اللي بنغطيها يوميًا
               </h2>
               <p className="text-lg text-gray-600">
-                نغطي جميع جوانب الصيانة والترميم للمباني السكنية والتجارية
+                قائمة فعلية من تذاكر آخر 90 يوم — مش كتالوج عام منقول من الإنترنت
               </p>
             </div>
 

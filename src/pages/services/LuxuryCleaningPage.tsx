@@ -175,10 +175,10 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              كيف نعمل؟
+              من المعاينة لتقرير التسليم
             </h2>
             <p className="text-lg text-gray-600">
-              عملية منظمة ومدروسة لضمان أفضل النتائج
+              4 خطوات موثقة، مفيش مفاجآت في الفاتورة ولا في النتيجة
             </p>
           </div>
 
@@ -187,29 +187,29 @@ const LuxuryCleaningPage: React.FC = () => {
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 1
               </div>
-              <h3 className="text-lg font-bold mb-2">طلب الخدمة</h3>
-              <p className="text-gray-600">تواصل معنا وحدد نوع التنظيف المطلوب</p>
+              <h3 className="text-lg font-bold mb-2">معاينة على الطبيعة</h3>
+              <p className="text-gray-600">مشرف يزور الموقع، يقيس المساحات، ويحدد نوع الخامات والمعدات المطلوبة</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 2
               </div>
-              <h3 className="text-lg font-bold mb-2">المعاينة والتقييم</h3>
-              <p className="text-gray-600">فريقنا يقوم بمعاينة المكان وتحديد الخطة</p>
+              <h3 className="text-lg font-bold mb-2">عرض سعر مكتوب</h3>
+              <p className="text-gray-600">سعر بالساعة أو بالمتر، عدد العمالة، الوقت المتوقع، والمواد المستخدمة بالاسم</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 3
               </div>
-              <h3 className="text-lg font-bold mb-2">التنفيذ</h3>
-              <p className="text-gray-600">تنفيذ خدمة التنظيف وفق أعلى المعايير</p>
+              <h3 className="text-lg font-bold mb-2">تنفيذ بإشراف ميداني</h3>
+              <p className="text-gray-600">مشرف ثابت طوال الزيارة، تسجيل وقت الدخول والخروج، صور لكل مرحلة</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 4
               </div>
-              <h3 className="text-lg font-bold mb-2">المراجعة والضمان</h3>
-              <p className="text-gray-600">مراجعة شاملة وضمان الرضا التام</p>
+              <h3 className="text-lg font-bold mb-2">تقرير + ضمان 24 ساعة</h3>
+              <p className="text-gray-600">تقرير PDF بالصور، وأي ملاحظة خلال 24 ساعة بنرجع نعالجها مجانًا</p>
             </div>
           </div>
         </div>

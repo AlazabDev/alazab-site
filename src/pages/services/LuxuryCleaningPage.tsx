@@ -10,46 +10,46 @@ const LuxuryCleaningPage: React.FC = () => {
   const services = [
     {
       icon: Sparkles,
-      title: "التنظيف العميق",
-      description: "تنظيف شامل ومتعمق لجميع أجزاء المكان باستخدام أحدث التقنيات"
+      title: "تسليم ما بعد التشطيب (Post-Construction)",
+      description: "إزالة بقايا الجبس والدهان والسيليكون من الفيلات والمحلات الجديدة، تلميع الرخام، تنظيف الزجاج والواجهات قبل التسليم النهائي للمالك"
     },
     {
       icon: ShieldCheck,
-      title: "التعقيم والتطهير",
-      description: "خدمات تعقيم متقدمة للحماية من الفيروسات والبكتيريا"
+      title: "تطهير المطاعم وفروع F&B",
+      description: "بروتوكول مطابق لاشتراطات أبو عوف: تنظيف الهود والشفاطات بالبخار، تطهير ثلاجات العرض، إزالة الدهون من الأرضيات بمواد Diversey معتمدة"
     },
     {
       icon: Clock,
-      title: "خدمة دورية",
-      description: "برامج تنظيف منتظمة تناسب احتياجاتك ومواعيدك"
+      title: "Deep Cleaning مجدول كل 90 يوم",
+      description: "للفلل والمكاتب التنفيذية: تنظيف السجاد بماكينات استخلاص، تلميع رخام بالكريستالايزر، غسيل ستائر دون فك"
     },
     {
       icon: Star,
-      title: "فريق متخصص",
-      description: "فريق مدرب ومؤهل باستخدام مواد تنظيف صديقة للبيئة"
+      title: "خدمة هاوس كيبر مقيمة",
+      description: "عاملة مدربة من فريقنا، مع إشراف ميداني أسبوعي ومتابعة عبر تطبيق UberFix لتقييم الأداء وتغطية الإجازات"
     }
   ];
 
   const cleaningTypes = [
-    "تنظيف المباني السكنية والفلل",
-    "تنظيف المكاتب والشركات",
-    "تنظيف المحلات التجارية",
-    "تنظيف المطاعم والمقاهي",
-    "تنظيف المستشفيات والعيادات",
-    "تنظيف الفنادق والمنتجعات",
-    "تنظيف المصانع والمستودعات",
-    "تنظيف المدارس والجامعات"
+    "فيلات ومجمعات سكنية في التجمع والشيخ زايد والساحل",
+    "محلات أبو عوف والفروع التجارية بمراكز التسوق",
+    "مكاتب إدارية وعيادات تجميل في المهندسين والزمالك",
+    "مطاعم وكافيهات ومخابز (تنظيف يومي وعميق)",
+    "صالات عرض السيارات والمعارض التجارية",
+    "فنادق بوتيك وشقق مفروشة Airbnb",
+    "مدارس دولية ورياض أطفال (مواد آمنة على الأطفال)",
+    "مستودعات ومصانع غذائية بمعايير HACCP"
   ];
 
   const features = [
-    "استخدام مواد تنظيف آمنة وصديقة للبيئة",
-    "فريق مدرب ومؤهل ومرخص",
-    "أحدث المعدات والتقنيات",
-    "خدمة عملاء متميزة 24/7",
-    "أسعار تنافسية وعروض مميزة",
-    "ضمان الجودة والرضا التام",
-    "مرونة في المواعيد والترتيبات",
-    "تقارير مفصلة بعد كل خدمة"
+    "مواد ألمانية وأمريكية: Kärcher وDiversey وEcolab بدلًا من الكلور التجاري",
+    "فريق ثابت لكل عميل، مع بطاقات تعريف ومعاينة دورية للمشرف",
+    "ماكينات استخلاص وبخار وتلميع رخام بدل الدلو والممسحة",
+    "تأمين تأميني على العمالة وضمان ضد أي ضرر بالأثاث",
+    "تسعير شفاف بالساعة أو بالمتر، بدون رسوم مفاجئة",
+    "تقرير تسليم بصور ووقت الدخول والخروج لكل زيارة",
+    "مرونة في المواعيد بما فيها الجمعة وبعد منتصف الليل",
+    "ضمان إعادة التنفيذ مجانًا خلال 24 ساعة لو في ملاحظة"
   ];
 
   return (
@@ -64,10 +64,10 @@ const LuxuryCleaningPage: React.FC = () => {
               <Home className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              تنظيف فاخر
+              تنظيف احترافي للفلل والمحلات
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
-              حلول تنظيف عالية الجودة ومتطورة لتحويل مساحاتك إلى بيئة نظيفة وصحية ومنعشة
+              مش شركة نظافة منزلية عادية. فريق متخصص في تسليم ما بعد التشطيب، وصيانة نظافة فروع F&B، ومتابعة فلل التجمع والساحل بمعدات Kärcher ومواد Diversey.
             </p>
             <Button 
               asChild
@@ -88,10 +88,10 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              خدماتنا المتخصصة
+              4 خطوط خدمة، كل واحد بمعداته الخاصة
             </h2>
             <p className="text-lg text-gray-600">
-              نقدم حلول تنظيف شاملة ومتطورة لجميع أنواع المساحات
+              مفيش "كل حاجة لكل حد" — كل قطاع له بروتوكول ومواد ومعدات مختلفة
             </p>
           </div>
 
@@ -126,10 +126,10 @@ const LuxuryCleaningPage: React.FC = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                أنواع التنظيف المتاحة
+                مين بيتعامل معانا فعلًا
               </h2>
               <p className="text-lg text-gray-600">
-                نخدم جميع أنواع المباني والمساحات بمعايير عالية الجودة
+                عينة من ملف عملاء آخر سنة، بدل قائمة عامة لكل أنواع المباني الموجودة
               </p>
             </div>
 
@@ -150,10 +150,10 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              لماذا تختارنا؟
+              الفرق بيننا وبين شركة نظافة عادية
             </h2>
             <p className="text-lg text-gray-600">
-              نتميز بالجودة والاحترافية في جميع خدماتنا
+              تفاصيل تشغيلية مش شعارات تسويقية
             </p>
           </div>
 
@@ -175,10 +175,10 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              كيف نعمل؟
+              من المعاينة لتقرير التسليم
             </h2>
             <p className="text-lg text-gray-600">
-              عملية منظمة ومدروسة لضمان أفضل النتائج
+              4 خطوات موثقة، مفيش مفاجآت في الفاتورة ولا في النتيجة
             </p>
           </div>
 
@@ -187,29 +187,29 @@ const LuxuryCleaningPage: React.FC = () => {
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 1
               </div>
-              <h3 className="text-lg font-bold mb-2">طلب الخدمة</h3>
-              <p className="text-gray-600">تواصل معنا وحدد نوع التنظيف المطلوب</p>
+              <h3 className="text-lg font-bold mb-2">معاينة على الطبيعة</h3>
+              <p className="text-gray-600">مشرف يزور الموقع، يقيس المساحات، ويحدد نوع الخامات والمعدات المطلوبة</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 2
               </div>
-              <h3 className="text-lg font-bold mb-2">المعاينة والتقييم</h3>
-              <p className="text-gray-600">فريقنا يقوم بمعاينة المكان وتحديد الخطة</p>
+              <h3 className="text-lg font-bold mb-2">عرض سعر مكتوب</h3>
+              <p className="text-gray-600">سعر بالساعة أو بالمتر، عدد العمالة، الوقت المتوقع، والمواد المستخدمة بالاسم</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 3
               </div>
-              <h3 className="text-lg font-bold mb-2">التنفيذ</h3>
-              <p className="text-gray-600">تنفيذ خدمة التنظيف وفق أعلى المعايير</p>
+              <h3 className="text-lg font-bold mb-2">تنفيذ بإشراف ميداني</h3>
+              <p className="text-gray-600">مشرف ثابت طوال الزيارة، تسجيل وقت الدخول والخروج، صور لكل مرحلة</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-600 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-2xl font-bold">
                 4
               </div>
-              <h3 className="text-lg font-bold mb-2">المراجعة والضمان</h3>
-              <p className="text-gray-600">مراجعة شاملة وضمان الرضا التام</p>
+              <h3 className="text-lg font-bold mb-2">تقرير + ضمان 24 ساعة</h3>
+              <p className="text-gray-600">تقرير PDF بالصور، وأي ملاحظة خلال 24 ساعة بنرجع نعالجها مجانًا</p>
             </div>
           </div>
         </div>
@@ -220,28 +220,28 @@ const LuxuryCleaningPage: React.FC = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              باقات الخدمة
+              3 نماذج تعاقد، اختر اللي يناسب تشغيلك
             </h2>
             <p className="text-lg text-gray-600">
-              اختر الباقة التي تناسب احتياجاتك
+              زيارة لمرة واحدة، عقد شهري، أو فريق مقيم — كلها بتقرير وضمان
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <Card className="border-0 shadow-lg text-center">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-green-600">باقة أساسية</CardTitle>
-                <CardDescription>للتنظيف الدوري والأساسي</CardDescription>
+                <CardTitle className="text-2xl font-bold text-green-600">زيارة واحدة (One-Off)</CardTitle>
+                <CardDescription>تسليم بعد تشطيب أو قبل مناسبة</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-right space-y-2 mb-6">
-                  <li>• تنظيف الأرضيات والأسطح</li>
-                  <li>• تنظيف النوافذ والمرايا</li>
-                  <li>• تفريغ سلال المهملات</li>
-                  <li>• تنظيف دورات المياه</li>
+                  <li>• معاينة مجانية وعرض سعر بالمتر</li>
+                  <li>• إزالة بقايا التشطيب والسيليكون</li>
+                  <li>• تلميع رخام وتنظيف زجاج بالحبال</li>
+                  <li>• تسليم خلال 24–48 ساعة من المعاينة</li>
                 </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700 rounded-full">
-                  اطلب الآن
+                <Button asChild className="w-full bg-green-600 hover:bg-green-700 rounded-full">
+                  <Link to="/contact">اطلب معاينة</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -249,40 +249,40 @@ const LuxuryCleaningPage: React.FC = () => {
             <Card className="border-0 shadow-xl text-center bg-green-50 border-green-200 border-2">
               <CardHeader>
                 <div className="bg-green-600 text-white px-4 py-1 rounded-full text-sm mx-auto mb-4 w-fit">
-                  الأكثر شعبية
+                  الأكثر طلبًا
                 </div>
-                <CardTitle className="text-2xl font-bold text-green-600">باقة متقدمة</CardTitle>
-                <CardDescription>للتنظيف الشامل والمتقدم</CardDescription>
+                <CardTitle className="text-2xl font-bold text-green-600">عقد شهري للفروع</CardTitle>
+                <CardDescription>للمحلات والمكاتب والعيادات</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-right space-y-2 mb-6">
-                  <li>• جميع خدمات الباقة الأساسية</li>
-                  <li>• تنظيف الأثاث والمفروشات</li>
-                  <li>• تعقيم وتطهير شامل</li>
-                  <li>• تنظيف المطابخ بالتفصيل</li>
-                  <li>• تنظيف التكييف</li>
+                  <li>• تنظيف يومي + Deep Cleaning شهري</li>
+                  <li>• مشرف ميداني وتقرير أسبوعي</li>
+                  <li>• مواد Diversey وEcolab معتمدة</li>
+                  <li>• استبدال أي عاملة خلال 12 ساعة</li>
+                  <li>• فاتورة ضريبية شهرية موحدة</li>
                 </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700 rounded-full">
-                  اطلب الآن
+                <Button asChild className="w-full bg-green-600 hover:bg-green-700 rounded-full">
+                  <Link to="/contact">احجز عرض شهري</Link>
                 </Button>
               </CardContent>
             </Card>
 
             <Card className="border-0 shadow-lg text-center">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-green-600">باقة فاخرة</CardTitle>
-                <CardDescription>للتنظيف الفاخر والمتكامل</CardDescription>
+                <CardTitle className="text-2xl font-bold text-green-600">هاوس كيبر مقيمة</CardTitle>
+                <CardDescription>للفلل والشقق التنفيذية</CardDescription>
               </CardHeader>
               <CardContent>
                 <ul className="text-right space-y-2 mb-6">
-                  <li>• جميع خدمات الباقة المتقدمة</li>
-                  <li>• تنظيف الحدائق والمساحات الخارجية</li>
-                  <li>• خدمة تنظيف السجاد والستائر</li>
-                  <li>• صيانة دورية للنظافة</li>
-                  <li>• خدمة عملاء مخصصة</li>
+                  <li>• عاملة مدربة بدوام كامل أو جزئي</li>
+                  <li>• إقامة داخلية أو يومي حسب الطلب</li>
+                  <li>• إشراف أسبوعي وتغطية الإجازات</li>
+                  <li>• فحوصات طبية وعقد رسمي موثق</li>
+                  <li>• استبدال فوري عند الحاجة</li>
                 </ul>
-                <Button className="w-full bg-green-600 hover:bg-green-700 rounded-full">
-                  اطلب الآن
+                <Button asChild className="w-full bg-green-600 hover:bg-green-700 rounded-full">
+                  <Link to="/contact">تقديم طلب</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -294,10 +294,10 @@ const LuxuryCleaningPage: React.FC = () => {
       <section className="py-16 bg-green-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            جاهز لتجربة التنظيف الفاخر؟
+            عايز معاينة قبل ما تقرر؟
           </h2>
           <p className="text-xl mb-8">
-            فريقنا المتخصص جاهز لتقديم أفضل خدمات التنظيف
+            ابعتلنا العنوان والمساحة، مشرف هيزور الموقع ويرجعلك بعرض مكتوب خلال 48 ساعة
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 

@@ -138,10 +138,10 @@ const GeneralSuppliesPage: React.FC = () => {
       <section className="py-16 bg-blue-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            هل تحتاج إلى خدمات التوريد؟
+            عندك BOQ أو قائمة خامات جاهزة؟
           </h2>
           <p className="text-xl mb-8">
-            تواصل معنا الآن وسنقوم بتلبية جميع احتياجاتك
+            ابعتها وهنرجعلك بعرض سعر مفصّل خلال 48 ساعة، وجدول توريد مربوط بمراحل التنفيذ
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 

@@ -9,17 +9,15 @@ const Hero: React.FC = () => {
 
   return (
     <div className="relative bg-gray-900 min-h-screen flex items-center" dir={isRTL ? 'rtl' : 'ltr'}>
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0" 
-        style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2370&auto=format&fit=crop')", 
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          filter: "brightness(0.3)"
-        }}
-      ></div>
+      {/* Background Image (LCP optimized) */}
+      <img
+        src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2370&auto=format&fit=crop"
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 z-0 w-full h-full object-cover brightness-[0.3]"
+      />
       
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">

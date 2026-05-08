@@ -18,11 +18,18 @@
 
 * {
   font-family: "Segoe UI Arabic", "Segoe UI", "Tahoma", "Arial", system-ui, -apple-system, sans-serif;
-  font-weight: 600;
   font-feature-settings: 'tnum' 1, 'kern' 1;
 }
 
-strong, b, h1, h2, h3, h4, h5, h6 {
+body {
+  font-weight: 500;
+}
+
+strong, b {
+  font-weight: 700;
+}
+
+h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 

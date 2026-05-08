@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminRoute from "./components/auth/AdminRoute";
 import FloatingChatBot from "./components/shared/FloatingChatBot";
 import FloatingSocialButton from "./components/shared/FloatingSocialButton";
+import ScrollToTop from "./components/shared/ScrollToTop";
 
 // Lazy loaded pages
 const MaintenanceRequest = lazy(() => import("./pages/MaintenanceRequest"));
@@ -219,6 +220,7 @@ function App() {
       </Suspense>
       <FloatingChatBot />
       <FloatingSocialButton />
+      <ScrollToTop />
       <Toaster />
     </BrowserRouter>
     </ErrorBoundary>

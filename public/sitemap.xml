@@ -144,4 +144,13 @@
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
+
+  <!-- المحتوى المعرفي -->
+  <url><loc>https://alazab.com/blogs</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://alazab.com/knowledge</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://alazab.com/brands</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://alazab.com/guidance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://alazab.com/faq</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://alazab.com/maintenance-services</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://alazab.com/cost-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

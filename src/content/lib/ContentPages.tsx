@@ -227,7 +227,7 @@ export function ContentSectionPage({ section }: SectionProps) {
             {filtered.map((item, idx) => {
               const img =
                 (item.meta.cover as string | undefined) ||
-                pickImage(item.meta.slug, banners);
+                (banners.length ? banners[(idx * 7 + section.length) % banners.length] : pickImage(item.meta.slug + idx, banners));
               return (
                 <Link
                   key={item.meta.slug}

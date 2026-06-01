@@ -16,8 +16,11 @@
   animation: marquee 20s linear infinite;
 }
 
+html, body, button, input, select, textarea, optgroup, [class*="font-"] {
+  font-family: "IBM Plex Sans Arabic", "IBM Plex Sans", "Segoe UI Arabic", "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif !important;
+}
+
 * {
-  font-family: "IBM Plex Sans Arabic", "IBM Plex Sans", "Segoe UI Arabic", "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif;
   font-feature-settings: 'tnum' 1, 'kern' 1, 'ss01' 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,6 +29,13 @@
 
 body {
   font-weight: 500;
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: plaintext;
+}
+
+[dir="rtl"] {
+  text-align: right;
 }
 
 strong, b {
@@ -34,11 +44,7 @@ strong, b {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
-}
-
-body {
-  direction: rtl;
-  text-align: right;
+  letter-spacing: -0.01em;
 }
 
 /* إصلاح تنسيق النصوص للعناصر الإنجليزية */

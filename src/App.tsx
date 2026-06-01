@@ -17,6 +17,8 @@ import AdminRoute from "./components/auth/AdminRoute";
 import FloatingChatBot from "./components/shared/FloatingChatBot";
 import FloatingSocialButton from "./components/shared/FloatingSocialButton";
 import ScrollToTop from "./components/shared/ScrollToTop";
+import ScrollProgressBar from "./components/shared/ScrollProgressBar";
+import StickyMobileCTA from "./components/shared/StickyMobileCTA";
 
 // Lazy loaded pages
 const MaintenanceRequest = lazy(() => import("./pages/MaintenanceRequest"));
@@ -218,9 +220,11 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
+      <ScrollProgressBar />
       <FloatingChatBot />
       <FloatingSocialButton />
       <ScrollToTop />
+      <StickyMobileCTA />
       <Toaster />
     </BrowserRouter>
     </ErrorBoundary>

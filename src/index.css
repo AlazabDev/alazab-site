@@ -17,8 +17,11 @@
 }
 
 * {
-  font-family: "Segoe UI Arabic", "Segoe UI", "Tahoma", "Arial", system-ui, -apple-system, sans-serif;
-  font-feature-settings: 'tnum' 1, 'kern' 1;
+  font-family: "IBM Plex Sans Arabic", "IBM Plex Sans", "Segoe UI Arabic", "Segoe UI", "Tahoma", system-ui, -apple-system, sans-serif;
+  font-feature-settings: 'tnum' 1, 'kern' 1, 'ss01' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {

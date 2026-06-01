@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { AdvancedSidebar } from './layout/AdvancedSidebar';
+import ThemeToggle from './shared/ThemeToggle';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -125,6 +126,9 @@ const Header: React.FC = () => {
 
           {/* CTA Buttons and Sidebar Toggle */}
           <div className="flex items-center gap-2 md:gap-4">
+            {/* Theme Toggle */}
+            <ThemeToggle />
+
             {/* Language Toggle */}
             <Button
               variant="ghost"

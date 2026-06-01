@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import Header from "../Header";
 import Footer from "../Footer";
+import AutoBreadcrumb from "../shared/AutoBreadcrumb";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -40,7 +41,8 @@ const PageLayout: React.FC<PageLayoutProps> = ({ children, title }) => {
       <Header />
       <main className="pt-16 md:pt-24">
         <div className="container mx-auto px-4 py-4 md:py-8">
-          <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto">
+            <AutoBreadcrumb />
             {title && (
               <h1 className="text-3xl md:text-4xl font-bold text-center text-construction-primary mb-8 md:mb-12 fade-in-view">
                 {title}

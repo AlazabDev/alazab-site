@@ -19,6 +19,7 @@ import FloatingSocialButton from "./components/shared/FloatingSocialButton";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import ScrollProgressBar from "./components/shared/ScrollProgressBar";
 import StickyMobileCTA from "./components/shared/StickyMobileCTA";
+import CommandPalette from "./components/shared/CommandPalette";
 
 // Lazy loaded pages
 const MaintenanceRequest = lazy(() => import("./pages/MaintenanceRequest"));

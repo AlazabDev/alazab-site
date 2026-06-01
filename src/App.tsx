@@ -69,6 +69,7 @@ const MetaAccountsPage = lazy(() => import("./pages/MetaAccountsPage"));
 const InternalWebhookPage = lazy(() => import("./pages/InternalWebhookPage"));
 const CostCalculator = lazy(() => import("./pages/CostCalculator"));
 const AdminContentManager = lazy(() => import("./pages/AdminContentManager"));
+const AdminServerDashboard = lazy(() => import("./pages/AdminServerDashboard"));
 const ContentSectionPage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentSectionPage })));
 const ContentArticlePage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentArticlePage })));
 
@@ -133,6 +134,11 @@ function App() {
         <Route path="/admin/content" element={
           <AdminRoute>
             <AdminContentManager />
+          </AdminRoute>
+        } />
+        <Route path="/admin/server" element={
+          <AdminRoute>
+            <AdminServerDashboard />
           </AdminRoute>
         } />
         <Route path="/profile" element={

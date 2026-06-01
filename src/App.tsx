@@ -226,6 +226,7 @@ function App() {
       <FloatingSocialButton />
       <ScrollToTop />
       <StickyMobileCTA />
+      <CommandPalette />
       <Toaster />
     </BrowserRouter>
     </ErrorBoundary>

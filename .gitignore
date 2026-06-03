@@ -25,3 +25,6 @@ dist-ssr
 *.keystore
 keystore.properties
 android/app/*.keystore
+server/.env
+.env
+.env.local

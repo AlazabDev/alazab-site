@@ -139,5 +139,12 @@
   "homepage": "https://alazab.com",
   "bugs": {
     "url": "https://github.com/AlazabDev/alazab.com/issues"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild",
+      "protobufjs"
+    ]
   }
 }

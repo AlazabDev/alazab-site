@@ -5,7 +5,7 @@
   "description": "منصة متكاملة لإدارة المشاريع والخدمات مع دعم المصادقة المتعددة",
   "type": "module",
   "engines": {
-    "node": ">=24.0.0",
+    "node": ">=20.0.0",
     "pnpm": ">=10.0.0",
     "npm": ">=10.0.0"
   },
@@ -139,5 +139,12 @@
   "homepage": "https://alazab.com",
   "bugs": {
     "url": "https://github.com/AlazabDev/alazab.com/issues"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@swc/core",
+      "esbuild",
+      "protobufjs"
+    ]
   }
 }

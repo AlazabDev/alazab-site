@@ -25,6 +25,7 @@ const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
 const webhookRoutes = require('./routes/webhook');
 const metaRoutes = require('./routes/meta');
+const twilioRoutes = require('./routes/twilio');
 const telegramRoutes = require('./routes/telegram');
 const elevenlabsRoutes = require('./routes/elevenlabs');
 const elevenlabsV1Routes = require('./routes/elevenlabs-v1');
@@ -332,6 +333,7 @@ app.use('/api/admin', adminLimiter, adminRoutes);
 app.use('/auth/v1', authLimiter, authRoutes);
 app.use('/api/v1', apiRoutes);
 app.use('/api/meta', metaRoutes);
+app.use('/api/twilio', twilioRoutes);
 
 // ── 404 ───────────────────────────────────────────────────────
 app.use((req, res) => {

@@ -245,4 +245,58 @@ check_admin POST "/api/webhook/retry-mcp" '{"eventId":"TEST_ID"}'
 check_admin POST "/api/webhook/whatsapp" '{}'
 
 echo
+echo
+echo "===== TWILIO ====="
+check_twilio_voice_webhook() {
+  local url="${BASE_URL}/api/twilio/voice/incoming"
+  # Twilio voice webhook يجب أن يرد بـ TwiML (XML) وليس JSON
+  local response
+  response=$(curl -k -L -sS --max-time 10 -X POST \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "From=%2B1234567890&CallStatus=ringing&CallSid=TEST_CALL_123" \
+    "${url}" 2>/dev/null | head -c 200)
+  
+  if echo "$response" | grep -qi "<Response>" || echo "$response" | grep -qi "<Gather>"; then
+    ok_lock "200" "POST" "$url (TwiML)"
+  else
+    bad "FAIL" "POST" "$url"
+  fi
+}
+
+check_twilio_message_webhook() {
+  local url="${BASE_URL}/api/twilio/message/incoming"
+  local response
+  response=$(curl -k -L -sS --max-time 10 -X POST \
+    -H "Content-Type:application/x-www-form-urlencoded" \
+    -d "From=%2B1234567890&Body=Hello&MessageSid=TEST_MSG_123" \
+    "${url}" 2>/dev/null)
+  
+  if echo "$response" | grep -qi "<Response>" || echo "$response" | grep -qi "<Message>"; then
+    ok_lock "200" "POST" "$url"
+  else
+    bad "FAIL" "POST" "$url"
+  fi
+}
+
+check_twilio_status() {
+  local url="${BASE_URL}/api/twilio/status"
+  local code
+  code="$(curl_code "POST" "$url" '{"CallSid":"TEST","CallStatus":"completed"}' \
+    -H "Content-Type:application/x-www-form-urlencoded")"
+  
+  case "$code" in
+    200|201|202|204) ok_lock "$code" "POST" "$url" ;;
+    *) bad "$code" "POST" "$url" ;;
+  esac
+}
+
+check_twilio_health() {
+  check_public GET "/api/twilio/health"
+}
+
+# تنفيذ فحوصات Twilio
+check_twilio_health
+check_twilio_voice_webhook
+check_twilio_message_webhook
+check_twilio_status
 echo "===== DONE ====="

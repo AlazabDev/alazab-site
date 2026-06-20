@@ -37,12 +37,11 @@
     "morgan": "^1.10.0",
     "pg": "^8.13.0",
     "winston": "^3.14.0",
-    "ws": "^8.20.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "depcheck": "^1.4.7",
     "eslint": "^10.2.1",
+    "glob": "^13.0.6",
     "npm-check-updates": "^22.0.1",
     "prettier": "^3.8.3"
   }

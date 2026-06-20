@@ -5,11 +5,11 @@
   "description": "منصة متكاملة لإدارة المشاريع والخدمات مع دعم المصادقة المتعددة",
   "type": "module",
   "engines": {
-    "node": ">=20.0.0",
-    "pnpm": ">=10.0.0",
-    "npm": ">=10.0.0"
+    "node": ">=24.16.0",
+    "pnpm": ">=11.7.0",
+    "npm": ">=11.13.0"
   },
-  "packageManager": "pnpm@10.0.0",
+  "packageManager": "pnpm@11.7.0",
   "scripts": {
     "dev": "vite --open",
     "dev:host": "vite --host --open",

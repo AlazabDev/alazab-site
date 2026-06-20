@@ -114,6 +114,8 @@ const erpAppsSections: SidebarSection[] = [
     items: [
       { title: "Telephony - الاتصالات", href: "https://erp.alazab.com/app/telephony", icon: Phone, description: "إدارة المكالمات والاتصالات", external: true },
       { title: "Mail - البريد", href: "https://erp.alazab.com/app/mail", icon: Mail, description: "البريد الإلكتروني المؤسسي", external: true },
+      { title: "تعليمات البريد المؤسسي", href: "https://alazab.com/mail-setup.html", icon: Mail, description: "إعداد IMAP وSMTP والوصول للويب ميل", external: true, badge: "دليل" },
+      { title: "Webmail - دخول البريد", href: "https://webmail.migadu.com", icon: Mail, description: "فتح صندوق البريد عبر Migadu", external: true },
       { title: "Helpdesk - الدعم الفني", href: "https://erp.alazab.com/app/helpdesk", icon: HeadphonesIcon, description: "تذاكر الدعم الفني", external: true },
       { title: "Raven - الرسائل", href: "https://erp.alazab.com/app/raven", icon: MessageCircle, description: "الرسائل الداخلية", external: true },
       { title: "AzaBot - واتساب", href: "https://erp.alazab.com/app/whatsapp", icon: MessageSquare, description: "تشاتبوت واتساب الذكي", external: true, badge: "AI" },

@@ -1,0 +1,109 @@
+===== PM2 =====
+✅ online   azproud-prod
+✅ online   azgallery
+✅ online   alazab-api
+✅ online   alazab-mcp
+✅ online   uberfix-mcp
+
+===== CORE =====
+✅ 200  GET    https://alazab.com/
+✅ 200  GET    https://alazab.com/health
+✅ 200  GET    https://alazab.com/ready
+
+===== API =====
+✅ 200  GET    https://alazab.com/api/v1
+✅ 200  GET    https://alazab.com/api/v1/status
+✅ 400  POST   https://alazab.com/api/v1/contact
+✅ 400  POST   https://alazab.com/api/v1/newsletter
+✅ 200  GET    https://alazab.com/auth/v1/status
+✅ 200  GET    https://alazab.com/auth/v1/callback
+✅ 200  GET    https://alazab.com/api/meta/health
+
+===== ELEVENLABS =====
+✅ 200  GET    https://alazab.com/api/elevenlabs/health
+✅🔒 401  GET    https://alazab.com/api/elevenlabs/config                     [Token: (No Token / Auth Required)]
+✅🔒 401  GET    https://alazab.com/api/elevenlabs/events                     [Token: (No Token / Auth Required)]
+✅ 400  POST   https://alazab.com/api/elevenlabs/signed-url
+✅ 400  POST   https://alazab.com/api/elevenlabs/webhook
+
+===== ELEVENLABS V1 PROTECTED =====
+✅ 200  GET    https://alazab.com/api/v1/elevenlabs
+✅ 200  GET    https://alazab.com/api/v1/elevenlabs/health
+✅🔒 200  GET    https://alazab.com/api/v1/elevenlabs/config                  [Token: f7ab2e0b8dcab102b42943ade758cd85a6537029708cd556aec0d47063a5ccc5]
+✅🔒 200  GET    https://alazab.com/api/v1/elevenlabs/events                  [Token: f7ab2e0b8dcab102b42943ade758cd85a6537029708cd556aec0d47063a5ccc5]
+✅🔒 400  POST   https://alazab.com/api/v1/elevenlabs/session                 [Token: f7ab2e0b8dcab102b42943ade758cd85a6537029708cd556aec0d47063a5ccc5]
+✅🔒 400  POST   https://alazab.com/api/v1/elevenlabs/conversation-token      [Token: f7ab2e0b8dcab102b42943ade758cd85a6537029708cd556aec0d47063a5ccc5]
+✅🔒 400  POST   https://alazab.com/api/v1/elevenlabs/signed-url              [Token: f7ab2e0b8dcab102b42943ade758cd85a6537029708cd556aec0d47063a5ccc5]
+✅🔒 401  POST   https://alazab.com/api/v1/elevenlabs/webhook                 [Token: f7ab2e0b8dcab102b42943ade758cd85a6537029708cd556aec0d47063a5ccc5]
+
+===== TELEGRAM =====
+✅ 200  GET    https://alazab.com/api/auth/telegram/health
+✅ 200  GET    https://alazab.com/api/auth/telegram/config
+✅ 200  GET    https://alazab.com/api/auth/telegram/start
+✅ 400  GET    https://alazab.com/api/auth/telegram/callback
+
+===== ADMIN PROTECTED =====
+✅🔒 200  GET    https://alazab.com/api/admin/status                          [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/admin/env                             [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/admin/metrics                         [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/admin/logs                            [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/admin/log-files                       [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/admin/routes                          [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/admin/services                        [Token: Azab@202555]
+✅🔒 400  POST   https://alazab.com/api/admin/services/action                 [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/admin/link-audit                      [Token: Azab@202555]
+✅🔒 400  POST   https://alazab.com/api/admin/ping-mcp                        [Token: Azab@202555]
+
+===== MCP PROTECTED =====
+✅🔒 200  GET    https://alazab.com/api/mcp/health                            [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/mcp/tools                             [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/mcp/catalog/daftra                    [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/mcp/catalog/maintenance               [Token: Azab@202555]
+✅🔒 400  POST   https://alazab.com/api/mcp/call                              [Token: Azab@202555]
+✅🔒 400  POST   https://alazab.com/api/mcp/mcp                               [Token: Azab@202555]
+✅🔒 400  POST   https://alazab.com/api/mcp/v1                                [Token: Azab@202555]
+
+===== META PROTECTED =====
+❌ 500  GET    https://alazab.com/api/meta/accounts
+✅🔒 400  POST   https://alazab.com/api/meta/accounts                         [Token: Azab@202555]
+❌ 500  GET    https://alazab.com/api/meta/accounts/TEST_ID
+✅🔒 400  PUT    https://alazab.com/api/meta/accounts/TEST_ID                 [Token: Azab@202555]
+✅🔒 400  DELETE https://alazab.com/api/meta/accounts/TEST_ID                 [Token: Azab@202555]
+❌ 500  GET    https://alazab.com/api/meta/accounts/TEST_ID/stats
+❌ 500  GET    https://alazab.com/api/meta/messages/TEST_ID
+❌ 500  GET    https://alazab.com/api/meta/messages/TEST_ID/conversations
+✅🔒 400  POST   https://alazab.com/api/meta/messages/TEST_ID/send            [Token: Azab@202555]
+
+===== WEBHOOK PROTECTED =====
+✅🔒 401  GET    https://alazab.com/api/webhook/config                        [Token: Azab@202555]
+✅🔒 401  GET    https://alazab.com/api/webhook/events                        [Token: Azab@202555]
+✅🔒 200  GET    https://alazab.com/api/webhook/whatsapp                      [Token: QvacXnwH_5QWUTKsEsxEgtYd8kHpVcf3U]
+✅🔒 401  POST   https://alazab.com/api/webhook/test                          [Token: Azab@202555]
+✅🔒 401  POST   https://alazab.com/api/webhook/retry-mcp                     [Token: Azab@202555]
+✅🔒 401  POST   https://alazab.com/api/webhook/whatsapp                      [Token: Azab@202555]
+
+===== WEBHOOK TOOL PROTECTED =====
+✅🔒 403  GET    https://alazab.com/api/webhook-tool/config                   [Token: Azab@202555]
+✅🔒 403  GET    https://alazab.com/api/webhook-tool/events                   [Token: Azab@202555]
+✅🔒 400  DELETE https://alazab.com/api/webhook-tool/events/TEST_ID           [Token: Azab@202555]
+✅🔒 403  GET    https://alazab.com/api/webhook-tool/stats                    [Token: Azab@202555]
+✅🔒 400  POST   https://alazab.com/api/webhook-tool/retry                    [Token: Azab@202555]
+✅🔒 400  POST   https://alazab.com/api/webhook-tool/send                     [Token: Azab@202555]
+
+===== WHATSAPP SEAFILE & LEGACY =====
+✅ 200  GET    https://alazab.com/api/whatsapp-seafile/health
+✅🔒 403  GET    https://alazab.com/webhook/wauf/whatsapp                     [Token: (No Token / Auth Required)]
+✅ 400  POST   https://alazab.com/webhook/wauf/whatsapp
+❌ 404  GET    https://alazab.com/api/v1/webhook/wauf/whatsapp
+✅ 400  POST   https://alazab.com/api/v1/webhook/wauf/whatsapp
+
+
+===== TWILIO =====
+✅ 200  GET    https://alazab.com/api/twilio/health
+✅🔒 200  POST   https://alazab.com/api/twilio/voice/incoming (TwiML)
+✅🔒 200  POST   https://alazab.com/api/twilio/message/incoming
+❌ 400  POST   https://alazab.com/api/twilio/status
+===== MCP Server (SSE & Messages) =====
+✅🔒 200  GET    https://alazab.com/mcp-uberfix/sse                           [Token: 0639988287e667c4c7801e34065105f3b80303c6d8d3c2f6dfee45cc7314aebe]
+✅🔒 401  GET    https://alazab.com/mcp-uberfix/sse (Unauthorized Check Passed) [Token: (No Token)]
+===== DONE =====

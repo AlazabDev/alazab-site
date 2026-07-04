@@ -16,13 +16,18 @@ WHATSAPP_VERIFY_TOKEN="$(get_env WHATSAPP_VERIFY_TOKEN)"
 FACEBOOK_APP_SECRET="$(get_env FACEBOOK_APP_SECRET)"
 META_APP_SECRET="$(get_env META_APP_SECRET)"
 ELEVENLABS_WEBHOOK_SECRET="$(get_env ELEVENLABS_WEBHOOK_SECRET)"
+MAINTENANCE_API_KEY="$(get_env MAINTENANCE_API_KEY)"
 
 ok() {
   printf "✅ %-4s %-6s %s\n" "$1" "$2" "$3"
 }
 
 ok_lock() {
-  printf "✅🔒 %-4s %-6s %s\n" "$1" "$2" "$3"
+  if [ -n "${4:-}" ]; then
+    printf "✅🔒 %-4s %-6s %-60s [Token: %s]\n" "$1" "$2" "$3" "$4"
+  else
+    printf "✅🔒 %-4s %-6s %s\n" "$1" "$2" "$3"
+  fi
 }
 
 bad() {
@@ -75,10 +80,10 @@ check_meta_signed() {
 
   case "$code" in
     200|201|202|204|301|302|304|400|405)
-      ok_lock "$code" "$method" "$url"
+      ok_lock "$code" "$method" "$url" "META_SIG=${sig:0:15}..."
       ;;
     401|403)
-      ok_lock "$code" "$method" "$url"
+      ok_lock "$code" "$method" "$url" "META_SIG=${sig:0:15}..."
       ;;
     *)
       bad "$code" "$method" "$url"
@@ -100,7 +105,7 @@ check_public() {
       ok "$code" "$method" "$url"
       ;;
     401|403)
-      ok_lock "$code" "$method" "$url"
+      ok_lock "$code" "$method" "$url" "(No Token / Auth Required)"
       ;;
     *)
       bad "$code" "$method" "$url"
@@ -121,10 +126,10 @@ check_admin() {
 
   case "$code" in
     200|201|202|204|301|302|304|400|405)
-      ok_lock "$code" "$method" "$url"
+      ok_lock "$code" "$method" "$url" "${ADMIN_API_KEY}"
       ;;
     401|403)
-      ok_lock "$code" "$method" "$url"
+      ok_lock "$code" "$method" "$url" "${ADMIN_API_KEY}"
       ;;
     *)
       bad "$code" "$method" "$url"
@@ -147,10 +152,10 @@ check_eleven_v1() {
 
   case "$code" in
     200|201|202|204|301|302|304|400|405)
-      ok_lock "$code" "$method" "$url"
+      ok_lock "$code" "$method" "$url" "${ELEVENLABS_ADMIN_API_KEY}"
       ;;
     401|403)
-      ok_lock "$code" "$method" "$url"
+      ok_lock "$code" "$method" "$url" "${ELEVENLABS_ADMIN_API_KEY}"
       ;;
     *)
       bad "$code" "$method" "$url"
@@ -159,13 +164,13 @@ check_eleven_v1() {
 }
 
 check_whatsapp_verify() {
-  local url="${BASE_URL}/api/webhook/whatsapp"
+  local url="$1"
   local body
 
   body="$(curl -k -L -sS --max-time 10 "${url}?hub.mode=subscribe&hub.verify_token=${WHATSAPP_VERIFY_TOKEN}&hub.challenge=AZAB_TEST_OK" 2>/dev/null || true)"
 
   if [ "$body" = "AZAB_TEST_OK" ]; then
-    ok_lock "200" "GET" "$url"
+    ok_lock "200" "GET" "$url" "${WHATSAPP_VERIFY_TOKEN}"
   else
     bad "FAIL" "GET" "$url"
   fi
@@ -197,7 +202,10 @@ echo
 echo "===== API ====="
 check_public GET "/api/v1"
 check_public GET "/api/v1/status"
+check_public POST "/api/v1/contact" "{}"
+check_public POST "/api/v1/newsletter" "{}"
 check_public GET "/auth/v1/status"
+check_public GET "/auth/v1/callback"
 check_public GET "/api/meta/health"
 
 echo
@@ -233,16 +241,60 @@ check_admin GET  "/api/admin/env"
 check_admin GET  "/api/admin/metrics"
 check_admin GET  "/api/admin/logs"
 check_admin GET  "/api/admin/log-files"
+check_admin GET  "/api/admin/routes"
+check_admin GET  "/api/admin/services"
+check_admin POST "/api/admin/services/action" '{"action":"status","service":"all"}'
+check_admin GET  "/api/admin/link-audit"
 check_admin POST "/api/admin/ping-mcp" '{"tool":"ping"}'
+
+echo
+echo "===== MCP PROTECTED ====="
+check_admin GET  "/api/mcp/health"
+check_admin GET  "/api/mcp/tools"
+check_admin GET  "/api/mcp/catalog/daftra"
+check_admin GET  "/api/mcp/catalog/maintenance"
+check_admin POST "/api/mcp/call" '{}'
+check_admin POST "/api/mcp/mcp" '{}'
+check_admin POST "/api/mcp/v1" '{}'
+
+echo
+echo "===== META PROTECTED ====="
+check_admin GET    "/api/meta/accounts"
+check_admin POST   "/api/meta/accounts" '{}'
+check_admin GET    "/api/meta/accounts/TEST_ID"
+check_admin PUT    "/api/meta/accounts/TEST_ID" '{}'
+check_admin DELETE "/api/meta/accounts/TEST_ID"
+check_admin GET    "/api/meta/accounts/TEST_ID/stats"
+check_admin GET    "/api/meta/messages/TEST_ID"
+check_admin GET    "/api/meta/messages/TEST_ID/conversations"
+check_admin POST   "/api/meta/messages/TEST_ID/send" '{}'
 
 echo
 echo "===== WEBHOOK PROTECTED ====="
 check_admin GET  "/api/webhook/config"
 check_admin GET  "/api/webhook/events"
-check_whatsapp_verify
+check_whatsapp_verify "${BASE_URL}/api/webhook/whatsapp"
+check_whatsapp_verify "${BASE_URL}/auth/meta-app/webhook"
+check_whatsapp_verify "${BASE_URL}/webhook/wauf/whatsapp"
+check_whatsapp_verify "${BASE_URL}/api/v1/webhook/wauf/whatsapp"
 check_admin POST "/api/webhook/test" '{"test":true}'
 check_admin POST "/api/webhook/retry-mcp" '{"eventId":"TEST_ID"}'
 check_admin POST "/api/webhook/whatsapp" '{}'
+
+echo
+echo "===== WEBHOOK TOOL PROTECTED ====="
+check_admin GET    "/api/webhook-tool/config"
+check_admin GET    "/api/webhook-tool/events"
+check_admin DELETE "/api/webhook-tool/events/TEST_ID"
+check_admin GET    "/api/webhook-tool/stats"
+check_admin POST   "/api/webhook-tool/retry" '{}'
+check_admin POST   "/api/webhook-tool/send" '{}'
+
+echo
+echo "===== WHATSAPP SEAFILE & LEGACY ====="
+check_public GET "/api/whatsapp-seafile/health"
+check_public POST "/webhook/wauf/whatsapp" "{}"
+check_public POST "/api/v1/webhook/wauf/whatsapp" "{}"
 
 echo
 echo
@@ -281,8 +333,9 @@ check_twilio_message_webhook() {
 check_twilio_status() {
   local url="${BASE_URL}/api/twilio/status"
   local code
-  code="$(curl_code "POST" "$url" '{"CallSid":"TEST","CallStatus":"completed"}' \
-    -H "Content-Type:application/x-www-form-urlencoded")"
+  code="$(curl -k -L -sS -o /dev/null -w "%{http_code}" --max-time 10 -X POST \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "CallSid=TEST&CallStatus=completed" "$url" 2>/dev/null || true)"
   
   case "$code" in
     200|201|202|204) ok_lock "$code" "POST" "$url" ;;
@@ -299,4 +352,21 @@ check_twilio_health
 check_twilio_voice_webhook
 check_twilio_message_webhook
 check_twilio_status
+echo "===== MCP Server (SSE & Messages) ====="
+# SSE keeps connection open, so we use max-time 2 and ignore the timeout exit code
+code="$(curl -k -L -sS -o /dev/null -w "%{http_code}" --max-time 2 -H "x-api-key: ${MAINTENANCE_API_KEY}" "${BASE_URL}/mcp-uberfix/sse" 2>/dev/null || true)"
+# The output might be just "200"
+case "$code" in
+  200|201|202|204) ok_lock "200" "GET" "${BASE_URL}/mcp-uberfix/sse" "${MAINTENANCE_API_KEY}" ;;
+  *) bad "$code" "GET" "${BASE_URL}/mcp-uberfix/sse" ;;
+esac
+
+# Check without key to ensure it rejects unauthorized access
+code_unauth="$(curl -k -L -sS -o /dev/null -w "%{http_code}" --max-time 2 "${BASE_URL}/mcp-uberfix/sse" 2>/dev/null || true)"
+if [ "$code_unauth" = "401" ]; then
+  ok_lock "401" "GET" "${BASE_URL}/mcp-uberfix/sse (Unauthorized Check Passed)" "(No Token)"
+else
+  bad "$code_unauth" "GET" "${BASE_URL}/mcp-uberfix/sse (VULNERABILITY: Missing 401)"
+fi
+
 echo "===== DONE ====="

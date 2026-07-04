@@ -1,0 +1,25 @@
+{
+  "gateway": "maintenance-gateway",
+  "auth_header": "x-api-key",
+  "actions": [
+    "create_request",
+    "get_status",
+    "transition_stage",
+    "add_note",
+    "cancel",
+    "run_lifecycle_test"
+  ],
+  "workflow_stages": [
+    "submitted",
+    "triaged",
+    "assigned",
+    "scheduled",
+    "in_progress",
+    "inspection",
+    "waiting_parts",
+    "completed",
+    "billed",
+    "paid",
+    "closed"
+  ]
+}

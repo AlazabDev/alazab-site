@@ -19,6 +19,8 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const axios = require('axios');
+const { execFile } = require('child_process');
+const { buildRegistry, runAudit } = require('../scripts/link-audit');
 
 // ── Auth middleware ────────────────────────────────────────────
 function requireAdminKey(req, res, next) {
@@ -242,6 +244,172 @@ router.get('/log-files', (req, res) => {
     res.json({ ok: true, files });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+
+// ── Service management + link audit ───────────────────────────
+const PM2_ALLOWLIST = new Set(
+  String(process.env.ADMIN_PM2_SERVICES || 'alazab-api,alazab-mcp')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+);
+
+const SYSTEMD_ALLOWLIST = new Set(
+  String(process.env.ADMIN_SYSTEMD_SERVICES || 'whatsapp-seafile,azab-whatsapp-seafile,nginx,postgresql')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+);
+
+function runExec(command, args = [], options = {}) {
+  return new Promise((resolve) => {
+    execFile(command, args, { timeout: options.timeout || 15000, maxBuffer: 1024 * 1024 }, (error, stdout, stderr) => {
+      resolve({
+        ok: !error,
+        code: error?.code ?? 0,
+        signal: error?.signal,
+        stdout: String(stdout || '').trim(),
+        stderr: String(stderr || '').trim(),
+        command: [command, ...args].join(' '),
+      });
+    });
+  });
+}
+
+async function readPm2Services() {
+  const result = await runExec('pm2', ['jlist'], { timeout: 10000 });
+  if (!result.ok) return { ok: false, error: result.stderr || result.stdout || 'pm2 not available', services: [] };
+
+  try {
+    const apps = JSON.parse(result.stdout || '[]');
+    return {
+      ok: true,
+      services: apps.map((app) => ({
+        manager: 'pm2',
+        name: app.name,
+        allowed: PM2_ALLOWLIST.has(app.name),
+        status: app.pm2_env?.status || 'unknown',
+        pid: app.pid,
+        restarts: app.pm2_env?.restart_time,
+        uptime: app.pm2_env?.pm_uptime ? new Date(app.pm2_env.pm_uptime).toISOString() : null,
+        memory: app.monit?.memory || 0,
+        cpu: app.monit?.cpu || 0,
+      })),
+    };
+  } catch (error) {
+    return { ok: false, error: error.message, services: [] };
+  }
+}
+
+async function systemdStatus(name) {
+  const [active, enabled] = await Promise.all([
+    runExec('systemctl', ['is-active', name], { timeout: 5000 }),
+    runExec('systemctl', ['is-enabled', name], { timeout: 5000 }),
+  ]);
+
+  return {
+    manager: 'systemd',
+    name,
+    allowed: SYSTEMD_ALLOWLIST.has(name),
+    status: active.stdout || 'unknown',
+    enabled: enabled.stdout || 'unknown',
+    ok: active.stdout === 'active',
+  };
+}
+
+async function readSystemdServices() {
+  const services = await Promise.all(Array.from(SYSTEMD_ALLOWLIST).map(systemdStatus));
+  return { ok: true, services };
+}
+
+async function runServiceAction(manager, name, action) {
+  const safeAction = String(action || '').toLowerCase();
+  const safeName = String(name || '').trim();
+  const safeManager = String(manager || '').toLowerCase();
+
+  if (!safeName || !/^[a-zA-Z0-9_.@:-]+$/.test(safeName)) {
+    throw new Error('Invalid service name');
+  }
+
+  if (safeManager === 'pm2') {
+    if (!PM2_ALLOWLIST.has(safeName)) throw new Error(`PM2 service is not allowed: ${safeName}`);
+    const allowed = new Set(['start', 'stop', 'restart', 'reload', 'delete']);
+    if (!allowed.has(safeAction)) throw new Error(`Unsupported PM2 action: ${safeAction}`);
+    return runExec('pm2', [safeAction, safeName], { timeout: 30000 });
+  }
+
+  if (safeManager === 'systemd') {
+    if (!SYSTEMD_ALLOWLIST.has(safeName)) throw new Error(`systemd service is not allowed: ${safeName}`);
+    const allowed = new Set(['start', 'stop', 'restart', 'reload', 'status']);
+    if (!allowed.has(safeAction)) throw new Error(`Unsupported systemd action: ${safeAction}`);
+    return runExec('systemctl', [safeAction, safeName], { timeout: 30000 });
+  }
+
+  throw new Error(`Unsupported service manager: ${safeManager}`);
+}
+
+// GET /api/admin/services — PM2 + systemd service inventory
+router.get('/services', async (req, res) => {
+  const [pm2, systemd] = await Promise.allSettled([readPm2Services(), readSystemdServices()]);
+  res.json({
+    ok: true,
+    timestamp: new Date().toISOString(),
+    pm2: pm2.status === 'fulfilled' ? pm2.value : { ok: false, error: pm2.reason?.message, services: [] },
+    systemd: systemd.status === 'fulfilled' ? systemd.value : { ok: false, error: systemd.reason?.message, services: [] },
+    allowlists: {
+      pm2: Array.from(PM2_ALLOWLIST),
+      systemd: Array.from(SYSTEMD_ALLOWLIST),
+    },
+  });
+});
+
+// POST /api/admin/services/action — controlled start/stop/restart/reload
+router.post('/services/action', async (req, res) => {
+  try {
+    const { manager, name, action } = req.body || {};
+    const result = await runServiceAction(manager, name, action);
+    res.status(result.ok ? 200 : 500).json({ ok: result.ok, result });
+  } catch (error) {
+    res.status(400).json({ ok: false, error: error.message });
+  }
+});
+
+// GET /api/admin/routes — all discovered + legacy routes without network check
+router.get('/routes', (req, res) => {
+  const routes = buildRegistry();
+  res.json({ ok: true, count: routes.length, routes });
+});
+
+// GET /api/admin/link-audit — run the comprehensive checker
+router.get('/link-audit', async (req, res) => {
+  try {
+    const baseUrl = req.query.baseUrl || req.query.base || process.env.PUBLIC_BASE_URL || 'https://alazab.com';
+    const timeoutMs = Number(req.query.timeoutMs || req.query.timeout || 10000);
+    const concurrency = Number(req.query.concurrency || 8);
+    const publicOnly = ['1', 'true', 'yes'].includes(String(req.query.publicOnly || '').toLowerCase());
+    const report = await runAudit({ baseUrls: String(baseUrl).split(/[\s,]+/), timeoutMs, concurrency, includeOnlyPublic: publicOnly });
+    res.json(report);
+  } catch (error) {
+    res.status(500).json({ ok: false, error: error.message });
+  }
+});
+
+// POST /api/admin/link-audit — body-based audit for UI and automations
+router.post('/link-audit', async (req, res) => {
+  try {
+    const body = req.body || {};
+    const baseUrls = body.baseUrls || body.base_urls || body.baseUrl || body.base || process.env.PUBLIC_BASE_URL || 'https://alazab.com';
+    const report = await runAudit({
+      baseUrls: Array.isArray(baseUrls) ? baseUrls : String(baseUrls).split(/[\s,]+/),
+      timeoutMs: Number(body.timeoutMs || body.timeout || 10000),
+      concurrency: Number(body.concurrency || 8),
+      includeOnlyPublic: Boolean(body.publicOnly),
+    });
+    res.json(report);
+  } catch (error) {
+    res.status(500).json({ ok: false, error: error.message });
   }
 });
 

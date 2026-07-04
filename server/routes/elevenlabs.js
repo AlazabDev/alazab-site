@@ -4,6 +4,39 @@ const { loadAppSecrets, getSupabaseStatus, storeWebhookEvent } = require('../sup
 
 const router = express.Router();
 const webhookEvents = [];
+
+function getAdminAccessKey() {
+  return process.env.ELEVENLABS_ADMIN_API_KEY || process.env.ADMIN_API_KEY || '';
+}
+
+function getChatbotAccessKey() {
+  return process.env.ELEVENLABS_CHATBOT_API_KEY || process.env.ELEVENLABS_ADMIN_API_KEY || process.env.ADMIN_API_KEY || '';
+}
+
+function requireKey(expectedKeyGetter, label) {
+  return function requireConfiguredKey(req, res, next) {
+    const configuredKey = expectedKeyGetter();
+    if (!configuredKey) {
+      return res.status(503).json({ error: `${label} key is not configured`, requestId: req.requestId });
+    }
+
+    const provided =
+      req.headers['x-api-key'] ||
+      req.headers['x-admin-key'] ||
+      req.headers.authorization?.replace(/^Bearer\s+/i, '') ||
+      '';
+
+    if (!provided || provided !== configuredKey) {
+      return res.status(401).json({ error: 'Unauthorized', requestId: req.requestId });
+    }
+
+    return next();
+  };
+}
+
+const requireAdminAccess = requireKey(getAdminAccessKey, 'ElevenLabs admin');
+const requireChatbotAccess = requireKey(getChatbotAccessKey, 'ElevenLabs chatbot');
+
 const MAX_EVENTS = 200;
 let warnedAboutMissingSecret = false;
 
@@ -222,7 +255,7 @@ router.get('/health', async (req, res) => {
   });
 });
 
-router.get('/config', async (req, res) => {
+router.get('/config', requireAdminAccess, async (req, res) => {
   const config = await getElevenLabsConfig();
 
   res.json({
@@ -243,7 +276,7 @@ router.get('/config', async (req, res) => {
   });
 });
 
-router.get('/events', (req, res) => {
+router.get('/events', requireAdminAccess, (req, res) => {
   const { limit = 50, type, agentId } = req.query;
   let events = webhookEvents;
 
@@ -261,12 +294,12 @@ router.get('/events', (req, res) => {
   });
 });
 
-router.delete('/events', (req, res) => {
+router.delete('/events', requireAdminAccess, (req, res) => {
   webhookEvents.length = 0;
   res.json({ success: true });
 });
 
-router.post('/conversation-token', async (req, res) => {
+router.post('/conversation-token', requireChatbotAccess, async (req, res) => {
   try {
     const config = await getElevenLabsConfig();
     ensureApiKey(config);
@@ -305,7 +338,7 @@ router.post('/conversation-token', async (req, res) => {
   }
 });
 
-router.post('/signed-url', async (req, res) => {
+router.post('/signed-url', requireChatbotAccess, async (req, res) => {
   try {
     const config = await getElevenLabsConfig();
     ensureApiKey(config);

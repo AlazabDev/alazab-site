@@ -86,7 +86,10 @@ const authenticate = (req, res, next) => {
     });
   }
   const token = authHeader.split(' ')[1];
-  const validToken = process.env.WEBHOOK_TOOL_API_KEY || 'QvacXnwH_5QWUTKsEsxEgtYd8kHpVcf3U';
+  const validToken = process.env.WEBHOOK_TOOL_API_KEY;
+  if (!validToken) {
+    return res.status(503).json({ success: false, error: 'Webhook tool API key is not configured' });
+  }
   if (token !== validToken) {
     return res.status(403).json({
       success: false,

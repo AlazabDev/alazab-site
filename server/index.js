@@ -17,6 +17,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const crypto = require('crypto');
+const path = require('path');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
@@ -27,10 +28,13 @@ const webhookRoutes = require('./routes/webhook');
 const metaRoutes = require('./routes/meta');
 const twilioRoutes = require('./routes/twilio');
 const webhookToolRoutes = require('./routes/webhook-tool');
+const whatsappSeafileRoutes = require('./routes/whatsapp-seafile');
 const telegramRoutes = require('./routes/telegram');
 const elevenlabsRoutes = require('./routes/elevenlabs');
 const elevenlabsV1Routes = require('./routes/elevenlabs-v1');
 const adminRoutes = require('./routes/admin');
+const mcpRoutes = require('./routes/mcp');
+const dynamicRoutes = require('./routes/dynamic-routes');
 
 // ── Logger ────────────────────────────────────────────────────
 const logger = require('./logger');
@@ -107,10 +111,11 @@ const allowedOrigins = [
   process.env.FRONTEND_URL || 'https://alazab.com',
   'https://www.alazab.com',
   'https://azab.services',
-  'http://localhost:8081',
-  'http://localhost:5173',
-  'http://localhost:3000',
 ];
+
+if (NODE_ENV !== 'production') {
+  allowedOrigins.push('http://localhost:8081', 'http://localhost:5173', 'http://localhost:3000');
+}
 
 function isOriginAllowed(origin) {
   if (!origin) return true; // server-to-server, curl, webhooks
@@ -137,44 +142,65 @@ app.use(
 );
 
 // ── Rate limits ───────────────────────────────────────────────
+const rateLimitKeyGen = (req) => {
+  return req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.ip;
+};
+
+const skipLocal = (req) => {
+  const ip = rateLimitKeyGen(req);
+  if (ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1') return true;
+  if (process.env.ADMIN_API_KEY && req.headers['x-admin-key'] === process.env.ADMIN_API_KEY) return true;
+  return false;
+};
+
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 400,
+  max: 2000,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many requests' },
+  keyGenerator: rateLimitKeyGen,
+  skip: skipLocal,
 });
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 30,
+  max: 300,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many authentication attempts' },
+  keyGenerator: rateLimitKeyGen,
+  skip: skipLocal,
 });
 
 const webhookLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 300,
+  max: 1000,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many webhook requests' },
+  keyGenerator: rateLimitKeyGen,
+  skip: skipLocal,
 });
 
 const elevenlabsLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 180,
+  max: 500,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many ElevenLabs requests' },
+  keyGenerator: rateLimitKeyGen,
+  skip: skipLocal,
 });
 
 const adminLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  max: 60,
+  max: 500,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many admin requests' },
+  keyGenerator: rateLimitKeyGen,
+  skip: skipLocal,
 });
 
 app.use(globalLimiter);
@@ -254,6 +280,12 @@ app.get('/ready', (req, res) => {
   res.status(ready ? 200 : 503).json({ ok: ready, checks, timestamp: new Date().toISOString() });
 });
 
+
+// ── Admin graphical dashboard ─────────────────────────────────
+app.get(['/dashboard', '/admin', '/admin/dashboard'], (req, res) => {
+  res.redirect('/');
+});
+
 // ── WhatsApp webhook verification (GET) ───────────────────────
 app.get('/api/webhook/whatsapp', (req, res) => {
   const mode = req.query['hub.mode'];
@@ -329,6 +361,8 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ── Admin dashboard API ───────────────────────────────────────
 app.use('/api/admin', adminLimiter, adminRoutes);
+app.use('/api/admin', adminLimiter, dynamicRoutes.adminRoutes);
+app.use('/api/mcp', adminLimiter, mcpRoutes);
 
 // ── Auth + API + Meta routes ──────────────────────────────────
 app.use('/auth/v1', authLimiter, authRoutes);
@@ -336,6 +370,10 @@ app.use('/api/v1', apiRoutes);
 app.use('/api/meta', metaRoutes);
 app.use('/api/webhook-tool', webhookToolRoutes);
 app.use('/api/twilio', twilioRoutes);
+app.use('/', whatsappSeafileRoutes);
+app.use('/api/v1', whatsappSeafileRoutes);
+
+app.use(dynamicRoutes.dynamicRouter);
 
 // ── 404 ───────────────────────────────────────────────────────
 app.use((req, res) => {
@@ -374,9 +412,10 @@ const server = app.listen(PORT, '127.0.0.1', () => {
   logger.info(`${APP_NAME} running on http://127.0.0.1:${PORT}`);
   logger.info(`Health:  /health   Ready:   /ready`);
   logger.info(`Auth:    /auth/v1/  API:     /api/v1/`);
-  logger.info(`Webhook: GET|POST /api/webhook/whatsapp`);
+  logger.info(`Webhook: GET|POST /api/webhook/whatsapp and /webhook/wauf/whatsapp`);
   logger.info(`Eleven:  /api/elevenlabs/  Meta: /api/meta/`);
   logger.info(`Admin:   /api/admin/status (requires X-Admin-Key header)`);
+  logger.info(`MCP:     /api/mcp/health  /api/mcp/tools  /api/mcp/call`);
 
   // Optional: try DB connection at startup (non-blocking)
   const { testDbConnection } = require('./db');

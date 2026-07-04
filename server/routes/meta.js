@@ -2,6 +2,37 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+function requireAdminAccess(req, res, next) {
+  const configuredKey = process.env.META_ADMIN_API_KEY || process.env.ADMIN_API_KEY || '';
+  if (!configuredKey) {
+    return res.status(503).json({ error: 'Meta admin API key is not configured' });
+  }
+
+  const provided =
+    req.headers['x-admin-key'] ||
+    req.headers['x-api-key'] ||
+    req.headers.authorization?.replace(/^Bearer\s+/i, '') ||
+    '';
+
+  if (!provided || provided !== configuredKey) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  return next();
+}
+
+const ALLOWED_ACCOUNT_UPDATE_FIELDS = new Set([
+  'display_name',
+  'account_type',
+  'waba_id',
+  'phone_number_id',
+  'phone_number',
+  'business_name',
+  'config',
+  'is_active',
+]);
+
+
 // GET /api/meta/health
 router.get('/health', async (req, res) => {
   try {
@@ -23,6 +54,8 @@ router.get('/health', async (req, res) => {
     res.status(500).json({ status: 'error', error: err.message });
   }
 });
+
+router.use(requireAdminAccess);
 
 // GET /api/meta/accounts
 router.get('/accounts', async (req, res) => {
@@ -80,9 +113,11 @@ router.post('/accounts', async (req, res) => {
 // PUT /api/meta/accounts/:id
 router.put('/accounts/:id', async (req, res) => {
   try {
-    const fields = Object.entries(req.body).filter(([k]) => k !== 'id' && k !== 'created_at');
-    if (!fields.length) return res.status(400).json({ error: 'No fields to update' });
-    const sets = fields.map(([k], i) => `${k} = $${i + 2}`).join(', ');
+    const fields = Object.entries(req.body).filter(([k]) => ALLOWED_ACCOUNT_UPDATE_FIELDS.has(k));
+    if (!fields.length) {
+      return res.status(400).json({ error: 'No allowed fields to update' });
+    }
+    const sets = fields.map(([k], i) => `"${k}" = $${i + 2}`).join(', ');
     const values = fields.map(([, v]) => v);
     const { rows } = await pool.query(
       `UPDATE accounts SET ${sets}, updated_at = NOW() WHERE id = $1 RETURNING *`,

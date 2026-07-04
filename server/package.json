@@ -1,7 +1,7 @@
 {
   "name": "alazab-server",
   "version": "1.0.0",
-  "description": "Alazab Backend API Server - Auth, API, Webhooks",
+  "description": "Alazab Backend API Server - Auth, API, Webhooks, MCP Gateway",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -12,7 +12,7 @@
     "pm2:stop": "pm2 stop ecosystem.config.js",
     "pm2:logs": "pm2 logs",
     "pm2:monit": "pm2 monit",
-    "check": "node --check index.js && find routes -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}",
+    "check": "node --check index.js && find routes mcp scripts -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write '**/*.js' '**/*.json' '**/*.md'",
@@ -20,24 +20,29 @@
     "update:check": "ncu",
     "check:postgres": "node scripts/check-postgres.js",
     "check:websocket": "node scripts/check-websocket.js",
-    "check:infra": "npm run check:postgres && npm run check:websocket"
+    "check:infra": "npm run check:postgres && npm run check:websocket",
+    "mcp": "node mcp/server.js",
+    "mcp:tools": "curl -sS http://127.0.0.1:${MCP_PORT:-4005}/tools | jq ."
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.42.0",
     "@google-cloud/dialogflow": "^7.5.0",
-    "@supabase/supabase-js": "^2.103.0",
-    "axios": "^1.15.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@supabase/supabase-js": "2.109.0",
+    "axios": "^1.18.1",
     "body-parser": "^2.2.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
     "express-rate-limit": "^7.4.0",
     "facebook-nodejs-business-sdk": "^24.0.1",
+    "form-data": "^4.0.6",
     "helmet": "^8.0.0",
+    "js-yaml": "^5.2.0",
     "morgan": "^1.10.0",
-    "pg": "^8.13.0",
+    "pg": "^8.22.0",
     "winston": "^3.14.0",
-    "zod": "^3.24.2"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "eslint": "^10.2.1",

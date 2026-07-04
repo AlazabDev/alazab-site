@@ -1,38 +1,61 @@
-'use strict';
-
 require('dotenv').config();
+
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT || 5432),
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  ssl: process.env.DB_SSL === 'true'
-    ? { rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false' }
-    : false,
-  connectionTimeoutMillis: 5000,
-});
+const config = {
+  host: process.env.PG_HOST || '127.0.0.1',
+  port: Number(process.env.PG_PORT || 5433),
+  database: process.env.PG_DATABASE || 'azab_hooks',
+  user: process.env.PG_USER || 'azab_hooks',
+  password: process.env.PG_PASSWORD,
+  connectionTimeoutMillis: 10000,
+};
 
-(async () => {
+async function main() {
+  const masked = {
+    host: config.host,
+    port: config.port,
+    database: config.database,
+    user: config.user,
+    password: config.password ? '***set***' : '***missing***',
+  };
+
+  console.log('PostgreSQL config:', masked);
+
+  if (!config.password) {
+    throw new Error('PG_PASSWORD is missing from .env');
+  }
+
+  const pool = new Pool(config);
+
   try {
     const result = await pool.query(`
       SELECT
-        NOW() AS now,
         current_database() AS database,
         current_user AS user,
-        version() AS version
+        inet_server_addr() AS server_addr,
+        inet_server_port() AS server_port,
+        now() AS checked_at
     `);
 
     console.log('✅ PostgreSQL connected');
-    console.log(JSON.stringify(result.rows[0], null, 2));
-    process.exit(0);
+    console.log(result.rows[0]);
+
+    const tables = await pool.query(`
+      SELECT schemaname, tablename
+      FROM pg_tables
+      WHERE schemaname = 'wa_ingest'
+      ORDER BY tablename
+    `);
+
+    console.log('wa_ingest tables:', tables.rows.map(r => r.tablename));
   } catch (err) {
     console.error('❌ PostgreSQL failed');
     console.error(err.message);
-    process.exit(1);
+    process.exitCode = 1;
   } finally {
     await pool.end().catch(() => {});
   }
-})();
+}
+
+main();

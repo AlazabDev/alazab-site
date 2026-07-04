@@ -11,33 +11,39 @@ const { Pool } = require('pg');
 require('dotenv').config();
 
 
-const REQUIRED_ENV = ['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'];
-const missingEnv = REQUIRED_ENV.filter((k) => !process.env[k]);
+function envValue(primary, fallback) {
+  return process.env[primary] || process.env[fallback];
+}
+
+const DB_CONFIG = {
+  host: envValue('PG_HOST', 'DB_HOST'),
+  port: Number(envValue('PG_PORT', 'DB_PORT') || 5433),
+  database: envValue('PG_DATABASE', 'DB_NAME'),
+  user: envValue('PG_USER', 'DB_USER'),
+  password: envValue('PG_PASSWORD', 'DB_PASSWORD'),
+  max: Number(process.env.DB_POOL_MAX || 20),
+  min: Number(process.env.DB_POOL_MIN || 2),
+  idleTimeoutMillis: Number(process.env.DB_IDLE_TIMEOUT_MS || 30000),
+  connectionTimeoutMillis: Number(process.env.DB_CONNECT_TIMEOUT_MS || 5000),
+  maxUses: Number(process.env.DB_MAX_USES || 7500),
+  allowExitOnIdle: false,
+  application_name: process.env.DB_APP_NAME || 'alazab-api',
+  ssl:
+    process.env.DB_SSL === 'true'
+      ? {
+          rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false',
+        }
+      : false,
+};
+
+const REQUIRED_DB_FIELDS = ['host', 'port', 'database', 'user', 'password'];
+const missingEnv = REQUIRED_DB_FIELDS.filter((k) => !DB_CONFIG[k]);
 
 let pool = null;
 let dbAvailable = false;
 
 if (missingEnv.length === 0) {
-  pool = new Pool({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    max: Number(process.env.DB_POOL_MAX || 20),
-    min: Number(process.env.DB_POOL_MIN || 2),
-    idleTimeoutMillis: Number(process.env.DB_IDLE_TIMEOUT_MS || 30000),
-    connectionTimeoutMillis: Number(process.env.DB_CONNECT_TIMEOUT_MS || 5000),
-    maxUses: Number(process.env.DB_MAX_USES || 7500),
-    allowExitOnIdle: false,
-    application_name: process.env.DB_APP_NAME || 'alazab-api',
-    ssl:
-      process.env.DB_SSL === 'true'
-        ? {
-            rejectUnauthorized: process.env.DB_SSL_REJECT_UNAUTHORIZED !== 'false',
-          }
-        : false,
-  });
+  pool = new Pool(DB_CONFIG);
 
   pool.on('connect', async (client) => {
     try {
@@ -61,7 +67,7 @@ if (missingEnv.length === 0) {
   dbAvailable = true;
 } else {
   console.warn(
-    `DB not configured — missing: ${missingEnv.join(', ')}. Database features disabled.`
+    `DB not configured — missing resolved fields: ${missingEnv.join(', ')}. Database features disabled.`
   );
 }
 

@@ -28,3 +28,4 @@ android/app/*.keystore
 server/.env
 .env
 .env.local
+server/.env

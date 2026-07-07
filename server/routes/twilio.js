@@ -73,6 +73,17 @@ function verifyTwilioSignature(req, res, next) {
   next();
 }
 
+// Health check — mounted BEFORE the signature middleware so it stays public.
+router.get('/health', (req, res) => {
+  res.json({
+    service: 'twilio-integration',
+    status: 'ok',
+    rasa_url: RASA_URL,
+    signature_verification: TWILIO_AUTH_TOKEN ? 'enabled' : 'disabled (TWILIO_AUTH_TOKEN missing)',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Apply signature verification to every Twilio webhook route below.
 router.use(verifyTwilioSignature);
 

@@ -333,7 +333,7 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
               <img src={facebookIcon} alt="Facebook" className="w-5 h-5 object-contain" />
             </a>
             <a
-              href="https://alazab.com/tiktok-auth.html"
+              href="https://www.tiktok.com/@alazab.com"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-black text-white rounded-full hover:bg-gray-800 hover:scale-110 transition-all shadow-md hover:shadow-lg"

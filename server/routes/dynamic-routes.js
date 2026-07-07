@@ -6,6 +6,39 @@ const axios = require('axios');
 
 const CONFIG_FILE = path.join(__dirname, '../config/dynamic-endpoints.json');
 
+// ── Auth middleware — same contract as routes/admin.js ─────────────────
+function requireAdminKey(req, res, next) {
+  const adminKey = process.env.ADMIN_API_KEY;
+  if (!adminKey) {
+    return res.status(503).json({ error: 'Admin API not configured. Set ADMIN_API_KEY in .env' });
+  }
+  const provided =
+    req.headers['x-admin-key'] ||
+    (req.headers['authorization'] || '').replace(/^Bearer\s+/i, '');
+  if (!provided || provided !== adminKey) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  next();
+}
+
+// SSRF guard: only allow proxying to explicitly allow-listed target hosts.
+// Configure via DYNAMIC_PROXY_ALLOWED_HOSTS="api.example.com,other.example.com"
+const ALLOWED_TARGET_HOSTS = (process.env.DYNAMIC_PROXY_ALLOWED_HOSTS || '')
+  .split(',')
+  .map((h) => h.trim().toLowerCase())
+  .filter(Boolean);
+
+function isAllowedTarget(target) {
+  try {
+    const u = new URL(target);
+    if (!/^https?:$/.test(u.protocol)) return false;
+    if (ALLOWED_TARGET_HOSTS.length === 0) return false;
+    return ALLOWED_TARGET_HOSTS.includes(u.hostname.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
 // Ensure config file exists
 if (!fs.existsSync(path.dirname(CONFIG_FILE))) {
   fs.mkdirSync(path.dirname(CONFIG_FILE), { recursive: true });
@@ -27,6 +60,9 @@ function saveEndpoints(endpoints) {
 }
 
 // ── Admin APIs (to manage endpoints) ──────────────────────────────────
+// All admin routes require the ADMIN_API_KEY header (see requireAdminKey).
+router.use(requireAdminKey);
+
 // GET /api/admin/endpoints
 router.get('/endpoints', (req, res) => {
   res.json({ ok: true, endpoints: getEndpoints() });
@@ -35,9 +71,16 @@ router.get('/endpoints', (req, res) => {
 // POST /api/admin/endpoints
 router.post('/endpoints', (req, res) => {
   const { path: routePath, target, method = 'ALL', description = '' } = req.body;
-  
+
   if (!routePath || !target) {
     return res.status(400).json({ ok: false, error: 'path and target are required' });
+  }
+
+  if (!isAllowedTarget(target)) {
+    return res.status(400).json({
+      ok: false,
+      error: 'target host is not in DYNAMIC_PROXY_ALLOWED_HOSTS allow-list',
+    });
   }
 
   const endpoints = getEndpoints();
@@ -84,6 +127,12 @@ dynamicRouter.all('*', async (req, res, next) => {
 
   if (!match) {
     return next(); // Continue to other routes if no match
+  }
+
+  // Defense in depth: re-check the target host against the allow-list on every proxied request
+  // in case DYNAMIC_PROXY_ALLOWED_HOSTS has been tightened since the endpoint was registered.
+  if (!isAllowedTarget(match.target)) {
+    return res.status(502).json({ error: 'Proxy target not allowed' });
   }
 
   try {

@@ -83,7 +83,11 @@ const ServiceCard: React.FC<{
 
 const AdminServerDashboard: React.FC = () => {
   const [baseUrl, setBaseUrl] = useState(() => localStorage.getItem(LS_BASE) || DEFAULT_BASE);
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem(LS_KEY) || '');
+  // SECURITY: Admin key is only kept in memory (sessionStorage) — never persisted to localStorage
+  // to prevent long-lived exfiltration via XSS or malicious browser extensions.
+  const [apiKey, setApiKey] = useState(() => {
+    try { return sessionStorage.getItem(LS_KEY) || ''; } catch { return ''; }
+  });
   const [status, setStatus] = useState<StatusResponse | null>(null);
   const [env, setEnv] = useState<Record<string, string> | null>(null);
   const [logs, setLogs] = useState<LogEntry[]>([]);
@@ -133,8 +137,9 @@ const AdminServerDashboard: React.FC = () => {
 
   const saveConfig = () => {
     localStorage.setItem(LS_BASE, baseUrl);
-    localStorage.setItem(LS_KEY, apiKey);
-    toast({ title: 'تم الحفظ', description: 'سيتم تحديث البيانات الآن' });
+    // SECURITY: store admin key only for the tab session (cleared on tab close).
+    try { sessionStorage.setItem(LS_KEY, apiKey); } catch { /* ignore */ }
+    toast({ title: 'تم الحفظ', description: 'سيتم تحديث البيانات الآن (المفتاح محفوظ لهذه الجلسة فقط)' });
     fetchAll();
     fetchLogs();
   };

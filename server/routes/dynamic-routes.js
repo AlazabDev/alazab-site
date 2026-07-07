@@ -60,6 +60,9 @@ function saveEndpoints(endpoints) {
 }
 
 // ── Admin APIs (to manage endpoints) ──────────────────────────────────
+// All admin routes require the ADMIN_API_KEY header (see requireAdminKey).
+router.use(requireAdminKey);
+
 // GET /api/admin/endpoints
 router.get('/endpoints', (req, res) => {
   res.json({ ok: true, endpoints: getEndpoints() });
@@ -68,9 +71,16 @@ router.get('/endpoints', (req, res) => {
 // POST /api/admin/endpoints
 router.post('/endpoints', (req, res) => {
   const { path: routePath, target, method = 'ALL', description = '' } = req.body;
-  
+
   if (!routePath || !target) {
     return res.status(400).json({ ok: false, error: 'path and target are required' });
+  }
+
+  if (!isAllowedTarget(target)) {
+    return res.status(400).json({
+      ok: false,
+      error: 'target host is not in DYNAMIC_PROXY_ALLOWED_HOSTS allow-list',
+    });
   }
 
   const endpoints = getEndpoints();

@@ -70,6 +70,7 @@ const InternalWebhookPage = lazy(() => import("./pages/InternalWebhookPage"));
 const CostCalculator = lazy(() => import("./pages/CostCalculator"));
 const AdminContentManager = lazy(() => import("./pages/AdminContentManager"));
 const AdminServerDashboard = lazy(() => import("./pages/AdminServerDashboard"));
+const TikTokLinkPage = lazy(() => import("./pages/TikTokLinkPage"));
 const ContentSectionPage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentSectionPage })));
 const ContentArticlePage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentArticlePage })));
 

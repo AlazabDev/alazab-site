@@ -225,6 +225,7 @@ function App() {
         <Route path="/maintenance-services/:slug" element={<ContentArticlePage section="services" />} />
         {/* Fallback: any unmatched /services/:slug renders the matching maintenance service article */}
         <Route path="/services/:slug" element={<ContentArticlePage section="services" />} />
+        <Route path="/tiktok-link" element={<TikTokLinkPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>

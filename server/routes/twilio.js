@@ -217,25 +217,4 @@ router.post('/status', async (req, res) => {
   res.sendStatus(200);
 });
 
-// ============================================================
-// 5. اختبار صحة الخدمة (health check — no signature required)
-// ============================================================
-// Note: `router.use(verifyTwilioSignature)` above applies to POSTs from Twilio.
-// The health endpoint below is a plain GET and Twilio doesn't sign it — but
-// signature verification only rejects when the header is required-and-missing
-// on POST requests. GET here will simply not have a body/signature; we short-
-// circuit by mounting it on a sub-router that skips verification.
-const healthRouter = express.Router();
-healthRouter.get('/', (req, res) => {
-  res.json({
-    service: 'twilio-integration',
-    status: 'ok',
-    rasa_url: RASA_URL,
-    signature_verification: TWILIO_AUTH_TOKEN ? 'enabled' : 'disabled (TWILIO_AUTH_TOKEN missing)',
-    timestamp: new Date().toISOString()
-  });
-});
-
-// Export: mount health separately so it bypasses the signature middleware.
 module.exports = router;
-module.exports.healthRouter = healthRouter;

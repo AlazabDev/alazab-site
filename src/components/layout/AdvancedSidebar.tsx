@@ -1,17 +1,16 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Home, 
-  Wrench, 
-  Building, 
-  Users, 
-  MessageSquare, 
-  Settings, 
-  User, 
-  FileText, 
-  Calculator, 
-  ChevronDown, 
+import {
+  Home,
+  Wrench,
+  Building,
+  Users,
+  MessageSquare,
+  Settings,
+  User,
+  FileText,
+  Calculator,
+  ChevronDown,
   ChevronRight,
   Phone,
   Mail,
@@ -36,11 +35,16 @@ import {
   Palette,
   Languages,
   MessageCircle,
-  ExternalLink
+  ExternalLink,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+
+// استيراد الصور من مجلد assets - المسار الصحيح
+import facebookIcon from '/src/assets/facebook.png';
+import tiktokIcon from '/src/assets/tiktok.png';
+import whatsappIcon from '/src/assets/whatsapp.png';
 
 interface SidebarSection {
   title: string;
@@ -102,56 +106,56 @@ const erpAppsSections: SidebarSection[] = [
     title: "تطبيقات ERP الأساسية",
     expandable: true,
     items: [
-      { title: "Frappe - النظام الأساسي", href: "https://erp.alazab.com/app", icon: Building, description: "منصة فرابي الأساسية", external: true, badge: "رئيسي" },
-      { title: "ERPNext - تخطيط الموارد", href: "https://erp.alazab.com/app/erpnext", icon: Database, description: "نظام إدارة موارد المؤسسة", external: true },
-      { title: "CRM - إدارة العملاء", href: "https://erp.alazab.com/app/crm", icon: UserCircle, description: "علاقات العملاء والمبيعات", external: true },
-      { title: "HRMS - الموارد البشرية", href: "https://erp.alazab.com/app/hrms", icon: Users, description: "إدارة الموظفين والرواتب", external: true },
+      { title: "Frappe - النظام الأساسي", href: "https://erp.alazab.cloud/app", icon: Building, description: "منصة فرابي الأساسية", external: true, badge: "رئيسي" },
+      { title: "ERPNext - تخطيط الموارد", href: "https://erp.alazab.cloud/app/erpnext", icon: Database, description: "نظام إدارة موارد المؤسسة", external: true },
+      { title: "CRM - إدارة العملاء", href: "https://erp.alazab.cloud/app/crm", icon: UserCircle, description: "علاقات العملاء والمبيعات", external: true },
+      { title: "HRMS - الموارد البشرية", href: "https://erp.alazab.cloud/app/hrms", icon: Users, description: "إدارة الموظفين والرواتب", external: true },
     ]
   },
   {
     title: "التواصل والدعم",
     expandable: true,
     items: [
-      { title: "Telephony - الاتصالات", href: "https://erp.alazab.com/app/telephony", icon: Phone, description: "إدارة المكالمات والاتصالات", external: true },
-      { title: "Mail - البريد", href: "https://erp.alazab.com/app/mail", icon: Mail, description: "البريد الإلكتروني المؤسسي", external: true },
+      { title: "Telephony - الاتصالات", href: "https://erp.alazab.cloud/app/telephony", icon: Phone, description: "إدارة المكالمات والاتصالات", external: true },
+      { title: "Mail - البريد", href: "https://erp.alazab.cloud/app/mail", icon: Mail, description: "البريد الإلكتروني المؤسسي", external: true },
       { title: "تعليمات البريد المؤسسي", href: "https://alazab.com/mail-setup.html", icon: Mail, description: "إعداد IMAP وSMTP والوصول للويب ميل", external: true, badge: "دليل" },
       { title: "Webmail - دخول البريد", href: "https://webmail.migadu.com", icon: Mail, description: "فتح صندوق البريد عبر Migadu", external: true },
-      { title: "Helpdesk - الدعم الفني", href: "https://erp.alazab.com/app/helpdesk", icon: HeadphonesIcon, description: "تذاكر الدعم الفني", external: true },
-      { title: "Raven - الرسائل", href: "https://erp.alazab.com/app/raven", icon: MessageCircle, description: "الرسائل الداخلية", external: true },
-      { title: "AzaBot - واتساب", href: "https://erp.alazab.com/app/whatsapp", icon: MessageSquare, description: "تشاتبوت واتساب الذكي", external: true, badge: "AI" },
+      { title: "Helpdesk - الدعم الفني", href: "https://erp.alazab.cloud/app/helpdesk", icon: HeadphonesIcon, description: "تذاكر الدعم الفني", external: true },
+      { title: "Raven - الرسائل", href: "https://erp.alazab.cloud/app/raven", icon: MessageCircle, description: "الرسائل الداخلية", external: true },
+      { title: "AzaBot - واتساب", href: "https://erp.alazab.cloud/app/whatsapp", icon: MessageSquare, description: "تشاتبوت واتساب الذكي", external: true, badge: "AI" },
     ]
   },
   {
     title: "المالية والمدفوعات",
     expandable: true,
     items: [
-      { title: "Payments - المدفوعات", href: "https://erp.alazab.com/app/payments", icon: DollarSign, description: "بوابات الدفع الإلكتروني", external: true },
-      { title: "Azab Tax - الضرائب", href: "https://erp.alazab.com/app/tax", icon: FileText, description: "الامتثال الضريبي المصري", external: true },
+      { title: "Payments - المدفوعات", href: "https://erp.alazab.cloud/app/payments", icon: DollarSign, description: "بوابات الدفع الإلكتروني", external: true },
+      { title: "Azab Tax - الضرائب", href: "https://erp.alazab.cloud/app/tax", icon: FileText, description: "الامتثال الضريبي المصري", external: true },
     ]
   },
   {
     title: "التحليلات والتقارير",
     expandable: true,
     items: [
-      { title: "Insights - التحليلات", href: "https://erp.alazab.com/app/insights", icon: BarChart3, description: "تقارير وتحليلات متقدمة", external: true },
-      { title: "LMS - التعلم", href: "https://erp.alazab.com/app/lms", icon: Award, description: "نظام إدارة التعلم", external: true },
+      { title: "Insights - التحليلات", href: "https://erp.alazab.cloud/app/insights", icon: BarChart3, description: "تقارير وتحليلات متقدمة", external: true },
+      { title: "LMS - التعلم", href: "https://erp.alazab.cloud/app/lms", icon: Award, description: "نظام إدارة التعلم", external: true },
     ]
   },
   {
     title: "التصميم والبناء",
     expandable: true,
     items: [
-      { title: "Builder - المنشئ", href: "https://erp.alazab.com/app/builder", icon: Hammer, description: "بناء الصفحات", external: true },
-      { title: "Print Designer - الطباعة", href: "https://erp.alazab.com/app/print-designer", icon: Printer, description: "تصميم قوالب الطباعة", external: true },
-      { title: "GamePlan - المشاريع", href: "https://erp.alazab.com/app/gameplan", icon: Target, description: "إدارة خطط المشاريع", external: true },
+      { title: "Builder - المنشئ", href: "https://erp.alazab.cloud/app/builder", icon: Hammer, description: "بناء الصفحات", external: true },
+      { title: "Print Designer - الطباعة", href: "https://erp.alazab.cloud/app/print-designer", icon: Printer, description: "تصميم قوالب الطباعة", external: true },
+      { title: "GamePlan - المشاريع", href: "https://erp.alazab.cloud/app/gameplan", icon: Target, description: "إدارة خطط المشاريع", external: true },
     ]
   },
   {
     title: "التجارة والذكاء الاصطناعي",
     expandable: true,
     items: [
-      { title: "Azab Store - المتجر", href: "https://erp.alazab.com/app/ecommerce", icon: Briefcase, description: "التجارة الإلكترونية", external: true },
-      { title: "AI Core - الذكاء الاصطناعي", href: "https://erp.alazab.com/app/ai", icon: TrendingUp, description: "محرك الذكاء الاصطناعي", external: true, badge: "AI" },
+      { title: "Azab Store - المتجر", href: "https://erp.alazab.cloud/app/ecommerce", icon: Briefcase, description: "التجارة الإلكترونية", external: true },
+      { title: "AI Core - الذكاء الاصطناعي", href: "https://erp.alazab.cloud/app/ai", icon: TrendingUp, description: "محرك الذكاء الاصطناعي", external: true, badge: "AI" },
     ]
   }
 ];
@@ -170,8 +174,8 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
   const [expandedSections, setExpandedSections] = useState<string[]>(['التنقل الأساسي', 'الخدمات التفاعلية']);
 
   const toggleSection = (sectionTitle: string) => {
-    setExpandedSections(prev => 
-      prev.includes(sectionTitle) 
+    setExpandedSections(prev =>
+      prev.includes(sectionTitle)
         ? prev.filter(title => title !== sectionTitle)
         : [...prev, sectionTitle]
     );
@@ -180,13 +184,13 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
   const renderSidebarItem = (item: SidebarItem) => {
     const linkContent = (
       <div className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 ${
-        item.comingSoon 
-          ? 'cursor-not-allowed opacity-60' 
+        item.comingSoon
+          ? 'cursor-not-allowed opacity-60'
           : 'hover:bg-construction-primary/10 hover:shadow-md'
       }`}>
         <div className={`p-2 rounded-md ${
-          item.comingSoon 
-            ? 'bg-gray-100 text-gray-400' 
+          item.comingSoon
+            ? 'bg-gray-100 text-gray-400'
             : 'bg-construction-primary/20 text-construction-primary group-hover:bg-construction-primary group-hover:text-white'
         } transition-colors`}>
           <item.icon className="w-4 h-4" />
@@ -267,7 +271,7 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
             {section.title}
           </h3>
         )}
-        
+
         {(!section.expandable || isExpanded) && (
           <div className="space-y-1">
             {section.items.map(renderSidebarItem)}
@@ -293,12 +297,8 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
-        {/* Main Sections */}
         {mainSections.map(renderSection)}
-        
         <Separator className="my-4" />
-        
-        {/* ERP Apps Sections */}
         <div className="bg-gradient-to-br from-construction-primary/5 to-construction-accent/5 rounded-lg p-3">
           <h3 className="text-sm font-bold text-construction-primary mb-3 flex items-center gap-2">
             <Building className="w-4 h-4" />
@@ -306,14 +306,11 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
           </h3>
           {erpAppsSections.map(renderSection)}
         </div>
-        
         <Separator className="my-4" />
-        
-        {/* Future Sections */}
         {futureSections.map(renderSection)}
       </div>
 
-      {/* Footer */}
+      {/* Footer with Social Icons using images */}
       <div className="p-4 border-t bg-gray-50">
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -324,10 +321,39 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
             <Mail className="w-4 h-4" />
             <span>info@alazab.com</span>
           </div>
-          <Button 
+
+          {/* أزرار التواصل الاجتماعي باستخدام الصور */}
+          <div className="flex justify-center gap-4 mt-4 pt-3 border-t border-gray-200">
+            <a
+              href="https://www.facebook.com/alazab24"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 hover:scale-110 transition-all shadow-md hover:shadow-lg"
+            >
+              <img src={facebookIcon} alt="Facebook" className="w-5 h-5 object-contain" />
+            </a>
+            <a
+              href="https://alazab.com/tiktok-auth.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-black text-white rounded-full hover:bg-gray-800 hover:scale-110 transition-all shadow-md hover:shadow-lg"
+            >
+              <img src={tiktokIcon} alt="TikTok" className="w-5 h-5 object-contain" />
+            </a>
+            <a
+              href="https://wa.me/201004006620"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-green-600 text-white rounded-full hover:bg-green-700 hover:scale-110 transition-all shadow-md hover:shadow-lg"
+            >
+              <img src={whatsappIcon} alt="WhatsApp" className="w-5 h-5 object-contain" />
+            </a>
+          </div>
+
+          <Button
             onClick={onClose}
-            variant="outline" 
-            size="sm" 
+            variant="outline"
+            size="sm"
             className="w-full mt-3"
           >
             إغلاق القائمة

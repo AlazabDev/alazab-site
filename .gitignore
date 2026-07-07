@@ -26,6 +26,7 @@ dist-ssr
 keystore.properties
 android/app/*.keystore
 server/.env
-.env
 .env.local
-server/.env
+
+# HubSpot config file
+hubspot.config.yml

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ربط حساب TikTok - العزب للمقاولات</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
+        }
+        .tiktok-btn {
+            background: linear-gradient(135deg, #25f4ee 0%, #fe2c55 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(254, 44, 85, 0.3);
+        }
+        .tiktok-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 30px rgba(254, 44, 85, 0.5);
+        }
+        .tiktok-btn:active {
+            transform: scale(0.98);
+        }
+        /* شعار مستطيل بحجم 250px عرض و 100px ارتفاع */
+        .logo-rectangle {
+            width: 250px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            border-radius: 16px;
+            background: #1e293b;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+        .logo-rectangle:hover {
+            border-color: #fe2c55;
+        }
+        .logo-rectangle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
+        }
+        .feature-icon {
+            color: #fe2c55;
+            font-size: 1.25rem;
+            width: 2rem;
+            text-align: center;
+        }
+        .glow {
+            text-shadow: 0 0 40px rgba(254, 44, 85, 0.3);
+        }
+        .tiktok-link {
+            color: #25f4ee;
+            transition: color 0.3s ease;
+        }
+        .tiktok-link:hover {
+            color: #fe2c55;
+            text-decoration: underline;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="w-full max-w-md px-4 py-8">
+        <!-- البطاقة الرئيسية -->
+        <div class="card rounded-3xl p-8 text-white text-center">
+
+            <!-- الشعار المستطيل -->
+            <div class="logo-rectangle float-animation">
+                <img src="https://alazab.com/w.png"
+                     alt="Alazab Logo - العزب للمقاولات"
+                     onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22250%22 height=%22100%22 viewBox=%220 0 250 100%22%3E%3Crect width=%22250%22 height=%22100%22 fill=%22%231e293b%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23fe2c55%22 font-family=%22sans-serif%22%3E%D8%A7%D9%84%D8%B9%D8%B2%D8%A8%3C/text%3E%3Ctext x=%22170%22 y=%2255%22 font-size=%2218%22 fill=%22%23ffffff%22 font-family=%22sans-serif%22%3E%D9%84%D9%84%D9%85%D9%82%D8%A7%D9%88%D9%84%D8%A7%D8%AA%3C/text%3E%3C/svg%3E';">
+            </div>
+
+            <!-- العنوان مع رابط الحساب -->
+            <h1 class="text-2xl font-bold mb-2 glow">
+                <i class="fab fa-tiktok text-[#fe2c55] ml-2"></i>
+                ربط حساب TikTok
+            </h1>
+            <p class="text-gray-400 text-sm mb-1">
+                قم بربط حسابك التجاري على
+                <a href="https://www.tiktok.com/@alazab.com"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="tiktok-link font-semibold">
+                    @alazab.com
+                    <i class="fas fa-external-link-alt text-xs mr-1"></i>
+                </a>
+            </p>
+            <p class="text-gray-500 text-xs mb-6">
+                لإدارة حملاتك الإعلانية بذكاء من منصة العزب
+            </p>
+
+            <!-- قائمة الميزات -->
+            <div class="text-right space-y-3 mb-8">
+                <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl">
+                    <span class="feature-icon"><i class="fas fa-chart-line"></i></span>
+                    <div>
+                        <p class="font-semibold text-sm">تحليلات متقدمة</p>
+                        <p class="text-gray-400 text-xs">تابع أداء حملاتك في الوقت الفعلي</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl">
+                    <span class="feature-icon"><i class="fas fa-bullhorn"></i></span>
+                    <div>
+                        <p class="font-semibold text-sm">إدارة الحملات</p>
+                        <p class="text-gray-400 text-xs">أنشئ وعدّل حملاتك بسهولة</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 bg-white/5 p-3 rounded-xl">
+                    <span class="feature-icon"><i class="fas fa-robot"></i></span>
+                    <div>
+                        <p class="font-semibold text-sm">توصيات ذكية</p>
+                        <p class="text-gray-400 text-xs">تحسين الأداء باستخدام الذكاء الاصطناعي</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- زر المصادقة -->
+            <a href="/api/tiktok/auth"
+               class="tiktok-btn w-full py-4 px-6 rounded-2xl font-bold text-white text-lg inline-flex items-center justify-center gap-3 transition-all">
+                <i class="fab fa-tiktok text-2xl"></i>
+                ربط حساب TikTok الآن
+                <i class="fas fa-arrow-left text-sm"></i>
+            </a>
+
+            <!-- نص توضيحي صغير -->
+            <p class="text-gray-500 text-xs mt-6">
+                <i class="fas fa-lock text-[#fe2c55] ml-1"></i>
+                سيتم توجيهك إلى صفحة مصادقة TikTok الآمنة
+            </p>
+
+            <!-- حقوق النشر -->
+            <div class="mt-8 pt-6 border-t border-white/5 text-gray-600 text-xs">
+                <p>© 2025 <span class="text-gray-400">العزب للمقاولات المتكاملة</span></p>
+                <p class="mt-1">
+                    <a href="/privacy" class="hover:text-gray-300 transition-colors">سياسة الخصوصية</a>
+                    &middot;
+                    <a href="/terms" class="hover:text-gray-300 transition-colors">شروط الخدمة</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

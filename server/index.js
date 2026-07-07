@@ -26,6 +26,7 @@ const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
 const webhookRoutes = require('./routes/webhook');
 const metaRoutes = require('./routes/meta');
+const tiktokRoutes = require('./routes/tiktok');
 const twilioRoutes = require('./routes/twilio');
 const webhookToolRoutes = require('./routes/webhook-tool');
 const whatsappSeafileRoutes = require('./routes/whatsapp-seafile');
@@ -368,6 +369,7 @@ app.use('/api/mcp', adminLimiter, mcpRoutes);
 app.use('/auth/v1', authLimiter, authRoutes);
 app.use('/api/v1', apiRoutes);
 app.use('/api/meta', metaRoutes);
+app.use('/api/tiktok', tiktokRoutes);
 app.use('/api/webhook-tool', webhookToolRoutes);
 app.use('/api/twilio', twilioRoutes);
 app.use('/', whatsappSeafileRoutes);
@@ -453,6 +455,14 @@ process.on('uncaughtException', (err) => {
 });
 process.on('unhandledRejection', (reason) => {
   logger.error('[unhandledRejection]', { reason: String(reason) });
+});
+
+app.get('/api/tiktok/health', (req, res) => {
+    res.json({
+        status: 'online',
+        service: 'tiktok',
+        version: '1.0.0'
+    });
 });
 
 module.exports = app;

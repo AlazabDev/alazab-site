@@ -1,18 +1,19 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Building, 
-  Wrench, 
-  Users, 
-  FileText, 
-  BarChart3, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Building,
+  Wrench,
+  Users,
+  FileText,
+  BarChart3,
+  Settings,
   HelpCircle,
   Folder,
   Calendar,
   MessageSquare,
-  Webhook
+  Webhook,
+  Music2
 } from 'lucide-react';
 
 const menuItems = [
@@ -75,6 +76,12 @@ const menuItems = [
     icon: Calendar,
     path: '/calendar',
     badge: null
+  },
+  {
+    title: 'ربط حساب TikTok',
+    icon: Music2,
+    path: '/tiktok-link',
+    badge: 'جديد'
   },
   {
     title: 'الإعدادات',

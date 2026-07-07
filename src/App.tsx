@@ -70,6 +70,7 @@ const InternalWebhookPage = lazy(() => import("./pages/InternalWebhookPage"));
 const CostCalculator = lazy(() => import("./pages/CostCalculator"));
 const AdminContentManager = lazy(() => import("./pages/AdminContentManager"));
 const AdminServerDashboard = lazy(() => import("./pages/AdminServerDashboard"));
+const TikTokLinkPage = lazy(() => import("./pages/TikTokLinkPage"));
 const ContentSectionPage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentSectionPage })));
 const ContentArticlePage = lazy(() => import("./content/lib/ContentPages").then((m) => ({ default: m.ContentArticlePage })));
 
@@ -224,6 +225,7 @@ function App() {
         <Route path="/maintenance-services/:slug" element={<ContentArticlePage section="services" />} />
         {/* Fallback: any unmatched /services/:slug renders the matching maintenance service article */}
         <Route path="/services/:slug" element={<ContentArticlePage section="services" />} />
+        <Route path="/tiktok-link" element={<TikTokLinkPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>

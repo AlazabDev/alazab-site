@@ -83,7 +83,11 @@ const ServiceCard: React.FC<{
 
 const AdminServerDashboard: React.FC = () => {
   const [baseUrl, setBaseUrl] = useState(() => localStorage.getItem(LS_BASE) || DEFAULT_BASE);
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem(LS_KEY) || '');
+  // SECURITY: Admin key is only kept in memory (sessionStorage) — never persisted to localStorage
+  // to prevent long-lived exfiltration via XSS or malicious browser extensions.
+  const [apiKey, setApiKey] = useState(() => {
+    try { return sessionStorage.getItem(LS_KEY) || ''; } catch { return ''; }
+  });
   const [status, setStatus] = useState<StatusResponse | null>(null);
   const [env, setEnv] = useState<Record<string, string> | null>(null);
   const [logs, setLogs] = useState<LogEntry[]>([]);

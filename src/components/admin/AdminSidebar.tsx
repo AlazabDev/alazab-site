@@ -78,6 +78,12 @@ const menuItems = [
     badge: null
   },
   {
+    title: 'ربط حساب TikTok',
+    icon: Music2,
+    path: '/tiktok-link',
+    badge: 'جديد'
+  },
+  {
     title: 'الإعدادات',
     icon: Settings,
     path: '/settings',

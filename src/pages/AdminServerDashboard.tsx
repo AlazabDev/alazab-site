@@ -137,8 +137,9 @@ const AdminServerDashboard: React.FC = () => {
 
   const saveConfig = () => {
     localStorage.setItem(LS_BASE, baseUrl);
-    localStorage.setItem(LS_KEY, apiKey);
-    toast({ title: 'تم الحفظ', description: 'سيتم تحديث البيانات الآن' });
+    // SECURITY: store admin key only for the tab session (cleared on tab close).
+    try { sessionStorage.setItem(LS_KEY, apiKey); } catch { /* ignore */ }
+    toast({ title: 'تم الحفظ', description: 'سيتم تحديث البيانات الآن (المفتاح محفوظ لهذه الجلسة فقط)' });
     fetchAll();
     fetchLogs();
   };

@@ -33,10 +33,10 @@ function requireAdminKey(req, res, next) {
     });
   }
 
+  // Only accept the key via headers — never query string (leaks in logs/referrers)
   const provided =
     req.headers['x-admin-key'] ||
-    req.headers['authorization']?.replace('Bearer ', '') ||
-    req.query.key;
+    req.headers['authorization']?.replace(/^Bearer\s+/i, '');
 
   if (!provided || provided !== adminKey) {
     return res.status(401).json({ error: 'Unauthorized' });

@@ -32,9 +32,47 @@ const PORT = process.env.MCP_PORT || 3004;
 // ────────────────────────────────────────────────────────────────
 // 🔧 Middleware
 // ────────────────────────────────────────────────────────────────
-app.use(cors({ origin: true, credentials: true }));
+const ALLOWED_ORIGINS = (process.env.MCP_ALLOWED_ORIGINS || process.env.FRONTEND_URL || '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin: (origin, cb) => {
+    if (!origin) return cb(null, true); // server-to-server / curl
+    if (ALLOWED_ORIGINS.length === 0) return cb(null, false);
+    return cb(null, ALLOWED_ORIGINS.includes(origin));
+  },
+  credentials: true,
+}));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// ── Auth middleware ────────────────────────────────────────────
+function requireMcpKey(req, res, next) {
+  // Allow unauthenticated discovery endpoints only
+  if (req.path === '/health' || req.path === '/mcp') return next();
+
+  const configuredKey =
+    process.env.MCP_API_KEY ||
+    process.env.ADMIN_API_KEY ||
+    '';
+  if (!configuredKey) {
+    return res.status(503).json({ error: 'MCP API key is not configured' });
+  }
+  const provided =
+    req.headers['x-admin-key'] ||
+    req.headers['x-api-key'] ||
+    (typeof req.headers.authorization === 'string'
+      ? req.headers.authorization.replace(/^Bearer\s+/i, '')
+      : '');
+  if (!provided || provided !== configuredKey) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  return next();
+}
+app.use(requireMcpKey);
+
 
 // ────────────────────────────────────────────────────────────────
 // 🗺️ نقاط النهاية الخلفية (Supabase Edge Functions)
@@ -425,7 +463,8 @@ app.post('/v1/', async (req, res) => {
 // ────────────────────────────────────────────────────────────────
 // 🚀 إقلاع السفينة
 // ────────────────────────────────────────────────────────────────
-app.listen(PORT, '0.0.0.0', () => {
+const BIND_HOST = process.env.MCP_BIND_HOST || '127.0.0.1';
+app.listen(PORT, BIND_HOST, () => {
   console.log(`
   ╔══════════════════════════════════════════════════════════════╗
   ║                                                              ║

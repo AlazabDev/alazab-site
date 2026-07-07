@@ -129,6 +129,12 @@ dynamicRouter.all('*', async (req, res, next) => {
     return next(); // Continue to other routes if no match
   }
 
+  // Defense in depth: re-check the target host against the allow-list on every proxied request
+  // in case DYNAMIC_PROXY_ALLOWED_HOSTS has been tightened since the endpoint was registered.
+  if (!isAllowedTarget(match.target)) {
+    return res.status(502).json({ error: 'Proxy target not allowed' });
+  }
+
   try {
     const response = await axios({
       method: req.method,

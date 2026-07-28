@@ -46,6 +46,9 @@ const ChatbotTrainingPage = lazy(() => import("./pages/ChatbotTrainingPage"));
 const LuxuryFinishingPage = lazy(() => import("./pages/services/LuxuryFinishingPage"));
 const BrandIdentityPage = lazy(() => import("./pages/services/BrandIdentityPage"));
 const UberFixPage = lazy(() => import("./pages/services/UberFixPage"));
+const UberFixSubscriptionsPage = lazy(() => import("./pages/services/UberFixSubscriptionsPage"));
+const UberFixSubscriptionRegister = lazy(() => import("./pages/services/UberFixSubscriptionRegister"));
+const UberFixSubscriptionComplete = lazy(() => import("./pages/services/UberFixSubscriptionComplete"));
 const LabanAlasfourPage = lazy(() => import("./pages/services/LabanAlasfourPage"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const FurnitureGallery = lazy(() => import("./pages/FurnitureGallery"));
@@ -156,6 +159,9 @@ function App() {
         <Route path="/projects-gallery/:projectId" element={<ProjectStoryPage />} />
         <Route path="/services/luxury-finishing" element={<LuxuryFinishingPage />} />
         <Route path="/services/uberfix" element={<UberFixPage />} />
+        <Route path="/uberfix-subscriptions" element={<UberFixSubscriptionsPage />} />
+        <Route path="/uberfix-subscriptions/register" element={<UberFixSubscriptionRegister />} />
+        <Route path="/uberfix-subscriptions/complete" element={<UberFixSubscriptionComplete />} />
         <Route path="/services/brand-identity" element={<BrandIdentityPage />} />
         <Route path="/services/laban-alasfour" element={<LabanAlasfourPage />} />
         <Route path="/services/general-supplies" element={<LabanAlasfourPage />} />

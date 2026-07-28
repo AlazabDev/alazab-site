@@ -23,7 +23,7 @@ import {
   LayoutGrid
 } from 'lucide-react';
 
-const ERP_BASE_URL = 'https://erp.alazab.com';
+const ERP_BASE_URL = 'https://erp.alaza.cloud';
 
 interface AppItem {
   id: string;

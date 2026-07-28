@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 /**
  * Auto-generated from: alazab-master-knowledge(5).json
  * Generated at: 2026-05-05T19:46:36.648637+00:00

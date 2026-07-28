@@ -116,16 +116,16 @@ const externalSections: SitemapSection[] = [
     description: "تطبيقات إدارة الأعمال المركزية",
     accent: "from-indigo-500/10 to-indigo-600/5",
     links: [
-      { to: "https://erp.alazab.com/app/home", label: "الرئيسية", external: true },
-      { to: "https://erp.alazab.com/app/erpnext-settings", label: "إعدادات ERP", external: true },
-      { to: "https://erp.alazab.com/app/crm", label: "إدارة العلاقات (CRM)", external: true },
-      { to: "https://erp.alazab.com/app/helpdesk", label: "مكتب المساعدة", external: true },
-      { to: "https://erp.alazab.com/app/drive", label: "التخزين السحابي", external: true },
-      { to: "https://erp.alazab.com/app/raven", label: "المراسلة الداخلية", external: true },
-      { to: "https://erp.alazab.com/app/frappe-builder", label: "منشئ الصفحات", external: true },
-      { to: "https://erp.alazab.com/app/website", label: "إدارة الموقع", external: true },
-      { to: "https://erp.alazab.com/app/users", label: "المستخدمون", external: true },
-      { to: "https://erp.alazab.com/app/integrations", label: "التكاملات", external: true },
+      { to: "https://erp.alaza.cloud/app/home", label: "الرئيسية", external: true },
+      { to: "https://erp.alaza.cloud/app/erpnext-settings", label: "إعدادات ERP", external: true },
+      { to: "https://erp.alaza.cloud/app/crm", label: "إدارة العلاقات (CRM)", external: true },
+      { to: "https://erp.alaza.cloud/app/helpdesk", label: "مكتب المساعدة", external: true },
+      { to: "https://erp.alaza.cloud/app/drive", label: "التخزين السحابي", external: true },
+      { to: "https://erp.alaza.cloud/app/raven", label: "المراسلة الداخلية", external: true },
+      { to: "https://erp.alaza.cloud/app/frappe-builder", label: "منشئ الصفحات", external: true },
+      { to: "https://erp.alaza.cloud/app/website", label: "إدارة الموقع", external: true },
+      { to: "https://erp.alaza.cloud/app/users", label: "المستخدمون", external: true },
+      { to: "https://erp.alaza.cloud/app/integrations", label: "التكاملات", external: true },
     ],
   },
   {
@@ -134,14 +134,14 @@ const externalSections: SitemapSection[] = [
     description: "المبيعات والمشتريات والمخزون",
     accent: "from-orange-500/10 to-orange-600/5",
     links: [
-      { to: "https://erp.alazab.com/app/selling", label: "المبيعات", external: true },
-      { to: "https://erp.alazab.com/app/buying", label: "المشتريات", external: true },
-      { to: "https://erp.alazab.com/app/stock", label: "المخزون", external: true },
-      { to: "https://erp.alazab.com/app/projects", label: "المشاريع", external: true },
-      { to: "https://erp.alazab.com/app/manufacturing", label: "التصنيع", external: true },
-      { to: "https://erp.alazab.com/app/subcontracting", label: "المقاولات الباطنة", external: true },
-      { to: "https://erp.alazab.com/app/invoicing", label: "الفواتير", external: true },
-      { to: "https://erp.alazab.com/app/financial-reports", label: "التقارير المالية", external: true },
+      { to: "https://erp.alaza.cloud/app/selling", label: "المبيعات", external: true },
+      { to: "https://erp.alaza.cloud/app/buying", label: "المشتريات", external: true },
+      { to: "https://erp.alaza.cloud/app/stock", label: "المخزون", external: true },
+      { to: "https://erp.alaza.cloud/app/projects", label: "المشاريع", external: true },
+      { to: "https://erp.alaza.cloud/app/manufacturing", label: "التصنيع", external: true },
+      { to: "https://erp.alaza.cloud/app/subcontracting", label: "المقاولات الباطنة", external: true },
+      { to: "https://erp.alaza.cloud/app/invoicing", label: "الفواتير", external: true },
+      { to: "https://erp.alaza.cloud/app/financial-reports", label: "التقارير المالية", external: true },
     ],
   },
   {
@@ -150,15 +150,15 @@ const externalSections: SitemapSection[] = [
     description: "إدارة شؤون الموظفين",
     accent: "from-pink-500/10 to-pink-600/5",
     links: [
-      { to: "https://erp.alazab.com/app/people", label: "الموظفون", external: true },
-      { to: "https://erp.alazab.com/app/payroll", label: "الرواتب", external: true },
-      { to: "https://erp.alazab.com/app/leaves", label: "الإجازات", external: true },
-      { to: "https://erp.alazab.com/app/expenses", label: "المصروفات", external: true },
-      { to: "https://erp.alazab.com/app/recruitment", label: "التوظيف", external: true },
-      { to: "https://erp.alazab.com/app/performance", label: "الأداء", external: true },
-      { to: "https://erp.alazab.com/app/shift-attendance", label: "الورديات والحضور", external: true },
-      { to: "https://erp.alazab.com/app/tax-benefits", label: "الضرائب والمزايا", external: true },
-      { to: "https://erp.alazab.com/app/tenure", label: "مدة الخدمة", external: true },
+      { to: "https://erp.alaza.cloud/app/people", label: "الموظفون", external: true },
+      { to: "https://erp.alaza.cloud/app/payroll", label: "الرواتب", external: true },
+      { to: "https://erp.alaza.cloud/app/leaves", label: "الإجازات", external: true },
+      { to: "https://erp.alaza.cloud/app/expenses", label: "المصروفات", external: true },
+      { to: "https://erp.alaza.cloud/app/recruitment", label: "التوظيف", external: true },
+      { to: "https://erp.alaza.cloud/app/performance", label: "الأداء", external: true },
+      { to: "https://erp.alaza.cloud/app/shift-attendance", label: "الورديات والحضور", external: true },
+      { to: "https://erp.alaza.cloud/app/tax-benefits", label: "الضرائب والمزايا", external: true },
+      { to: "https://erp.alaza.cloud/app/tenure", label: "مدة الخدمة", external: true },
     ],
   },
   {
@@ -167,10 +167,10 @@ const externalSections: SitemapSection[] = [
     description: "أدوات متقدمة ومتنوعة",
     accent: "from-teal-500/10 to-teal-600/5",
     links: [
-      { to: "https://erp.alazab.com/app/lending", label: "التمويل", external: true },
-      { to: "https://erp.alazab.com/app/assets", label: "الأصول", external: true },
-      { to: "https://erp.alazab.com/app/quality", label: "الجودة", external: true },
-      { to: "https://erp.alazab.com/app/support", label: "الدعم الفني", external: true },
+      { to: "https://erp.alaza.cloud/app/lending", label: "التمويل", external: true },
+      { to: "https://erp.alaza.cloud/app/assets", label: "الأصول", external: true },
+      { to: "https://erp.alaza.cloud/app/quality", label: "الجودة", external: true },
+      { to: "https://erp.alaza.cloud/app/support", label: "الدعم الفني", external: true },
     ],
   },
   {
@@ -298,7 +298,7 @@ const SitemapPage: React.FC = () => {
             <div className="rounded-2xl border border-border bg-muted/30 p-6 text-center">
               <p className="text-sm text-muted-foreground leading-relaxed">
                 <strong className="text-foreground">ملاحظة:</strong> الروابط الخارجية تفتح في نافذة جديدة. بعض الأنظمة تتطلب تسجيل دخول مسبق.
-                جميع روابط ERP تعتمد على النمط <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">erp.alazab.com/app/&lt;workspace&gt;</code>
+                جميع روابط ERP تعتمد على النمط <code className="bg-muted px-1.5 py-0.5 rounded text-xs font-mono">erp.alaza.cloud/app/&lt;workspace&gt;</code>
               </p>
             </div>
           </div>

@@ -9,7 +9,7 @@
     "pnpm": ">=11.7.0",
     "npm": ">=11.13.0"
   },
-  "packageManager": "pnpm@11.10.0+sha512.0b7f8b98060031904c017e3a41eb187a16d40eeb829b95c4f8cb03681761fc4ab53dd219115b9b447f4dce1a05a214764461e7d3703392a9f32f9511ce8c86c8",
+  "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72",
   "scripts": {
     "dev": "vite --open",
     "dev:host": "vite --host --open",
@@ -68,6 +68,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "cookie-parser": "^1.4.7",
     "date-fns": "^4.4.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.42.2",

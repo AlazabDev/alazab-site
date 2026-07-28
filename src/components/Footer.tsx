@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
               ))}
               <li>
                 <a 
-                  href="https://erp.alazab.com/apps" 
+                  href="https://erp.alaza.cloud/apps" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-gray-300 hover:text-construction-accent transition-colors duration-300 text-sm flex items-center gap-2"

@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 /** Central export file for generated Alazab data. */
 
 export { alazabBrands, default as alazabBrandsDefault } from './alazabBrandsData';

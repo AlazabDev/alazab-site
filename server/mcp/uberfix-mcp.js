@@ -236,7 +236,18 @@ if (args.includes('--stdio')) {
 
   // Authentication Middleware to prevent unauthorized access
   app.use((req, res, next) => {
-    const apiKey = req.headers['x-api-key'] || req.query.api_key;
+    let apiKey = req.headers['x-api-key'] || req.query.api_key;
+    
+    // Support Authorization: Bearer <token>
+    if (!apiKey && req.headers.authorization) {
+      const parts = req.headers.authorization.split(' ');
+      if (parts.length === 2 && parts[0] === 'Bearer') {
+        apiKey = parts[1];
+      } else if (parts.length === 1) {
+        apiKey = parts[0];
+      }
+    }
+
     if (apiKey !== API_KEY) {
       console.warn("Unauthorized access attempt rejected.");
       return res.status(401).json({ error: "Unauthorized. Invalid API Key." });

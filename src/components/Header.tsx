@@ -143,7 +143,7 @@ const Header: React.FC = () => {
 
             {/* ERP Link - Hidden on Mobile */}
             <a
-              href="https://erp.alazab.com/apps"
+              href="https://erp.alaza.cloud/apps"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-construction-accent hover:bg-construction-accent/90 text-white rounded-lg transition-all duration-300 font-medium text-xs shadow-md hover:shadow-lg"

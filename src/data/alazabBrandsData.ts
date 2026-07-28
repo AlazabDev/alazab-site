@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 /**
  * Auto-generated from: alazab-brands(5).json
  * Generated at: 2026-05-05T19:46:36.644633+00:00

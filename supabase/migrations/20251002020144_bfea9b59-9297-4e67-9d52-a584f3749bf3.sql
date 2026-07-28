@@ -13,11 +13,7 @@ CREATE POLICY "Admins and managers can view all appointments"
 ON public.appointments
 FOR SELECT
 USING (
-  EXISTS (
-    SELECT 1 FROM public.profiles
-    WHERE user_id = auth.uid() 
-    AND role IN ('admin', 'manager')
-  )
+  public.get_current_user_role() IN ('admin', 'manager')
 );
 
 -- Vendors can only see basic appointment info (no customer contact details)

@@ -82,7 +82,7 @@ const SecurityDisclosurePage = () => (
       <p>يشمل برنامج الإفصاح المسؤول:</p>
       <ul className="list-disc pr-6 space-y-2 mt-3">
         <li dir="ltr">alazab.com (main website)</li>
-        <li dir="ltr">erp.alazab.com (ERP system)</li>
+        <li dir="ltr">erp.alaza.cloud (ERP system)</li>
         <li>واجهات برمجة التطبيقات (APIs) المرتبطة.</li>
         <li>تطبيقات الهاتف المحمول (إن وجدت).</li>
       </ul>

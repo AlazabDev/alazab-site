@@ -1,17 +1,32 @@
+# /etc/nginx/sites-available/alazab.com
+
 server {
+    if ($host = www.alazab.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = alazab.com) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
     listen 80;
     server_name alazab.com www.alazab.com;
     return 301 https://$host$request_uri;
+
+
+
+
 }
 
 server {
     listen 443 ssl http2;
     server_name alazab.com www.alazab.com;
+    ssl_certificate /etc/letsencrypt/live/alazab.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/alazab.com/privkey.pem; # managed by Certbot
 
-    ssl_certificate /etc/letsencrypt/live/alazab.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/alazab.com/privkey.pem;
-
-    client_max_body_size 50M;
+    client_max_body_size 10M;
 
     root /var/www/core/alazab.com/dist;
     index index.html;
@@ -23,45 +38,6 @@ server {
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header X-Content-Type-Options "nosniff" always;
 
-    location = /health {
-        proxy_pass http://127.0.0.1:3004/health;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location = /ready {
-        proxy_pass http://127.0.0.1:3004/ready;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location ~ ^/(dashboard|admin|admin/dashboard)$ {
-        proxy_pass http://127.0.0.1:3004$request_uri;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    location = /webhook/wauf/whatsapp {
-        proxy_pass http://127.0.0.1:3004/webhook/wauf/whatsapp;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_read_timeout 120s;
-        proxy_send_timeout 120s;
-        client_max_body_size 50M;
-    }
-
     location /api/ {
         proxy_pass http://127.0.0.1:3004/api/;
         proxy_http_version 1.1;
@@ -69,8 +45,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_read_timeout 120s;
-        proxy_send_timeout 120s;
     }
 
     location /auth/v1/ {
@@ -82,8 +56,18 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
+    location = /auth/meta-app/webhook {
+        rewrite ^/auth/meta-app/webhook$ /api/webhook/whatsapp break;
+        proxy_pass http://127.0.0.1:3004;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location /meta/ {
-        proxy_pass http://127.0.0.1:3004/api/meta/;
+        proxy_pass http://127.0.0.1:3004/meta/;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -98,24 +82,57 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_read_timeout 120s;
-        proxy_send_timeout 120s;
-        client_max_body_size 50M;
     }
 
     location /mcp/ {
-        proxy_pass http://127.0.0.1:3004/api/mcp/;
+       proxy_pass http://127.0.0.1:4005/mcp/;
+       proxy_http_version 1.1;
+
+       proxy_set_header Host $host;
+       proxy_set_header X-Real-IP $remote_addr;
+       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       proxy_set_header X-Forwarded-Proto $scheme;
+
+       # مهم جدًا للـ long AI calls
+       proxy_read_timeout 120s;
+       proxy_send_timeout 120s;
+    }
+
+    location = /index.html {
+        try_files /index.html =404;
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+        expires -1;
+    }
+
+    location /dataset/ {
+        alias /var/www/core/alazab.com/dataset/;
+        autoindex on;
+        autoindex_exact_size off;
+        autoindex_localtime on;
+        add_header Access-Control-Allow-Origin *;
+        add_header Cache-Control "no-cache, must-revalidate";
+        charset utf-8;
+    }
+
+    location /mcp-uberfix/ {
+        proxy_pass http://127.0.0.1:4006/;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_read_timeout 120s;
-        proxy_send_timeout 120s;
+
+        # Important for SSE (Server-Sent Events)
+        proxy_set_header Connection '';
+        proxy_cache off;
+        chunked_transfer_encoding off;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
     }
 
-    location = /index.html {
-        try_files /index.html =404;
+    location /admin/ {
+        alias /var/www/core/alazab.com/dist/admin/;
+        try_files $uri $uri/ /admin/index.html;
         add_header Cache-Control "no-cache, no-store, must-revalidate";
         expires -1;
     }
@@ -169,4 +186,6 @@ server {
         expires 30d;
         add_header Cache-Control "public, immutable";
     }
+
+
 }

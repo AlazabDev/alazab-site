@@ -1,0 +1,827 @@
+{
+  "agent_id": "agent_9201knw3yg8zetcrp0xqf9k32p8a",
+  "name": "Home Services Qualifier",
+  "conversation_config": {
+    "asr": {
+      "quality": "high",
+      "provider": "scribe_realtime",
+      "user_input_audio_format": "pcm_16000",
+      "keywords": []
+    },
+    "turn": {
+      "turn_timeout": 7,
+      "initial_wait_time": null,
+      "silence_end_call_timeout": -1,
+      "mode": "turn",
+      "turn_eagerness": "normal",
+      "spelling_patience": "auto",
+      "speculative_turn": true,
+      "retranscribe_on_turn_timeout": false,
+      "turn_model": "turn_v2",
+      "interruption_ignore_terms": [],
+      "interruption_ignore_term_languages": [],
+      "transcribe_on_disabled_interruptions": false,
+      "soft_timeout_config": {
+        "timeout_seconds": -1,
+        "message": "Hhmmmm...yeah.",
+        "additional_soft_timeout_messages": [],
+        "use_llm_generated_message": false,
+        "randomize_fillers": false,
+        "max_soft_timeouts_per_generation": 1,
+        "llm_generated_message_prompt_override": null
+      }
+    },
+    "tts": {
+      "model_id": "eleven_v3_conversational",
+      "voice_id": "DWMVT5WflKt0P8OPpIrY",
+      "supported_voices": [],
+      "expressive_mode": true,
+      "suggested_audio_tags": [],
+      "agent_output_audio_format": "pcm_16000",
+      "optimize_streaming_latency": 3,
+      "stability": 0.5,
+      "speed": 1,
+      "similarity_boost": 0.8,
+      "text_normalisation_type": "system_prompt",
+      "pronunciation_dictionary_locators": [],
+      "enable_phoneme_tags": false,
+      "audio_filter": null
+    },
+    "conversation": {
+      "text_only": false,
+      "max_duration_seconds": 1800,
+      "client_events": [
+        "audio",
+        "interruption",
+        "agent_response",
+        "user_transcript",
+        "agent_response_correction",
+        "agent_tool_response"
+      ],
+      "file_input": {
+        "enabled": true,
+        "max_files_per_conversation": 10
+      },
+      "monitoring_enabled": false,
+      "monitoring_events": [
+        "user_transcript",
+        "agent_response",
+        "agent_response_correction"
+      ],
+      "dtmf_input_settings": null,
+      "background_sound": {
+        "source_type": null,
+        "source_id": null,
+        "volume": 0.6,
+        "crossfade_loop": false
+      },
+      "source_attribution": false
+    },
+    "language_presets": {},
+    "vad": {
+      "background_voice_detection": false
+    },
+    "agent": {
+      "first_message": "Welcome, you can say the name of the department you need, or I can help you find the right one.",
+      "language": "ar",
+      "hinglish_mode": false,
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {}
+      },
+      "disable_first_message_interruptions": false,
+      "max_conversation_duration_message": "",
+      "text_behavior_overrides": {},
+      "prompt": {
+        "prompt": "أنت AzabBot، المساعد الذكي الرسمي لشركة العزب للإنشاءات والخدمات المعمارية.\nمهمتك هي مساعدة العملاء بطريقة احترافية وودية وسريعة، والرد على استفساراتهم المتعلقة بخدمات الشركة، وتوجيههم للحصول على الخدمة المناسبة.\nنبذة عن الشركة:\nشركة العزب للإنشاءات والخدمات المعمارية تقدم حلولاً متكاملة في مجال البناء والتشطيبات والصيانة والتصميم المعماري وتوريد مواد البناء، للأفراد والشركات، مع الالتزام بالجودة والمواعيد.\nالمهام الأساسية:\nالترحيب بالعميل بطريقة لبقة والتعريف بنفسك كمساعد لشركة العزب.\nفهم احتياجات العميل وتحديد نوع الخدمة المطلوبة.\nمساعدة العميل في طلب الخدمات مثل:\nالصيانة\nالتشطيبات\nأعمال البناء\nالتصميم المعماري\nطلب عرض سعر\nجمع بيانات العميل عند الحاجة مثل:\nالاسم\nرقم الهاتف\nالموقع\nنوع الخدمة المطلوبة\nتوضيح الخطوات التالية للعميل بشكل بسيط.\nتحويل الطلب إلى موظف مختص إذا لزم الأمر.\nالخدمات التي تقدمها الشركة:\nأعمال البناء والإنشاءات.\nالتشطيبات الداخلية والخارجية.\nالصيانة المعمارية والكهربائية.\nتصميم ثلاثي الأبعاد (3D).\nتوريد مواد البناء.\nصيانة دورية وطارئة.\nأسلوب التواصل:\nاستخدم لغة عربية بسيطة وواضحة (اللهجة المصرية مرحب بها).\nكن ودودًا ومحترمًا في جميع الردود.\nاجعل الردود قصيرة ومباشرة.\nاسأل سؤالًا واحدًا في كل مرة.\nأكد على طلب العميل قبل إنهاء المحادثة.\nقواعد مهمة:\nلا تعطي أسعارًا نهائية أو مواعيد تنفيذ إلا بعد مراجعة المختص.\nلا تقدم استشارات قانونية أو مالية.\nإذا لم تعرف الإجابة، أخبر العميل أنك ستقوم بتحويله لموظف مختص.\nحافظ دائمًا على أسلوب احترافي وإيجابي.\nمثال رسالة ترحيب:\n\"مرحبًا بحضرتك، أنا المساعد الذكي لشركة العزب للإنشاءات والخدمات المعمارية. كيف أقدر أساعدك اليوم؟\"\nمثال إنهاء المحادثة:\n\"تم تسجيل طلب حضرتك بنجاح، وسيتم التواصل معك في أقرب وقت. هل هناك أي استفسار آخر؟\"",
+        "llm": "gemini-3.5-flash",
+        "reasoning_effort": "minimal",
+        "opener": null,
+        "thinking_budget": null,
+        "enable_reasoning_summary": false,
+        "temperature": 0.3,
+        "max_tokens": -1,
+        "tool_ids": [
+          "tool_4701knw3yg15fd188q4fyhf65e17"
+        ],
+        "built_in_tools": {
+          "end_call": null,
+          "language_detection": null,
+          "transfer_to_agent": null,
+          "transfer_to_number": null,
+          "skip_turn": null,
+          "play_keypad_touch_tone": null,
+          "voicemail_detection": null,
+          "update_state": null,
+          "memory_entry_search": null,
+          "memory_entry_create": null,
+          "memory_entry_update": null,
+          "memory_entry_delete": null,
+          "agent_prompt_change": null,
+          "procedure_update": null,
+          "procedure_create": null,
+          "procedure_delete": null,
+          "transfer_to_genesys": null,
+          "transfer_to_genesys_chat": null,
+          "run_subagent": null
+        },
+        "enable_parallel_tool_calls": false,
+        "mcp_server_ids": [],
+        "native_mcp_server_ids": [],
+        "knowledge_base": [
+          {
+            "type": "file",
+            "name": "alazab_construction.txt",
+            "id": "tN4MMEYd2xy4Hxrdge3d",
+            "usage_mode": "auto"
+          }
+        ],
+        "custom_llm": null,
+        "speech_engine": null,
+        "ignore_default_personality": false,
+        "rag": {
+          "enabled": false,
+          "embedding_model": "e5_mistral_7b_instruct",
+          "optional_rag_enabled": false,
+          "max_vector_distance": 0.6,
+          "max_documents_length": 50000,
+          "max_retrieved_rag_chunks_count": 20,
+          "num_candidates": null,
+          "query_rewrite_prompt_override": null
+        },
+        "timezone": "Africa/Cairo",
+        "backup_llm_config": {
+          "preference": "default"
+        },
+        "cascade_timeout_seconds": 8,
+        "tools": [
+          {
+            "type": "webhook",
+            "name": "dispatch_technician",
+            "description": "Send a technician dispatch request via Zapier with job details, address, and urgency level.",
+            "response_timeout_secs": 20,
+            "disable_interruptions": false,
+            "interruption_mode": "allow",
+            "force_pre_tool_speech": false,
+            "pre_tool_speech": "auto",
+            "assignments": [],
+            "tool_call_sound": null,
+            "tool_call_sound_behavior": "auto",
+            "tool_error_handling_mode": "auto",
+            "dynamic_variables": {
+              "dynamic_variable_placeholders": {}
+            },
+            "execution_mode": "immediate",
+            "api_schema": {
+              "request_headers": {},
+              "url": "https://hooks.zapier.com/hooks/catch/123456/dispatch/",
+              "method": "POST",
+              "path_params_schema": {},
+              "query_params_schema": null,
+              "request_body_schema": {
+                "description": "Dispatch request",
+                "dynamic_variable": "",
+                "is_omitted": false,
+                "type": "object",
+                "required": [],
+                "properties": {
+                  "customer_name": {
+                    "type": "string",
+                    "description": "Homeowner name",
+                    "enum": null,
+                    "is_system_provided": false,
+                    "dynamic_variable": "",
+                    "allowed_values_dynamic_variable": "",
+                    "constant_value": "",
+                    "is_omitted": false
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "Service address",
+                    "enum": null,
+                    "is_system_provided": false,
+                    "dynamic_variable": "",
+                    "allowed_values_dynamic_variable": "",
+                    "constant_value": "",
+                    "is_omitted": false
+                  },
+                  "service_type": {
+                    "type": "string",
+                    "description": "HVAC, plumbing, electrical, or cleaning",
+                    "enum": null,
+                    "is_system_provided": false,
+                    "dynamic_variable": "",
+                    "allowed_values_dynamic_variable": "",
+                    "constant_value": "",
+                    "is_omitted": false
+                  },
+                  "urgency": {
+                    "type": "string",
+                    "description": "emergency, same-day, or scheduled",
+                    "enum": null,
+                    "is_system_provided": false,
+                    "dynamic_variable": "",
+                    "allowed_values_dynamic_variable": "",
+                    "constant_value": "",
+                    "is_omitted": false
+                  },
+                  "issue_description": {
+                    "type": "string",
+                    "description": "Description of the problem",
+                    "enum": null,
+                    "is_system_provided": false,
+                    "dynamic_variable": "",
+                    "allowed_values_dynamic_variable": "",
+                    "constant_value": "",
+                    "is_omitted": false
+                  }
+                }
+              },
+              "response_body_schema": null,
+              "response_filter": null,
+              "content_type": "application/json",
+              "auth_resolved_params": [],
+              "auth_connection": null
+            }
+          }
+        ]
+      }
+    }
+  },
+  "metadata": {
+    "created_at_unix_secs": 1775838904,
+    "updated_at_unix_secs": 1784896042
+  },
+  "platform_settings": {
+    "evaluation": {
+      "criteria": []
+    },
+    "widget": {
+      "variant": "full",
+      "placement": "bottom-right",
+      "expandable": "never",
+      "avatar": {
+        "type": "orb",
+        "color_1": "#2792dc",
+        "color_2": "#9ce6e6"
+      },
+      "feedback_mode": "none",
+      "end_feedback": {
+        "type": "rating"
+      },
+      "bg_color": "#ffffff",
+      "text_color": "#000000",
+      "btn_color": "#000000",
+      "btn_text_color": "#ffffff",
+      "border_color": "#e1e1e1",
+      "focus_color": "#000000",
+      "border_radius": null,
+      "btn_radius": null,
+      "action_text": null,
+      "start_call_text": null,
+      "end_call_text": null,
+      "expand_text": null,
+      "listening_text": null,
+      "speaking_text": null,
+      "shareable_page_text": null,
+      "shareable_page_show_terms": true,
+      "terms_text": null,
+      "terms_html": null,
+      "terms_key": null,
+      "show_avatar_when_collapsed": false,
+      "disable_banner": false,
+      "override_link": null,
+      "markdown_link_allowed_hosts": [],
+      "markdown_link_include_www": true,
+      "markdown_link_allow_http": true,
+      "mic_muting_enabled": false,
+      "transcript_enabled": false,
+      "text_input_enabled": true,
+      "conversation_mode_toggle_enabled": false,
+      "default_expanded": false,
+      "always_expanded": false,
+      "dismissible": false,
+      "show_agent_status": false,
+      "show_conversation_id": true,
+      "strip_audio_tags": true,
+      "syntax_highlight_theme": null,
+      "text_contents": {
+        "main_label": null,
+        "start_call": null,
+        "start_chat": null,
+        "new_call": null,
+        "end_call": null,
+        "mute_microphone": null,
+        "change_language": null,
+        "collapse": null,
+        "expand": null,
+        "copied": null,
+        "accept_terms": null,
+        "dismiss_terms": null,
+        "listening_status": null,
+        "speaking_status": null,
+        "connecting_status": null,
+        "chatting_status": null,
+        "input_label": null,
+        "input_placeholder": null,
+        "input_placeholder_text_only": null,
+        "input_placeholder_new_conversation": null,
+        "user_ended_conversation": null,
+        "agent_ended_conversation": null,
+        "conversation_id": null,
+        "error_occurred": null,
+        "copy_id": null,
+        "initiate_feedback": null,
+        "request_follow_up_feedback": null,
+        "thanks_for_feedback": null,
+        "thanks_for_feedback_details": null,
+        "follow_up_feedback_placeholder": null,
+        "submit": null,
+        "go_back": null,
+        "send_message": null,
+        "text_mode": null,
+        "voice_mode": null,
+        "switched_to_text_mode": null,
+        "switched_to_voice_mode": null,
+        "copy": null,
+        "download": null,
+        "wrap": null,
+        "agent_working": null,
+        "agent_done": null,
+        "agent_error": null,
+        "attach_file": null,
+        "remove_file": null,
+        "file_upload_error": null,
+        "file_type_unsupported": null,
+        "file_too_large": null,
+        "file_limit_reached": null,
+        "typing_indicator": null
+      },
+      "styles": {
+        "base": null,
+        "base_hover": null,
+        "base_active": null,
+        "base_border": null,
+        "base_subtle": null,
+        "base_primary": null,
+        "base_error": null,
+        "accent": null,
+        "accent_hover": null,
+        "accent_active": null,
+        "accent_border": null,
+        "accent_subtle": null,
+        "accent_primary": null,
+        "overlay_padding": null,
+        "button_radius": null,
+        "input_radius": null,
+        "bubble_radius": null,
+        "sheet_radius": null,
+        "compact_sheet_radius": null,
+        "dropdown_sheet_radius": null
+      },
+      "language_selector": false,
+      "supports_text_only": true,
+      "custom_avatar_path": null,
+      "language_presets": {}
+    },
+    "data_collection": {},
+    "data_collection_scopes": {},
+    "analysis_items": null,
+    "overrides": {
+      "conversation_config_override": {
+        "asr": {
+          "keywords": false
+        },
+        "turn": {
+          "soft_timeout_config": {
+            "message": false
+          }
+        },
+        "tts": {
+          "model_id": false,
+          "voice_id": true,
+          "stability": true,
+          "speed": true,
+          "similarity_boost": true
+        },
+        "conversation": {
+          "text_only": true
+        },
+        "agent": {
+          "first_message": true,
+          "language": true,
+          "max_conversation_duration_message": false,
+          "prompt": {
+            "prompt": true,
+            "llm": true,
+            "tool_ids": true,
+            "native_mcp_server_ids": false,
+            "knowledge_base": true
+          }
+        }
+      },
+      "custom_llm_extra_body": false,
+      "enable_conversation_initiation_client_data_from_webhook": true,
+      "enable_starting_workflow_node_id_from_client": false
+    },
+    "workspace_overrides": {
+      "conversation_initiation_client_data_webhook": {
+        "url": "https://muzkzcihpghdwrtyeuuz.supabase.co/functions/v1/elevenlabs",
+        "request_headers": {}
+      },
+      "webhooks": {
+        "post_call_webhook_id": null,
+        "events": [
+          "transcript"
+        ],
+        "transcript_format": "json",
+        "send_audio": false
+      }
+    },
+    "testing": {
+      "attached_tests": [
+        {
+          "test_id": "test_4601kmdygh87em7ba7z60w5amvnv",
+          "workflow_node_id": null
+        },
+        {
+          "test_id": "test_1501kmdyghe9e0gr2xk19bbnprn8",
+          "workflow_node_id": null
+        }
+      ],
+      "referenced_tests_ids": [
+        "test_4601kmdygh87em7ba7z60w5amvnv",
+        "test_1501kmdyghe9e0gr2xk19bbnprn8"
+      ]
+    },
+    "archived": false,
+    "guardrails": {
+      "version": "1",
+      "focus": {
+        "is_enabled": true
+      },
+      "prompt_injection": {
+        "is_enabled": true
+      },
+      "content": {
+        "execution_mode": "streaming",
+        "config": {
+          "sexual": {
+            "is_enabled": false,
+            "threshold": "medium"
+          },
+          "violence": {
+            "is_enabled": false,
+            "threshold": "medium"
+          },
+          "harassment": {
+            "is_enabled": true,
+            "threshold": 0.5
+          },
+          "self_harm": {
+            "is_enabled": false,
+            "threshold": "medium"
+          },
+          "profanity": {
+            "is_enabled": false,
+            "threshold": "medium"
+          },
+          "religion_or_politics": {
+            "is_enabled": false,
+            "threshold": "medium"
+          },
+          "medical_and_legal_information": {
+            "is_enabled": false,
+            "threshold": "medium"
+          }
+        },
+        "trigger_action": {
+          "type": "end_call"
+        }
+      },
+      "moderation": {
+        "execution_mode": "streaming",
+        "config": {
+          "sexual": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "violence": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "violence_graphic": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "harassment": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "harassment_threatening": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "hate": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "hate_threatening": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "self_harm_instructions": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "self_harm": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "self_harm_intent": {
+            "is_enabled": false,
+            "threshold": 0.3
+          },
+          "sexual_minors": {
+            "is_enabled": false,
+            "threshold": 0.3
+          }
+        }
+      },
+      "custom": {
+        "config": {
+          "configs": [
+            {
+              "is_enabled": true,
+              "name": "No internal info",
+              "prompt": "Block from sharing internal extension numbers, employee personal info, or org structure details.",
+              "execution_mode": "streaming",
+              "model": "gemini-2.5-flash-lite",
+              "history_message_count": 0,
+              "history_include_tool_calls": false,
+              "trigger_action": {
+                "type": "end_call"
+              },
+              "evaluate_full_response_only": false
+            }
+          ]
+        }
+      }
+    },
+    "summary_language": null,
+    "auto_translate_transcript_to_app_language": null,
+    "auth": {
+      "enable_auth": false,
+      "allowlist": [
+        {
+          "hostname": "alazab.com"
+        }
+      ],
+      "require_origin_header": true,
+      "shareable_token": null
+    },
+    "call_limits": {
+      "agent_concurrency_limit": -1,
+      "daily_limit": 100000,
+      "bursting_enabled": true
+    },
+    "ban": null,
+    "smb_metadata": null,
+    "privacy": {
+      "record_voice": true,
+      "retention_days": -1,
+      "delete_transcript_and_pii": false,
+      "delete_audio": false,
+      "apply_to_existing_conversations": false,
+      "zero_retention_mode": false,
+      "conversation_history_redaction": {
+        "enabled": false,
+        "entities": []
+      }
+    },
+    "trust_context": "unknown",
+    "analysis_llm": "gemini-3.5-flash",
+    "topic_discovery": {
+      "enabled": true
+    },
+    "sentiment_analysis": {
+      "enabled": true
+    },
+    "simulation_library": {
+      "enabled": false,
+      "test_ids": []
+    },
+    "alerting": null,
+    "overview_dashboard_template_id": null,
+    "safety": {
+      "is_blocked_ivc": false,
+      "is_blocked_non_ivc": false,
+      "ignore_safety_evaluation": false
+    }
+  },
+  "phone_numbers": [],
+  "whatsapp_accounts": [],
+  "workflow": {
+    "edges": {
+      "s2g": {
+        "source": "start_node",
+        "target": "greeting",
+        "forward_condition": {
+          "label": null,
+          "type": "unconditional"
+        },
+        "backward_condition": null
+      },
+      "g2i": {
+        "source": "greeting",
+        "target": "identify_dept",
+        "forward_condition": {
+          "label": null,
+          "type": "llm",
+          "condition": "Caller has stated what they need"
+        },
+        "backward_condition": null
+      },
+      "i2c": {
+        "source": "identify_dept",
+        "target": "confirm_transfer",
+        "forward_condition": {
+          "label": null,
+          "type": "llm",
+          "condition": "Department has been identified"
+        },
+        "backward_condition": null
+      },
+      "c2e": {
+        "source": "confirm_transfer",
+        "target": "end",
+        "forward_condition": {
+          "label": null,
+          "type": "llm",
+          "condition": "Call has been transferred"
+        },
+        "backward_condition": null
+      }
+    },
+    "nodes": {
+      "start_node": {
+        "type": "start",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "edge_order": [
+          "s2g"
+        ]
+      },
+      "greeting": {
+        "type": "override_agent",
+        "position": {
+          "x": 0,
+          "y": 200
+        },
+        "edge_order": [
+          "g2i"
+        ],
+        "conversation_config": {
+          "agent": {
+            "prompt": {
+              "built_in_tools": {}
+            }
+          }
+        },
+        "additional_prompt": "",
+        "additional_knowledge_base": [],
+        "additional_tool_ids": [],
+        "label": "Welcome",
+        "entry_behavior": "auto"
+      },
+      "identify_dept": {
+        "type": "override_agent",
+        "position": {
+          "x": 0,
+          "y": 400
+        },
+        "edge_order": [
+          "i2c"
+        ],
+        "conversation_config": {
+          "agent": {
+            "prompt": {
+              "built_in_tools": {}
+            }
+          }
+        },
+        "additional_prompt": "",
+        "additional_knowledge_base": [],
+        "additional_tool_ids": [],
+        "label": "Identify Department",
+        "entry_behavior": "auto"
+      },
+      "confirm_transfer": {
+        "type": "override_agent",
+        "position": {
+          "x": 0,
+          "y": 600
+        },
+        "edge_order": [
+          "c2e"
+        ],
+        "conversation_config": {
+          "agent": {
+            "prompt": {
+              "built_in_tools": {}
+            }
+          }
+        },
+        "additional_prompt": "",
+        "additional_knowledge_base": [],
+        "additional_tool_ids": [],
+        "label": "Confirm & Transfer",
+        "entry_behavior": "auto"
+      },
+      "end": {
+        "type": "end",
+        "position": {
+          "x": 0,
+          "y": 800
+        },
+        "edge_order": [],
+        "return_when_nested": true
+      }
+    },
+    "prevent_subagent_loops": true
+  },
+  "access_info": {
+    "is_creator": true,
+    "creator_name": "Mohamed Azab",
+    "creator_email": "alazab.edu@gmail.com",
+    "role": "admin",
+    "anonymous_access_level_override": null,
+    "access_source": "creator"
+  },
+  "tags": [
+    "example",
+    "receptionist"
+  ],
+  "version_id": "agtvrsn_8301kya1gdg2f7mbsjfg2myae4ky",
+  "branch_id": "agtbrch_5301ks2c69egf4ws9wh9b3dnwqrc",
+  "main_branch_id": "agtbrch_5301ks2c69egf4ws9wh9b3dnwqrc",
+  "procedures": {
+    "agtprc_6701ky8mjpn2em7sh5m6n8maa02w": {
+      "procedure_id": "agtprc_6701ky8mjpn2em7sh5m6n8maa02w",
+      "version_id": "agtprcv_3001ky9zvyrce8nvk3w5fn740a85",
+      "name": "Inquire about Alazab Construction Services [Imported from knowledge_base.txt]",
+      "type": "free_form",
+      "trigger": "User wants to execute or manage a construction project, or is asking about Alazab Construction's architectural management, engineering supervision, projects, or price quotes.",
+      "referenced_tool_ids": [],
+      "referenced_kb_ids": [],
+      "referenced_procedure_ids": [],
+      "referenced_dynamic_variables": []
+    },
+    "agtprc_2301ky8mjpnjfyr9ehy7m72zd97g": {
+      "procedure_id": "agtprc_2301ky8mjpnjfyr9ehy7m72zd97g",
+      "version_id": "agtprcv_9501ky9zvyrke1qt1y57w9ns9hf1",
+      "name": "Inquire about Luxury Finishing Services [Imported from knowledge_base.txt]",
+      "type": "free_form",
+      "trigger": "User wants to refurbish, design, or finish a residential, office, or commercial space with high-end interior finishes and premium materials.",
+      "referenced_tool_ids": [],
+      "referenced_kb_ids": [],
+      "referenced_procedure_ids": [],
+      "referenced_dynamic_variables": []
+    },
+    "agtprc_3801ky8mjpnxerhtjtgffr39xzch": {
+      "procedure_id": "agtprc_3801ky8mjpnxerhtjtgffr39xzch",
+      "version_id": "agtprcv_8101ky9zvyrqe9898d9c76sk0140",
+      "name": "Inquire about Brand Identity and Commercial Setup [Imported from knowledge_base.txt]",
+      "type": "free_form",
+      "trigger": "User wants to design their brand identity, or set up, decorate, and equip a commercial branch, office, or business space.",
+      "referenced_tool_ids": [],
+      "referenced_kb_ids": [],
+      "referenced_procedure_ids": [],
+      "referenced_dynamic_variables": []
+    },
+    "agtprc_8401ky8mjpp9ef7rqfep035kx5s3": {
+      "procedure_id": "agtprc_8401ky8mjpp9ef7rqfep035kx5s3",
+      "version_id": "agtprcv_8301ky9zvyrwf4mtqgqbqdbjkp7d",
+      "name": "Request UberFix Maintenance Services and Subscriptions [Imported from knowledge_base.txt]",
+      "type": "free_form",
+      "trigger": "User reports a maintenance issue like plumbing, electrical, or HVAC, or asks about smart maintenance subscriptions and annual packages.",
+      "referenced_tool_ids": [],
+      "referenced_kb_ids": [],
+      "referenced_procedure_ids": [],
+      "referenced_dynamic_variables": []
+    },
+    "agtprc_5601ky8mjpppfacasd3cg854htvn": {
+      "procedure_id": "agtprc_5601ky8mjpppfacasd3cg854htvn",
+      "version_id": "agtprcv_3601ky9zvys0e0vtw21xcjkvfx9v",
+      "name": "Order Architectural Materials via Laban Alasfour [Imported from knowledge_base.txt]",
+      "type": "free_form",
+      "trigger": "User wants to order construction, finishing, or insulation materials, or is looking for hard-to-find architectural supplies from Laban Alasfour.",
+      "referenced_tool_ids": [],
+      "referenced_kb_ids": [],
+      "referenced_procedure_ids": [],
+      "referenced_dynamic_variables": []
+    }
+  },
+  "trust_context": "unknown"
+}

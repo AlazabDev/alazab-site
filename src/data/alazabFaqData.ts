@@ -1,4 +1,4 @@
-/* eslint-disable */
+ 
 /**
  * Auto-generated from: alazab-faq(5).json
  * Generated at: 2026-05-05T19:46:36.647638+00:00

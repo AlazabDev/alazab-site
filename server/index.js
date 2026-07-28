@@ -21,13 +21,23 @@ const path = require('path');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+// ── Database ────────────────────────────────────────────────────
+const { createClient } = require('@supabase/supabase-js');
+
+// تحقق من وجود متغيرات Supabase
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    logger.warn('[BOOT][WARN] Supabase credentials missing — Stripe DB features disabled');
+}
+
 // ── Routes ────────────────────────────────────────────────────
 const authRoutes = require('./routes/auth');
 const apiRoutes = require('./routes/api');
 const webhookRoutes = require('./routes/webhook');
 const metaRoutes = require('./routes/meta');
 const tiktokRoutes = require('./routes/tiktok');
+const stripeRoutes = require('./routes/stripe');
 const twilioRoutes = require('./routes/twilio');
+const ionicRoutes = require('./routes/ionic');
 const webhookToolRoutes = require('./routes/webhook-tool');
 const whatsappSeafileRoutes = require('./routes/whatsapp-seafile');
 const telegramRoutes = require('./routes/telegram');
@@ -65,10 +75,21 @@ const OPTIONAL_ENV = [
   'SUPABASE_SERVICE_ROLE_KEY',
   'ADMIN_API_KEY',
 ];
+const STRIPE_ENV = [
+    'STRIPE_SECRET_KEY',
+    'STRIPE_PUBLISHABLE_KEY',
+    'STRIPE_WEBHOOK_SECRET',
+    'DEFAULT_CURRENCY',
+    'DEFAULT_TAX_RATE',
+];
 
 function maskValue(v) {
   if (!v) return 'missing';
   return v.length <= 8 ? '••••••••' : `${v.slice(0, 4)}...${v.slice(-4)}`;
+}
+
+for (const key of STRIPE_ENV) {
+    logger.info(`[BOOT] ${key}=${maskValue(process.env[key])}`);
 }
 
 function startupEnvCheck() {
@@ -281,6 +302,8 @@ app.get('/ready', (req, res) => {
   res.status(ready ? 200 : 503).json({ ok: ready, checks, timestamp: new Date().toISOString() });
 });
 
+// للـ Webhook (مهم: يكون قبل express.json) ───────────────────────
+app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), stripeRoutes);
 
 // ── Admin graphical dashboard ─────────────────────────────────
 app.get(['/dashboard', '/admin', '/admin/dashboard'], (req, res) => {
@@ -370,8 +393,10 @@ app.use('/auth/v1', authLimiter, authRoutes);
 app.use('/api/v1', apiRoutes);
 app.use('/api/meta', metaRoutes);
 app.use('/api/tiktok', tiktokRoutes);
+app.use('/api/stripe', stripeRoutes);
 app.use('/api/webhook-tool', webhookToolRoutes);
 app.use('/api/twilio', twilioRoutes);
+app.use('/api/ionic', ionicRoutes);
 app.use('/', whatsappSeafileRoutes);
 app.use('/api/v1', whatsappSeafileRoutes);
 

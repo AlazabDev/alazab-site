@@ -16,15 +16,21 @@ import ProjectFilesTab from '../components/project/ProjectFilesTab';
 import Project3DModelTab from '../components/project/Project3DModelTab';
 import ProjectStatusTab from '../components/project/ProjectStatusTab';
 import ProjectNotesTab from '../components/project/ProjectNotesTab';
+import { ARABESQUE_PROJECT_ID } from '@/config/projectRoutes';
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import ProtectedRoute from '../components/auth/ProtectedRoute';
 
-const validProjectTabs = new Set(['details', 'notes', 'files', '3d', 'status']);
+type ProjectTab = 'details' | 'notes' | 'files' | '3d' | 'status';
+
+const validProjectTabs = new Set<ProjectTab>(['details', 'notes', 'files', '3d', 'status']);
 
 const ProjectDetails: React.FC = () => {
-  const { projectId } = useParams<{ projectId: string }>();
+  const { projectId: routeProjectId } = useParams<{ projectId: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
+  const isNotesAlias = routeProjectId === 'notes';
+  const projectId = isNotesAlias ? ARABESQUE_PROJECT_ID : routeProjectId;
+  const defaultTab: ProjectTab = isNotesAlias ? 'notes' : 'details';
   const {
     project,
     loading,
@@ -37,14 +43,18 @@ const ProjectDetails: React.FC = () => {
   } = useProject(projectId);
 
   const requestedTab = searchParams.get('tab');
-  const activeTab = requestedTab && validProjectTabs.has(requestedTab)
-    ? requestedTab
-    : 'details';
+  const activeTab: ProjectTab = requestedTab && validProjectTabs.has(requestedTab as ProjectTab)
+    ? requestedTab as ProjectTab
+    : defaultTab;
 
   const handleTabChange = (value: string) => {
+    if (!validProjectTabs.has(value as ProjectTab)) {
+      return;
+    }
+
     const nextSearchParams = new URLSearchParams(searchParams);
 
-    if (value === 'details') {
+    if (value === defaultTab) {
       nextSearchParams.delete('tab');
     } else {
       nextSearchParams.set('tab', value);

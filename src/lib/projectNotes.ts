@@ -14,6 +14,7 @@ import type {
 
 // The generated Database type is updated independently from feature delivery.
 // Keep the untyped boundary contained in this data-access module only.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = supabase as any;
 const NOTES_BUCKET = 'project-notes';
 const MAX_FILE_SIZE = 50 * 1024 * 1024;

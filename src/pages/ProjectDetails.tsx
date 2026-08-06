@@ -1,15 +1,13 @@
-
-import { Project } from '../types/project';
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { 
+import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger
 } from "@/components/ui/tabs";
-import { ArrowRight, Calendar, User, Clipboard, Clock, Share2, Download } from 'lucide-react';
+import { ArrowRight, Calendar, User, Clipboard, Clock, Share2, ListChecks } from 'lucide-react';
 import PageLayout from '../components/layout/PageLayout';
 import { useProject } from '../hooks/useProject';
 import ProjectHeader from '../components/project/ProjectHeader';
@@ -17,13 +15,14 @@ import ProjectDetailsTab from '../components/project/ProjectDetailsTab';
 import ProjectFilesTab from '../components/project/ProjectFilesTab';
 import Project3DModelTab from '../components/project/Project3DModelTab';
 import ProjectStatusTab from '../components/project/ProjectStatusTab';
+import ProjectNotesTab from '../components/project/ProjectNotesTab';
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import ProtectedRoute from '../components/auth/ProtectedRoute';
 
 const ProjectDetails: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
-  const { 
+  const {
     project,
     loading,
     files,
@@ -33,10 +32,9 @@ const ProjectDetails: React.FC = () => {
     handleDownloadFile,
     handleDeleteFile
   } = useProject(projectId);
-  
+
   const [activeTab, setActiveTab] = useState("details");
-  
-  // مشاركة المشروع
+
   const handleShareProject = () => {
     if (navigator.share) {
       navigator.share({
@@ -46,7 +44,6 @@ const ProjectDetails: React.FC = () => {
       })
       .catch((error) => console.log('حدث خطأ في المشاركة', error));
     } else {
-      // نسخ الرابط إلى الحافظة
       navigator.clipboard.writeText(window.location.href);
       toast({
         title: "تم نسخ الرابط",
@@ -94,10 +91,9 @@ const ProjectDetails: React.FC = () => {
       <PageLayout title={`مشروع: ${project.name}`}>
         <ProjectHeader project={project} />
 
-        {/* أزرار سريعة */}
         <div className="flex flex-wrap gap-2 mb-6">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={handleShareProject}
             className="text-sm"
@@ -105,9 +101,9 @@ const ProjectDetails: React.FC = () => {
             <Share2 size={16} className="ml-2" />
             مشاركة
           </Button>
-          
-          <Button 
-            variant="outline" 
+
+          <Button
+            variant="outline"
             size="sm"
             className="text-sm"
             asChild
@@ -119,14 +115,13 @@ const ProjectDetails: React.FC = () => {
           </Button>
         </div>
 
-        {/* شارات معلومات المشروع */}
         <div className="flex flex-wrap gap-3 mb-8">
           <Badge variant="outline" className="bg-gray-50 text-gray-700 gap-2 py-1.5">
             <Calendar size={14} className="text-construction-primary" />
             تاريخ الإنشاء: {new Date(project.created_at).toLocaleDateString('ar-EG')}
           </Badge>
           {project.status && (
-            <Badge 
+            <Badge
               className={`gap-2 py-1.5 ${
                 project.status === 'مكتمل' ? 'bg-green-100 text-green-800' :
                 project.status === 'قيد التنفيذ' ? 'bg-yellow-100 text-yellow-800' :
@@ -146,34 +141,40 @@ const ProjectDetails: React.FC = () => {
           )}
         </div>
 
-        {/* علامات تبويب المحتوى */}
-        <Tabs 
-          defaultValue="details" 
-          value={activeTab} 
-          onValueChange={setActiveTab} 
+        <Tabs
+          defaultValue="details"
+          value={activeTab}
+          onValueChange={setActiveTab}
           className="w-full"
         >
-          <TabsList className="mb-6 bg-gray-100 p-1">
-            <TabsTrigger 
+          <TabsList className="mb-6 h-auto flex-wrap justify-start bg-gray-100 p-1">
+            <TabsTrigger
               value="details"
               className="data-[state=active]:bg-construction-primary data-[state=active]:text-white"
             >
               تفاصيل المشروع
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
+              value="notes"
+              className="gap-2 data-[state=active]:bg-construction-primary data-[state=active]:text-white"
+            >
+              <ListChecks size={16} />
+              ملاحظات التنفيذ
+            </TabsTrigger>
+            <TabsTrigger
               value="files"
               className="data-[state=active]:bg-construction-primary data-[state=active]:text-white"
             >
               ملفات المشروع
               {files?.length > 0 && <span className="mr-2 inline-flex items-center justify-center w-5 h-5 text-xs rounded-full bg-construction-accent text-white">{files.length}</span>}
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="3d"
               className="data-[state=active]:bg-construction-primary data-[state=active]:text-white"
             >
               عرض ثلاثي الأبعاد
             </TabsTrigger>
-            <TabsTrigger 
+            <TabsTrigger
               value="status"
               className="data-[state=active]:bg-construction-primary data-[state=active]:text-white"
             >
@@ -185,8 +186,12 @@ const ProjectDetails: React.FC = () => {
             <ProjectDetailsTab project={project} />
           </TabsContent>
 
+          <TabsContent value="notes" className="animate-fadeIn">
+            <ProjectNotesTab projectId={project.id} />
+          </TabsContent>
+
           <TabsContent value="files" className="animate-fadeIn">
-            <ProjectFilesTab 
+            <ProjectFilesTab
               projectId={project.id}
               files={files}
               loadingFiles={loadingFiles}
@@ -201,7 +206,7 @@ const ProjectDetails: React.FC = () => {
           </TabsContent>
 
           <TabsContent value="status" className="animate-fadeIn">
-            <ProjectStatusTab 
+            <ProjectStatusTab
               projectId={project.id}
               currentStatus={project.status || 'جديد'}
               currentProgress={project.progress || 0}

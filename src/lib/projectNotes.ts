@@ -18,6 +18,12 @@ import type {
 const db = supabase as any;
 const NOTES_BUCKET = 'project-notes';
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
+const projectNoteRoles = new Set<ProjectNoteMemberRole>([
+  'viewer',
+  'commenter',
+  'editor',
+  'owner',
+]);
 
 const requireUserId = async (): Promise<string> => {
   const { data, error } = await supabase.auth.getUser();
@@ -36,6 +42,22 @@ const countByNote = (rows: Array<{ note_id: string }> | null): Map<string, numbe
     counts.set(note_id, (counts.get(note_id) || 0) + 1);
   });
   return counts;
+};
+
+export const fetchProjectNoteRole = async (
+  projectId: string,
+): Promise<ProjectNoteMemberRole | null> => {
+  const { data, error } = await db.rpc('project_note_current_role', {
+    target_project_id: projectId,
+  });
+  throwIfError(error);
+
+  if (data === null || data === undefined) return null;
+  if (typeof data !== 'string' || !projectNoteRoles.has(data as ProjectNoteMemberRole)) {
+    throw new Error('تم إرجاع صلاحية غير صالحة لملاحظات المشروع');
+  }
+
+  return data as ProjectNoteMemberRole;
 };
 
 export const fetchProjectNotesBoard = async (projectId: string): Promise<ProjectNotesBoard> => {
@@ -145,7 +167,14 @@ export const createProjectNote = async (input: CreateProjectNoteInput): Promise<
 export type UpdateProjectNoteInput = Partial<
   Pick<
     ProjectNote,
-    'title' | 'description' | 'status' | 'priority' | 'assigned_to' | 'due_date' | 'section_id' | 'position'
+    | 'title'
+    | 'description'
+    | 'status'
+    | 'priority'
+    | 'assigned_to'
+    | 'due_date'
+    | 'section_id'
+    | 'position'
   >
 >;
 
@@ -340,11 +369,21 @@ export const deleteProjectNoteAttachment = async (
 };
 
 export const fetchProjectNoteMembers = async (projectId: string): Promise<ProjectNoteMember[]> => {
-  const { data, error } = await db.rpc('get_project_note_members', {
-    target_project_id: projectId,
-  });
-  throwIfError(error);
-  return (data || []) as ProjectNoteMember[];
+  try {
+    const { data, error } = await db.rpc('get_project_note_members', {
+      target_project_id: projectId,
+    });
+
+    if (error) {
+      console.warn('Project note members could not be loaded:', error.message);
+      return [];
+    }
+
+    return (data || []) as ProjectNoteMember[];
+  } catch (error) {
+    console.warn('Project note members request failed:', error);
+    return [];
+  }
 };
 
 export const addProjectNoteMemberByEmail = async (

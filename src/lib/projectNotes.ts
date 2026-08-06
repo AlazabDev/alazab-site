@@ -179,6 +179,23 @@ export const updateProjectNote = async (
 };
 
 export const deleteProjectNote = async (noteId: string): Promise<void> => {
+  const { data: attachmentRows, error: attachmentError } = await db
+    .from('project_note_attachments')
+    .select('object_path')
+    .eq('note_id', noteId);
+  throwIfError(attachmentError);
+
+  const objectPaths = (attachmentRows || [])
+    .map((row: { object_path: string }) => row.object_path)
+    .filter(Boolean);
+
+  if (objectPaths.length > 0) {
+    const { error: storageError } = await supabase.storage
+      .from(NOTES_BUCKET)
+      .remove(objectPaths);
+    throwIfError(storageError);
+  }
+
   const { error } = await db.from('project_notes').delete().eq('id', noteId);
   throwIfError(error);
 };
@@ -201,7 +218,7 @@ export const fetchProjectNoteThread = async (noteId: string): Promise<ProjectNot
   throwIfError(attachmentsResult.error);
 
   const attachmentRows = (attachmentsResult.data || []) as ProjectNoteAttachment[];
-  let signedUrlByPath = new Map<string, string>();
+  const signedUrlByPath = new Map<string, string>();
 
   if (attachmentRows.length > 0) {
     const { data: signedRows, error: signedError } = await supabase.storage
@@ -212,11 +229,11 @@ export const fetchProjectNoteThread = async (noteId: string): Promise<ProjectNot
       );
 
     throwIfError(signedError);
-    signedUrlByPath = new Map(
-      (signedRows || [])
-        .filter((row) => row.signedUrl)
-        .map((row) => [row.path, row.signedUrl as string]),
-    );
+    for (const row of signedRows || []) {
+      if (row.signedUrl) {
+        signedUrlByPath.set(row.path, row.signedUrl);
+      }
+    }
   }
 
   return {

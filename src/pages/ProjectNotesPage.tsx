@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Copy, LogIn, Share2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageLayout from '@/components/layout/PageLayout';
+import ProjectNoteCompletionCamera from '@/components/project/ProjectNoteCompletionCamera';
 import ProjectNotesTab from '@/components/project/ProjectNotesTab';
 import PublicProjectNotesBoard from '@/components/project/PublicProjectNotesBoard';
 import { Badge } from '@/components/ui/badge';
@@ -32,6 +33,7 @@ const ProjectNotesPage: React.FC = () => {
   const { user } = useAuth();
   const [role, setRole] = useState<ProjectNoteMemberRole | null>(null);
   const [shareStatus, setShareStatus] = useState<string | null>(null);
+  const [managerRefreshKey, setManagerRefreshKey] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -88,7 +90,7 @@ const ProjectNotesPage: React.FC = () => {
             <div>
               <CardTitle>لوحة ملاحظات التنفيذ</CardTitle>
               <CardDescription className="mt-1">
-                العرض والبحث وفتح التفاصيل عام. الإضافة والتعديل والحذف تتطلب تسجيل الدخول وصلاحية المشروع.
+                العرض والبحث وفتح التفاصيل عام. الإضافة والتعديل والحذف والتصوير تتطلب تسجيل الدخول وصلاحية المشروع.
               </CardDescription>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -106,7 +108,7 @@ const ProjectNotesPage: React.FC = () => {
                 <Button variant="default" asChild>
                   <Link to={`/auth?returnTo=${encodeURIComponent(ARABESQUE_NOTES_ROUTE)}`}>
                     <LogIn className="ml-2 h-4 w-4" />
-                    تسجيل الدخول للإضافة أو الحذف
+                    تسجيل الدخول للإضافة أو التصوير
                   </Link>
                 </Button>
               )}
@@ -129,7 +131,16 @@ const ProjectNotesPage: React.FC = () => {
         </Card>
 
         {canManage ? (
-          <ProjectNotesTab projectId={ARABESQUE_PROJECT_ID} />
+          <>
+            <ProjectNoteCompletionCamera
+              projectId={ARABESQUE_PROJECT_ID}
+              onCompleted={() => setManagerRefreshKey((current) => current + 1)}
+            />
+            <ProjectNotesTab
+              key={managerRefreshKey}
+              projectId={ARABESQUE_PROJECT_ID}
+            />
+          </>
         ) : (
           <PublicProjectNotesBoard projectId={ARABESQUE_PROJECT_ID} />
         )}

@@ -1,6 +1,10 @@
 name: Validate React application
 
 on:
+  push:
+    branches:
+      - main
+      - 'agent/**'
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -9,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: validate-${{ github.ref }}
+  group: validate-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

@@ -1,43 +1,68 @@
-
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from "@/integrations/supabase/client";
-import LoginForm from '../components/auth/LoginForm';
-import SignupForm from '../components/auth/SignupForm';
-import ResetPasswordForm from '../components/auth/ResetPasswordForm';
-import WhatsAppOTPForm from '../components/auth/WhatsAppOTPForm';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import LoginForm from '@/components/auth/LoginForm';
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
+import SignupForm from '@/components/auth/SignupForm';
+import WhatsAppOTPForm from '@/components/auth/WhatsAppOTPForm';
 
 type AuthMode = 'login' | 'signup' | 'reset' | 'whatsapp';
+
+const resolveReturnTo = (rawValue: string | null): string => {
+  if (!rawValue) return '/';
+
+  try {
+    const target = new URL(rawValue, window.location.origin);
+    if (target.origin !== window.location.origin || target.pathname === '/auth') {
+      return '/';
+    }
+    return `${target.pathname}${target.search}${target.hash}`;
+  } catch {
+    return '/';
+  }
+};
 
 const AuthPage: React.FC = () => {
   const [mode, setMode] = useState<AuthMode>('whatsapp');
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const returnTo = resolveReturnTo(searchParams.get('returnTo'));
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        navigate('/', { replace: true });
+    let active = true;
+
+    const checkUser = async (): Promise<void> => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (active && session) {
+        navigate(returnTo, { replace: true });
       }
     };
 
-    checkUser();
+    void checkUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        navigate('/', { replace: true });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (active && session) {
+        navigate(returnTo, { replace: true });
       }
     });
 
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, [navigate, returnTo]);
 
-  const handleAuthSuccess = () => {
-    navigate('/', { replace: true });
+  const handleAuthSuccess = (): void => {
+    navigate(returnTo, { replace: true });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-construction-light to-gray-50 flex items-center justify-center p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-construction-light to-gray-50 p-4">
       <div className="w-full max-w-md">
         {mode === 'whatsapp' && (
           <WhatsAppOTPForm
@@ -54,18 +79,16 @@ const AuthPage: React.FC = () => {
             onSuccess={handleAuthSuccess}
           />
         )}
-        
+
         {mode === 'signup' && (
           <SignupForm
             onSwitchToLogin={() => setMode('login')}
             onSuccess={handleAuthSuccess}
           />
         )}
-        
+
         {mode === 'reset' && (
-          <ResetPasswordForm
-            onSwitchToLogin={() => setMode('login')}
-          />
+          <ResetPasswordForm onSwitchToLogin={() => setMode('login')} />
         )}
       </div>
     </div>

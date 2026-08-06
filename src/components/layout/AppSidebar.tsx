@@ -24,9 +24,8 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar";
 import { useAuth } from '@/hooks/useAuth';
+import { ARABESQUE_NOTES_ROUTE } from '@/config/projectRoutes';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-const ARABESQUE_PROJECT_ID = 'a5facc21-32c0-4e1f-9c11-9b402baadf75';
 
 const navigationItems = [
   { title: "الرئيسية", url: "/dashboard", icon: Home },
@@ -35,7 +34,7 @@ const navigationItems = [
   { title: "المشاريع", url: "/project-management", icon: FolderOpen },
   {
     title: "ملاحظات اربيسك",
-    url: `/projects/${ARABESQUE_PROJECT_ID}?tab=notes`,
+    url: ARABESQUE_NOTES_ROUTE,
     icon: ListChecks,
   },
   { title: "الرسائل", url: "/messages", icon: MessageSquare },

@@ -6,9 +6,15 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
+const PUBLIC_PATHS = new Set(['/projects/notes']);
+
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { user, loading } = useAuth();
   const location = useLocation();
+
+  if (PUBLIC_PATHS.has(location.pathname)) {
+    return <>{children}</>;
+  }
 
   if (loading) {
     return (

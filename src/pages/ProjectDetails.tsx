@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React from 'react';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import {
   Tabs,
@@ -20,8 +20,11 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/hooks/use-toast";
 import ProtectedRoute from '../components/auth/ProtectedRoute';
 
+const validProjectTabs = new Set(['details', 'notes', 'files', '3d', 'status']);
+
 const ProjectDetails: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     project,
     loading,
@@ -33,7 +36,22 @@ const ProjectDetails: React.FC = () => {
     handleDeleteFile
   } = useProject(projectId);
 
-  const [activeTab, setActiveTab] = useState("details");
+  const requestedTab = searchParams.get('tab');
+  const activeTab = requestedTab && validProjectTabs.has(requestedTab)
+    ? requestedTab
+    : 'details';
+
+  const handleTabChange = (value: string) => {
+    const nextSearchParams = new URLSearchParams(searchParams);
+
+    if (value === 'details') {
+      nextSearchParams.delete('tab');
+    } else {
+      nextSearchParams.set('tab', value);
+    }
+
+    setSearchParams(nextSearchParams, { replace: true });
+  };
 
   const handleShareProject = () => {
     if (navigator.share) {
@@ -142,9 +160,8 @@ const ProjectDetails: React.FC = () => {
         </div>
 
         <Tabs
-          defaultValue="details"
           value={activeTab}
-          onValueChange={setActiveTab}
+          onValueChange={handleTabChange}
           className="w-full"
         >
           <TabsList className="mb-6 h-auto flex-wrap justify-start bg-gray-100 p-1">

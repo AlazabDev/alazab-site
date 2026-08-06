@@ -1,15 +1,15 @@
-
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { 
-  Home, 
-  Settings, 
-  User, 
-  Wrench, 
-  ClipboardList, 
+import {
+  Home,
+  Settings,
+  User,
+  Wrench,
+  ClipboardList,
   FolderOpen,
   MessageSquare,
-  Search
+  Search,
+  ListChecks,
 } from 'lucide-react';
 import {
   Sidebar,
@@ -26,11 +26,18 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+const ARABESQUE_PROJECT_ID = 'a5facc21-32c0-4e1f-9c11-9b402baadf75';
+
 const navigationItems = [
   { title: "الرئيسية", url: "/dashboard", icon: Home },
   { title: "البحث", url: "/search", icon: Search },
   { title: "طلبات الصيانة", url: "/maintenance-list", icon: ClipboardList },
   { title: "المشاريع", url: "/project-management", icon: FolderOpen },
+  {
+    title: "ملاحظات اربيسك",
+    url: `/projects/${ARABESQUE_PROJECT_ID}?tab=notes`,
+    icon: ListChecks,
+  },
   { title: "الرسائل", url: "/messages", icon: MessageSquare },
 ];
 
@@ -42,12 +49,20 @@ const bottomItems = [
 export function AppSidebar() {
   const location = useLocation();
   const { user } = useAuth();
-  
-  const isActive = (path: string) => location.pathname === path;
-  
-  const getNavClass = (path: string) => 
-    isActive(path) 
-      ? "bg-construction-primary text-white" 
+
+  const isActive = (url: string) => {
+    const [pathname, query] = url.split('?');
+
+    if (location.pathname !== pathname) {
+      return false;
+    }
+
+    return query ? location.search === `?${query}` : true;
+  };
+
+  const getNavClass = (path: string) =>
+    isActive(path)
+      ? "bg-construction-primary text-white"
       : "text-gray-700 hover:bg-gray-100";
 
   return (
@@ -74,8 +89,8 @@ export function AppSidebar() {
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
+                    <NavLink
+                      to={item.url}
                       className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${getNavClass(item.url)}`}
                     >
                       <item.icon className="w-5 h-5" />
@@ -94,8 +109,8 @@ export function AppSidebar() {
               {bottomItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink 
-                      to={item.url} 
+                    <NavLink
+                      to={item.url}
                       className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${getNavClass(item.url)}`}
                     >
                       <item.icon className="w-5 h-5" />

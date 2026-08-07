@@ -10,7 +10,7 @@ export interface PNProject {
   id: string;
   name: string;
   description: string | null;
-  created_by: string | null;
+  created_by: string;
   created_at: string;
   updated_at: string;
 }
@@ -42,6 +42,7 @@ export interface PNComment {
   project_id: string;
   note_id: string;
   body: string;
+  actor_id: string | null;
   created_at: string;
 }
 
@@ -49,11 +50,12 @@ export interface PNAttachment {
   id: string;
   project_id: string;
   note_id: string;
-  bucket_id: 'pn-files' | 'project-notes';
+  bucket_id: 'pn-files';
   object_path: string;
   file_name: string;
   mime_type: string | null;
   file_size: number | null;
+  uploaded_by: string | null;
   created_at: string;
   signed_url?: string | null;
 }
@@ -78,9 +80,8 @@ const requireAuthenticatedUser = async (): Promise<string> => {
 const removePNFiles = async (column: 'project_id' | 'note_id', value: string): Promise<void> => {
   const { data, error } = await db
     .from('pn_attachments')
-    .select('bucket_id,object_path')
-    .eq(column, value)
-    .eq('bucket_id', 'pn-files');
+    .select('object_path')
+    .eq(column, value);
   throwIfError(error);
 
   const paths = (data || [])
@@ -139,7 +140,7 @@ export const fetchPNThread = async (noteId: string): Promise<{ comments: PNComme
   const attachments = (attachmentsResult.data || []) as PNAttachment[];
   const resolved = await Promise.all(attachments.map(async (attachment) => {
     const { data } = await supabase.storage
-      .from(attachment.bucket_id)
+      .from('pn-files')
       .createSignedUrl(attachment.object_path, 60 * 60);
     return { ...attachment, signed_url: data?.signedUrl || null };
   }));
@@ -151,28 +152,13 @@ export const fetchPNThread = async (noteId: string): Promise<{ comments: PNComme
 };
 
 export const createPNProject = async (name: string, description?: string): Promise<PNProject> => {
-  const userId = await requireAuthenticatedUser();
-  const { data, error } = await db.from('pn_projects').insert({
-    name: name.trim(),
-    description: description?.trim() || null,
-    created_by: userId,
-  }).select('*').single();
-  throwIfError(error);
-
-  const project = data as PNProject;
-  const { error: sectionError } = await db.from('pn_sections').insert({
-    project_id: project.id,
-    title: 'ملاحظات عامة',
-    position: 0,
-    created_by: userId,
+  await requireAuthenticatedUser();
+  const { data, error } = await db.rpc('pn_create_project', {
+    project_name: name.trim(),
+    project_description: description?.trim() || null,
   });
-
-  if (sectionError) {
-    await db.from('pn_projects').delete().eq('id', project.id);
-    throwIfError(sectionError);
-  }
-
-  return project;
+  throwIfError(error);
+  return data as PNProject;
 };
 
 export const deletePNProject = async (projectId: string): Promise<void> => {
@@ -210,17 +196,17 @@ export const deletePNNote = async (noteId: string): Promise<void> => {
 };
 
 export const setPNNoteStatus = async (
-  noteId: string,
+  note: Pick<PNNote, 'id' | 'project_id'>,
   status: PNStatus,
   comment?: string,
-): Promise<PNNote> => {
-  const { data, error } = await db.rpc('pn_set_note_status', {
-    target_note_id: noteId,
-    next_status: status,
-    status_comment: comment?.trim() || null,
+): Promise<void> => {
+  const { error } = await db.from('pn_status_events').insert({
+    project_id: note.project_id,
+    note_id: note.id,
+    status,
+    comment: comment?.trim() || null,
   });
   throwIfError(error);
-  return data as PNNote;
 };
 
 export const addPNComment = async (projectId: string, noteId: string, body: string): Promise<PNComment> => {
@@ -240,9 +226,10 @@ const extension = (name: string): string => {
 };
 
 export const uploadPNAttachment = async (projectId: string, noteId: string, file: File): Promise<PNAttachment> => {
+  if (file.size <= 0) throw new Error('الملف فارغ');
   if (file.size > 50 * 1024 * 1024) throw new Error('الحد الأقصى لحجم الملف 50 ميجابايت');
-  const objectPath = `${projectId}/${noteId}/${crypto.randomUUID()}${extension(file.name)}`;
 
+  const objectPath = `${projectId}/${noteId}/${crypto.randomUUID()}${extension(file.name)}`;
   const { error: uploadError } = await supabase.storage.from('pn-files').upload(objectPath, file, {
     upsert: false,
     contentType: file.type || undefined,

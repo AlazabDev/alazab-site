@@ -24,7 +24,6 @@ import {
   SidebarFooter,
 } from "@/components/ui/sidebar";
 import { useAuth } from '@/hooks/useAuth';
-import { ARABESQUE_NOTES_ROUTE } from '@/config/projectRoutes';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const navigationItems = [
@@ -32,11 +31,7 @@ const navigationItems = [
   { title: "البحث", url: "/search", icon: Search },
   { title: "طلبات الصيانة", url: "/maintenance-list", icon: ClipboardList },
   { title: "المشاريع", url: "/project-management", icon: FolderOpen },
-  {
-    title: "ملاحظات اربيسك",
-    url: ARABESQUE_NOTES_ROUTE,
-    icon: ListChecks,
-  },
+  { title: "PN | ملاحظات المشروعات", url: "/pn", icon: ListChecks },
   { title: "الرسائل", url: "/messages", icon: MessageSquare },
 ];
 

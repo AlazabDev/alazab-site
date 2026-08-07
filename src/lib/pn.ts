@@ -196,10 +196,17 @@ export const deletePNNote = async (noteId: string): Promise<void> => {
 };
 
 export const setPNNoteStatus = async (
-  note: Pick<PNNote, 'id' | 'project_id'>,
+  noteId: string,
   status: PNStatus,
   comment?: string,
 ): Promise<void> => {
+  const { data: note, error: noteError } = await db
+    .from('pn_notes')
+    .select('id,project_id')
+    .eq('id', noteId)
+    .single();
+  throwIfError(noteError);
+
   const { error } = await db.from('pn_status_events').insert({
     project_id: note.project_id,
     note_id: note.id,

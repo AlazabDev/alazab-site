@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - 'agent/**'
+      - 'feature/**'
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -27,7 +28,6 @@ jobs:
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 11.17.0
           run_install: false
 
       - name: Set up Node.js

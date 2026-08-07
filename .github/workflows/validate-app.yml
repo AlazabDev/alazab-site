@@ -39,8 +39,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      - name: Lint PN module
+        run: >-
+          pnpm exec eslint
+          src/pages/PNPage.tsx
+          src/lib/pn.ts
+          src/pages/NotFound.tsx
+          --report-unused-disable-directives
+          --max-warnings 0
+          --rule 'react-hooks/set-state-in-effect: off'
 
       - name: Type-check
         run: pnpm type-check

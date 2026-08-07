@@ -29,6 +29,7 @@ const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
 const ProjectManagement = lazy(() => import("./pages/ProjectManagement"));
 const ProjectDetails = lazy(() => import("./pages/ProjectDetails"));
+const PNPage = lazy(() => import("./pages/PNPage"));
 const ProjectPortfolioDetails = lazy(() => import("./pages/ProjectPortfolioDetails"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
@@ -95,6 +96,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/pn" element={<PNPage />} />
         <Route path="/maintenance-request" element={<MaintenanceRequest />} />
         <Route path="/maintenance-tracking" element={<MaintenanceTracking />} />
         <Route path="/maintenance-list" element={
@@ -229,7 +231,6 @@ function App() {
         <Route path="/faq/:slug" element={<ContentArticlePage section="faq" />} />
         <Route path="/maintenance-services" element={<ContentSectionPage section="services" />} />
         <Route path="/maintenance-services/:slug" element={<ContentArticlePage section="services" />} />
-        {/* Fallback: any unmatched /services/:slug renders the matching maintenance service article */}
         <Route path="/services/:slug" element={<ContentArticlePage section="services" />} />
         <Route path="/tiktok-link" element={<TikTokLinkPage />} />
         <Route path="*" element={<NotFound />} />

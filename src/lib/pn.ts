@@ -68,6 +68,31 @@ const throwIfError = (error: { message?: string } | null): void => {
   if (error) throw new Error(error.message || 'حدث خطأ غير متوقع');
 };
 
+const requireAuthenticatedUser = async (): Promise<string> => {
+  const { data, error } = await supabase.auth.getUser();
+  throwIfError(error);
+  if (!data.user) throw new Error('AUTH_REQUIRED');
+  return data.user.id;
+};
+
+const removePNFiles = async (column: 'project_id' | 'note_id', value: string): Promise<void> => {
+  const { data, error } = await db
+    .from('pn_attachments')
+    .select('bucket_id,object_path')
+    .eq(column, value)
+    .eq('bucket_id', 'pn-files');
+  throwIfError(error);
+
+  const paths = (data || [])
+    .map((row: { object_path: string }) => row.object_path)
+    .filter(Boolean);
+
+  if (paths.length > 0) {
+    const { error: removeError } = await supabase.storage.from('pn-files').remove(paths);
+    throwIfError(removeError);
+  }
+};
+
 export const fetchPNBoard = async (): Promise<PNBoard> => {
   const [projectsResult, sectionsResult, notesResult, commentsResult, attachmentsResult] = await Promise.all([
     db.from('pn_projects').select('*').order('created_at', { ascending: true }),
@@ -126,14 +151,11 @@ export const fetchPNThread = async (noteId: string): Promise<{ comments: PNComme
 };
 
 export const createPNProject = async (name: string, description?: string): Promise<PNProject> => {
-  const { data: authData, error: authError } = await supabase.auth.getUser();
-  throwIfError(authError);
-  if (!authData.user) throw new Error('AUTH_REQUIRED');
-
+  const userId = await requireAuthenticatedUser();
   const { data, error } = await db.from('pn_projects').insert({
     name: name.trim(),
     description: description?.trim() || null,
-    created_by: authData.user.id,
+    created_by: userId,
   }).select('*').single();
   throwIfError(error);
 
@@ -142,15 +164,20 @@ export const createPNProject = async (name: string, description?: string): Promi
     project_id: project.id,
     title: 'ملاحظات عامة',
     position: 0,
-    created_by: authData.user.id,
+    created_by: userId,
   });
-  throwIfError(sectionError);
+
+  if (sectionError) {
+    await db.from('pn_projects').delete().eq('id', project.id);
+    throwIfError(sectionError);
+  }
+
   return project;
 };
 
 export const deletePNProject = async (projectId: string): Promise<void> => {
-  const { data: authData } = await supabase.auth.getUser();
-  if (!authData.user) throw new Error('AUTH_REQUIRED');
+  await requireAuthenticatedUser();
+  await removePNFiles('project_id', projectId);
   const { error } = await db.from('pn_projects').delete().eq('id', projectId);
   throwIfError(error);
 };
@@ -162,23 +189,22 @@ export const createPNNote = async (
   description?: string,
   position = 0,
 ): Promise<PNNote> => {
-  const { data: authData } = await supabase.auth.getUser();
-  if (!authData.user) throw new Error('AUTH_REQUIRED');
+  const userId = await requireAuthenticatedUser();
   const { data, error } = await db.from('pn_notes').insert({
     project_id: projectId,
     section_id: sectionId,
     title: title.trim(),
     description: description?.trim() || null,
     position,
-    created_by: authData.user.id,
+    created_by: userId,
   }).select('*').single();
   throwIfError(error);
   return data as PNNote;
 };
 
 export const deletePNNote = async (noteId: string): Promise<void> => {
-  const { data: authData } = await supabase.auth.getUser();
-  if (!authData.user) throw new Error('AUTH_REQUIRED');
+  await requireAuthenticatedUser();
+  await removePNFiles('note_id', noteId);
   const { error } = await db.from('pn_notes').delete().eq('id', noteId);
   throwIfError(error);
 };

@@ -10,14 +10,17 @@ import { Button } from "@/components/ui/button";
 const NotFound = () => {
   const location = useLocation();
   const { t, isRTL } = useLanguage();
-
-  if (location.pathname === '/pn' || location.pathname === '/pn/') {
-    return <PNPage />;
-  }
+  const isPNRoute = location.pathname === '/pn' || location.pathname === '/pn/';
 
   useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
+    if (!isPNRoute) {
+      console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    }
+  }, [isPNRoute, location.pathname]);
+
+  if (isPNRoute) {
+    return <PNPage />;
+  }
 
   const BackArrow = isRTL ? ArrowRight : ArrowLeft;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
-import { ArrowRight, Calendar, Clipboard, Clock, ListChecks, Share2, User } from 'lucide-react';
+import { ArrowRight, Calendar, Clipboard, Clock, Share2, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,13 +11,11 @@ import Project3DModelTab from '@/components/project/Project3DModelTab';
 import ProjectDetailsTab from '@/components/project/ProjectDetailsTab';
 import ProjectFilesTab from '@/components/project/ProjectFilesTab';
 import ProjectHeader from '@/components/project/ProjectHeader';
-import ProjectNotesTab from '@/components/project/ProjectNotesTab';
 import ProjectStatusTab from '@/components/project/ProjectStatusTab';
-import ProjectNotesPage from '@/pages/ProjectNotesPage';
 
-type ProjectTab = 'details' | 'notes' | 'files' | '3d' | 'status';
+type ProjectTab = 'details' | 'files' | '3d' | 'status';
 
-const validProjectTabs = new Set<ProjectTab>(['details', 'notes', 'files', '3d', 'status']);
+const validProjectTabs = new Set<ProjectTab>(['details', 'files', '3d', 'status']);
 
 interface ProjectDetailsContentProps {
   projectId: string;
@@ -166,10 +164,6 @@ const ProjectDetailsContent: React.FC<ProjectDetailsContentProps> = ({ projectId
           <TabsTrigger value="details" className="data-[state=active]:bg-construction-primary data-[state=active]:text-white">
             تفاصيل المشروع
           </TabsTrigger>
-          <TabsTrigger value="notes" className="gap-2 data-[state=active]:bg-construction-primary data-[state=active]:text-white">
-            <ListChecks size={16} />
-            ملاحظات التنفيذ
-          </TabsTrigger>
           <TabsTrigger value="files" className="data-[state=active]:bg-construction-primary data-[state=active]:text-white">
             ملفات المشروع
             {files?.length > 0 && (
@@ -188,9 +182,6 @@ const ProjectDetailsContent: React.FC<ProjectDetailsContentProps> = ({ projectId
 
         <TabsContent value="details" className="animate-fadeIn">
           <ProjectDetailsTab project={project} />
-        </TabsContent>
-        <TabsContent value="notes" className="animate-fadeIn">
-          <ProjectNotesTab projectId={project.id} />
         </TabsContent>
         <TabsContent value="files" className="animate-fadeIn">
           <ProjectFilesTab
@@ -223,10 +214,6 @@ const ProjectDetails: React.FC = () => {
 
   if (!projectId) {
     return <Navigate to="/project-management" replace />;
-  }
-
-  if (projectId === 'notes') {
-    return <ProjectNotesPage />;
   }
 
   return <ProjectDetailsContent projectId={projectId} />;

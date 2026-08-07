@@ -3,16 +3,24 @@ import { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import PNPage from "@/pages/PNPage";
 import { Home, ArrowLeft, ArrowRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   const location = useLocation();
   const { t, isRTL } = useLanguage();
+  const isPNRoute = location.pathname === '/pn' || location.pathname === '/pn/';
 
   useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
+    if (!isPNRoute) {
+      console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    }
+  }, [isPNRoute, location.pathname]);
+
+  if (isPNRoute) {
+    return <PNPage />;
+  }
 
   const BackArrow = isRTL ? ArrowRight : ArrowLeft;
 
@@ -21,7 +29,6 @@ const NotFound = () => {
       <Header />
       <main className="flex-1 flex items-center justify-center px-4 py-20">
         <div className="text-center max-w-lg mx-auto space-y-6">
-          {/* Large 404 */}
           <div className="relative">
             <h1 className="text-[10rem] sm:text-[12rem] font-black leading-none text-primary/10 select-none">
               404

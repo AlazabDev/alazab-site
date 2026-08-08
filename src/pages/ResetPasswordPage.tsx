@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -13,21 +12,51 @@ const ResetPasswordPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [checkingRecovery, setCheckingRecovery] = useState(true);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if we have a recovery session
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    const type = hashParams.get('type');
-    if (type !== 'recovery') {
-      // Also check URL params from Supabase redirect
+    let active = true;
+
+    const validateRecovery = async (): Promise<void> => {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
       const urlParams = new URLSearchParams(window.location.search);
-      if (!urlParams.get('code') && !urlParams.get('token_hash')) {
-        // No recovery token, redirect to auth
+      const hasRecoveryMarker =
+        hashParams.get('type') === 'recovery' ||
+        Boolean(urlParams.get('code')) ||
+        Boolean(urlParams.get('token_hash'));
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!active) return;
+
+      if (!session && !hasRecoveryMarker) {
         navigate('/auth', { replace: true });
+        return;
       }
-    }
+
+      setCheckingRecovery(false);
+    };
+
+    void validateRecovery();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!active) return;
+
+      if (event === 'PASSWORD_RECOVERY' || session) {
+        setCheckingRecovery(false);
+      }
+    });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   const handleResetPassword = async (e: React.FormEvent) => {
@@ -59,6 +88,14 @@ const ResetPasswordPage: React.FC = () => {
       setLoading(false);
     }
   };
+
+  if (checkingRecovery) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-construction-light to-gray-50 flex items-center justify-center p-4" dir="rtl">
+        <Loader2 className="h-8 w-8 animate-spin text-construction-primary" />
+      </div>
+    );
+  }
 
   if (success) {
     return (

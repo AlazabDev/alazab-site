@@ -15,7 +15,6 @@ serve(async (req) => {
   }
 
   try {
-    // ── Auth check: require authenticated admin ──
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -28,9 +27,11 @@ serve(async (req) => {
     const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-    // Verify user from the token
     const token = authHeader.replace("Bearer ", "");
-    const anonClient = createClient(SUPABASE_URL, Deno.env.get("SUPABASE_ANON_KEY") || Deno.env.get("SUPABASE_PUBLISHABLE_KEY") || "");
+    const anonClient = createClient(
+      SUPABASE_URL,
+      Deno.env.get("SUPABASE_ANON_KEY") || Deno.env.get("SUPABASE_PUBLISHABLE_KEY") || ""
+    );
     const { data: { user }, error: authErr } = await anonClient.auth.getUser(token);
     if (authErr || !user) {
       return new Response(JSON.stringify({ error: "Invalid token" }), {
@@ -39,22 +40,21 @@ serve(async (req) => {
       });
     }
 
-    // Check admin role
-    const { data: roleData } = await supabase
-      .from("user_roles")
+    const { data: roleData, error: roleError } = await supabase
+      .from("adp_user_roles")
       .select("role")
       .eq("user_id", user.id)
-      .eq("role", "admin")
+      .in("role", ["platform_owner", "platform_admin"])
+      .limit(1)
       .maybeSingle();
 
-    if (!roleData) {
-      return new Response(JSON.stringify({ error: "Forbidden: admin only" }), {
+    if (roleError || !roleData) {
+      return new Response(JSON.stringify({ error: "Forbidden: platform admin only" }), {
         status: 403,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    // ── Proceed with token exchange ──
     const FACEBOOK_APP_SECRET = Deno.env.get("FACEBOOK_APP_SECRET");
     if (!FACEBOOK_APP_SECRET) throw new Error("FACEBOOK_APP_SECRET is not configured");
 
@@ -85,7 +85,7 @@ serve(async (req) => {
       waba_id,
       phone_number_id,
       token_type: tokenData.token_type,
-      admin_user: user.email,
+      admin_user: user.id,
     });
 
     if (waba_id) {
@@ -103,7 +103,6 @@ serve(async (req) => {
       console.log("WABA subscription result:", subscribeData);
     }
 
-    // Store credentials securely
     const storeSecrets = async (key: string, value: string) => {
       await fetch(`${SUPABASE_URL}/rest/v1/app_secrets`, {
         method: "POST",

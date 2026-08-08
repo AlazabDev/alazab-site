@@ -1,11 +1,12 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { LanguageProvider } from './contexts/LanguageContext';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { Toaster } from "./components/ui/toaster";
 import ErrorBoundary from "./components/ErrorBoundary";
 import JsonLd from "./components/SEO/JsonLd";
+import { supabase } from '@/integrations/supabase/client';
 import "./App.css";
 
 // Eagerly loaded (critical path)
@@ -84,6 +85,24 @@ const PageLoader = () => (
   </div>
 );
 
+const RecoveryRedirect: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        navigate('/auth/reset-password', { replace: true });
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
+
+  return null;
+};
+
 function App() {
   return (
     <HelmetProvider>
@@ -91,6 +110,7 @@ function App() {
     <LanguageProvider>
     <ErrorBoundary>
     <BrowserRouter>
+      <RecoveryRedirect />
       <JsonLd />
       <Suspense fallback={<PageLoader />}>
       <Routes>

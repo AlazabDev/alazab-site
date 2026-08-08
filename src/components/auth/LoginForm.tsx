@@ -6,20 +6,23 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import AuthCard from './AuthCard';
 import { Separator } from "@/components/ui/separator";
-import { Mail, Lock, Loader2 } from 'lucide-react';
+import { Mail, Lock, Loader2, Phone, MessageCircle } from 'lucide-react';
 
 interface LoginFormProps {
   onSwitchToSignup: () => void;
   onSwitchToReset: () => void;
-  onSwitchToWhatsApp?: () => void;
+  onSwitchToWhatsApp: () => void;
+  onSwitchToPhone: () => void;
   onSuccess: () => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset, onSwitchToWhatsApp, onSuccess }) => {
+type SocialProvider = 'google' | 'facebook' | 'azure';
+
+const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset, onSwitchToWhatsApp, onSwitchToPhone, onSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [socialLoading, setSocialLoading] = useState<string | null>(null);
+  const [socialLoading, setSocialLoading] = useState<SocialProvider | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +48,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
     }
   };
 
-  const handleSocialLogin = async (provider: 'google' | 'facebook') => {
+  const handleSocialLogin = async (provider: SocialProvider) => {
     setSocialLoading(provider);
     try {
       const current = new URL(window.location.href);
@@ -55,7 +58,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: callback.toString() },
+        options: {
+          redirectTo: callback.toString(),
+          ...(provider === 'azure' ? { scopes: 'email' } : {}),
+        },
       });
 
       if (error) toast({ title: "خطأ في تسجيل الدخول", description: error.message, variant: "destructive" });
@@ -69,12 +75,24 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
   return (
     <AuthCard title="تسجيل الدخول">
       <div className="space-y-4" dir="rtl">
-        <div className="grid grid-cols-2 gap-3">
-          <Button type="button" variant="outline" onClick={() => handleSocialLogin('google')} disabled={!!socialLoading} className="w-full h-11">
+        <div className="grid grid-cols-3 gap-2">
+          <Button type="button" variant="outline" onClick={() => handleSocialLogin('google')} disabled={!!socialLoading} className="w-full h-11 px-2">
             {socialLoading === 'google' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Google'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => handleSocialLogin('facebook')} disabled={!!socialLoading} className="w-full h-11">
+          <Button type="button" variant="outline" onClick={() => handleSocialLogin('facebook')} disabled={!!socialLoading} className="w-full h-11 px-2">
             {socialLoading === 'facebook' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Facebook'}
+          </Button>
+          <Button type="button" variant="outline" onClick={() => handleSocialLogin('azure')} disabled={!!socialLoading} className="w-full h-11 px-2">
+            {socialLoading === 'azure' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Azure'}
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2">
+          <Button type="button" variant="outline" onClick={onSwitchToPhone} className="w-full h-11">
+            <Phone className="ml-2 h-4 w-4" /> الهاتف
+          </Button>
+          <Button type="button" variant="outline" onClick={onSwitchToWhatsApp} className="w-full h-11">
+            <MessageCircle className="ml-2 h-4 w-4" /> واتساب
           </Button>
         </div>
 
@@ -105,7 +123,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
           </div>
 
           <Button type="submit" className="w-full bg-construction-primary hover:bg-construction-secondary text-white h-11" disabled={loading}>
-            {loading ? <><Loader2 className="h-4 w-4 animate-spin ml-2" /> جارٍ تسجيل الدخول...</> : "تسجيل الدخول"}
+            {loading ? <><Loader2 className="h-4 w-4 animate-spin ml-2" /> جارٍ تسجيل الدخول...</> : "تسجيل الدخول بالبريد"}
           </Button>
 
           <div className="text-center">
@@ -113,10 +131,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
             <button type="button" onClick={onSwitchToSignup} className="text-sm text-primary hover:underline font-medium">إنشاء حساب جديد</button>
           </div>
         </form>
-
-        {onSwitchToWhatsApp && (
-          <Button type="button" variant="outline" onClick={onSwitchToWhatsApp} className="w-full h-11">تسجيل الدخول عبر واتساب</Button>
-        )}
       </div>
     </AuthCard>
   );

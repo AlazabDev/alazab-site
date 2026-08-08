@@ -5,8 +5,9 @@ import LoginForm from '@/components/auth/LoginForm';
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
 import SignupForm from '@/components/auth/SignupForm';
 import WhatsAppOTPForm from '@/components/auth/WhatsAppOTPForm';
+import PhoneOTPForm from '@/components/auth/PhoneOTPForm';
 
-type AuthMode = 'login' | 'signup' | 'reset' | 'whatsapp';
+type AuthMode = 'login' | 'signup' | 'reset' | 'whatsapp' | 'phone';
 
 const resolveReturnTo = (rawValue: string | null): string => {
   if (!rawValue) return '/';
@@ -23,7 +24,7 @@ const resolveReturnTo = (rawValue: string | null): string => {
 };
 
 const AuthPage: React.FC = () => {
-  const [mode, setMode] = useState<AuthMode>('whatsapp');
+  const [mode, setMode] = useState<AuthMode>('login');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const returnTo = resolveReturnTo(searchParams.get('returnTo'));
@@ -64,18 +65,27 @@ const AuthPage: React.FC = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-construction-light to-gray-50 p-4">
       <div className="w-full max-w-md">
-        {mode === 'whatsapp' && (
-          <WhatsAppOTPForm
-            onSwitchToEmail={() => setMode('login')}
-            onSuccess={handleAuthSuccess}
-          />
-        )}
-
         {mode === 'login' && (
           <LoginForm
             onSwitchToSignup={() => setMode('signup')}
             onSwitchToReset={() => setMode('reset')}
             onSwitchToWhatsApp={() => setMode('whatsapp')}
+            onSwitchToPhone={() => setMode('phone')}
+            onSuccess={handleAuthSuccess}
+          />
+        )}
+
+        {mode === 'phone' && (
+          <PhoneOTPForm
+            onSwitchToEmail={() => setMode('login')}
+            onSwitchToWhatsApp={() => setMode('whatsapp')}
+            onSuccess={handleAuthSuccess}
+          />
+        )}
+
+        {mode === 'whatsapp' && (
+          <WhatsAppOTPForm
+            onSwitchToEmail={() => setMode('login')}
             onSuccess={handleAuthSuccess}
           />
         )}

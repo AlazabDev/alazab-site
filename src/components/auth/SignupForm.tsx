@@ -14,16 +14,18 @@ interface SignupFormProps {
   onSuccess: () => void;
 }
 
+type SocialProvider = 'google' | 'facebook' | 'azure';
+
 const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, onSuccess }) => {
   const [formData, setFormData] = useState({ email: '', password: '', confirmPassword: '', name: '' });
   const [loading, setLoading] = useState(false);
-  const [socialLoading, setSocialLoading] = useState<string | null>(null);
+  const [socialLoading, setSocialLoading] = useState<SocialProvider | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSocialLogin = async (provider: 'google' | 'facebook') => {
+  const handleSocialLogin = async (provider: SocialProvider) => {
     setSocialLoading(provider);
     try {
       const returnTo = new URLSearchParams(window.location.search).get('returnTo');
@@ -32,7 +34,10 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, onSuccess }) =
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: redirect.toString() },
+        options: {
+          redirectTo: redirect.toString(),
+          ...(provider === 'azure' ? { scopes: 'email' } : {}),
+        },
       });
       if (error) toast({ title: "خطأ", description: error.message, variant: "destructive" });
     } catch {
@@ -93,12 +98,15 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin, onSuccess }) =
   return (
     <AuthCard title="إنشاء حساب جديد">
       <div className="space-y-4" dir="rtl">
-        <div className="grid grid-cols-2 gap-3">
-          <Button type="button" variant="outline" onClick={() => handleSocialLogin('google')} disabled={!!socialLoading} className="w-full h-11">
+        <div className="grid grid-cols-3 gap-2">
+          <Button type="button" variant="outline" onClick={() => handleSocialLogin('google')} disabled={!!socialLoading} className="w-full h-11 px-2">
             {socialLoading === 'google' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Google'}
           </Button>
-          <Button type="button" variant="outline" onClick={() => handleSocialLogin('facebook')} disabled={!!socialLoading} className="w-full h-11">
+          <Button type="button" variant="outline" onClick={() => handleSocialLogin('facebook')} disabled={!!socialLoading} className="w-full h-11 px-2">
             {socialLoading === 'facebook' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Facebook'}
+          </Button>
+          <Button type="button" variant="outline" onClick={() => handleSocialLogin('azure')} disabled={!!socialLoading} className="w-full h-11 px-2">
+            {socialLoading === 'azure' ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Azure'}
           </Button>
         </div>
 

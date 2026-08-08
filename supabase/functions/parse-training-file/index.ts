@@ -11,7 +11,6 @@ serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
   try {
-    // Verify auth
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) throw new Error("Missing authorization");
 
@@ -19,20 +18,21 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Verify user is admin/manager
     const anonClient = createClient(supabaseUrl, Deno.env.get("SUPABASE_ANON_KEY")!, {
       global: { headers: { Authorization: authHeader } },
     });
     const { data: { user }, error: authError } = await anonClient.auth.getUser();
     if (authError || !user) throw new Error("Unauthorized");
 
-    const { data: roles } = await supabase
-      .from("user_roles")
+    const { data: roles, error: roleError } = await supabase
+      .from("adp_user_roles")
       .select("role")
       .eq("user_id", user.id)
-      .in("role", ["admin", "manager"]);
+      .in("role", ["platform_owner", "platform_admin"]);
 
-    if (!roles?.length) throw new Error("Access denied: admin or manager role required");
+    if (roleError || !roles?.length) {
+      throw new Error("Access denied: platform admin role required");
+    }
 
     const formData = await req.formData();
     const file = formData.get("file") as File;
@@ -42,15 +42,11 @@ serve(async (req) => {
 
     const fileName = file.name;
     const fileText = await file.text();
-
-    // Parse based on file type
     const entries: { title: string; content: string }[] = [];
 
     if (fileName.endsWith(".csv")) {
-      // CSV: each row becomes an entry
       const lines = fileText.split("\n").filter((l) => l.trim());
       const headers = lines[0]?.split(",").map((h) => h.trim());
-      
       for (let i = 1; i < lines.length; i++) {
         const values = lines[i].split(",").map((v) => v.trim().replace(/^"|"$/g, ""));
         const title = values[0] || `سطر ${i}`;
@@ -60,7 +56,6 @@ serve(async (req) => {
         entries.push({ title, content });
       }
     } else if (fileName.endsWith(".txt") || fileName.endsWith(".md")) {
-      // Split by double newlines into sections
       const sections = fileText.split(/\n\n+/).filter((s) => s.trim());
       for (let i = 0; i < sections.length; i++) {
         const lines = sections[i].trim().split("\n");
@@ -68,15 +63,12 @@ serve(async (req) => {
         entries.push({ title, content: sections[i].trim() });
       }
     } else {
-      // Treat as plain text - single entry
       entries.push({ title: fileName, content: fileText.substring(0, 50000) });
     }
 
-    // Upload file to storage
     const storagePath = `training/${Date.now()}_${fileName}`;
     await supabase.storage.from("chatbot-files").upload(storagePath, file);
 
-    // Insert knowledge entries
     const knowledgeEntries = entries.map((e) => ({
       title: e.title,
       content: e.content,

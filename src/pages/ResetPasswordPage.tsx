@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Lock, Loader2, CheckCircle } from 'lucide-react';
+import { AUTH_PASSWORD_MIN_LENGTH, validateAuthPassword } from '@/lib/auth-password';
 
 const ResetPasswordPage: React.FC = () => {
   const [password, setPassword] = useState('');
@@ -24,13 +25,11 @@ const ResetPasswordPage: React.FC = () => {
       const urlParams = new URLSearchParams(window.location.search);
       const hasRecoveryMarker =
         hashParams.get('type') === 'recovery' ||
+        urlParams.get('type') === 'recovery' ||
         Boolean(urlParams.get('code')) ||
         Boolean(urlParams.get('token_hash'));
 
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
+      const { data: { session } } = await supabase.auth.getSession();
       if (!active) return;
 
       if (!session && !hasRecoveryMarker) {
@@ -43,14 +42,9 @@ const ResetPasswordPage: React.FC = () => {
 
     void validateRecovery();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!active) return;
-
-      if (event === 'PASSWORD_RECOVERY' || session) {
-        setCheckingRecovery(false);
-      }
+      if (event === 'PASSWORD_RECOVERY' || session) setCheckingRecovery(false);
     });
 
     return () => {
@@ -67,8 +61,9 @@ const ResetPasswordPage: React.FC = () => {
       return;
     }
 
-    if (password.length < 6) {
-      toast({ title: "خطأ", description: "يجب أن تكون كلمة المرور 6 أحرف على الأقل", variant: "destructive" });
+    const passwordError = validateAuthPassword(password);
+    if (passwordError) {
+      toast({ title: "كلمة المرور غير مطابقة للسياسة", description: passwordError, variant: "destructive" });
       return;
     }
 
@@ -77,11 +72,12 @@ const ResetPasswordPage: React.FC = () => {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) {
         toast({ title: "خطأ", description: error.message, variant: "destructive" });
-      } else {
-        setSuccess(true);
-        toast({ title: "تم التحديث", description: "تم تغيير كلمة المرور بنجاح" });
-        setTimeout(() => navigate('/', { replace: true }), 2000);
+        return;
       }
+
+      setSuccess(true);
+      toast({ title: "تم التحديث", description: "تم تغيير كلمة المرور بنجاح" });
+      window.setTimeout(() => navigate('/auth', { replace: true }), 2000);
     } catch {
       toast({ title: "خطأ غير متوقع", description: "حدث خطأ أثناء تحديث كلمة المرور", variant: "destructive" });
     } finally {
@@ -104,7 +100,7 @@ const ResetPasswordPage: React.FC = () => {
           <CardContent className="pt-8 text-center space-y-4">
             <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
             <h2 className="text-xl font-bold">تم تغيير كلمة المرور بنجاح</h2>
-            <p className="text-muted-foreground">سيتم تحويلك تلقائياً...</p>
+            <p className="text-muted-foreground">سيتم تحويلك إلى تسجيل الدخول...</p>
           </CardContent>
         </Card>
       </div>
@@ -123,14 +119,14 @@ const ResetPasswordPage: React.FC = () => {
               <Label htmlFor="password">كلمة المرور الجديدة</Label>
               <div className="relative">
                 <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="pr-10" dir="ltr" placeholder="6 أحرف على الأقل" />
+                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={AUTH_PASSWORD_MIN_LENGTH} autoComplete="new-password" className="pr-10" dir="ltr" placeholder="8+ أحرف: كبير، صغير، رقم، رمز" />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
               <div className="relative">
                 <Lock className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="pr-10" dir="ltr" placeholder="أعد كتابة كلمة المرور" />
+                <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength={AUTH_PASSWORD_MIN_LENGTH} autoComplete="new-password" className="pr-10" dir="ltr" placeholder="أعد كتابة كلمة المرور" />
               </div>
             </div>
             <Button type="submit" className="w-full bg-construction-primary hover:bg-construction-secondary text-white h-11" disabled={loading}>

@@ -11,13 +11,24 @@ Sidecar:             http://127.0.0.1:4015
 Existing gateway:    http://127.0.0.1:4005/call
 ```
 
+## Confirmed Alazab AI Auth project
+
+The AI Console repository pins its Supabase project in `supabase/config.toml` to:
+
+```text
+Project ref: ekgvdaigbhfpekuzijph
+Auth URL:    https://ekgvdaigbhfpekuzijph.supabase.co
+```
+
+Do not substitute a different Alazab/UberFix Supabase project for MCP OAuth.
+
 ## Required production environment
 
-Add these to the existing server-side production environment only after identifying the Supabase project that actually backs Alazab AI Console Auth:
+Add these to the server-side production environment:
 
 ```dotenv
-ALAZAB_AUTH_SUPABASE_URL=https://<correct-project-ref>.supabase.co
-ALAZAB_AUTH_SUPABASE_PUBLISHABLE_KEY=<publishable-key>
+ALAZAB_AUTH_SUPABASE_URL=https://ekgvdaigbhfpekuzijph.supabase.co
+ALAZAB_AUTH_SUPABASE_PUBLISHABLE_KEY=<publishable-key-for-ekgvdaigbhfpekuzijph>
 
 OPENAI_MCP_AUTH_MODE=supabase
 OPENAI_MCP_PUBLIC_ORIGIN=https://api.alazab.com
@@ -34,17 +45,17 @@ If the existing gateway has `MCP_REQUIRE_INTERNAL_KEY=true`, keep its current `M
 
 ## Supabase Auth requirements
 
-On the correct Alazab AI Auth project:
+On project `ekgvdaigbhfpekuzijph`:
 
 1. Enable **OAuth 2.1 Server**.
 2. Enable **Dynamic Client Registration** so MCP clients can register automatically.
-3. Set the authorization/consent path to the Alazab AI Console route:
+3. Set the authorization/consent path to:
 
 ```text
 https://ai-azab.co/oauth/consent
 ```
 
-4. Enable the Custom Access Token Hook whose source is maintained in:
+4. Apply and enable the Custom Access Token Hook whose source is maintained in:
 
 ```text
 AlazabDev/az-ai-gateway/supabase/snippets/alazab_mcp_oauth_audience_hook.sql
@@ -53,7 +64,7 @@ AlazabDev/az-ai-gateway/supabase/snippets/alazab_mcp_oauth_audience_hook.sql
 5. Verify OAuth-issued access tokens contain:
 
 ```text
-iss = https://<correct-project-ref>.supabase.co/auth/v1
+iss = https://ekgvdaigbhfpekuzijph.supabase.co/auth/v1
 aud = https://api.alazab.com
 client_id = <OAuth client id>
 exp = future timestamp

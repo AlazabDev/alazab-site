@@ -83,5 +83,50 @@ module.exports = {
       restart_delay: 4000,
       kill_timeout: 5000,
     },
+
+    {
+      // Standards-compliant MCP endpoint for ChatGPT Plugins / Codex.
+      // It is deliberately isolated from the legacy gateway on :4005 so
+      // existing callers keep working while /mcp can move to this process.
+      name: 'alazab-openai-mcp',
+      script: './mcp/openai/server.js',
+      cwd: __dirname,
+      instances: 1,
+      exec_mode: 'fork',
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '256M',
+
+      env_production: {
+        NODE_ENV: 'production',
+        OPENAI_MCP_HOST: '127.0.0.1',
+        OPENAI_MCP_PORT: 4015,
+        OPENAI_MCP_PUBLIC_ORIGIN: 'https://api.alazab.com',
+        OPENAI_MCP_RESOURCE: 'https://api.alazab.com',
+        OPENAI_MCP_INTERNAL_GATEWAY_URL: 'http://127.0.0.1:4005/call',
+        OPENAI_MCP_AUTH_MODE: 'supabase',
+      },
+      env_development: {
+        NODE_ENV: 'development',
+        OPENAI_MCP_HOST: '127.0.0.1',
+        OPENAI_MCP_PORT: 4015,
+        OPENAI_MCP_PUBLIC_ORIGIN: 'https://api.alazab.com',
+        OPENAI_MCP_RESOURCE: 'https://api.alazab.com',
+        OPENAI_MCP_INTERNAL_GATEWAY_URL: 'http://127.0.0.1:4005/call',
+        OPENAI_MCP_AUTH_MODE: 'none',
+      },
+
+      error_file: './logs/openai-mcp-error.log',
+      out_file: './logs/openai-mcp-out.log',
+      log_file: './logs/openai-mcp-combined.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      merge_logs: true,
+      time: true,
+
+      min_uptime: '10s',
+      max_restarts: 10,
+      restart_delay: 4000,
+      kill_timeout: 5000,
+    },
   ],
 };

@@ -1,0 +1,45 @@
+name: Validate OpenAI MCP
+
+on:
+  push:
+    paths:
+      - 'server/mcp/openai/**'
+      - 'server/ecosystem.config.js'
+      - 'server/deploy/nginx/api-alazab-openai-mcp.locations.conf'
+      - '.github/workflows/validate-openai-mcp.yml'
+  pull_request:
+    paths:
+      - 'server/mcp/openai/**'
+      - 'server/ecosystem.config.js'
+      - 'server/deploy/nginx/api-alazab-openai-mcp.locations.conf'
+      - '.github/workflows/validate-openai-mcp.yml'
+  workflow_dispatch:
+
+jobs:
+  mcp-smoke:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install server dependencies
+        run: npm ci
+
+      - name: Syntax check
+        run: |
+          node --check mcp/openai/server.js
+          node --check mcp/openai/smoke-test.js
+
+      - name: MCP protocol smoke test
+        run: node mcp/openai/smoke-test.js

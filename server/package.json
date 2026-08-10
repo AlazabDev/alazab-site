@@ -30,6 +30,7 @@
     "@google-cloud/dialogflow": "^7.5.0",
     "@modelcontextprotocol/express": "^2.0.0",
     "@supabase/supabase-js": "2.109.0",
+    "@vonage/jwt": "^1.16.0",
     "axios": "^1.18.1",
     "body-parser": "^2.2.2",
     "cookie-parser": "^1.4.7",

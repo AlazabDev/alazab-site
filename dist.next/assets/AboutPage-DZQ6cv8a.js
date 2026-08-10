@@ -1,0 +1,1 @@
+import{j as t,ah as o}from"./index-B7B5OQPI.js";import{P as r}from"./PageLayout-Cs5RfWQf.js";import"./breadcrumb-Bq7NSohr.js";const i=()=>t.jsx(r,{title:"من نحن",children:t.jsx(o,{})});export{i as default};

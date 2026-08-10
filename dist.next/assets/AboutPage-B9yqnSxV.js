@@ -1,0 +1,1 @@
+import{j as t,ac as o}from"./index-KAL3KEFg.js";import{P as r}from"./PageLayout-G8Ql-Hiz.js";import"./breadcrumb-Dj4A6xlf.js";const i=()=>t.jsx(r,{title:"من نحن",children:t.jsx(o,{})});export{i as default};

@@ -1,0 +1,1 @@
+import{j as e,n as r}from"./index-B7B5OQPI.js";import{P as t}from"./PageLayout-Cs5RfWQf.js";import"./breadcrumb-Bq7NSohr.js";const i=()=>e.jsx(t,{title:"خدماتنا",children:e.jsx(r,{})});export{i as default};

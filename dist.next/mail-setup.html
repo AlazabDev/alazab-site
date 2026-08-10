@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>تعليمات البريد المؤسسي | شركة العزب</title>
+  <meta name="description" content="إعدادات بريد شركة العزب عبر Migadu: IMAP وSMTP وWebmail وPOP3 البديل." />
+  <style>
+    :root { --primary:#1B3A4B; --accent:#C8A951; --bg:#f6f7f9; --card:#fff; --muted:#657282; --border:#e5e7eb; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Tahoma, Arial, sans-serif; background:var(--bg); color:#1f2937; line-height:1.7; }
+    a { color: inherit; }
+    .container { max-width:1120px; margin:0 auto; padding:24px; }
+    .hero { background:linear-gradient(135deg,var(--primary),#0f2531); color:#fff; border-radius:28px; padding:32px; box-shadow:0 16px 40px rgba(0,0,0,.16); }
+    .hero-top { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .badge { display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.12); padding:8px 14px; border-radius:999px; font-weight:700; font-size:14px; }
+    h1 { margin:18px 0 10px; font-size:34px; line-height:1.35; }
+    h2 { margin:0 0 10px; color:var(--primary); font-size:22px; }
+    h3 { margin:0 0 8px; color:var(--primary); }
+    .lead { max-width:850px; color:rgba(255,255,255,.86); margin:0; }
+    .btn { display:inline-block; background:var(--accent); color:var(--primary); text-decoration:none; font-weight:800; padding:12px 18px; border-radius:14px; white-space:nowrap; }
+    .grid { display:grid; gap:18px; }
+    .grid-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .grid-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:22px; box-shadow:0 8px 24px rgba(15,23,42,.05); }
+    .muted { color:var(--muted); font-size:14px; }
+    .table { border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-top:14px; }
+    .row { display:grid; grid-template-columns:180px 1fr; border-bottom:1px solid var(--border); }
+    .row:last-child { border-bottom:0; }
+    .label { background:#f3f4f6; color:var(--muted); font-weight:700; padding:10px 14px; }
+    .value { padding:10px 14px; direction:ltr; text-align:left; font-family:Consolas, monospace; }
+    .steps { padding:0; margin:0; list-style:none; display:grid; gap:10px; }
+    .steps li { display:flex; gap:12px; align-items:flex-start; }
+    .num { width:28px; height:28px; border-radius:999px; background:var(--primary); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; flex:0 0 auto; }
+    .warning { background:#fff7ed; border-color:#fed7aa; color:#7c2d12; }
+    .warning h2 { color:#7c2d12; }
+    footer { text-align:center; color:var(--muted); font-size:13px; padding:24px; }
+    @media (max-width:800px) { .grid-2,.grid-3 { grid-template-columns:1fr; } .row { grid-template-columns:1fr; } h1 { font-size:26px; } .container { padding:16px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-top">
+        <span class="badge">✉️ بريد alazab.com</span>
+        <a class="btn" href="https://webmail.migadu.com" target="_blank" rel="noopener noreferrer">فتح Webmail ↗</a>
+      </div>
+      <h1>تعليمات البريد المؤسسي لشركة العزب</h1>
+      <p class="lead">هذه الصفحة مرجع رسمي لإعداد صناديق البريد بصيغة mailbox@alazab.com. لا يتم عرض أو حفظ كلمات مرور حقيقية هنا؛ كل مستخدم يستعمل كلمة مرور صندوقه فقط.</p>
+    </section>
+
+    <section class="grid grid-3" style="margin-top:22px">
+      <article class="card"><h3>الأفضل للاستخدام اليومي</h3><p class="muted">IMAP للاستقبال وSMTP/TLS للإرسال حتى تعمل الرسائل والمجلدات على كل الأجهزة.</p></article>
+      <article class="card"><h3>لا تنشر كلمة المرور</h3><p class="muted">استخدم كلمة مرور الصندوق فقط داخل تطبيق البريد ولا ترسلها في محادثات أو مستندات عامة.</p></article>
+      <article class="card"><h3>اختبار بعد الإعداد</h3><p class="muted">بعد الإضافة أرسل رسالة اختبار وتأكد من الاستقبال والرد قبل الاعتماد الرسمي.</p></article>
+    </section>
+
+    <section class="card" style="margin-top:22px">
+      <h2>خطوات الإعداد السريعة</h2>
+      <ol class="steps">
+        <li><span class="num">1</span><span>افتح تطبيق البريد على الهاتف أو الكمبيوتر واختر إضافة حساب بريد يدوي/Manual setup.</span></li>
+        <li><span class="num">2</span><span>اكتب البريد الكامل بصيغة mailbox@alazab.com وكلمة مرور صندوق البريد فقط.</span></li>
+        <li><span class="num">3</span><span>استخدم IMAP للاستقبال على imap.migadu.com بمنفذ 993 وتشفير TLS.</span></li>
+        <li><span class="num">4</span><span>استخدم SMTP للإرسال على smtp.migadu.com بمنفذ 465 وتشفير TLS.</span></li>
+        <li><span class="num">5</span><span>أرسل رسالة اختبار ثم تحقق من الاستقبال والرد قبل اعتماد الحساب للعمل.</span></li>
+      </ol>
+    </section>
+
+    <section style="margin-top:26px">
+      <h2>الإعدادات الأساسية الموصى بها</h2>
+      <p class="muted">استخدم هذه البيانات مع Outlook أو Apple Mail أو Gmail أو أي برنامج بريد يدعم الإعداد اليدوي.</p>
+      <div class="grid grid-2" style="margin-top:14px">
+        <article class="card"><h3>استقبال البريد - IMAP</h3><p class="muted">الإعداد الموصى به لأنه يدعم المجلدات والمزامنة بين أكثر من جهاز.</p><div class="table"><div class="row"><div class="label">Protocol</div><div class="value">IMAP</div></div><div class="row"><div class="label">Server</div><div class="value">imap.migadu.com</div></div><div class="row"><div class="label">Port</div><div class="value">993</div></div><div class="row"><div class="label">Security</div><div class="value">TLS</div></div><div class="row"><div class="label">Authentication</div><div class="value">Password</div></div><div class="row"><div class="label">Username</div><div class="value">mailbox@alazab.com</div></div><div class="row"><div class="label">Password</div><div class="value">(mailbox password)</div></div></div></article>
+        <article class="card"><h3>إرسال البريد - SMTP</h3><p class="muted">الإعداد الأساسي لإرسال الرسائل من أجهزة الكمبيوتر والهواتف.</p><div class="table"><div class="row"><div class="label">Protocol</div><div class="value">SMTP</div></div><div class="row"><div class="label">Server</div><div class="value">smtp.migadu.com</div></div><div class="row"><div class="label">Port</div><div class="value">465</div></div><div class="row"><div class="label">Security</div><div class="value">TLS</div></div><div class="row"><div class="label">Authentication</div><div class="value">Password</div></div><div class="row"><div class="label">Username</div><div class="value">mailbox@alazab.com</div></div><div class="row"><div class="label">Password</div><div class="value">(mailbox password)</div></div></div></article>
+        <article class="card"><h3>الوصول عبر المتصفح - Webmail</h3><p class="muted">الدخول المباشر لصندوق البريد بدون إعداد برنامج بريد.</p><div class="table"><div class="row"><div class="label">Address</div><div class="value">https://webmail.migadu.com</div></div><div class="row"><div class="label">Username</div><div class="value">mailbox@alazab.com</div></div><div class="row"><div class="label">Password</div><div class="value">(mailbox password)</div></div></div></article>
+        <article class="card"><h3>ManageSieve</h3><p class="muted">خاص بفلاتر البريد المتقدمة. لا يتم استخدامه إلا عند الحاجة وبحذر.</p><div class="table"><div class="row"><div class="label">Protocol</div><div class="value">ManageSieve</div></div><div class="row"><div class="label">Server</div><div class="value">imap.migadu.com</div></div><div class="row"><div class="label">Port</div><div class="value">4190</div></div><div class="row"><div class="label">Security</div><div class="value">StartTLS</div></div><div class="row"><div class="label">Authentication</div><div class="value">Password</div></div><div class="row"><div class="label">Username</div><div class="value">mailbox@alazab.com</div></div><div class="row"><div class="label">Password</div><div class="value">(mailbox password)</div></div></div></article>
+      </div>
+    </section>
+
+    <section class="card warning" style="margin-top:22px">
+      <h2>تنبيه مهم بخصوص ManageSieve وPOP3</h2>
+      <p>ManageSieve يكون معطلًا افتراضيًا، وأي سكربت فلترة خاطئ قد يسبب فقدان أو نقل رسائل بشكل غير مقصود. أما POP3 فهو بروتوكول قديم ولا يدعم المجلدات أو تعدد الأجهزة، لذلك لا يظهر ما يتم تحويله إلى Junk عبر POP3.</p>
+    </section>
+
+    <section style="margin-top:26px">
+      <h2>بدائل عند عدم دعم الإعداد الأساسي</h2>
+      <p class="muted">لا تستخدم البدائل إلا إذا كان تطبيق البريد لا يقبل الإعدادات الأساسية.</p>
+      <div class="grid grid-2" style="margin-top:14px">
+        <article class="card"><h3>POP3 Access</h3><p class="muted">بديل قديم لا يدعم المجلدات أو الاستخدام المتزامن من عدة أجهزة.</p><div class="table"><div class="row"><div class="label">Protocol</div><div class="value">POP3</div></div><div class="row"><div class="label">Server</div><div class="value">pop.migadu.com</div></div><div class="row"><div class="label">Port</div><div class="value">995</div></div><div class="row"><div class="label">Security</div><div class="value">TLS</div></div><div class="row"><div class="label">Authentication</div><div class="value">Password</div></div><div class="row"><div class="label">Username</div><div class="value">mailbox@alazab.com</div></div><div class="row"><div class="label">Password</div><div class="value">(mailbox password)</div></div></div></article>
+        <article class="card"><h3>SMTP / StartTLS</h3><p class="muted">بديل للإرسال عندما لا يقبل برنامج البريد منفذ SMTP/TLS الأساسي 465.</p><div class="table"><div class="row"><div class="label">Protocol</div><div class="value">SMTP</div></div><div class="row"><div class="label">Server</div><div class="value">smtp.migadu.com</div></div><div class="row"><div class="label">Port</div><div class="value">587</div></div><div class="row"><div class="label">Security</div><div class="value">StartTLS</div></div><div class="row"><div class="label">Authentication</div><div class="value">Password</div></div><div class="row"><div class="label">Username</div><div class="value">mailbox@alazab.com</div></div><div class="row"><div class="label">Password</div><div class="value">(mailbox password)</div></div></div></article>
+      </div>
+    </section>
+  </main>
+  <footer>شركة العزب © 2026 — رابط الويب ميل: https://webmail.migadu.com</footer>
+</body>
+</html>

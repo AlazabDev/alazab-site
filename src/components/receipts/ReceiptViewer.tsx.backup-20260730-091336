@@ -1,0 +1,625 @@
+import {
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  Image as ImageIcon,
+  Images,
+  Maximize2,
+  Minimize2,
+  RotateCcw,
+  Search,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+import "./receipt-viewer.css";
+
+type ViewMode = 1 | 2 | 4;
+
+interface ReceiptImage {
+  number: number;
+  paddedNumber: string;
+  fileName: string;
+  url: string;
+  title: string;
+}
+
+const TOTAL_RECEIPTS = 120;
+
+const RECEIPTS_BASE_URL =
+  "https://lyqkkrftypypnixaptms.supabase.co/storage/v1/object/public/Receipts";
+
+const MIN_ZOOM = 0.75;
+const MAX_ZOOM = 3;
+const ZOOM_STEP = 0.25;
+
+function createReceiptImages(): ReceiptImage[] {
+  return Array.from({ length: TOTAL_RECEIPTS }, (_, index) => {
+    const number = index + 1;
+    const paddedNumber = String(number).padStart(3, "0");
+    const fileName = `auf-${paddedNumber}.jpg`;
+
+    return {
+      number,
+      paddedNumber,
+      fileName,
+      url: `${RECEIPTS_BASE_URL}/${fileName}`,
+      title: `إذن الاستلام رقم ${paddedNumber}`,
+    };
+  });
+}
+
+interface ReceiptCardProps {
+  image: ReceiptImage;
+  zoom: number;
+  onShowSingle: () => void;
+}
+
+function ReceiptCard({
+  image,
+  zoom,
+  onShowSingle,
+}: ReceiptCardProps) {
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    setLoaded(false);
+    setFailed(false);
+  }, [image.url]);
+
+  return (
+    <article className="receipt-card">
+      <header className="receipt-card__header">
+        <div>
+          <strong>{image.title}</strong>
+          <span>{image.fileName}</span>
+        </div>
+
+        <div className="receipt-card__actions">
+          <button
+            type="button"
+            className="receipt-icon-button"
+            onClick={onShowSingle}
+            title="عرض الصورة منفردة"
+            aria-label={`عرض ${image.title} منفردة`}
+          >
+            <Maximize2 size={18} aria-hidden="true" />
+          </button>
+
+          <a
+            className="receipt-icon-button"
+            href={image.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="فتح الصورة الأصلية"
+            aria-label={`فتح ${image.title} في نافذة جديدة`}
+          >
+            <ExternalLink size={18} aria-hidden="true" />
+          </a>
+        </div>
+      </header>
+
+      <div className="receipt-card__viewport">
+        {!loaded && !failed && (
+          <div className="receipt-card__message">
+            <span className="receipt-spinner" />
+            <span>جارٍ تحميل الصورة...</span>
+          </div>
+        )}
+
+        {failed ? (
+          <div className="receipt-card__message receipt-card__error">
+            <ImageIcon size={38} aria-hidden="true" />
+            <strong>تعذر تحميل الصورة</strong>
+            <span>{image.fileName}</span>
+
+            <a
+              href={image.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              فتح الرابط الأصلي
+            </a>
+          </div>
+        ) : (
+          <div
+            className="receipt-card__canvas"
+            style={{ width: `${zoom * 100}%` }}
+          >
+            <img
+              src={image.url}
+              alt={image.title}
+              loading="lazy"
+              decoding="async"
+              draggable={false}
+              className={
+                loaded
+                  ? "receipt-card__image receipt-card__image--loaded"
+                  : "receipt-card__image"
+              }
+              onLoad={() => setLoaded(true)}
+              onError={() => setFailed(true)}
+              onDoubleClick={onShowSingle}
+            />
+          </div>
+        )}
+      </div>
+
+      <footer className="receipt-card__footer">
+        <span>الصفحة {image.number} من {TOTAL_RECEIPTS}</span>
+        <span>{Math.round(zoom * 100)}%</span>
+      </footer>
+    </article>
+  );
+}
+
+export default function ReceiptViewer() {
+  const viewerRef = useRef<HTMLElement>(null);
+
+  const images = useMemo(() => createReceiptImages(), []);
+
+  const [viewMode, setViewMode] = useState<ViewMode>(1);
+  const [startIndex, setStartIndex] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [jumpValue, setJumpValue] = useState("1");
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const maximumStartIndex = useMemo(
+    () =>
+      Math.max(
+        0,
+        Math.floor((images.length - 1) / viewMode) * viewMode,
+      ),
+    [images.length, viewMode],
+  );
+
+  const visibleImages = useMemo(
+    () => images.slice(startIndex, startIndex + viewMode),
+    [images, startIndex, viewMode],
+  );
+
+  const firstVisibleNumber =
+    visibleImages[0]?.number ?? 0;
+
+  const lastVisibleNumber =
+    visibleImages[visibleImages.length - 1]?.number ?? 0;
+
+  const canGoPrevious = startIndex > 0;
+  const canGoNext = startIndex < maximumStartIndex;
+
+  const goPrevious = useCallback(() => {
+    setStartIndex((current) =>
+      Math.max(0, current - viewMode),
+    );
+  }, [viewMode]);
+
+  const goNext = useCallback(() => {
+    setStartIndex((current) =>
+      Math.min(maximumStartIndex, current + viewMode),
+    );
+  }, [maximumStartIndex, viewMode]);
+
+  const goToFirst = useCallback(() => {
+    setStartIndex(0);
+    setJumpValue("1");
+  }, []);
+
+  const goToLast = useCallback(() => {
+    setStartIndex(maximumStartIndex);
+    setJumpValue(String(maximumStartIndex + 1));
+  }, [maximumStartIndex]);
+
+  const changeViewMode = useCallback(
+    (nextMode: ViewMode) => {
+      setViewMode(nextMode);
+
+      setStartIndex((current) => {
+        const alignedIndex =
+          Math.floor(current / nextMode) * nextMode;
+
+        const nextMaximum =
+          Math.floor((images.length - 1) / nextMode) *
+          nextMode;
+
+        return Math.min(alignedIndex, nextMaximum);
+      });
+
+      setZoom(1);
+    },
+    [images.length],
+  );
+
+  const showSingleImage = useCallback(
+    (receiptNumber: number) => {
+      setViewMode(1);
+      setStartIndex(receiptNumber - 1);
+      setJumpValue(String(receiptNumber));
+      setZoom(1);
+    },
+    [],
+  );
+
+  const jumpToReceipt = useCallback(() => {
+    const requestedNumber = Number(jumpValue);
+
+    if (
+      !Number.isInteger(requestedNumber) ||
+      requestedNumber < 1 ||
+      requestedNumber > images.length
+    ) {
+      setJumpValue(String(firstVisibleNumber || 1));
+      return;
+    }
+
+    const requestedIndex = requestedNumber - 1;
+    const alignedIndex =
+      Math.floor(requestedIndex / viewMode) * viewMode;
+
+    setStartIndex(
+      Math.min(alignedIndex, maximumStartIndex),
+    );
+  }, [
+    firstVisibleNumber,
+    images.length,
+    jumpValue,
+    maximumStartIndex,
+    viewMode,
+  ]);
+
+  const zoomIn = useCallback(() => {
+    setZoom((current) =>
+      Math.min(MAX_ZOOM, current + ZOOM_STEP),
+    );
+  }, []);
+
+  const zoomOut = useCallback(() => {
+    setZoom((current) =>
+      Math.max(MIN_ZOOM, current - ZOOM_STEP),
+    );
+  }, []);
+
+  const resetZoom = useCallback(() => {
+    setZoom(1);
+  }, []);
+
+  const toggleFullscreen = useCallback(async () => {
+    const viewer = viewerRef.current;
+
+    if (!viewer) {
+      return;
+    }
+
+    try {
+      if (!document.fullscreenElement) {
+        await viewer.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.error("Fullscreen operation failed:", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(
+        document.fullscreenElement === viewerRef.current,
+      );
+    };
+
+    document.addEventListener(
+      "fullscreenchange",
+      handleFullscreenChange,
+    );
+
+    return () => {
+      document.removeEventListener(
+        "fullscreenchange",
+        handleFullscreenChange,
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    setJumpValue(String(firstVisibleNumber || 1));
+  }, [firstVisibleNumber]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+
+      if (
+        target?.tagName === "INPUT" ||
+        target?.tagName === "TEXTAREA" ||
+        target?.isContentEditable
+      ) {
+        return;
+      }
+
+      switch (event.key) {
+        case "ArrowLeft":
+        case "PageDown":
+          event.preventDefault();
+          goNext();
+          break;
+
+        case "ArrowRight":
+        case "PageUp":
+          event.preventDefault();
+          goPrevious();
+          break;
+
+        case "Home":
+          event.preventDefault();
+          goToFirst();
+          break;
+
+        case "End":
+          event.preventDefault();
+          goToLast();
+          break;
+
+        case "1":
+          changeViewMode(1);
+          break;
+
+        case "2":
+          changeViewMode(2);
+          break;
+
+        case "4":
+          changeViewMode(4);
+          break;
+
+        case "+":
+        case "=":
+          zoomIn();
+          break;
+
+        case "-":
+          zoomOut();
+          break;
+
+        case "0":
+          resetZoom();
+          break;
+
+        case "f":
+        case "F":
+          void toggleFullscreen();
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [
+    changeViewMode,
+    goNext,
+    goPrevious,
+    goToFirst,
+    goToLast,
+    resetZoom,
+    toggleFullscreen,
+    zoomIn,
+    zoomOut,
+  ]);
+
+  return (
+    <section
+      ref={viewerRef}
+      className="receipt-viewer"
+      dir="rtl"
+    >
+      <header className="receipt-toolbar">
+        <div className="receipt-toolbar__title">
+          <Images size={26} aria-hidden="true" />
+
+          <div>
+            <h1>أذون استلام أبو عوف</h1>
+            <p>
+              عرض {firstVisibleNumber}–{lastVisibleNumber}
+              {" "}من {images.length}
+            </p>
+          </div>
+        </div>
+
+        <div
+          className="receipt-view-selector"
+          aria-label="اختيار عدد الصور"
+        >
+          {([1, 2, 4] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              className={
+                viewMode === mode
+                  ? "receipt-view-button receipt-view-button--active"
+                  : "receipt-view-button"
+              }
+              onClick={() => changeViewMode(mode)}
+              aria-pressed={viewMode === mode}
+            >
+              {mode === 1 ? (
+                <ImageIcon size={18} aria-hidden="true" />
+              ) : (
+                <Images size={18} aria-hidden="true" />
+              )}
+
+              <span>{mode}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="receipt-toolbar__tools">
+          <div className="receipt-jump">
+            <Search size={17} aria-hidden="true" />
+
+            <input
+              type="number"
+              min={1}
+              max={images.length}
+              value={jumpValue}
+              onChange={(event) =>
+                setJumpValue(event.target.value)
+              }
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  jumpToReceipt();
+                }
+              }}
+              aria-label="رقم الإذن"
+              title="اكتب رقم الإذن"
+            />
+
+            <button
+              type="button"
+              onClick={jumpToReceipt}
+            >
+              انتقال
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="receipt-icon-button"
+            onClick={zoomOut}
+            disabled={zoom <= MIN_ZOOM}
+            title="تصغير"
+            aria-label="تصغير الصور"
+          >
+            <ZoomOut size={19} aria-hidden="true" />
+          </button>
+
+          <button
+            type="button"
+            className="receipt-zoom-value"
+            onClick={resetZoom}
+            title="إعادة التكبير إلى 100%"
+          >
+            {Math.round(zoom * 100)}%
+          </button>
+
+          <button
+            type="button"
+            className="receipt-icon-button"
+            onClick={zoomIn}
+            disabled={zoom >= MAX_ZOOM}
+            title="تكبير"
+            aria-label="تكبير الصور"
+          >
+            <ZoomIn size={19} aria-hidden="true" />
+          </button>
+
+          <button
+            type="button"
+            className="receipt-icon-button"
+            onClick={resetZoom}
+            title="إعادة ضبط التكبير"
+            aria-label="إعادة ضبط التكبير"
+          >
+            <RotateCcw size={18} aria-hidden="true" />
+          </button>
+
+          <button
+            type="button"
+            className="receipt-icon-button"
+            onClick={() => void toggleFullscreen()}
+            title={
+              isFullscreen
+                ? "إلغاء ملء الشاشة"
+                : "ملء الشاشة"
+            }
+            aria-label={
+              isFullscreen
+                ? "إلغاء ملء الشاشة"
+                : "ملء الشاشة"
+            }
+          >
+            {isFullscreen ? (
+              <Minimize2 size={19} aria-hidden="true" />
+            ) : (
+              <Maximize2 size={19} aria-hidden="true" />
+            )}
+          </button>
+        </div>
+      </header>
+
+      <main
+        className="receipt-grid"
+        data-view={viewMode}
+        aria-live="polite"
+      >
+        {visibleImages.map((image) => (
+          <ReceiptCard
+            key={image.fileName}
+            image={image}
+            zoom={zoom}
+            onShowSingle={() =>
+              showSingleImage(image.number)
+            }
+          />
+        ))}
+      </main>
+
+      <footer className="receipt-navigation">
+        <button
+          type="button"
+          className="receipt-navigation__button"
+          onClick={goPrevious}
+          disabled={!canGoPrevious}
+        >
+          <ChevronRight size={21} aria-hidden="true" />
+          السابق
+        </button>
+
+        <div className="receipt-navigation__center">
+          <button type="button" onClick={goToFirst}>
+            البداية
+          </button>
+
+          <strong>
+            {firstVisibleNumber}–{lastVisibleNumber}
+            {" / "}
+            {images.length}
+          </strong>
+
+          <button type="button" onClick={goToLast}>
+            النهاية
+          </button>
+        </div>
+
+        <button
+          type="button"
+          className="receipt-navigation__button"
+          onClick={goNext}
+          disabled={!canGoNext}
+        >
+          التالي
+          <ChevronLeft size={21} aria-hidden="true" />
+        </button>
+      </footer>
+
+      <div className="receipt-shortcuts">
+        <span>1 / 2 / 4 لتغيير العرض</span>
+        <span>F لملء الشاشة</span>
+        <span>+ و− للتكبير</span>
+        <span>الأسهم للتنقل</span>
+      </div>
+    </section>
+  );
+}

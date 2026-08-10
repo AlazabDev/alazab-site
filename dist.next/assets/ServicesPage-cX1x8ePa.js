@@ -1,0 +1,1 @@
+import{j as e,n as r}from"./index-KAL3KEFg.js";import{P as t}from"./PageLayout-G8Ql-Hiz.js";import"./breadcrumb-Dj4A6xlf.js";const i=()=>e.jsx(t,{title:"خدماتنا",children:e.jsx(r,{})});export{i as default};

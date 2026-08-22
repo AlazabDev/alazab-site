@@ -1,6 +1,7 @@
 // ============================================
 // routes/stripe.js - Stripe Integration
 // ============================================
+/* eslint-disable no-case-declarations */
 
 const express = require('express');
 const router = express.Router();

@@ -76,4 +76,71 @@ router.get('/status', (req, res) => {
   });
 });
 
+const { RecaptchaEnterpriseServiceClient } = require('@google-cloud/recaptcha-enterprise');
+
+// Cache the reCAPTCHA client
+const recaptchaClient = new RecaptchaEnterpriseServiceClient();
+
+/**
+  * Create an assessment to analyze the risk of a UI action.
+  */
+async function createAssessment({
+  projectID = "alazab-services",
+  recaptchaKey = "6LdD5IMtAAAAANJJJwrHNUzHZbfz0f5bUo2alPKT",
+  token = "action-token",
+  recaptchaAction = "LOGIN",
+}) {
+  const projectPath = recaptchaClient.projectPath(projectID);
+
+  const request = ({
+    assessment: {
+      event: {
+        token: token,
+        siteKey: recaptchaKey,
+      },
+    },
+    parent: projectPath,
+  });
+
+  const [ response ] = await recaptchaClient.createAssessment(request);
+
+  if (!response.tokenProperties.valid) {
+    console.log(`The CreateAssessment call failed because the token was: ${response.tokenProperties.invalidReason}`);
+    return null;
+  }
+
+  if (response.tokenProperties.action === recaptchaAction) {
+    console.log(`The reCAPTCHA score is: ${response.riskAnalysis.score}`);
+    return response.riskAnalysis.score;
+  } else {
+    console.log("The action attribute in your reCAPTCHA tag does not match the action you are expecting to score");
+    return null;
+  }
+}
+
+// POST /auth/v1/verify-recaptcha — Verify reCAPTCHA token
+router.post('/verify-recaptcha', express.json(), async (req, res) => {
+  try {
+    const { token, action } = req.body;
+    if (!token) {
+      return res.status(400).json({ error: 'Token is required' });
+    }
+
+    const score = await createAssessment({
+      token: token,
+      recaptchaAction: action || 'LOGIN'
+    });
+
+    if (score !== null) {
+      // You can define a threshold for the score to decide whether to block the request
+      return res.json({ success: true, score: score });
+    } else {
+      return res.status(400).json({ success: false, error: 'Invalid reCAPTCHA token or action mismatch' });
+    }
+  } catch (err) {
+    console.error('reCAPTCHA verification error:', err);
+    res.status(500).json({ error: 'reCAPTCHA verification failed' });
+  }
+});
+
 module.exports = router;

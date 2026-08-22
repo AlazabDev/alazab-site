@@ -23,10 +23,10 @@ function cleanCategory(cat) {
     if (!cat) return 'عام';
     let c = cat.toString();
     // Remove leading numbers, dashes
-    c = c.replace(/^[0-9\-\.\s]+/, '');
+    c = c.replace(/^[0-9.\s-]+/, '');
     // Remove specific words like "تشمل", "وتشتمل على", ":"
     c = c.replace(/تشمل على|وتشتمل على|تشمل|وتشمل/g, '');
-    c = c.replace(/[:،؛\-\.]/g, '');
+    c = c.replace(/[:،؛.-]/g, '');
     c = c.trim();
     
     // Grouping

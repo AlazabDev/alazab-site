@@ -37,6 +37,7 @@ const metaRoutes = require('./routes/meta');
 const tiktokRoutes = require('./routes/tiktok');
 const stripeRoutes = require('./routes/stripe');
 const twilioRoutes = require('./routes/twilio');
+const vonageRoutes = require('./routes/vonage');
 const ionicRoutes = require('./routes/ionic');
 const webhookToolRoutes = require('./routes/webhook-tool');
 const whatsappSeafileRoutes = require('./routes/whatsapp-seafile');
@@ -74,6 +75,9 @@ const OPTIONAL_ENV = [
   'SUPABASE_URL',
   'SUPABASE_SERVICE_ROLE_KEY',
   'ADMIN_API_KEY',
+  'VONAGE_SIGNATURE_SECRET',
+  'VONAGE_VERIFY_WEBHOOK_URL',
+  'VONAGE_TELEGRAM_CHAT_ID',
 ];
 const STRIPE_ENV = [
     'STRIPE_SECRET_KEY',
@@ -396,6 +400,7 @@ app.use('/api/tiktok', tiktokRoutes);
 app.use('/api/stripe', stripeRoutes);
 app.use('/api/webhook-tool', webhookToolRoutes);
 app.use('/api/twilio', twilioRoutes);
+app.use('/api/vonage', webhookLimiter, vonageRoutes);
 app.use('/api/ionic', ionicRoutes);
 app.use('/', whatsappSeafileRoutes);
 app.use('/api/v1', whatsappSeafileRoutes);

@@ -504,6 +504,7 @@ router.post(
   verifyMetaPostSignature,
   express.json({ limit: '50mb' }),
   async (req, res) => {
+    /* eslint-disable no-useless-assignment -- value is returned after successful persistence */
     let inserted = [];
 
     try {
@@ -513,6 +514,7 @@ router.post(
         ok: true,
         queued: inserted.length,
       });
+      /* eslint-enable no-useless-assignment */
 
       for (const item of inserted) {
         if (item.has_media) {

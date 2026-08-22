@@ -213,6 +213,7 @@ function verifySignature(rawBody, signature) {
 }
 
 // ──── Enhanced content extraction with validation ────
+/* eslint-disable no-useless-assignment -- defaults document and preserve empty-message fallbacks */
 function extractContent(message) {
   if (!message || !message.type) {
     return { content: '[رسالة غير صالحة]', mediaUrl: null, mediaMime: null };
@@ -312,6 +313,7 @@ function extractContent(message) {
 
   return { content, mediaUrl, mediaMime };
 }
+/* eslint-enable no-useless-assignment */
 
 // ──── Enhanced lead saving with MCP and DB fallback ────
 async function saveLead(message, contactName, content, location = 'unknown') {

@@ -178,8 +178,7 @@ async function exchangeCodeForTokens({ code, codeVerifier }) {
   });
 
   const rawText = await response.text();
-  let payload = null;
-
+  let payload;
   try {
     payload = rawText ? JSON.parse(rawText) : {};
   } catch {

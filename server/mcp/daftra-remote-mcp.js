@@ -1,0 +1,448 @@
+'use strict';
+
+const path = require('path');
+const fs = require('fs');
+const axios = require('axios');
+
+require('dotenv').config({
+  path: path.join(__dirname, '..', '.env')
+});
+
+const { z } = require('zod/v4');
+
+const {
+  McpServer,
+  createMcpHandler,
+} = require('@modelcontextprotocol/server');
+
+const {
+  toNodeHandler,
+} = require('@modelcontextprotocol/node');
+
+const {
+  createMcpExpressApp,
+} = require('@modelcontextprotocol/express');
+
+const PORT = Number(process.env.MCP_DAFTRA_PORT || 4007);
+
+const LOCAL_MCP =
+  process.env.MCP_DAFTRA_GATEWAY_URL ||
+  'http://127.0.0.1:4005';
+
+const INTERNAL_KEY =
+  process.env.MCP_INTERNAL_KEY;
+
+const PUBLIC_KEY =
+  process.env.MCP_DAFTRA_API_KEY;
+
+if (!INTERNAL_KEY) {
+  throw new Error('MCP_INTERNAL_KEY is missing');
+}
+
+if (!PUBLIC_KEY) {
+  throw new Error('MCP_DAFTRA_API_KEY is missing');
+}
+
+const catalogPath = path.join(
+  __dirname,
+  'catalog',
+  'daftra-operations.json'
+);
+
+const catalog = JSON.parse(
+  fs.readFileSync(catalogPath, 'utf8')
+);
+
+const operations = new Map(
+  (catalog.operations || []).map(op => [op.key, op])
+);
+
+
+function jsonText(value) {
+  return {
+    content: [
+      {
+        type: 'text',
+        text: JSON.stringify(value, null, 2),
+      },
+    ],
+  };
+}
+
+
+async function callGateway(tool, payload = {}) {
+  const response = await axios.post(
+    `${LOCAL_MCP}/call`,
+    {
+      tool,
+      payload,
+    },
+    {
+      headers: {
+        'X-MCP-Key': INTERNAL_KEY,
+        'Content-Type': 'application/json',
+      },
+      timeout: Number(
+        process.env.MCP_DAFTRA_TIMEOUT_MS || 60000
+      ),
+      validateStatus: () => true,
+    }
+  );
+
+  if (response.status < 200 || response.status >= 300) {
+    throw new Error(
+      `Local MCP gateway returned HTTP ${response.status}: ` +
+      JSON.stringify(response.data)
+    );
+  }
+
+  return response.data;
+}
+
+
+function getOperation(key) {
+  const operation = operations.get(key);
+
+  if (!operation) {
+    throw new Error(
+      `Unknown Daftra operation: ${key}`
+    );
+  }
+
+  return operation;
+}
+
+
+function assertReadOperation(key) {
+  const op = getOperation(key);
+
+  if (String(op.method).toUpperCase() !== 'GET') {
+    throw new Error(
+      `${key} is ${op.method}, not a read-only operation`
+    );
+  }
+
+  return op;
+}
+
+
+function assertWriteOperation(key) {
+  const op = getOperation(key);
+
+  const method = String(op.method).toUpperCase();
+
+  if (!['POST', 'PUT', 'PATCH'].includes(method)) {
+    throw new Error(
+      `${key} is ${method}; use the appropriate read/delete tool`
+    );
+  }
+
+  return op;
+}
+
+
+function assertDeleteOperation(key) {
+  const op = getOperation(key);
+
+  if (String(op.method).toUpperCase() !== 'DELETE') {
+    throw new Error(
+      `${key} is ${op.method}, not DELETE`
+    );
+  }
+
+  return op;
+}
+
+
+const objectSchema = z.record(
+  z.string(),
+  z.unknown()
+);
+
+
+function buildServer() {
+  const server = new McpServer({
+    name: 'alazab-daftra-finance',
+    version: '1.0.0',
+  });
+
+
+  /*
+   * ------------------------------------------------------------
+   * DISCOVERY
+   * ------------------------------------------------------------
+   */
+
+  server.registerTool(
+    'daftra_list_operations',
+    {
+      title: 'List Daftra Operations',
+
+      description:
+        'Search and inspect the available Daftra API operations before calling one.',
+
+      inputSchema: z.object({
+        search: z.string().optional(),
+        tag: z.string().optional(),
+        limit: z.number().int().min(1).max(500).optional(),
+      }),
+
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
+    },
+
+    async args => {
+      const result = await callGateway(
+        'daftra.list_operations',
+        args
+      );
+
+      return jsonText(result);
+    }
+  );
+
+
+  /*
+   * ------------------------------------------------------------
+   * READ
+   * ------------------------------------------------------------
+   */
+
+  server.registerTool(
+    'daftra_read_operation',
+    {
+      title: 'Read From Daftra',
+
+      description:
+        'Execute a verified read-only GET operation against Daftra. ' +
+        'Use daftra_list_operations first when the operation key is unknown.',
+
+      inputSchema: z.object({
+        operation_key: z.string().min(1),
+
+        path_params: objectSchema.optional(),
+
+        query: objectSchema.optional(),
+      }),
+
+      annotations: {
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
+    },
+
+    async args => {
+      const op = assertReadOperation(
+        args.operation_key
+      );
+
+      const result = await callGateway(
+        'daftra.call_operation',
+        {
+          operation_key: op.key,
+          path_params: args.path_params || {},
+          query: args.query || {},
+        }
+      );
+
+      return jsonText(result);
+    }
+  );
+
+
+  /*
+   * ------------------------------------------------------------
+   * WRITE / CREATE / UPDATE
+   * ------------------------------------------------------------
+   */
+
+  server.registerTool(
+    'daftra_write_operation',
+    {
+      title: 'Create or Update Daftra Record',
+
+      description:
+        'Execute an authorized POST, PUT, or PATCH operation against Daftra. ' +
+        'This tool changes financial or operational state and must only be used when explicitly required.',
+
+      inputSchema: z.object({
+        operation_key: z.string().min(1),
+
+        path_params: objectSchema.optional(),
+
+        query: objectSchema.optional(),
+
+        body: z.unknown().optional(),
+      }),
+
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
+    },
+
+    async args => {
+      const op = assertWriteOperation(
+        args.operation_key
+      );
+
+      const result = await callGateway(
+        'daftra.call_operation',
+        {
+          operation_key: op.key,
+          path_params: args.path_params || {},
+          query: args.query || {},
+          body: args.body,
+        }
+      );
+
+      return jsonText(result);
+    }
+  );
+
+
+  /*
+   * ------------------------------------------------------------
+   * DELETE
+   * ------------------------------------------------------------
+   */
+
+  server.registerTool(
+    'daftra_delete_operation',
+    {
+      title: 'Delete Daftra Record',
+
+      description:
+        'Execute an authorized DELETE operation against Daftra. ' +
+        'This is a destructive financial or operational action.',
+
+      inputSchema: z.object({
+        operation_key: z.string().min(1),
+
+        path_params: objectSchema.optional(),
+
+        query: objectSchema.optional(),
+      }),
+
+      annotations: {
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
+    },
+
+    async args => {
+      const op = assertDeleteOperation(
+        args.operation_key
+      );
+
+      const result = await callGateway(
+        'daftra.call_operation',
+        {
+          operation_key: op.key,
+          path_params: args.path_params || {},
+          query: args.query || {},
+        }
+      );
+
+      return jsonText(result);
+    }
+  );
+
+
+  return server;
+}
+
+
+const app = createMcpExpressApp();
+
+
+/*
+ * ------------------------------------------------------------
+ * PUBLIC MCP AUTH
+ * ------------------------------------------------------------
+ */
+
+function requirePublicKey(req, res, next) {
+  if (req.path === '/healthz') {
+    return next();
+  }
+
+  const auth =
+    typeof req.headers.authorization === 'string'
+      ? req.headers.authorization.replace(
+          /^Bearer\s+/i,
+          ''
+        )
+      : '';
+
+  const provided =
+    req.headers['x-mcp-key'] ||
+    req.headers['x-api-key'] ||
+    auth ||
+    '';
+
+  if (provided !== PUBLIC_KEY) {
+    return res.status(401).json({
+      error: 'Unauthorized',
+    });
+  }
+
+  return next();
+}
+
+
+app.use(requirePublicKey);
+
+
+app.get('/healthz', (req, res) => {
+  res.json({
+    ok: true,
+    service: 'alazab-daftra-finance-mcp',
+    protocol: 'MCP Streamable HTTP',
+    local_gateway: LOCAL_MCP,
+    daftra_operations: operations.size,
+  });
+});
+
+
+const handler = createMcpHandler(
+  () => buildServer()
+);
+
+const nodeHandler = toNodeHandler(handler);
+
+
+/*
+ * Streamable HTTP endpoint.
+ *
+ * MCP may use multiple HTTP verbs depending on protocol/client
+ * behaviour, therefore keep all verbs routed to the same handler.
+ */
+app.all('/mcp', (req, res) => {
+  void nodeHandler(req, res, req.body);
+});
+
+
+app.listen(
+  PORT,
+  '127.0.0.1',
+  () => {
+    console.log(
+      `Daftra Remote MCP listening on http://127.0.0.1:${PORT}/mcp`
+    );
+
+    console.log(
+      `Loaded Daftra operations: ${operations.size}`
+    );
+  }
+);

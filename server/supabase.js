@@ -107,6 +107,9 @@ async function storeWebhookEvent({ source, payload, rawBody = null, signature = 
   });
 
   if (error) {
+    if (error.code === '23505') {
+      return { stored: false, duplicate: true, eventHash };
+    }
     throw new Error(`Failed to store webhook event: ${error.message}`);
   }
 

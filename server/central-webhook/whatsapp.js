@@ -11,6 +11,8 @@ function config() {
     flowId: process.env.CENTRAL_WHATSAPP_FLOW_ID,
     flowCta: process.env.CENTRAL_WHATSAPP_FLOW_CTA || 'أوامر التشغيل',
     flowScreen: process.env.CENTRAL_WHATSAPP_FLOW_SCREEN || 'MAIN',
+    templateName: process.env.CENTRAL_WHATSAPP_TEMPLATE_NAME,
+    templateLanguage: process.env.CENTRAL_WHATSAPP_TEMPLATE_LANGUAGE || 'ar',
   };
 }
 
@@ -47,6 +49,29 @@ async function sendText(body, to) {
     to: recipient,
     type: 'text',
     text: { preview_url: false, body: String(body).slice(0, 3900) },
+  });
+}
+
+async function sendTemplate(body, to) {
+  const cfg = config();
+  const recipient = to || cfg.to;
+  if (!recipient) throw new Error('CENTRAL_WHATSAPP_ADMIN_TO is missing');
+  if (!cfg.templateName) throw new Error('CENTRAL_WHATSAPP_TEMPLATE_NAME is missing');
+  return send({
+    messaging_product: 'whatsapp',
+    recipient_type: 'individual',
+    to: recipient,
+    type: 'template',
+    template: {
+      name: cfg.templateName,
+      language: { code: cfg.templateLanguage },
+      components: [
+        {
+          type: 'body',
+          parameters: [{ type: 'text', text: String(body).slice(0, 3000) }],
+        },
+      ],
+    },
   });
 }
 
@@ -95,7 +120,9 @@ function formatEvent(event) {
 }
 
 async function notifyEvent(event) {
-  return sendText(formatEvent(event));
+  const body = formatEvent(event);
+  const cfg = config();
+  return cfg.templateName ? sendTemplate(body) : sendText(body);
 }
 
-module.exports = { sendText, sendFlow, notifyEvent, formatEvent, config };
+module.exports = { sendText, sendTemplate, sendFlow, notifyEvent, formatEvent, config };

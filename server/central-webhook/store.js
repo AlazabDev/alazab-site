@@ -3,7 +3,7 @@
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
-const db = require('../db');
+const db = require('./db');
 
 const fallbackFile = process.env.CENTRAL_WEBHOOK_FALLBACK_LOG || path.join(__dirname, '..', 'logs', 'central-webhook-events.jsonl');
 

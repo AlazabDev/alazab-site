@@ -12,6 +12,8 @@ const { createMcpExpressApp } = require('@modelcontextprotocol/express');
 const { catalogSummary, getOperation, searchOperations } = require('./registry');
 const { callOperation } = require('./client');
 const { plan } = require('./planner');
+const { verifyWrite } = require('./verifier');
+const { resolveEntity } = require('./resolver');
 const audit = require('./audit');
 
 const PORT = Number(process.env.MCP_DAFTRA_PORT || 4007);
@@ -82,14 +84,16 @@ async function execute(args = {}, forced = {}) {
     throw error;
   }
 
+  const verification = args.verify === false ? { attempted: false, verified: false, reason: 'disabled' } : await verifyWrite(op, result, payload);
+
   const auditId = audit.append({
     actor: actorFromArgs(args), intent: args.intent, risk,
     operation_key: op.key, method: op.method, path: op.path,
     status: result.ok ? 'success' : 'failed', http_status: result.status,
-    request: result.request, response: result.data, elapsed_ms: result.elapsed_ms,
+    request: result.request, response: result.data, verification, elapsed_ms: result.elapsed_ms,
   });
 
-  return { ...result, audit_id: auditId, risk, confidence: planned.confidence };
+  return { ...result, audit_id: auditId, risk, confidence: planned.confidence, verification };
 }
 
 function buildServer() {
@@ -130,8 +134,62 @@ function buildServer() {
     operation_key: z.string().optional(), intent: z.string().optional(), action: z.string().optional(), resource: z.string().optional(),
     domain: z.string().optional(), group: z.string().optional(), path_params: objectSchema.optional(), query: objectSchema.optional(),
     data: z.unknown().optional(), body: z.unknown().optional(), idempotency_key: z.string().optional(), actor: z.string().optional(),
-    dry_run: z.boolean().optional(), confirm: z.boolean().optional(),
+    dry_run: z.boolean().optional(), confirm: z.boolean().optional(), verify: z.boolean().optional(),
   }).refine((v) => Boolean(v.operation_key || v.intent || v.resource), { message: 'Provide operation_key, intent, or resource' });
+
+  server.registerTool('daftra_resolve_entity', {
+    title: 'Resolve Daftra Business Entity',
+    description: 'Resolve Arabic/English business names to Daftra IDs before execution. Supports projects, clients, suppliers, products, cost centers, treasuries, staff, branches, stores and work orders.',
+    inputSchema: z.object({ type: z.string().min(1), name: z.string().min(1), limit: z.number().int().min(1).max(100).optional(), max_candidates: z.number().int().min(1).max(20).optional() }),
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
+  }, async (args) => jsonText(await resolveEntity(args.type, args.name, args)));
+
+  server.registerTool('daftra_create_expense', {
+    title: 'Create Daftra Expense',
+    description: 'High-level expense creation. Resolves supplier and project/cost-center names, builds the Daftra Expense payload, applies idempotency, executes, audits and reads the created expense back for verification.',
+    inputSchema: z.object({
+      amount: z.number().positive(), date: z.string().min(1), currency_code: z.string().optional(),
+      description: z.string().optional(), category: z.string().optional(), supplier: z.string().optional(),
+      supplier_id: z.number().int().optional(), project: z.string().optional(), cost_center_id: z.number().int().optional(),
+      treasury_id: z.number().int().optional(), journal_account_id: z.number().int().optional(), actor: z.string().optional(),
+      dry_run: z.boolean().optional(), idempotency_key: z.string().optional(),
+    }),
+    annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true },
+  }, async (args) => {
+    let supplierId = args.supplier_id;
+    let costCenterId = args.cost_center_id;
+    const resolutions = {};
+
+    if (!supplierId && args.supplier) {
+      const resolved = await resolveEntity('supplier', args.supplier);
+      resolutions.supplier = resolved;
+      if (!resolved.resolved) return jsonText({ ok: false, executed: false, needs_resolution: true, field: 'supplier', resolution: resolved });
+      supplierId = Number(resolved.match.id);
+    }
+
+    if (!costCenterId && args.project) {
+      const project = await resolveEntity('project', args.project);
+      resolutions.project = project;
+      if (!project.resolved) return jsonText({ ok: false, executed: false, needs_resolution: true, field: 'project', resolution: project });
+      const costCenter = await resolveEntity('cost_center', project.match.name || args.project);
+      resolutions.cost_center = costCenter;
+      if (!costCenter.resolved) return jsonText({ ok: false, executed: false, needs_resolution: true, field: 'cost_center', message: 'Project resolved but no unambiguous matching cost center was found.', resolution: costCenter, project });
+      costCenterId = Number(costCenter.match.id);
+    }
+
+    const data = {
+      amount: args.amount, date: args.date, currency_code: args.currency_code || 'EGP',
+      note: args.description, category: args.category, supplier_id: supplierId, treasury_id: args.treasury_id,
+      journal_account_id: args.journal_account_id, cost_center_id: costCenterId,
+    };
+    for (const key of Object.keys(data)) if (data[key] === undefined) delete data[key];
+
+    const result = await execute({
+      operation_key: 'daftra.raw.post.expenses_format', data, actor: args.actor, dry_run: args.dry_run,
+      idempotency_key: args.idempotency_key, verify: true, intent: args.description || 'create expense',
+    });
+    return jsonText({ ...result, resolutions });
+  });
 
   server.registerTool('daftra_plan', {
     title: 'Plan Daftra Action',

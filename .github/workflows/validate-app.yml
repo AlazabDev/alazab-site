@@ -1,13 +1,14 @@
-name: Validate React application
+name: Validate production readiness
 
 on:
   push:
     branches:
+      - development
       - main
       - 'agent/**'
       - 'feature/**'
   pull_request:
-    branches: [main]
+    branches: [main, development]
   workflow_dispatch:
 
 permissions:
@@ -18,9 +19,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
+  frontend:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,21 +37,50 @@ jobs:
           node-version: 24.16.0
           cache: pnpm
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint PN module
-        run: >-
-          pnpm exec eslint
-          src/pages/PNPage.tsx
-          src/lib/pn.ts
-          src/pages/NotFound.tsx
-          --report-unused-disable-directives
-          --max-warnings 0
-          --rule 'react-hooks/set-state-in-effect: off'
+      - name: Type check
+        run: pnpm run type-check
 
-      - name: Type-check
-        run: pnpm type-check
+      - name: Lint
+        run: pnpm run lint
 
-      - name: Build
-        run: pnpm build
+      - name: Unit tests
+        run: pnpm exec vitest run --passWithNoTests
+
+      - name: Production build
+        run: pnpm run build
+        env:
+          VITE_SUPABASE_PROJECT_ID: bxuhcbfdoaflsgbxiqei
+          VITE_SUPABASE_URL: https://bxuhcbfdoaflsgbxiqei.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: test-public-key
+          VITE_REDIRECT_URI: https://alazab.com/auth/callback
+          VITE_API_URL: https://alazab.com/api
+          VITE_FACEBOOK_REDIRECT_URI: https://alazab.com/auth/callback/facebook
+
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.16.0
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Syntax check
+        run: npm run check
+
+      - name: Lint backend
+        run: npm run lint

@@ -21,12 +21,16 @@ const path = require('path');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+// ── Logger ────────────────────────────────────────────────────
+// Logger must be initialized before any startup checks use it.
+const logger = require('./logger');
+
 // ── Database ────────────────────────────────────────────────────
 const { createClient } = require('@supabase/supabase-js');
 
 // تحقق من وجود متغيرات Supabase
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    logger.warn('[BOOT][WARN] Supabase credentials missing — Stripe DB features disabled');
+  logger.warn('[BOOT][WARN] Supabase credentials missing — Stripe DB features disabled');
 }
 
 // ── Routes ────────────────────────────────────────────────────
@@ -40,16 +44,12 @@ const twilioRoutes = require('./routes/twilio');
 const vonageRoutes = require('./routes/vonage');
 const ionicRoutes = require('./routes/ionic');
 const webhookToolRoutes = require('./routes/webhook-tool');
-const whatsappSeafileRoutes = require('./routes/whatsapp-seafile');
 const telegramRoutes = require('./routes/telegram');
 const elevenlabsRoutes = require('./routes/elevenlabs');
 const elevenlabsV1Routes = require('./routes/elevenlabs-v1');
 const adminRoutes = require('./routes/admin');
 const mcpRoutes = require('./routes/mcp');
 const dynamicRoutes = require('./routes/dynamic-routes');
-
-// ── Logger ────────────────────────────────────────────────────
-const logger = require('./logger');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -80,11 +80,11 @@ const OPTIONAL_ENV = [
   'VONAGE_TELEGRAM_CHAT_ID',
 ];
 const STRIPE_ENV = [
-    'STRIPE_SECRET_KEY',
-    'STRIPE_PUBLISHABLE_KEY',
-    'STRIPE_WEBHOOK_SECRET',
-    'DEFAULT_CURRENCY',
-    'DEFAULT_TAX_RATE',
+  'STRIPE_SECRET_KEY',
+  'STRIPE_PUBLISHABLE_KEY',
+  'STRIPE_WEBHOOK_SECRET',
+  'DEFAULT_CURRENCY',
+  'DEFAULT_TAX_RATE',
 ];
 
 function maskValue(v) {
@@ -93,7 +93,7 @@ function maskValue(v) {
 }
 
 for (const key of STRIPE_ENV) {
-    logger.info(`[BOOT] ${key}=${maskValue(process.env[key])}`);
+  logger.info(`[BOOT] ${key}=${maskValue(process.env[key])}`);
 }
 
 function startupEnvCheck() {
@@ -107,11 +107,9 @@ function startupEnvCheck() {
     logger.info(`[BOOT] ${key}=${maskValue(process.env[key])}`);
   }
 
-  // Normalize token key name
   if (!process.env.WHATSAPP_VERIFY_TOKEN && process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN) {
     process.env.WHATSAPP_VERIFY_TOKEN = process.env.WHATSAPP_WEBHOOK_VERIFY_TOKEN;
   }
-  // Normalize secret key name
   if (!process.env.META_APP_SECRET && process.env.FACEBOOK_APP_SECRET) {
     process.env.META_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
   }
@@ -144,7 +142,7 @@ if (NODE_ENV !== 'production') {
 }
 
 function isOriginAllowed(origin) {
-  if (!origin) return true; // server-to-server, curl, webhooks
+  if (!origin) return true;
   if (allowedOrigins.includes(origin)) return true;
   if (/^https:\/\/[a-z0-9-]+\.lovable\.app$/i.test(origin)) return true;
   return false;
@@ -307,7 +305,7 @@ app.get('/ready', (req, res) => {
 });
 
 // للـ Webhook (مهم: يكون قبل express.json) ───────────────────────
-app.post('/api/stripe/webhook', express.raw({type: 'application/json'}), stripeRoutes);
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), stripeRoutes);
 
 // ── Admin graphical dashboard ─────────────────────────────────
 app.get(['/dashboard', '/admin', '/admin/dashboard'], (req, res) => {
@@ -402,8 +400,6 @@ app.use('/api/webhook-tool', webhookToolRoutes);
 app.use('/api/twilio', twilioRoutes);
 app.use('/api/vonage', webhookLimiter, vonageRoutes);
 app.use('/api/ionic', ionicRoutes);
-app.use('/', whatsappSeafileRoutes);
-app.use('/api/v1', whatsappSeafileRoutes);
 
 app.use(dynamicRoutes.dynamicRouter);
 
@@ -442,14 +438,13 @@ app.use((err, req, res, _next) => {
 // ── Start server ──────────────────────────────────────────────
 const server = app.listen(PORT, '127.0.0.1', () => {
   logger.info(`${APP_NAME} running on http://127.0.0.1:${PORT}`);
-  logger.info(`Health:  /health   Ready:   /ready`);
-  logger.info(`Auth:    /auth/v1/  API:     /api/v1/`);
-  logger.info(`Webhook: GET|POST /api/webhook/whatsapp and /webhook/wauf/whatsapp`);
-  logger.info(`Eleven:  /api/elevenlabs/  Meta: /api/meta/`);
-  logger.info(`Admin:   /api/admin/status (requires X-Admin-Key header)`);
-  logger.info(`MCP:     /api/mcp/health  /api/mcp/tools  /api/mcp/call`);
+  logger.info('Health:  /health   Ready:   /ready');
+  logger.info('Auth:    /auth/v1/  API:     /api/v1/');
+  logger.info('Webhook: GET|POST /api/webhook/whatsapp');
+  logger.info('Eleven:  /api/elevenlabs/  Meta: /api/meta/');
+  logger.info('Admin:   /api/admin/status (requires X-Admin-Key header)');
+  logger.info('MCP:     /api/mcp/health  /api/mcp/tools  /api/mcp/call');
 
-  // Optional: try DB connection at startup (non-blocking)
   const { testDbConnection } = require('./db');
   testDbConnection().catch((err) => logger.warn('DB connection test failed:', err.message));
 });
@@ -470,11 +465,10 @@ async function shutdown(signal) {
     process.exit(0);
   });
 
-  // Force exit if not done in 10s
   setTimeout(() => {
     logger.error('[SHUTDOWN] Force exit after timeout');
     process.exit(1);
-  }, 10_000);
+  }, 10_000).unref();
 }
 
 process.on('SIGTERM', () => shutdown('SIGTERM'));
@@ -482,17 +476,18 @@ process.on('SIGINT', () => shutdown('SIGINT'));
 
 process.on('uncaughtException', (err) => {
   logger.error('[uncaughtException]', { message: err.message, stack: err.stack });
+  shutdown('uncaughtException');
 });
 process.on('unhandledRejection', (reason) => {
   logger.error('[unhandledRejection]', { reason: String(reason) });
 });
 
 app.get('/api/tiktok/health', (req, res) => {
-    res.json({
-        status: 'online',
-        service: 'tiktok',
-        version: '1.0.0'
-    });
+  res.json({
+    status: 'online',
+    service: 'tiktok',
+    version: '1.0.0',
+  });
 });
 
 module.exports = app;

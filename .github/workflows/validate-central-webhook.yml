@@ -1,0 +1,53 @@
+name: Validate Central Webhook
+
+on:
+  push:
+    branches: [development]
+    paths:
+      - 'server/central-webhook/**'
+      - 'server/ecosystem.config.js'
+      - 'server/package.json'
+      - 'server/package-lock.json'
+      - 'server/.env.production.example'
+      - 'server/deploy/nginx/api-alazab-central-webhook.locations.conf'
+      - '.github/workflows/validate-central-webhook.yml'
+  pull_request:
+    paths:
+      - 'server/central-webhook/**'
+      - 'server/ecosystem.config.js'
+      - 'server/package.json'
+      - 'server/package-lock.json'
+      - 'server/.env.production.example'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - name: Install backend dependencies
+        run: npm ci --ignore-scripts
+      - name: Syntax check central webhook
+        run: npm run webhook:central:check
+      - name: Syntax check PM2 config
+        run: node --check ecosystem.config.js
+      - name: Validate command safety invariants
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const commands = fs.readFileSync('central-webhook/commands.js', 'utf8');
+          if (/\bexec\s*\(/.test(commands) || /shell\s*:\s*true/.test(commands)) {
+            throw new Error('Central command executor must not use exec() or shell:true');
+          }
+          if (!commands.includes('CENTRAL_WHATSAPP_COMMAND_ALLOWLIST')) {
+            throw new Error('WhatsApp command allowlist is required');
+          }
+          console.log('Central webhook command safety invariants OK');
+          NODE

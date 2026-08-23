@@ -10,6 +10,7 @@
     "POST": 74,
     "GET": 140,
     "PUT": 44,
+    "PATCH": 0,
     "DELETE": 43
   },
   "domains": [
@@ -110,18 +111,5 @@
     {"name":"Endpoints/Work Orders/Work Order Appointments","count":6},
     {"name":"Endpoints/Work Orders/Work Orders","count":5},
     {"name":"Endpoints/Workflow","count":4}
-  ],
-  "shards": [
-    {"file":"operations-01.json","count":30,"domains":["Accounting","Advanced Filtering","Authorization","Bookings"]},
-    {"file":"operations-02.json","count":30,"domains":["Bookings","Branches","Clients"]},
-    {"file":"operations-03.json","count":30,"domains":["Clients","Developers Portal","Entities","Finance"]},
-    {"file":"operations-04.json","count":30,"domains":["Follow-Up Statuses","General Listing","HR"]},
-    {"file":"operations-05.json","count":30,"domains":["HR","Inventory"]},
-    {"file":"operations-06.json","count":30,"domains":["Inventory","Multity entity request","Payment Gateways","Points & Credits"]},
-    {"file":"operations-07.json","count":30,"domains":["Points & Credits","Purchases","Sales"]},
-    {"file":"operations-08.json","count":30,"domains":["Sales"]},
-    {"file":"operations-09.json","count":30,"domains":["Sales","Site","Staff"]},
-    {"file":"operations-10.json","count":30,"domains":["Staff","Suppliers","Taxes","Time Tracking","Work Orders","Workflow"]},
-    {"file":"operations-11.json","count":1,"domains":["Workflow"]}
   ]
 }

@@ -133,7 +133,9 @@ const ARABIC_ALIASES = new Map(Object.entries({
   'دفعة فاتورة': 'invoice payments', 'دفعات فاتورة': 'invoice payments', 'حجز': 'bookings', 'حجوزات': 'bookings',
   'فرع': 'branches', 'فروع': 'branches', 'نقاط': 'points credits', 'تتبع وقت': 'time tracking', 'ساعات عمل': 'time tracking',
   'انشاء': 'create', 'إنشاء': 'create', 'اضافة': 'create', 'إضافة': 'create', 'سجل': 'create', 'تسجيل': 'create',
-  'عدل': 'update', 'تعديل': 'update', 'حدث': 'update', 'تحديث': 'update',
+  'عدل': 'update', 'تعديل': 'update', 'حدث': 'update', 'تحديث': 'update', 'غير': 'change', 'غيّر': 'change', 'تغيير': 'change',
+  'حول': 'convert', 'حوّل': 'convert', 'تحويل': 'convert', 'تفعيل': 'activate', 'تعطيل': 'deactivate',
+  'قفل': 'lock', 'فتح القفل': 'unlock', 'ارسال': 'send', 'إرسال': 'send', 'اعتماد': 'approve', 'رفض': 'reject',
   'احذف': 'delete', 'حذف': 'delete', 'الغاء': 'delete', 'إلغاء': 'delete',
   'اعرض': 'get', 'عرض': 'get', 'هات': 'get', 'اجلب': 'get', 'أجلب': 'get', 'ابحث': 'search', 'بحث': 'search', 'قائمة': 'list'
 }));
@@ -162,25 +164,33 @@ function methodForAction(action) {
 }
 
 function scoreOperation(op, query, opts = {}) {
-  const method = opts.method || methodForAction(opts.action || query);
-  if (method && op.method !== method) return -1000;
+  const explicitMethod = opts.method || null;
+  const inferredMethod = methodForAction(opts.action || query);
+  if (explicitMethod && op.method !== explicitMethod) return -1000;
   if (opts.domain && normalizeArabic(op.domain) !== normalizeArabic(opts.domain)) return -1000;
   if (opts.group && !normalizeArabic(op.group).includes(normalizeArabic(opts.group))) return -1000;
+
   const q = tokenize([query, opts.resource, opts.action, opts.group, opts.domain].filter(Boolean).join(' '));
   const summary = expandAliases(op.summary);
   const opPath = expandAliases(op.path);
   const group = expandAliases(`${op.group} ${op.domain} ${(op.tags || []).join(' ')}`);
   const key = expandAliases(op.key);
-  const actionTokens = new Set(['create','add','record','post','update','edit','modify','delete','remove','cancel','get','read','list','search','find','show']);
+  const actionTokens = new Set(['create','add','record','post','update','edit','modify','change','convert','activate','deactivate','lock','unlock','send','approve','reject','delete','remove','cancel','get','read','list','search','find','show']);
   let score = 0;
   for (const token of q) {
-    if (actionTokens.has(token)) continue;
+    if (actionTokens.has(token)) {
+      if (summary.includes(token) || opPath.includes(token)) score += 7;
+      continue;
+    }
     if (opPath.includes(token)) score += 14;
     if (summary.includes(token)) score += 9;
     if (group.includes(token)) score += 7;
     if (key.includes(token)) score += 4;
   }
-  if (method && op.method === method) score += 6;
+
+  // Inferred HTTP method is only a preference. Daftra includes legacy endpoints that
+  // mutate state through GET, so hard-filter only when the caller explicitly asks for a method.
+  if (inferredMethod && op.method === inferredMethod) score += 6;
   if (opts.resource && expandAliases(`${op.path} ${op.group} ${op.summary}`).includes(expandAliases(opts.resource))) score += 8;
   if (opts.operation_key && op.key === opts.operation_key) score += 10000;
   if (op.deprecated) score -= 4;

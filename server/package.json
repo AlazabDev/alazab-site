@@ -22,7 +22,10 @@
     "check:websocket": "node scripts/check-websocket.js",
     "check:infra": "npm run check:postgres && npm run check:websocket",
     "mcp": "node mcp/server.js",
-    "mcp:tools": "curl -sS http://127.0.0.1:${MCP_PORT:-4005}/tools | jq ."
+    "mcp:tools": "curl -sS http://127.0.0.1:${MCP_PORT:-4005}/tools | jq .",
+    "mcp:daftra": "node mcp/daftra/server.js",
+    "mcp:daftra:smoke": "node mcp/daftra/smoke-test.js",
+    "mcp:daftra:catalog": "python3 mcp/daftra/generate-catalog.py \"mcp/daftra/openapi/Default module.openapi.json\" --expect 301"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.42.0",

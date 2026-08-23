@@ -1,0 +1,57 @@
+name: Validate Daftra MCP
+
+on:
+  push:
+    paths:
+      - 'server/mcp/daftra/**'
+      - 'server/ecosystem.config.js'
+      - 'server/package.json'
+      - 'server/package-lock.json'
+      - 'server/deploy/nginx/api-alazab-daftra-mcp.locations.conf'
+      - '.github/workflows/validate-daftra-mcp.yml'
+  pull_request:
+    paths:
+      - 'server/mcp/daftra/**'
+      - 'server/ecosystem.config.js'
+      - 'server/package.json'
+      - 'server/package-lock.json'
+      - 'server/deploy/nginx/api-alazab-daftra-mcp.locations.conf'
+      - '.github/workflows/validate-daftra-mcp.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install backend dependencies
+        run: npm ci
+
+      - name: Require authoritative OpenAPI source
+        run: test -f 'mcp/daftra/openapi/Default module.openapi.json'
+
+      - name: Validate exact source contract
+        run: npm run mcp:daftra:catalog
+
+      - name: Syntax check Daftra MCP
+        run: find mcp/daftra -name '*.js' -type f -print0 | xargs -0 -n1 node --check
+
+      - name: Registry and Arabic intent smoke test
+        env:
+          DAFTRA_OPENAPI_FILE: ./mcp/daftra/openapi/Default module.openapi.json
+          DAFTRA_OPENAPI_EXPECT_OPERATIONS: '301'
+          DAFTRA_OPENAPI_STRICT_HASH: 'true'
+        run: npm run mcp:daftra:smoke

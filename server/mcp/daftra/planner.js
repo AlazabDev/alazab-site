@@ -1,11 +1,20 @@
 'use strict';
 
-const { searchOperations, getOperation, methodForAction } = require('./registry');
+const { searchOperations, getOperation } = require('./registry');
+
+const FINANCIAL_RE = /Finance|Accounting|Purchases|invoice|payment|expense|income|journal|credit|refund|treasur|purchase/i;
+const MUTATING_GET_RE = /(?:^|[\s/_-])(update|change|convert|trigger|send|activate|deactivate|lock|unlock|assign|set|approve|reject)(?:[\s/_-]|$)/i;
+
+function isStateChanging(op) {
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(op.method)) return true;
+  if (op.method !== 'GET') return false;
+  return MUTATING_GET_RE.test(`${op.summary || ''} ${op.path || ''}`);
+}
 
 function riskOf(op) {
   if (op.method === 'DELETE') return 'destructive';
-  if (['POST', 'PUT', 'PATCH'].includes(op.method)) {
-    if (/Finance|Accounting|Purchases|invoice|payment|expense|income|journal|credit|refund|treasur/i.test(`${op.domain} ${op.group} ${op.path}`)) return 'financial_write';
+  if (isStateChanging(op)) {
+    if (FINANCIAL_RE.test(`${op.domain} ${op.group} ${op.path} ${op.summary}`)) return 'financial_write';
     return 'write';
   }
   return 'read';
@@ -23,7 +32,9 @@ function plan(input = {}) {
     resource: input.resource,
     group: input.group,
     domain: input.domain,
-    method: input.method || methodForAction(input.action || intent),
+    // Only an explicitly supplied HTTP method is a hard constraint. Daftra contains
+    // legacy state-changing GET endpoints, so intent inference must not discard them.
+    method: input.method,
     limit: 8,
   });
 
@@ -44,4 +55,4 @@ function plan(input = {}) {
   };
 }
 
-module.exports = { plan, riskOf };
+module.exports = { plan, riskOf, isStateChanging };

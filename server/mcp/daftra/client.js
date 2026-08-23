@@ -79,11 +79,18 @@ function injectIdempotency(op, body, idempotencyKey) {
 }
 
 function validateOperationInput(op, payload, normalizedBody) {
-  const missing = requiredPathParams(op).filter((name) => {
+  const missingPath = requiredPathParams(op).filter((name) => {
     const v = payload.path_params?.[name] ?? payload.pathParams?.[name] ?? payload[name];
     return v === undefined || v === null || v === '';
   });
-  if (missing.length) throw new Error(`Missing required path parameter(s): ${missing.join(', ')}`);
+  if (missingPath.length) throw new Error(`Missing required path parameter(s): ${missingPath.join(', ')}`);
+
+  const query = payload.query || {};
+  const missingQuery = (op.parameters || [])
+    .filter((p) => p.in === 'query' && p.required)
+    .map((p) => p.name)
+    .filter((name) => query[name] === undefined || query[name] === null || query[name] === '');
+  if (missingQuery.length) throw new Error(`Missing required query parameter(s): ${missingQuery.join(', ')}`);
 
   const bodyErrors = validateOperationBody(op, normalizedBody);
   if (bodyErrors.length) {
@@ -125,7 +132,6 @@ function encodeBody(op, body) {
 }
 
 async function authHeadersFor(op) {
-  // The OAuth token operation is the bootstrap path and is explicitly public.
   if (op.path === '/v2/oauth/token') return {};
   return getAuthHeaders();
 }
@@ -141,7 +147,7 @@ async function callOperation(operationKey, payload = {}) {
   const hash = requestHash(op, { pathParams, query, body });
   const idempotencyKey = payload.idempotency_key || payload.idempotencyKey || `azab-${hash.slice(0, 48)}`;
   body = injectIdempotency(op, body, idempotencyKey);
-  validateOperationInput(op, payload, body);
+  validateOperationInput(op, { ...payload, query }, body);
 
   const authHeaders = await authHeadersFor(op);
   const encoded = encodeBody(op, body);

@@ -10,21 +10,26 @@ function env(...names) {
   return undefined;
 }
 
+function daftraBaseUrl() {
+  const subdomain = env('DAFTRA_SUBDOMAIN') || 'alazab-co';
+  return String(env('DAFTRA_BASE_URL', 'DAFTRA_URL') || `https://${subdomain}.daftra.com/api2`).replace(/\/+$/, '');
+}
+
 function oauthConfig() {
   return {
-    url: env('DAFTRA_OAUTH_URL'),
+    url: env('DAFTRA_OAUTH_URL') || `${daftraBaseUrl()}/v2/oauth/token`,
     clientId: env('DAFTRA_OAUTH_CLIENT_ID'),
     clientSecret: env('DAFTRA_OAUTH_CLIENT_SECRET'),
     username: env('DAFTRA_OAUTH_USERNAME'),
     password: env('DAFTRA_OAUTH_PASSWORD'),
-    refreshToken: env('DAFTRA_OAUTH_REFRESH_TOKEN'),
+    refreshToken: cached?.refreshToken || env('DAFTRA_OAUTH_REFRESH_TOKEN'),
     scope: env('DAFTRA_OAUTH_SCOPE') || '',
   };
 }
 
 async function requestToken() {
   const cfg = oauthConfig();
-  if (!cfg.url || !cfg.clientId || !cfg.clientSecret) return null;
+  if (!cfg.clientId || !cfg.clientSecret) return null;
 
   const form = new FormData();
   if (cfg.refreshToken) {
@@ -64,6 +69,8 @@ async function requestToken() {
 
 async function getAuthHeaders() {
   const headers = {};
+  // Some legacy/general-listing endpoints still explicitly require apikey,
+  // so send it alongside Bearer when both are configured.
   if (process.env.DAFTRA_API_KEY) headers.apikey = process.env.DAFTRA_API_KEY;
 
   if (process.env.DAFTRA_ACCESS_TOKEN) {
@@ -83,4 +90,4 @@ async function getAuthHeaders() {
   throw new Error('Daftra authentication is not configured. Set DAFTRA_ACCESS_TOKEN, OAuth settings, or DAFTRA_API_KEY.');
 }
 
-module.exports = { getAuthHeaders, requestToken };
+module.exports = { getAuthHeaders, requestToken, oauthConfig };

@@ -150,12 +150,16 @@ function buildServer() {
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true },
   }, async ({ operation_key }) => jsonText(getOperation(operation_key)));
 
-  const execSchema = z.object({
+  const execBaseSchema = z.object({
     operation_key: z.string().optional(), intent: z.string().optional(), action: z.string().optional(), resource: z.string().optional(),
     domain: z.string().optional(), group: z.string().optional(), path_params: objectSchema.optional(), query: objectSchema.optional(),
     data: z.unknown().optional(), body: z.unknown().optional(), idempotency_key: z.string().optional(), actor: z.string().optional(),
     dry_run: z.boolean().optional(), confirm: z.boolean().optional(), verify: z.boolean().optional(),
-  }).refine((v) => Boolean(v.operation_key || v.intent || v.resource), { message: 'Provide operation_key, intent, or resource' });
+  });
+  const hasTarget = (v) => Boolean(v.operation_key || v.intent || v.resource);
+  const targetError = { message: 'Provide operation_key, intent, or resource' };
+  const execSchema = execBaseSchema.refine(hasTarget, targetError);
+  const groupExecSchema = execBaseSchema.extend({ group: z.string().min(1) }).refine(hasTarget, targetError);
 
   server.registerTool('daftra_resolve_entity', {
     title: 'Resolve Daftra Business Entity',
@@ -228,7 +232,7 @@ function buildServer() {
   server.registerTool('daftra_group_execute', {
     title: 'Execute Within Actual Daftra Group',
     description: 'Route an intent only inside one of the 70 actual OpenAPI groups. Useful when an agent knows the functional group but not the endpoint.',
-    inputSchema: execSchema.extend({ group: z.string().min(1) }),
+    inputSchema: groupExecSchema,
     annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: false, openWorldHint: true },
   }, async (args) => jsonText(await execute(args, { group: args.group })));
 
@@ -247,7 +251,6 @@ function buildServer() {
     return jsonText({ ok: results.length === steps.length && results.every((x) => x.ok), completed_steps: results.length, total_steps: steps.length, results });
   });
 
-  // Domain routers keep the default tool set manageable while still covering every operation.
   for (const d of catalogSummary.domains) {
     const toolName = `daftra_${slugTool(d.name)}`;
     const groups = catalogSummary.groups.filter((g) => g.name.includes(d.name)).map((g) => g.name);
@@ -259,7 +262,6 @@ function buildServer() {
     }, async (args) => jsonText(await execute(args, { domain: d.name })));
   }
 
-  // Optional: expose one MCP tool per actual group. Disabled by default to avoid overwhelming LLM tool selection.
   if (EXPOSE_GROUP_TOOLS) {
     for (const g of catalogSummary.groups) {
       const toolName = `daftra_group_${slugTool(g.name.replace(/^Endpoints\//, ''))}`.slice(0, 60);

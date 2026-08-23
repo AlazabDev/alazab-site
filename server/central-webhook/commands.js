@@ -18,12 +18,12 @@ function normalizePhone(value) {
 }
 
 function allowedSender(sender) {
-  const allow = csv('CENTRAL_WHATSAPP_COMMAND_ALLOWLIST');
+  const allow = new Set([...csv('CENTRAL_WHATSAPP_COMMAND_ALLOWLIST')].map(normalizePhone).filter(Boolean));
   return allow.size > 0 && allow.has(normalizePhone(sender));
 }
 
 function pm2Allowlist() {
-  return csv('CENTRAL_COMMAND_PM2_ALLOWLIST', 'alazab-api,alazab-mcp,alazab-daftra-mcp,alazab-openai-mcp');
+  return csv('CENTRAL_COMMAND_PM2_ALLOWLIST', 'alazab-api,alazab-mcp,alazab-daftra-mcp,alazab-openai-mcp,alazab-central-webhook');
 }
 
 function commandCatalog() {
@@ -75,8 +75,8 @@ async function execute(action, target) {
     };
   }
   if (action === 'server.disk') return runFile('/usr/bin/df', ['-h', '/']);
-  if (action === 'pm2.status') return runFile(process.env.CENTRAL_PM2_BIN || '/usr/bin/pm2', ['jlist']);
-  if (action === 'pm2.restart') return runFile(process.env.CENTRAL_PM2_BIN || '/usr/bin/pm2', ['restart', target, '--update-env']);
+  if (action === 'pm2.status') return runFile(process.env.CENTRAL_PM2_BIN || 'pm2', ['jlist']);
+  if (action === 'pm2.restart') return runFile(process.env.CENTRAL_PM2_BIN || 'pm2', ['restart', target, '--update-env']);
   if (action === 'nginx.test') return runFile(process.env.CENTRAL_NGINX_BIN || '/usr/sbin/nginx', ['-t']);
   if (action === 'nginx.reload') {
     await runFile(process.env.CENTRAL_NGINX_BIN || '/usr/sbin/nginx', ['-t']);

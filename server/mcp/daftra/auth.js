@@ -63,12 +63,22 @@ async function requestToken() {
 }
 
 async function getAuthHeaders() {
-  if (process.env.DAFTRA_ACCESS_TOKEN) return { Authorization: `Bearer ${process.env.DAFTRA_ACCESS_TOKEN}` };
-  if (cached?.accessToken && cached.expiresAt > Date.now()) return { Authorization: `Bearer ${cached.accessToken}` };
+  const headers = {};
+  if (process.env.DAFTRA_API_KEY) headers.apikey = process.env.DAFTRA_API_KEY;
+
+  if (process.env.DAFTRA_ACCESS_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.DAFTRA_ACCESS_TOKEN}`;
+    return headers;
+  }
+
+  if (cached?.accessToken && cached.expiresAt > Date.now()) {
+    headers.Authorization = `Bearer ${cached.accessToken}`;
+    return headers;
+  }
 
   const token = await requestToken();
-  if (token) return { Authorization: `Bearer ${token}` };
-  if (process.env.DAFTRA_API_KEY) return { apikey: process.env.DAFTRA_API_KEY };
+  if (token) headers.Authorization = `Bearer ${token}`;
+  if (Object.keys(headers).length) return headers;
 
   throw new Error('Daftra authentication is not configured. Set DAFTRA_ACCESS_TOKEN, OAuth settings, or DAFTRA_API_KEY.');
 }

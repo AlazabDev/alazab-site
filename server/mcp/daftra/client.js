@@ -2,6 +2,8 @@
 
 const axios = require('axios');
 const crypto = require('crypto');
+const FormData = require('form-data');
+const { getAuthHeaders } = require('./auth');
 const { getOperation, requiredPathParams, schemaHasProperty, primaryBodyWrapper } = require('./registry');
 
 function env(...names) {
@@ -13,17 +15,13 @@ function config() {
   const subdomain = env('DAFTRA_SUBDOMAIN') || 'alazab-co';
   return {
     baseUrl: String(env('DAFTRA_BASE_URL', 'DAFTRA_URL') || `https://${subdomain}.daftra.com/api2`).replace(/\/+$/, ''),
-    apiKey: env('DAFTRA_API_KEY'),
-    accessToken: env('DAFTRA_ACCESS_TOKEN'),
     timeout: Number(env('MCP_DAFTRA_TIMEOUT_MS') || 60000),
   };
 }
 
 function stable(value) {
   if (Array.isArray(value)) return value.map(stable);
-  if (value && typeof value === 'object') {
-    return Object.fromEntries(Object.keys(value).sort().map((k) => [k, stable(value[k])]));
-  }
+  if (value && typeof value === 'object') return Object.fromEntries(Object.keys(value).sort().map((k) => [k, stable(value[k])]));
   return value;
 }
 
@@ -85,9 +83,32 @@ function validateOperationInput(op, payload) {
     return v === undefined || v === null || v === '';
   });
   if (missing.length) throw new Error(`Missing required path parameter(s): ${missing.join(', ')}`);
-  if (op.body?.required && payload.body === undefined && payload.data === undefined) {
-    throw new Error(`Operation ${op.key} requires a request body`);
+  if (op.body?.required && payload.body === undefined && payload.data === undefined) throw new Error(`Operation ${op.key} requires a request body`);
+}
+
+function encodeBody(op, body) {
+  const mediaType = op.body?.media_type || 'application/json';
+  if (body === undefined) return { data: undefined, headers: {} };
+
+  if (mediaType === 'multipart/form-data') {
+    const form = new FormData();
+    for (const [key, value] of Object.entries(body || {})) {
+      if (value === undefined || value === null) continue;
+      form.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+    }
+    return { data: form, headers: form.getHeaders() };
   }
+
+  if (mediaType === 'application/x-www-form-urlencoded') {
+    const form = new URLSearchParams();
+    for (const [key, value] of Object.entries(body || {})) {
+      if (value === undefined || value === null) continue;
+      form.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value));
+    }
+    return { data: form.toString(), headers: { 'Content-Type': mediaType } };
+  }
+
+  return { data: body, headers: { 'Content-Type': mediaType } };
 }
 
 async function callOperation(operationKey, payload = {}) {
@@ -103,10 +124,9 @@ async function callOperation(operationKey, payload = {}) {
   const idempotencyKey = payload.idempotency_key || payload.idempotencyKey || `azab-${hash.slice(0, 48)}`;
   body = injectIdempotency(op, body, idempotencyKey);
 
-  const headers = { Accept: 'application/json', 'Content-Type': op.body?.media_type || 'application/json' };
-  if (cfg.accessToken) headers.Authorization = `Bearer ${cfg.accessToken}`;
-  if (cfg.apiKey) headers.apikey = cfg.apiKey;
-  if (!cfg.accessToken && !cfg.apiKey) throw new Error('Daftra authentication is not configured (DAFTRA_ACCESS_TOKEN or DAFTRA_API_KEY)');
+  const authHeaders = await getAuthHeaders();
+  const encoded = encodeBody(op, body);
+  const headers = { Accept: 'application/json', ...authHeaders, ...encoded.headers };
 
   const urlPath = buildPath(op, pathParams);
   const started = Date.now();
@@ -114,9 +134,10 @@ async function callOperation(operationKey, payload = {}) {
     method: op.method,
     url: `${cfg.baseUrl}${urlPath}`,
     params: query,
-    data: ['GET', 'DELETE'].includes(op.method) ? undefined : body,
+    data: encoded.data,
     headers,
     timeout: cfg.timeout,
+    maxContentLength: Number(process.env.MCP_DAFTRA_MAX_RESPONSE_BYTES || 25 * 1024 * 1024),
     validateStatus: () => true,
   });
 
@@ -130,4 +151,4 @@ async function callOperation(operationKey, payload = {}) {
   };
 }
 
-module.exports = { callOperation, normalizeBody, requestHash };
+module.exports = { callOperation, normalizeBody, requestHash, buildPath };

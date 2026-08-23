@@ -4,6 +4,7 @@ const axios = require('axios');
 const crypto = require('crypto');
 const FormData = require('form-data');
 const { getAuthHeaders } = require('./auth');
+const { validateOperationBody } = require('./schema-validator');
 const { getOperation, requiredPathParams, schemaHasProperty, primaryBodyWrapper } = require('./registry');
 
 function env(...names) {
@@ -77,13 +78,20 @@ function injectIdempotency(op, body, idempotencyKey) {
   return clone;
 }
 
-function validateOperationInput(op, payload) {
+function validateOperationInput(op, payload, normalizedBody) {
   const missing = requiredPathParams(op).filter((name) => {
     const v = payload.path_params?.[name] ?? payload.pathParams?.[name] ?? payload[name];
     return v === undefined || v === null || v === '';
   });
   if (missing.length) throw new Error(`Missing required path parameter(s): ${missing.join(', ')}`);
-  if (op.body?.required && payload.body === undefined && payload.data === undefined) throw new Error(`Operation ${op.key} requires a request body`);
+
+  const bodyErrors = validateOperationBody(op, normalizedBody);
+  if (bodyErrors.length) {
+    const error = new Error(`Daftra OpenAPI validation failed: ${bodyErrors.join('; ')}`);
+    error.code = 'DAFTRA_SCHEMA_VALIDATION';
+    error.validation_errors = bodyErrors;
+    throw error;
+  }
 }
 
 function encodeBody(op, body) {
@@ -108,12 +116,22 @@ function encodeBody(op, body) {
     return { data: form.toString(), headers: { 'Content-Type': mediaType } };
   }
 
+  if (mediaType === 'text/plain') {
+    const text = typeof body === 'string' ? body : (body?.text ?? body?.value ?? JSON.stringify(body));
+    return { data: String(text), headers: { 'Content-Type': 'text/plain' } };
+  }
+
   return { data: body, headers: { 'Content-Type': mediaType } };
+}
+
+async function authHeadersFor(op) {
+  // The OAuth token operation is the bootstrap path and is explicitly public.
+  if (op.path === '/v2/oauth/token') return {};
+  return getAuthHeaders();
 }
 
 async function callOperation(operationKey, payload = {}) {
   const op = getOperation(operationKey);
-  validateOperationInput(op, payload);
   const cfg = config();
   const pathParams = payload.path_params || payload.pathParams || {};
   const query = payload.query || {};
@@ -123,8 +141,9 @@ async function callOperation(operationKey, payload = {}) {
   const hash = requestHash(op, { pathParams, query, body });
   const idempotencyKey = payload.idempotency_key || payload.idempotencyKey || `azab-${hash.slice(0, 48)}`;
   body = injectIdempotency(op, body, idempotencyKey);
+  validateOperationInput(op, payload, body);
 
-  const authHeaders = await getAuthHeaders();
+  const authHeaders = await authHeadersFor(op);
   const encoded = encodeBody(op, body);
   const headers = { Accept: 'application/json', ...authHeaders, ...encoded.headers };
 
@@ -151,4 +170,4 @@ async function callOperation(operationKey, payload = {}) {
   };
 }
 
-module.exports = { callOperation, normalizeBody, requestHash, buildPath };
+module.exports = { callOperation, normalizeBody, requestHash, buildPath, validateOperationInput };

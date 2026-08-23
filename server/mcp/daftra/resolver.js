@@ -76,6 +76,26 @@ function scoreCandidate(candidate, search) {
   return tokens.reduce((score, token) => score + (hay.includes(token) ? 10 : 0), 0);
 }
 
+function projectMap() {
+  try {
+    const parsed = JSON.parse(process.env.DAFTRA_PROJECT_COST_CENTER_MAP || '{}');
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+  } catch (error) {
+    throw new Error(`Invalid DAFTRA_PROJECT_COST_CENTER_MAP JSON: ${error.message}`);
+  }
+}
+
+function mappedProject(name) {
+  const wanted = norm(name);
+  for (const [alias, value] of Object.entries(projectMap())) {
+    if (norm(alias) === wanted) {
+      const mapping = typeof value === 'number' ? { cost_center_id: value } : { ...(value || {}) };
+      return { alias, ...mapping };
+    }
+  }
+  return null;
+}
+
 async function resolveEntity(type, name, options = {}) {
   const entityType = canonicalType(type);
   const cfg = ENTITY_CONFIG[entityType];
@@ -115,4 +135,25 @@ async function resolveEntity(type, name, options = {}) {
   };
 }
 
-module.exports = { resolveEntity, canonicalType, ENTITY_CONFIG };
+async function resolveProjectAccounting(name) {
+  const mapping = mappedProject(name);
+  const project = await resolveEntity('project', name);
+  if (!project.resolved) return { ok: false, resolved: false, stage: 'project', project, mapping };
+
+  if (mapping?.cost_center_id) {
+    return {
+      ok: true,
+      resolved: true,
+      project,
+      cost_center: { id: Number(mapping.cost_center_id), name: mapping.cost_center_name || project.match.name, source: 'explicit_map' },
+      mapping,
+    };
+  }
+
+  const costCenter = await resolveEntity('cost_center', mapping?.cost_center_name || project.match.name || name);
+  if (!costCenter.resolved) return { ok: false, resolved: false, stage: 'cost_center', project, cost_center: costCenter, mapping };
+
+  return { ok: true, resolved: true, project, cost_center: { ...costCenter.match, source: 'name_resolution' }, mapping };
+}
+
+module.exports = { resolveEntity, resolveProjectAccounting, canonicalType, ENTITY_CONFIG, mappedProject };

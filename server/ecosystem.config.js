@@ -17,41 +17,24 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: '512M',
-
-      // ── Environment ────────────────────────────────
-      env_production: {
-        NODE_ENV: 'production',
-        PORT: 3004,
-      },
-      env_development: {
-        NODE_ENV: 'development',
-        PORT: 3004,
-      },
-
-      // ── Logs ───────────────────────────────────────
+      env_production: { NODE_ENV: 'production', PORT: 3004 },
+      env_development: { NODE_ENV: 'development', PORT: 3004 },
       error_file: './logs/api-error.log',
       out_file: './logs/api-out.log',
       log_file: './logs/api-combined.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       merge_logs: true,
       time: true,
-
-      // ── Restart policy ─────────────────────────────
       min_uptime: '10s',
       max_restarts: 10,
       restart_delay: 4000,
       exp_backoff_restart_delay: 100,
-
-      // ── Graceful shutdown ──────────────────────────
       kill_timeout: 10000,
       listen_timeout: 10000,
       shutdown_with_message: true,
       wait_ready: false,
-
-      // ── Monitoring ─────────────────────────────────
       pmx: true,
     },
-
     {
       name: 'alazab-mcp',
       script: './mcp/server.js',
@@ -61,33 +44,20 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: '256M',
-
-      env_production: {
-        NODE_ENV: 'production',
-        MCP_PORT: 4005,
-      },
-      env_development: {
-        NODE_ENV: 'development',
-        MCP_PORT: 4005,
-      },
-
+      env_production: { NODE_ENV: 'production', MCP_PORT: 4005 },
+      env_development: { NODE_ENV: 'development', MCP_PORT: 4005 },
       error_file: './logs/mcp-error.log',
       out_file: './logs/mcp-out.log',
       log_file: './logs/mcp-combined.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       merge_logs: true,
       time: true,
-
       min_uptime: '10s',
       max_restarts: 10,
       restart_delay: 4000,
       kill_timeout: 5000,
     },
-
     {
-      // Standards-compliant MCP endpoint for ChatGPT Plugins / Codex.
-      // It is deliberately isolated from the legacy gateway on :4005 so
-      // existing callers keep working while /mcp can move to this process.
       name: 'alazab-openai-mcp',
       script: './mcp/openai/server.js',
       cwd: __dirname,
@@ -96,7 +66,6 @@ module.exports = {
       autorestart: true,
       watch: false,
       max_memory_restart: '256M',
-
       env_production: {
         NODE_ENV: 'production',
         OPENAI_MCP_HOST: '127.0.0.1',
@@ -115,17 +84,50 @@ module.exports = {
         OPENAI_MCP_INTERNAL_GATEWAY_URL: 'http://127.0.0.1:4005/call',
         OPENAI_MCP_AUTH_MODE: 'none',
       },
-
       error_file: './logs/openai-mcp-error.log',
       out_file: './logs/openai-mcp-out.log',
       log_file: './logs/openai-mcp-combined.log',
       log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
       merge_logs: true,
       time: true,
-
       min_uptime: '10s',
       max_restarts: 10,
       restart_delay: 4000,
+      kill_timeout: 5000,
+    },
+    {
+      name: 'alazab-daftra-mcp',
+      script: './mcp/daftra/server.js',
+      cwd: __dirname,
+      instances: 1,
+      exec_mode: 'fork',
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '256M',
+      env_production: {
+        NODE_ENV: 'production',
+        MCP_DAFTRA_HOST: '127.0.0.1',
+        MCP_DAFTRA_PORT: 4007,
+        DAFTRA_OPENAPI_EXPECT_OPERATIONS: 301,
+        DAFTRA_OPENAPI_STRICT_HASH: 'true',
+      },
+      env_development: {
+        NODE_ENV: 'development',
+        MCP_DAFTRA_HOST: '127.0.0.1',
+        MCP_DAFTRA_PORT: 4007,
+        DAFTRA_OPENAPI_EXPECT_OPERATIONS: 301,
+        DAFTRA_OPENAPI_STRICT_HASH: 'false',
+      },
+      error_file: './logs/daftra-mcp-error.log',
+      out_file: './logs/daftra-mcp-out.log',
+      log_file: './logs/daftra-mcp-combined.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      merge_logs: true,
+      time: true,
+      min_uptime: '10s',
+      max_restarts: 10,
+      restart_delay: 4000,
+      exp_backoff_restart_delay: 100,
       kill_timeout: 5000,
     },
   ],

@@ -30,26 +30,55 @@ node -v
 pnpm -v
 npm -v
 
+printf '\n===== REGISTRY PRECHECK =====\n'
+# Fail before mutating lockfiles when a curated version is not actually published.
+FRONTEND_REQUIRED=(
+  'react@19.2.8'
+  'react-dom@19.2.8'
+  '@supabase/supabase-js@2.112.3'
+  '@tanstack/react-query@5.102.2'
+  'react-router-dom@7.18.2'
+  '@elevenlabs/react@1.13.0'
+  'vite@8.2.2'
+  '@vitejs/plugin-react-swc@4.3.3'
+  'typescript@6.0.3'
+  'eslint@10.9.0'
+  '@eslint/js@10.0.1'
+  'typescript-eslint@8.67.0'
+  '@types/node@26.2.0'
+  '@types/react@19.2.18'
+  '@types/react-dom@19.2.5'
+  'lovable-tagger@1.3.3'
+  'tailwindcss@3.4.19'
+  'vite-plugin-pwa@1.3.0'
+)
+
+for spec in "${FRONTEND_REQUIRED[@]}"; do
+  printf 'check %s ... ' "$spec"
+  pnpm view "$spec" version --silent >/dev/null
+  echo ok
+done
+
 printf '\n===== FRONTEND: UPDATE WITHIN DECLARED RANGES =====\n'
 pnpm update
 
 # Curated major-family upgrades verified for this repository architecture.
-# TypeScript 7 is intentionally NOT selected yet: typescript-eslint v8.65+
-# detects TS7 as unsupported. TypeScript 6.0.3 is the latest supported stable line.
+# TypeScript 7 is intentionally not selected until the current typescript-eslint
+# line fully supports it for this application. Tailwind remains on the v3 LTS line.
 pnpm add \
   react@19.2.8 \
   react-dom@19.2.8 \
-  @supabase/supabase-js@2.112.2 \
+  @supabase/supabase-js@2.112.3 \
   @tanstack/react-query@5.102.2 \
   react-router-dom@7.18.2 \
-  @elevenlabs/react@1.12.0
+  @elevenlabs/react@1.13.0
 
 pnpm add -D \
   vite@8.2.2 \
   @vitejs/plugin-react-swc@4.3.3 \
   typescript@6.0.3 \
   eslint@10.9.0 \
-  @eslint/js@10.9.0 \
+  @eslint/js@10.0.1 \
   typescript-eslint@8.67.0 \
   @types/node@26.2.0 \
   @types/react@19.2.18 \
@@ -88,12 +117,12 @@ npm install \
   @modelcontextprotocol/express@2.0.0 \
   @modelcontextprotocol/node@2.0.0 \
   @modelcontextprotocol/server@2.0.0 \
-  @supabase/supabase-js@2.112.2 \
+  @supabase/supabase-js@2.112.3 \
   zod@4.4.3
 
 npm install -D \
   eslint@10.9.0 \
-  @eslint/js@10.9.0 \
+  @eslint/js@10.0.1 \
   glob@13.0.6 \
   npm-check-updates@22.0.1 \
   prettier@3.8.3

@@ -292,6 +292,19 @@ app.get('/health', (req, res) => {
   });
 });
 
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    ok: true,
+    service: APP_NAME,
+    env: NODE_ENV,
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    port: PORT,
+    pid: process.pid,
+    version: require('./package.json').version,
+  });
+});
+
 app.get('/ready', (req, res) => {
   const checks = {
     port: Boolean(PORT),

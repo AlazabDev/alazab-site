@@ -1,6 +1,6 @@
 import React from 'react';
 import LegalPageLayout from '@/components/legal/LegalPageLayout';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { ChartLine, Medal, Scale } from 'lucide-react';
 
 const TermsOfServicePage = () => (

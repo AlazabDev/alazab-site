@@ -1,6 +1,6 @@
 import React from 'react';
 import LegalPageLayout from '@/components/legal/LegalPageLayout';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const RefundPolicyPage = () => (
   <LegalPageLayout title="سياسة الاسترداد والإلغاء" lastUpdated="7 مارس 2026">

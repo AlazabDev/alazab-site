@@ -12,7 +12,7 @@
     "pm2:stop": "pm2 stop ecosystem.config.js",
     "pm2:logs": "pm2 logs",
     "pm2:monit": "pm2 monit",
-    "check": "node --check index.js && find routes mcp scripts -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}",
+    "check": "node --check index.js && find routes mcp scripts central-webhook -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write '**/*.js' '**/*.json' '**/*.md'",
@@ -25,7 +25,10 @@
     "mcp:tools": "curl -sS http://127.0.0.1:${MCP_PORT:-4005}/tools | jq .",
     "mcp:daftra": "node mcp/daftra/server.js",
     "mcp:daftra:smoke": "node mcp/daftra/smoke-test.js",
-    "mcp:daftra:catalog": "python3 mcp/daftra/generate-catalog.py \"mcp/daftra/openapi/Default module.openapi.json\" --expect 301"
+    "mcp:daftra:catalog": "python3 mcp/daftra/generate-catalog.py \"mcp/daftra/openapi/Default module.openapi.json\" --expect 301",
+    "webhook:central": "node central-webhook/server.js",
+    "webhook:central:init": "node central-webhook/init-db.js",
+    "webhook:central:check": "find central-webhook -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.42.0",

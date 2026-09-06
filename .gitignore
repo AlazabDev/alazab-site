@@ -28,5 +28,8 @@ android/app/*.keystore
 server/.env
 .env.local
 
+# Large production media (deployed directly to the server, not stored in Git)
+/public/media/hero.mp4
+
 # HubSpot config file
 hubspot.config.yml

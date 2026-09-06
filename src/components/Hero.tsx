@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -8,17 +7,20 @@ const Hero: React.FC = () => {
   const { t, isRTL } = useLanguage();
 
   return (
-    <div className="relative bg-gray-900 min-h-screen flex items-center" dir={isRTL ? 'rtl' : 'ltr'}>
-      {/* Background Image (LCP optimized) */}
-      <img
-        src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?q=80&w=2370&auto=format&fit=crop"
-        alt=""
-        aria-hidden="true"
-        fetchPriority="high"
-        decoding="async"
+    <div className="relative bg-gray-900 min-h-screen flex items-center overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Large production media is deployed directly on the server and excluded from Git. */}
+      <video
         className="absolute inset-0 z-0 w-full h-full object-cover brightness-[0.3]"
-      />
-      
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      >
+        <source src="/media/hero.mp4" type="video/mp4" />
+      </video>
+
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl">
@@ -42,7 +44,7 @@ const Hero: React.FC = () => {
               <Link to="/projects">{t('مشاريعنا', 'Our Projects')}</Link>
             </Button>
           </div>
-          
+
           {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
             <div className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg">
@@ -64,10 +66,10 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Down Arrow */}
-      <a 
-        href="#premium-services" 
+      <a
+        href="#premium-services"
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce"
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">

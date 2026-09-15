@@ -50,6 +50,7 @@ const elevenlabsV1Routes = require('./routes/elevenlabs-v1');
 const adminRoutes = require('./routes/admin');
 const mcpRoutes = require('./routes/mcp');
 const dynamicRoutes = require('./routes/dynamic-routes');
+const calWebhookRoutes = require('./routes/cal-webhook');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -78,6 +79,7 @@ const OPTIONAL_ENV = [
   'VONAGE_SIGNATURE_SECRET',
   'VONAGE_VERIFY_WEBHOOK_URL',
   'VONAGE_TELEGRAM_CHAT_ID',
+  'CAL_WEBHOOK_SECRET',
 ];
 const STRIPE_ENV = [
   'STRIPE_SECRET_KEY',
@@ -398,6 +400,9 @@ app.use(
 app.use(express.json({ limit: '10mb', verify: rawBodySaver }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// ── Cal.com webhook ────────────────────────────────────────────
+app.use('/api/cal/webhook', webhookLimiter, calWebhookRoutes);
+
 // ── Admin dashboard API ───────────────────────────────────────
 app.use('/api/admin', adminLimiter, adminRoutes);
 app.use('/api/admin', adminLimiter, dynamicRoutes.adminRoutes);
@@ -454,6 +459,7 @@ const server = app.listen(PORT, '127.0.0.1', () => {
   logger.info('Health:  /health   Ready:   /ready');
   logger.info('Auth:    /auth/v1/  API:     /api/v1/');
   logger.info('Webhook: GET|POST /api/webhook/whatsapp');
+  logger.info('Cal:     POST /api/cal/webhook');
   logger.info('Eleven:  /api/elevenlabs/  Meta: /api/meta/');
   logger.info('Admin:   /api/admin/status (requires X-Admin-Key header)');
   logger.info('MCP:     /api/mcp/health  /api/mcp/tools  /api/mcp/call');

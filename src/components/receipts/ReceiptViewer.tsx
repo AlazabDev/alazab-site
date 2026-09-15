@@ -30,9 +30,8 @@ interface ReceiptImage {
 }
 
 const TOTAL_RECEIPTS = 120;
-
-const RECEIPTS_BASE_URL =
-  "https://lyqkkrftypypnixaptms.supabase.co/storage/v1/object/public/Receipts";
+const RECEIPTS_BASE_URL = "https://r2.alazab.com/receipts";
+const RECEIPT_2026_START = 98;
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 4;
@@ -44,13 +43,15 @@ function createReceiptImages(): ReceiptImage[] {
     const number = index + 1;
     const paddedNumber = String(number).padStart(3, "0");
     const fileName = `auf-${paddedNumber}.jpg`;
+    const folder =
+      number >= RECEIPT_2026_START ? "auf-mrc-26" : "auf-mrc-25";
 
     return {
       number,
       paddedNumber,
       fileName,
       title: `إذن الاستلام رقم ${paddedNumber}`,
-      url: `${RECEIPTS_BASE_URL}/${fileName}`,
+      url: `${RECEIPTS_BASE_URL}/${folder}/${fileName}`,
     };
   });
 }

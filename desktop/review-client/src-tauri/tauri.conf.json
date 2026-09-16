@@ -27,6 +27,7 @@
   "bundle": {
     "active": true,
     "targets": ["nsis", "msi"],
+    "icon": ["icons/icon.ico"],
     "shortDescription": "Alazab secure review client",
     "longDescription": "Secure desktop client for opening Alazab review share links without browser access."
   },

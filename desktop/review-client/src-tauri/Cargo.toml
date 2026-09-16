@@ -1,0 +1,17 @@
+[package]
+name = "alazab-review"
+version = "1.0.0"
+description = "Alazab secure review client"
+authors = ["Alazab Group"]
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-deep-link = "2"
+uuid = { version = "1", features = ["v4"] }
+
+[target.'cfg(any(target_os = "windows", target_os = "linux", target_os = "macos"))'.dependencies]
+tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }

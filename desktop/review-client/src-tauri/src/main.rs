@@ -80,7 +80,7 @@ fn main() {
             let event_handle = app.handle().clone();
             app.deep_link().on_open_url(move |event| {
                 for url in event.urls() {
-                    open_share_link(&event_handle, url);
+                    open_share_link(&event_handle, &url);
                 }
             });
 

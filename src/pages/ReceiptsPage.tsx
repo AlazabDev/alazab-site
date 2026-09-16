@@ -1,5 +1,10 @@
+import ReceiptShareGuard from "@/components/receipts/ReceiptShareGuard";
 import ReceiptViewer from "@/components/receipts/ReceiptViewer";
 
 export default function ReceiptsPage() {
-  return <ReceiptViewer />;
+  return (
+    <ReceiptShareGuard>
+      <ReceiptViewer />
+    </ReceiptShareGuard>
+  );
 }

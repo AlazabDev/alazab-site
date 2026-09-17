@@ -62,7 +62,6 @@ interface ReceiptRecord {
   total_with_vat: number | string;
   withholding_1: number | string;
   net_total: number | string;
-  image_url: string;
   items: ReceiptItem[];
 }
 
@@ -96,8 +95,11 @@ interface ReviewStatePayload {
 
 const TOTAL_RECEIPTS = 120;
 const TOKEN_KEY = "auf-review-session-token-v1";
+const SHARE_DEVICE_KEY = "auf-share-device-v1";
 const REVIEWER_KEY = "auf-reviewer-name-v1";
 const EXPORTED_KEY_PREFIX = "auf-review-auto-exported-v1:";
+const RECEIPT_IMAGE_ENDPOINT =
+  "https://bxuhcbfdoaflsgbxiqei.supabase.co/functions/v1/auf-receipt-image";
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 4;
 const ZOOM_STEP = 0.25;
@@ -116,6 +118,11 @@ function formatNumber(value: number | string | null | undefined): string {
 function getStoredReviewerName(): string {
   if (typeof window === "undefined") return "";
   return window.localStorage.getItem(REVIEWER_KEY) || "";
+}
+
+function getStoredShareDevice(): string {
+  if (typeof window === "undefined") return "";
+  return window.localStorage.getItem(SHARE_DEVICE_KEY) || "";
 }
 
 function reviewMap(entries: ReviewEntry[]): Record<number, ReviewEntry> {
@@ -141,6 +148,8 @@ export default function ReceiptViewer() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [secureImageUrl, setSecureImageUrl] = useState("");
+  const [imageReloadNonce, setImageReloadNonce] = useState(0);
 
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState("");
@@ -182,6 +191,7 @@ export default function ReceiptViewer() {
     setDragOffset(0);
     setLoaded(false);
     setFailed(false);
+    setSecureImageUrl("");
   }, []);
 
   const goToReceiptNumber = useCallback(
@@ -225,21 +235,27 @@ export default function ReceiptViewer() {
     }
   }, []);
 
-  const fetchReceipts = useCallback(async (): Promise<ReceiptRecord[]> => {
-    const { data, error } = await (supabase as any)
-      .from("auf_maintenance_receipts")
-      .select(
-        "id,receipt_number,receipt_code,receipt_date,branch,items_count,total_quantity,subtotal,vat_14,total_with_vat,withholding_1,net_total,image_url,items",
-      )
-      .order("receipt_number", { ascending: true });
+  const fetchReceipts = useCallback(
+    async (token: string, deviceId: string): Promise<ReceiptRecord[]> => {
+      const { data, error } = await (supabase as any).rpc(
+        "auf_share_get_receipts",
+        {
+          p_session_token: token,
+          p_device_id: deviceId,
+        },
+      );
 
-    if (error) throw error;
-    const rows = (data || []) as ReceiptRecord[];
-    if (rows.length !== TOTAL_RECEIPTS) {
-      throw new Error(`عدد الأذون في قاعدة البيانات ${rows.length} وليس ${TOTAL_RECEIPTS}`);
-    }
-    return rows;
-  }, []);
+      if (error) throw error;
+      const rows = (data || []) as ReceiptRecord[];
+      if (rows.length !== TOTAL_RECEIPTS) {
+        throw new Error(
+          `عدد الأذون في قاعدة البيانات ${rows.length} وليس ${TOTAL_RECEIPTS}`,
+        );
+      }
+      return rows;
+    },
+    [],
+  );
 
   const loadReviewState = useCallback(
     async (token: string): Promise<ReviewStatePayload> => {
@@ -287,7 +303,9 @@ export default function ReceiptViewer() {
         setExportDone(true);
       } catch (error) {
         console.error(error);
-        setFatalError("تمت المراجعة لكن تعذر إنشاء ملفات Excel وPDF. يمكن إعادة التصدير من زر التصدير.");
+        setFatalError(
+          "تمت المراجعة لكن تعذر إنشاء ملفات Excel وPDF. يمكن إعادة التصدير من زر التصدير.",
+        );
       } finally {
         setExporting(false);
       }
@@ -299,40 +317,48 @@ export default function ReceiptViewer() {
     let active = true;
     void (async () => {
       try {
-        const rows = await fetchReceipts();
+        const token = window.localStorage.getItem(TOKEN_KEY) || "";
+        const deviceId = getStoredShareDevice();
+        if (!token || !deviceId) {
+          throw new Error("share_session_missing");
+        }
+
+        const rows = await fetchReceipts(token, deviceId);
         if (!active) return;
         setReceipts(rows);
 
-        const token = window.localStorage.getItem(TOKEN_KEY);
-        if (token) {
-          try {
-            const name = window.localStorage.getItem(REVIEWER_KEY) || "";
-            const { error } = await (supabase as any).rpc(
-              "auf_review_bootstrap",
-              {
-                p_session_token: token,
-                p_reviewer_name: name.trim() || null,
-              },
-            );
-            if (error) throw error;
-            const state = await loadReviewState(token);
-            if (!active) return;
-            setSessionToken(token);
-            setStarted(true);
-            const index = rows.findIndex(
-              (receipt) =>
-                receipt.receipt_number === state.session.current_receipt_number,
-            );
-            if (index >= 0) setCurrentIndex(index);
-            if (state.session.status === "completed") setShowCompletion(true);
-          } catch (error) {
-            console.error(error);
-            window.localStorage.removeItem(TOKEN_KEY);
-          }
+        try {
+          const name = window.localStorage.getItem(REVIEWER_KEY) || "";
+          const { error } = await (supabase as any).rpc(
+            "auf_review_bootstrap",
+            {
+              p_session_token: token,
+              p_reviewer_name: name.trim() || null,
+            },
+          );
+          if (error) throw error;
+          const state = await loadReviewState(token);
+          if (!active) return;
+          setSessionToken(token);
+          setStarted(true);
+          const index = rows.findIndex(
+            (receipt) =>
+              receipt.receipt_number === state.session.current_receipt_number,
+          );
+          if (index >= 0) setCurrentIndex(index);
+          if (state.session.status === "completed") setShowCompletion(true);
+        } catch (error) {
+          console.error(error);
+          window.localStorage.removeItem(TOKEN_KEY);
+          throw error;
         }
       } catch (error) {
         console.error(error);
-        if (active) setFatalError("تعذر تحميل بيانات أذون الصيانة من قاعدة البيانات.");
+        if (active) {
+          setFatalError(
+            "تعذر تحميل بيانات أذون الصيانة من جلسة المشاركة الآمنة.",
+          );
+        }
       } finally {
         if (active) setLoading(false);
       }
@@ -351,6 +377,63 @@ export default function ReceiptViewer() {
     setErrorComment(review?.error_comment || "");
     setDraftSavedAt(null);
   }, [currentReceipt, resetImageState, reviews]);
+
+  useEffect(() => {
+    if (!started || !sessionToken || !currentReceipt) return;
+
+    const deviceId = getStoredShareDevice();
+    if (!deviceId) {
+      setFailed(true);
+      return;
+    }
+
+    const controller = new AbortController();
+    let objectUrl = "";
+
+    setSecureImageUrl("");
+    setLoaded(false);
+    setFailed(false);
+
+    void (async () => {
+      try {
+        const response = await fetch(
+          `${RECEIPT_IMAGE_ENDPOINT}?receipt=${currentReceipt.receipt_number}`,
+          {
+            method: "GET",
+            headers: {
+              "x-share-session": sessionToken,
+              "x-share-device": deviceId,
+            },
+            signal: controller.signal,
+            cache: "no-store",
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(`receipt_image_${response.status}`);
+        }
+
+        const blob = await response.blob();
+        if (controller.signal.aborted) return;
+        objectUrl = URL.createObjectURL(blob);
+        setSecureImageUrl(objectUrl);
+      } catch (error) {
+        if (controller.signal.aborted) return;
+        console.error("Secure receipt image failed:", error);
+        setFailed(true);
+      }
+    })();
+
+    return () => {
+      controller.abort();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [
+    currentReceipt?.receipt_number,
+    imageReloadNonce,
+    sessionToken,
+    started,
+  ]);
 
   useEffect(() => {
     if (!started || !sessionToken || !currentReceipt) return;
@@ -383,10 +466,12 @@ export default function ReceiptViewer() {
             console.error(error);
             return;
           }
-          setDraftSavedAt(new Date().toLocaleTimeString("ar-EG", {
-            hour: "2-digit",
-            minute: "2-digit",
-          }));
+          setDraftSavedAt(
+            new Date().toLocaleTimeString("ar-EG", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          );
         });
     }, 650);
 
@@ -405,7 +490,8 @@ export default function ReceiptViewer() {
       setIsFullscreen(document.fullscreenElement === viewerRef.current);
     };
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
   useEffect(() => {
@@ -415,7 +501,8 @@ export default function ReceiptViewer() {
         target?.tagName === "INPUT" ||
         target?.tagName === "TEXTAREA" ||
         target?.isContentEditable
-      ) return;
+      )
+        return;
 
       if (event.key === "ArrowLeft" || event.key === "PageDown") {
         event.preventDefault();
@@ -446,20 +533,26 @@ export default function ReceiptViewer() {
     };
     window.addEventListener("keydown", handleKeyboard);
     return () => window.removeEventListener("keydown", handleKeyboard);
-  }, [goNext, goPrevious, resetZoom, toggleFullscreen, zoomIn, zoomOut]);
+  }, [
+    goNext,
+    goPrevious,
+    resetZoom,
+    toggleFullscreen,
+    zoomIn,
+    zoomOut,
+  ]);
 
   const startReview = async () => {
     setStarting(true);
     setFatalError("");
     try {
-      const token = crypto.randomUUID();
-      window.localStorage.setItem(TOKEN_KEY, token);
+      const token = window.localStorage.getItem(TOKEN_KEY) || "";
+      if (!token) throw new Error("share_session_missing");
       window.localStorage.setItem(REVIEWER_KEY, reviewerName.trim());
       await bootstrapSession(token, reviewerName);
     } catch (error) {
       console.error(error);
-      setFatalError("تعذر بدء جلسة المراجعة.");
-      window.localStorage.removeItem(TOKEN_KEY);
+      setFatalError("تعذر بدء جلسة المراجعة من رابط المشاركة الحالي.");
     } finally {
       setStarting(false);
     }
@@ -468,11 +561,20 @@ export default function ReceiptViewer() {
   const submitJump = (event?: FormEvent) => {
     event?.preventDefault();
     const requested = Number(jumpValue);
-    if (!Number.isInteger(requested) || requested < 1 || requested > TOTAL_RECEIPTS) {
+    if (
+      !Number.isInteger(requested) ||
+      requested < 1 ||
+      requested > TOTAL_RECEIPTS
+    ) {
       setJumpValue(String(currentReceipt?.receipt_number || 1));
       return;
     }
     goToReceiptNumber(requested);
+  };
+
+  const openSecureImage = () => {
+    if (!secureImageUrl) return;
+    window.open(secureImageUrl, "_blank", "noopener,noreferrer");
   };
 
   const saveReview = async () => {
@@ -505,7 +607,10 @@ export default function ReceiptViewer() {
       if (result.is_complete || state.session.status === "completed") {
         setShowCompletion(true);
         const exportKey = `${EXPORTED_KEY_PREFIX}${sessionToken}`;
-        if (!window.localStorage.getItem(exportKey) && !autoExportingRef.current) {
+        if (
+          !window.localStorage.getItem(exportKey) &&
+          !autoExportingRef.current
+        ) {
           autoExportingRef.current = true;
           await fetchAndExport(sessionToken);
           window.localStorage.setItem(exportKey, "1");
@@ -539,7 +644,8 @@ export default function ReceiptViewer() {
       !isDragging ||
       dragStartXRef.current === null ||
       activePointerIdRef.current !== event.pointerId
-    ) return;
+    )
+      return;
     const movement = event.clientX - dragStartXRef.current;
     setDragOffset(Math.max(-220, Math.min(220, movement)));
   };
@@ -570,7 +676,7 @@ export default function ReceiptViewer() {
     return (
       <section className="review-loading" dir="rtl">
         <span className="receipt-free-spinner" />
-        <strong>جارٍ تجهيز بيئة المراجعة...</strong>
+        <strong>جارٍ تجهيز بيئة المراجعة الآمنة...</strong>
       </section>
     );
   }
@@ -588,11 +694,13 @@ export default function ReceiptViewer() {
     return (
       <section className="review-start" dir="rtl">
         <div className="review-start__card">
-          <div className="review-start__icon"><Play size={32} /></div>
+          <div className="review-start__icon">
+            <Play size={32} />
+          </div>
           <h1>مراجعة أذون استلام الصيانة — أبو عوف</h1>
           <p>
-            {TOTAL_RECEIPTS} إذن جاهزة للمراجعة. يتم حفظ التقدم تلقائيًا، وعند العودة
-            ستكمل من آخر إذن توقفت عنده.
+            {TOTAL_RECEIPTS} إذن جاهزة للمراجعة. يتم حفظ التقدم تلقائيًا، وعند
+            العودة ستكمل من آخر إذن توقفت عنده.
           </p>
           <label>
             اسم المراجع <span>اختياري</span>
@@ -603,8 +711,15 @@ export default function ReceiptViewer() {
               autoComplete="name"
             />
           </label>
-          {fatalError && <div className="review-inline-error">{fatalError}</div>}
-          <button type="button" className="review-primary" onClick={startReview} disabled={starting}>
+          {fatalError && (
+            <div className="review-inline-error">{fatalError}</div>
+          )}
+          <button
+            type="button"
+            className="review-primary"
+            onClick={startReview}
+            disabled={starting}
+          >
             <Play size={19} />
             {starting ? "جارٍ البدء..." : "بدء المراجعة"}
           </button>
@@ -628,25 +743,42 @@ export default function ReceiptViewer() {
         <div className="review-heading">
           <h1>مراجعة أذون أبو عوف</h1>
           <span className={`review-current-state ${currentStatusClass}`}>
-            {completed
-              ? currentReview?.result === "correct"
-                ? <><CheckCircle2 size={17} /> تمت المراجعة — صحيح</>
-                : <><XCircle size={17} /> تمت المراجعة — خطأ</>
-              : "قيد المراجعة"}
+            {completed ? (
+              currentReview?.result === "correct" ? (
+                <>
+                  <CheckCircle2 size={17} /> تمت المراجعة — صحيح
+                </>
+              ) : (
+                <>
+                  <XCircle size={17} /> تمت المراجعة — خطأ
+                </>
+              )
+            ) : (
+              "قيد المراجعة"
+            )}
           </span>
         </div>
 
         <div className="review-progress-block">
           <div className="review-progress-meta">
-            <strong>{session.completed_count} / {TOTAL_RECEIPTS}</strong>
+            <strong>
+              {session.completed_count} / {TOTAL_RECEIPTS}
+            </strong>
             <span>{progress}%</span>
           </div>
-          <div className="review-progress-track" aria-label={`نسبة الإنجاز ${progress}%`}>
+          <div
+            className="review-progress-track"
+            aria-label={`نسبة الإنجاز ${progress}%`}
+          >
             <span style={{ width: `${progress}%` }} />
           </div>
           <div className="review-progress-stats">
-            <span className="stat-correct"><Check size={14} /> صحيح {session.correct_count}</span>
-            <span className="stat-incorrect"><X size={14} /> خطأ {session.incorrect_count}</span>
+            <span className="stat-correct">
+              <Check size={14} /> صحيح {session.correct_count}
+            </span>
+            <span className="stat-incorrect">
+              <X size={14} /> خطأ {session.incorrect_count}
+            </span>
             <span>متبقي {TOTAL_RECEIPTS - session.completed_count}</span>
           </div>
         </div>
@@ -665,7 +797,12 @@ export default function ReceiptViewer() {
             <button type="submit">انتقال</button>
           </form>
           {session.status === "completed" && (
-            <button className="review-export-button" type="button" onClick={() => void fetchAndExport()} disabled={exporting}>
+            <button
+              className="review-export-button"
+              type="button"
+              onClick={() => void fetchAndExport()}
+              disabled={exporting}
+            >
               <Download size={17} />
               {exporting ? "جارٍ التصدير..." : "تصدير Excel + PDF"}
             </button>
@@ -677,9 +814,14 @@ export default function ReceiptViewer() {
         {visibleReceiptNumbers.map((number) => {
           const entry = reviews[number];
           const isCurrent = number === currentReceipt.receipt_number;
-          const status = entry?.status === "completed"
-            ? entry.result === "correct" ? "correct" : "incorrect"
-            : entry?.status === "in_progress" ? "in-progress" : "pending";
+          const status =
+            entry?.status === "completed"
+              ? entry.result === "correct"
+                ? "correct"
+                : "incorrect"
+              : entry?.status === "in_progress"
+                ? "in-progress"
+                : "pending";
           return (
             <button
               key={number}
@@ -688,14 +830,18 @@ export default function ReceiptViewer() {
               onClick={() => goToReceiptNumber(number)}
               title={`إذن ${String(number).padStart(3, "0")}`}
             >
-              {entry?.status === "completed" && entry.result === "correct" && <Check size={13} />}
-              {entry?.status === "completed" && entry.result === "incorrect" && <X size={13} />}
+              {entry?.status === "completed" &&
+                entry.result === "correct" && <Check size={13} />}
+              {entry?.status === "completed" &&
+                entry.result === "incorrect" && <X size={13} />}
               {String(number).padStart(3, "0")}
             </button>
           );
         })}
         {showOnlyErrors && visibleReceiptNumbers.length === 0 && (
-          <span className="review-strip-empty">لا توجد أذون مسجلة كخطأ.</span>
+          <span className="review-strip-empty">
+            لا توجد أذون مسجلة كخطأ.
+          </span>
         )}
       </div>
 
@@ -704,17 +850,69 @@ export default function ReceiptViewer() {
           <div className="review-image-toolbar">
             <div>
               <strong>{currentReceipt.receipt_code}</strong>
-              <span>{currentReceipt.branch} — {currentReceipt.receipt_date}</span>
+              <span>
+                {currentReceipt.branch} — {currentReceipt.receipt_date}
+              </span>
             </div>
             <div className="receipt-free-tools">
-              <button type="button" onClick={zoomOut} disabled={zoom <= MIN_ZOOM} title="تصغير"><ZoomOut size={19} /></button>
-              <button type="button" className="receipt-free-zoom-value" onClick={resetZoom}>{Math.round(zoom * 100)}%</button>
-              <button type="button" onClick={zoomIn} disabled={zoom >= MAX_ZOOM} title="تكبير"><ZoomIn size={19} /></button>
-              <button type="button" onClick={() => setRotation((value) => (value + 90) % 360)} title="تدوير"><RotateCw size={19} /></button>
-              <button type="button" onClick={() => { resetZoom(); setRotation(0); }} title="إعادة الضبط"><RotateCcw size={18} /></button>
-              <a href={currentReceipt.image_url} target="_blank" rel="noopener noreferrer" title="فتح الأصل"><ExternalLink size={18} /></a>
-              <button type="button" onClick={() => void toggleFullscreen()} title="ملء الشاشة">
-                {isFullscreen ? <Minimize2 size={19} /> : <Maximize2 size={19} />}
+              <button
+                type="button"
+                onClick={zoomOut}
+                disabled={zoom <= MIN_ZOOM}
+                title="تصغير"
+              >
+                <ZoomOut size={19} />
+              </button>
+              <button
+                type="button"
+                className="receipt-free-zoom-value"
+                onClick={resetZoom}
+              >
+                {Math.round(zoom * 100)}%
+              </button>
+              <button
+                type="button"
+                onClick={zoomIn}
+                disabled={zoom >= MAX_ZOOM}
+                title="تكبير"
+              >
+                <ZoomIn size={19} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setRotation((value) => (value + 90) % 360)}
+                title="تدوير"
+              >
+                <RotateCw size={19} />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  resetZoom();
+                  setRotation(0);
+                }}
+                title="إعادة الضبط"
+              >
+                <RotateCcw size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={openSecureImage}
+                disabled={!secureImageUrl}
+                title="فتح نسخة آمنة"
+              >
+                <ExternalLink size={18} />
+              </button>
+              <button
+                type="button"
+                onClick={() => void toggleFullscreen()}
+                title="ملء الشاشة"
+              >
+                {isFullscreen ? (
+                  <Minimize2 size={19} />
+                ) : (
+                  <Maximize2 size={19} />
+                )}
               </button>
             </div>
           </div>
@@ -725,20 +923,28 @@ export default function ReceiptViewer() {
             onPointerMove={handlePointerMove}
             onPointerUp={finishPointerGesture}
             onPointerCancel={(event) => finishPointerGesture(event, true)}
-            onDoubleClick={() => setZoom((value) => value > 1 ? 1 : 2)}
+            onDoubleClick={() => setZoom((value) => (value > 1 ? 1 : 2))}
           >
             {!loaded && !failed && (
-              <div className="receipt-free-loading"><span className="receipt-free-spinner" /><span>جارٍ تحميل الإذن...</span></div>
+              <div className="receipt-free-loading">
+                <span className="receipt-free-spinner" />
+                <span>جارٍ تحميل الإذن عبر بوابة المشاركة...</span>
+              </div>
             )}
             {failed ? (
               <div className="receipt-free-error">
-                <strong>تعذر تحميل صورة الإذن</strong>
-                <a href={currentReceipt.image_url} target="_blank" rel="noopener noreferrer">فتح الصورة الأصلية</a>
+                <strong>تعذر تحميل صورة الإذن من المسار الآمن</strong>
+                <button
+                  type="button"
+                  onClick={() => setImageReloadNonce((value) => value + 1)}
+                >
+                  إعادة المحاولة
+                </button>
               </div>
-            ) : (
+            ) : secureImageUrl ? (
               <img
-                key={currentReceipt.image_url}
-                src={currentReceipt.image_url}
+                key={`${currentReceipt.receipt_number}-${secureImageUrl}`}
+                src={secureImageUrl}
                 alt={`إذن ${currentReceipt.receipt_code}`}
                 className={`receipt-free-image${loaded ? " receipt-free-image--loaded" : ""}`}
                 style={{
@@ -749,13 +955,28 @@ export default function ReceiptViewer() {
                 onLoad={() => setLoaded(true)}
                 onError={() => setFailed(true)}
               />
-            )}
+            ) : null}
           </div>
 
           <div className="review-image-nav">
-            <button type="button" onClick={goPrevious} disabled={currentIndex === 0}><ChevronRight size={19} /> السابق</button>
-            <strong>إذن {String(currentReceipt.receipt_number).padStart(3, "0")} من {TOTAL_RECEIPTS}</strong>
-            <button type="button" onClick={goNext} disabled={currentIndex === receipts.length - 1}>التالي <ChevronLeft size={19} /></button>
+            <button
+              type="button"
+              onClick={goPrevious}
+              disabled={currentIndex === 0}
+            >
+              <ChevronRight size={19} /> السابق
+            </button>
+            <strong>
+              إذن {String(currentReceipt.receipt_number).padStart(3, "0")} من{" "}
+              {TOTAL_RECEIPTS}
+            </strong>
+            <button
+              type="button"
+              onClick={goNext}
+              disabled={currentIndex === receipts.length - 1}
+            >
+              التالي <ChevronLeft size={19} />
+            </button>
           </div>
         </section>
 
@@ -776,33 +997,63 @@ export default function ReceiptViewer() {
             </div>
 
             <div className="review-facts">
-              <div><span>الفرع</span><strong>{currentReceipt.branch}</strong></div>
-              <div><span>التاريخ</span><strong>{currentReceipt.receipt_date}</strong></div>
-              <div><span>عدد البنود</span><strong>{currentReceipt.items_count}</strong></div>
-              <div><span>إجمالي الكمية</span><strong>{formatNumber(currentReceipt.total_quantity)}</strong></div>
+              <div>
+                <span>الفرع</span>
+                <strong>{currentReceipt.branch}</strong>
+              </div>
+              <div>
+                <span>التاريخ</span>
+                <strong>{currentReceipt.receipt_date}</strong>
+              </div>
+              <div>
+                <span>عدد البنود</span>
+                <strong>{currentReceipt.items_count}</strong>
+              </div>
+              <div>
+                <span>إجمالي الكمية</span>
+                <strong>{formatNumber(currentReceipt.total_quantity)}</strong>
+              </div>
             </div>
 
             <div className="review-items">
               <h3>بنود الصيانة</h3>
               {currentReceipt.items.map((item, index) => (
-                <div className="review-item" key={`${item.line_no || index}-${index}`}>
+                <div
+                  className="review-item"
+                  key={`${item.line_no || index}-${index}`}
+                >
                   <div className="review-item__number">{index + 1}</div>
                   <div className="review-item__body">
                     <strong>{item.description || "—"}</strong>
                     <span>
-                      {item.unit || "—"} × {formatNumber(item.quantity)} × {formatNumber(item.unit_price)}
+                      {item.unit || "—"} × {formatNumber(item.quantity)} ×{" "}
+                      {formatNumber(item.unit_price)}
                     </span>
                   </div>
-                  <strong className="review-item__total">{formatNumber(item.total)}</strong>
+                  <strong className="review-item__total">
+                    {formatNumber(item.total)}
+                  </strong>
                 </div>
               ))}
             </div>
 
             <div className="review-financials">
-              <div><span>قبل الضريبة</span><strong>{formatNumber(currentReceipt.subtotal)}</strong></div>
-              <div><span>VAT 14%</span><strong>{formatNumber(currentReceipt.vat_14)}</strong></div>
-              <div><span>خصم 1%</span><strong>{formatNumber(currentReceipt.withholding_1)}</strong></div>
-              <div className="review-net"><span>صافي الإذن</span><strong>{formatNumber(currentReceipt.net_total)}</strong></div>
+              <div>
+                <span>قبل الضريبة</span>
+                <strong>{formatNumber(currentReceipt.subtotal)}</strong>
+              </div>
+              <div>
+                <span>VAT 14%</span>
+                <strong>{formatNumber(currentReceipt.vat_14)}</strong>
+              </div>
+              <div>
+                <span>خصم 1%</span>
+                <strong>{formatNumber(currentReceipt.withholding_1)}</strong>
+              </div>
+              <div className="review-net">
+                <span>صافي الإذن</span>
+                <strong>{formatNumber(currentReceipt.net_total)}</strong>
+              </div>
             </div>
           </section>
 
@@ -813,8 +1064,14 @@ export default function ReceiptViewer() {
                 <strong>مطابقة البيانات مع الإذن الأصلي</strong>
               </div>
               {completed && (
-                <span className={`review-completed-badge ${currentReview?.result === "correct" ? "is-correct" : "is-incorrect"}`}>
-                  {currentReview?.result === "correct" ? <CheckCircle2 size={16} /> : <XCircle size={16} />}
+                <span
+                  className={`review-completed-badge ${currentReview?.result === "correct" ? "is-correct" : "is-incorrect"}`}
+                >
+                  {currentReview?.result === "correct" ? (
+                    <CheckCircle2 size={16} />
+                  ) : (
+                    <XCircle size={16} />
+                  )}
                   مكتمل
                 </span>
               )}
@@ -824,10 +1081,16 @@ export default function ReceiptViewer() {
               <button
                 type="button"
                 className={`review-decision review-decision--correct${selectedResult === "correct" ? " is-selected" : ""}`}
-                onClick={() => { setSelectedResult("correct"); setErrorComment(""); }}
+                onClick={() => {
+                  setSelectedResult("correct");
+                  setErrorComment("");
+                }}
               >
                 <CheckCircle2 size={24} />
-                <span><strong>صحيح</strong><small>البيانات مطابقة للإذن</small></span>
+                <span>
+                  <strong>صحيح</strong>
+                  <small>البيانات مطابقة للإذن</small>
+                </span>
               </button>
               <button
                 type="button"
@@ -835,13 +1098,18 @@ export default function ReceiptViewer() {
                 onClick={() => setSelectedResult("incorrect")}
               >
                 <XCircle size={24} />
-                <span><strong>خطأ</strong><small>يوجد اختلاف يحتاج توضيحًا</small></span>
+                <span>
+                  <strong>خطأ</strong>
+                  <small>يوجد اختلاف يحتاج توضيحًا</small>
+                </span>
               </button>
             </div>
 
             {selectedResult === "incorrect" && (
               <label className="review-comment-field">
-                <span>التعليق على الخطأ <b>*</b></span>
+                <span>
+                  التعليق على الخطأ <b>*</b>
+                </span>
                 <textarea
                   value={errorComment}
                   onChange={(event) => setErrorComment(event.target.value)}
@@ -854,62 +1122,117 @@ export default function ReceiptViewer() {
 
             <div className="review-save-row">
               <span className="review-autosave">
-                {draftSavedAt ? <><Save size={14} /> حفظ تلقائي {draftSavedAt}</> : "يتم حفظ مسودة العمل تلقائيًا"}
+                {draftSavedAt ? (
+                  <>
+                    <Save size={14} /> حفظ تلقائي {draftSavedAt}
+                  </>
+                ) : (
+                  "يتم حفظ مسودة العمل تلقائيًا"
+                )}
               </span>
               <button
                 type="button"
                 className="review-complete-button"
-                disabled={!selectedResult || saving || (selectedResult === "incorrect" && !errorComment.trim())}
+                disabled={
+                  !selectedResult ||
+                  saving ||
+                  (selectedResult === "incorrect" && !errorComment.trim())
+                }
                 onClick={() => void saveReview()}
               >
-                {saving ? <span className="receipt-free-spinner receipt-free-spinner--small" /> : <Check size={19} />}
+                {saving ? (
+                  <span className="receipt-free-spinner receipt-free-spinner--small" />
+                ) : (
+                  <Check size={19} />
+                )}
                 {completed ? "تحديث وإتمام الإذن" : "إتمام الإذن وحفظه"}
               </button>
             </div>
 
             <div className="review-shortcuts">
-              <span>1 = صحيح</span><span>2 = خطأ</span><span>← → = تنقل</span><span>F = ملء الشاشة</span>
+              <span>1 = صحيح</span>
+              <span>2 = خطأ</span>
+              <span>← → = تنقل</span>
+              <span>F = ملء الشاشة</span>
             </div>
           </section>
         </aside>
       </main>
 
       {fatalError && (
-        <div className="review-toast review-toast--error"><AlertCircle size={18} />{fatalError}</div>
+        <div className="review-toast review-toast--error">
+          <AlertCircle size={18} />
+          {fatalError}
+        </div>
       )}
 
       {completedFlash !== null && (
         <div className="review-complete-flash">
           <CheckCircle2 size={40} />
-          <strong>تم اعتماد مراجعة الإذن {String(completedFlash).padStart(3, "0")}</strong>
+          <strong>
+            تم اعتماد مراجعة الإذن {String(completedFlash).padStart(3, "0")}
+          </strong>
         </div>
       )}
 
       {showCompletion && session.status === "completed" && (
         <div className="review-modal-backdrop">
           <div className="review-completion-modal">
-            <div className="review-completion-icon"><CheckCircle2 size={42} /></div>
+            <div className="review-completion-icon">
+              <CheckCircle2 size={42} />
+            </div>
             <h2>اكتملت مراجعة جميع الأذون</h2>
-            <p>تمت مراجعة {TOTAL_RECEIPTS} من {TOTAL_RECEIPTS} إذنًا.</p>
+            <p>
+              تمت مراجعة {TOTAL_RECEIPTS} من {TOTAL_RECEIPTS} إذنًا.
+            </p>
             <div className="review-completion-stats">
-              <div><span>صحيح</span><strong>{session.correct_count}</strong></div>
-              <div><span>خطأ</span><strong>{session.incorrect_count}</strong></div>
-              <div><span>الإنجاز</span><strong>100%</strong></div>
+              <div>
+                <span>صحيح</span>
+                <strong>{session.correct_count}</strong>
+              </div>
+              <div>
+                <span>خطأ</span>
+                <strong>{session.incorrect_count}</strong>
+              </div>
+              <div>
+                <span>الإنجاز</span>
+                <strong>100%</strong>
+              </div>
             </div>
             <div className="review-export-status">
-              <FileSpreadsheet size={18} /><span>Excel</span>
-              <FileText size={18} /><span>PDF</span>
+              <FileSpreadsheet size={18} />
+              <span>Excel</span>
+              <FileText size={18} />
+              <span>PDF</span>
               {exporting && <em>جارٍ إنشاء الملفات...</em>}
               {exportDone && <em className="is-done">تم إنشاء الملفات</em>}
             </div>
             <div className="review-modal-actions">
-              <button type="button" className="review-primary" onClick={() => void fetchAndExport()} disabled={exporting}>
+              <button
+                type="button"
+                className="review-primary"
+                onClick={() => void fetchAndExport()}
+                disabled={exporting}
+              >
                 <Download size={18} /> تصدير Excel + PDF
               </button>
-              <button type="button" className="review-secondary" onClick={() => { setShowCompletion(false); setShowOnlyErrors(true); }}>
+              <button
+                type="button"
+                className="review-secondary"
+                onClick={() => {
+                  setShowCompletion(false);
+                  setShowOnlyErrors(true);
+                }}
+              >
                 <XCircle size={18} /> عرض الأذون التي بها أخطاء
               </button>
-              <button type="button" className="review-text-button" onClick={() => setShowCompletion(false)}>العودة للمراجعة</button>
+              <button
+                type="button"
+                className="review-text-button"
+                onClick={() => setShowCompletion(false)}
+              >
+                العودة للمراجعة
+              </button>
             </div>
           </div>
         </div>

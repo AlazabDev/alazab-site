@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فتح أذون استلام الصيانة | Alazab</title>
+  <style>
+    :root { font-family: Arial, Tahoma, sans-serif; color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f6f7fb; color: #030957; padding: 24px; }
+    .card { width: min(560px, 100%); background: #fff; border: 1px solid #e6e7ee; border-radius: 18px; padding: 32px; text-align: center; box-shadow: 0 10px 35px rgba(3,9,87,.08); }
+    h1 { margin: 0 0 12px; font-size: 26px; }
+    p { margin: 0 0 22px; line-height: 1.8; color: #4b5563; }
+    a.button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 10px; background: #030957; color: #fff; text-decoration: none; font-weight: 700; }
+    .error { color: #b91c1c; font-weight: 700; }
+    .hint { margin-top: 18px; font-size: 13px; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>أذون استلام الصيانة</h1>
+    <p id="status">جاري فتح تطبيق Alazab Review…</p>
+    <a id="openApp" class="button" href="#" hidden>فتح Alazab Review</a>
+    <div id="hint" class="hint"></div>
+  </main>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const token = (params.get('t') || '').trim();
+    const valid = /^[0-9a-f]{64}$/i.test(token);
+    const status = document.getElementById('status');
+    const button = document.getElementById('openApp');
+    const hint = document.getElementById('hint');
+
+    if (!valid) {
+      status.textContent = 'رابط المشاركة غير صالح.';
+      status.className = 'error';
+    } else {
+      const deepLink = `alazab://share/${token}`;
+      button.href = deepLink;
+      button.hidden = false;
+      hint.textContent = 'إذا لم يفتح التطبيق تلقائيًا، اضغط زر فتح Alazab Review.';
+      window.setTimeout(() => {
+        window.location.href = deepLink;
+      }, 350);
+    }
+  </script>
+</body>
+</html>

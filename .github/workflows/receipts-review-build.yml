@@ -1,0 +1,27 @@
+name: Receipts review build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/receipts/**'
+      - 'src/pages/ReceiptsPage.tsx'
+      - 'supabase/migrations/**'
+      - '.github/workflows/receipts-review-build.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run type-check
+      - run: pnpm run build

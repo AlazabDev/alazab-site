@@ -13,7 +13,15 @@ interface ReceiptShareGuardProps {
 
 function clearAccess() {
   window.localStorage.removeItem(REVIEW_SESSION_KEY);
-  window.localStorage.removeItem(SHARE_DEVICE_KEY);
+}
+
+function getOrCreateDeviceId(): string {
+  const stored = window.localStorage.getItem(SHARE_DEVICE_KEY)?.trim() || "";
+  if (stored) return stored;
+
+  const deviceId = crypto.randomUUID();
+  window.localStorage.setItem(SHARE_DEVICE_KEY, deviceId);
+  return deviceId;
 }
 
 export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) {
@@ -26,19 +34,19 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
     void (async () => {
       try {
         const params = new URLSearchParams(window.location.search);
-        const shareToken = params.get("share")?.trim() || "";
+        const hashToken = params.get("hash")?.trim() || "";
+        const legacyShareToken = params.get("share")?.trim() || "";
+        const shareToken = hashToken || legacyShareToken;
         const queryDeviceId = params.get("device")?.trim() || "";
 
         if (shareToken) {
-          if (!queryDeviceId) {
-            throw new Error("device_id_missing");
-          }
+          const deviceId = queryDeviceId || getOrCreateDeviceId();
 
           const { data, error } = await (supabase as any).rpc(
             "redeem_auf_share_link",
             {
               p_token: shareToken,
-              p_device_id: queryDeviceId,
+              p_device_id: deviceId,
               p_device_name: navigator.userAgent.slice(0, 180),
             },
           );
@@ -48,9 +56,9 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
           }
 
           window.localStorage.setItem(REVIEW_SESSION_KEY, data.session_token);
-          window.localStorage.setItem(SHARE_DEVICE_KEY, queryDeviceId);
+          window.localStorage.setItem(SHARE_DEVICE_KEY, deviceId);
 
-          // Remove the raw capability token immediately after redemption.
+          // Capability token is used once, then removed from the browser address bar.
           window.history.replaceState({}, document.title, "/receipts");
 
           if (active) setState("allowed");
@@ -82,7 +90,7 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
         clearAccess();
         if (active) {
           setMessage(
-            "هذا المسار غير متاح مباشرة. افتح رابط المشاركة المرسل لك باستخدام تطبيق Alazab Review.",
+            "رابط المشاركة غير صالح أو انتهت صلاحيته. افتح رابط المشاركة الأصلي المرسل لك.",
           );
           setState("denied");
         }

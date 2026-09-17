@@ -139,7 +139,7 @@ Deno.serve(async (req) => {
     "Cache-Control": "private, no-store, max-age=0",
     "X-Content-Type-Options": "nosniff",
     "Content-Security-Policy": "default-src 'none'",
-    "Content-Disposition": `${wantsDownload ? "attachment" : "inline"}; filename=\"${safeCode}.jpg\"`,
+    "Content-Disposition": `${wantsDownload ? "attachment" : "inline"}; filename="${safeCode}.jpg"`,
   });
 
   const contentLength = upstream.headers.get("content-length");

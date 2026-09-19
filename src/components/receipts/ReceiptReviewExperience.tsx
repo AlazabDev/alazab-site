@@ -370,14 +370,20 @@ export default function ReceiptReviewExperience() {
   const completed = currentReview?.status === "completed";
   const approved = completed && currentReview?.result === "correct";
   const incorrect = completed && currentReview?.result === "incorrect";
+  const visualResult = selectedResult ?? currentReview?.result ?? null;
+  const statusStamp = visualResult === "correct"
+    ? { src: "/approved.png", alt: "approved", state: "approved" }
+    : visualResult === "incorrect"
+      ? { src: "/not-approved.png", alt: "not-approved", state: "not-approved" }
+      : { src: "/under-review.png", alt: "under-review", state: "under-review" };
 
   return (
     <section className="rx-workspace" ref={viewerRef} dir="rtl">
       <header className="rx-topbar">
         <div className="rx-title">
           <h1>مراجعة أذون أبو عوف</h1>
-          <span className={approved ? "ok" : incorrect ? "bad" : "pending"}>
-            {approved ? "معتمد" : incorrect ? "به ملاحظات" : "قيد المراجعة"}
+          <span className={visualResult === "correct" ? "ok" : visualResult === "incorrect" ? "bad" : "pending"}>
+            {visualResult === "correct" ? "معتمد" : visualResult === "incorrect" ? "غير معتمد" : "قيد المراجعة"}
           </span>
         </div>
         <div className="rx-progress">
@@ -413,7 +419,7 @@ export default function ReceiptReviewExperience() {
             </div>
           </div>
           <div className="rx-canvas">
-            {imageError ? <div className="rx-image-error"><AlertCircle/><span>تعذر تحميل صورة الإذن</span></div> : secureImageUrl ? <div className="rx-image-stage"><img className="rx-image" src={secureImageUrl} alt={current.receipt_code} style={{ transform:`scale(${zoom}) rotate(${rotation}deg)` }}/>{approved && <img className="rx-approved" src="/approved-stamp.svg" alt="Approved"/>}</div> : <div className="rx-loader">جارٍ تحميل الإذن…</div>}
+            {imageError ? <div className="rx-image-error"><AlertCircle/><span>تعذر تحميل صورة الإذن</span></div> : secureImageUrl ? <div className="rx-image-stage"><img className="rx-image" src={secureImageUrl} alt={current.receipt_code} style={{ transform:`scale(${zoom}) rotate(${rotation}deg)` }}/><img key={statusStamp.state} className={`rx-status-stamp ${statusStamp.state}`} src={statusStamp.src} alt={statusStamp.alt}/></div> : <div className="rx-loader">جارٍ تحميل الإذن…</div>}
           </div>
           <div className="rx-nav"><button onClick={goPrevious} disabled={currentIndex===0}><ChevronRight size={18}/>السابق</button><b>إذن {String(current.receipt_number).padStart(3,"0")} من {TOTAL}</b><button onClick={goNext} disabled={currentIndex===receipts.length-1}>التالي<ChevronLeft size={18}/></button></div>
         </section>

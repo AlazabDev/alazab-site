@@ -459,7 +459,7 @@ export default function ReceiptReviewExperience() {
             </div>
           </div>
           <div className="rx-canvas">
-            {imageError ? <div className="rx-image-error"><AlertCircle/><span>تعذر تحميل صورة الإذن</span></div> : secureImageUrl ? <div className="rx-image-stage"><img className="rx-image" src={secureImageUrl} alt={current.receipt_code} style={{ transform:`scale(${zoom}) rotate(${rotation}deg)` }}/><img key={statusStamp.state} className={`rx-status-stamp ${statusStamp.state}`} src={statusStamp.src} alt={statusStamp.alt}/></div> : <div className="rx-loader">جارٍ تحميل الإذن…</div>}
+            {imageError ? <div className="rx-image-error"><AlertCircle/><span>تعذر تحميل صورة الإذن</span></div> : secureImageUrl ? <div className="rx-image-stage"><div className="rx-document-sheet" style={{ transform:`scale(${zoom}) rotate(${rotation}deg)` }}><img className="rx-image" src={secureImageUrl} alt={current.receipt_code}/><img key={statusStamp.state} className={`rx-status-stamp ${statusStamp.state}`} src={statusStamp.src} alt={statusStamp.alt}/></div></div> : <div className="rx-loader">جارٍ تحميل الإذن…</div>}
           </div>
           <div className="rx-nav"><button onClick={goPrevious} disabled={currentIndex===0}><ChevronRight size={18}/>السابق</button><b>إذن {String(current.receipt_number).padStart(3,"0")} من {TOTAL}</b><button onClick={goNext} disabled={currentIndex===receipts.length-1}>التالي<ChevronLeft size={18}/></button></div>
         </section>

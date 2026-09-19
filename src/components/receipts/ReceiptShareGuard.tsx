@@ -7,6 +7,15 @@ const SHARE_DEVICE_KEY = "auf-share-device-v1";
 
 type GuardState = "checking" | "allowed" | "denied";
 
+function accessMessage(error: unknown): string {
+  const raw = String((error as any)?.message || (error as any)?.details || error || "");
+  if (raw.includes("share_link_expired")) return "انتهت صلاحية رابط المراجعة. اطلب رابطًا جديدًا من فريق العزب.";
+  if (raw.includes("share_device_limit_reached")) return "تم الوصول إلى الحد المسموح للأجهزة لهذا الرابط. افتح الرابط من جهاز مسجل أو اطلب رابطًا جديدًا.";
+  if (raw.includes("share_session_missing")) return "هذه الصفحة تحتاج رابط المراجعة الأصلي الذي تم إرساله لك.";
+  if (raw.includes("share_session_invalid")) return "انتهت جلسة المراجعة على هذا الجهاز. افتح رابط المشاركة الأصلي مرة أخرى.";
+  return "تعذر التحقق من رابط المراجعة. تأكد أنك تستخدم الرابط الأصلي المرسل لك.";
+}
+
 interface ReceiptShareGuardProps {
   children: ReactNode;
 }
@@ -89,9 +98,7 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
         console.error("Receipt share access denied:", error);
         clearAccess();
         if (active) {
-          setMessage(
-            "رابط المشاركة غير صالح أو انتهت صلاحيته. افتح رابط المشاركة الأصلي المرسل لك.",
-          );
+          setMessage(accessMessage(error));
           setState("denied");
         }
       }
@@ -104,14 +111,24 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
 
   if (state === "checking") {
     return (
-      <main
-        dir="rtl"
-        className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6"
-      >
-        <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center shadow-2xl">
-          <div className="mx-auto mb-5 h-10 w-10 animate-spin rounded-full border-4 border-white/20 border-t-[#FFB900]" />
-          <h1 className="text-xl font-bold">Alazab Review</h1>
-          <p className="mt-3 text-sm text-slate-300">{message}</p>
+      <main dir="rtl" className="min-h-screen bg-[#f4f7fb] text-slate-900 flex items-center justify-center p-6">
+        <div className="w-full max-w-lg rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
+          <div className="mb-8 flex items-center justify-between gap-4">
+            <div>
+              <div className="text-[11px] font-black tracking-wide text-[#FFB900]">UberFix • Alazab</div>
+              <h1 className="mt-1 text-2xl font-black text-[#030957]">بوابة مراجعة الصيانة</h1>
+            </div>
+            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[#eef2ff]">
+              <div className="h-6 w-6 animate-spin rounded-full border-[3px] border-[#030957]/15 border-t-[#030957]" />
+            </div>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <p className="m-0 text-sm font-bold text-slate-700">{message}</p>
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-slate-200">
+              <div className="h-full w-2/3 animate-pulse rounded-full bg-[#030957]" />
+            </div>
+          </div>
+          <p className="mt-5 mb-0 text-xs leading-6 text-slate-500">يتم التحقق من الرابط والجهاز قبل تحميل مستندات المراجعة.</p>
         </div>
       </main>
     );
@@ -119,19 +136,15 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
 
   if (state === "denied") {
     return (
-      <main
-        dir="rtl"
-        className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6"
-      >
-        <div className="w-full max-w-lg rounded-2xl border border-red-400/20 bg-white/5 p-8 text-center shadow-2xl">
-          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/10 text-2xl text-red-300">
-            ×
+      <main dir="rtl" className="min-h-screen bg-[#f4f7fb] text-slate-900 flex items-center justify-center p-6">
+        <div className="w-full max-w-lg rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
+          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-2xl font-black text-red-700">×</div>
+          <div className="text-[11px] font-black tracking-wide text-[#FFB900]">UberFix • Alazab</div>
+          <h1 className="mt-2 text-2xl font-black text-[#030957]">تعذر فتح جلسة المراجعة</h1>
+          <p className="mt-4 text-sm leading-7 text-slate-600">{message}</p>
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-500">
+            لا تحتاج هذه البوابة إلى كلمة مرور. الوصول يتم من خلال رابط المراجعة الآمن المرسل لك.
           </div>
-          <h1 className="text-2xl font-bold">رابط مشاركة مطلوب</h1>
-          <p className="mt-4 leading-7 text-slate-300">{message}</p>
-          <p className="mt-5 text-xs text-slate-500">
-            لا توجد كلمة مرور أو صفحة تسجيل دخول لهذا المسار.
-          </p>
         </div>
       </main>
     );

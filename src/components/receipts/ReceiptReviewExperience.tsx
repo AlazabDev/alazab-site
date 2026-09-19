@@ -11,6 +11,8 @@ import {
   MessageSquareText,
   RotateCw,
   Search,
+  ShieldCheck,
+  UserRound,
   X,
   XCircle,
   ZoomIn,
@@ -112,6 +114,9 @@ export default function ReceiptReviewExperience() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [jumpValue, setJumpValue] = useState("1");
   const [reviewerName, setReviewerName] = useState(() => window.localStorage.getItem(REVIEWER_KEY) || "");
+  const [reviewerDraft, setReviewerDraft] = useState(() => window.localStorage.getItem(REVIEWER_KEY) || "");
+  const [identityOpen, setIdentityOpen] = useState(false);
+  const [identitySaving, setIdentitySaving] = useState(false);
   const [selectedResult, setSelectedResult] = useState<ReviewResult | null>(null);
   const [generalComment, setGeneralComment] = useState("");
   const [itemNotes, setItemNotes] = useState<Record<number, string>>({});
@@ -192,6 +197,14 @@ export default function ReceiptReviewExperience() {
         const state = await loadState(token);
         if (!active) return;
         setSessionToken(token);
+        const resolvedReviewer = state.session.reviewer_name?.trim() || reviewerName.trim();
+        if (resolvedReviewer) {
+          setReviewerName(resolvedReviewer);
+          setReviewerDraft(resolvedReviewer);
+          window.localStorage.setItem(REVIEWER_KEY, resolvedReviewer);
+        } else {
+          setIdentityOpen(true);
+        }
         const index = rows.findIndex((row) => row.receipt_number === state.session.current_receipt_number);
         if (index >= 0) setCurrentIndex(index);
       } catch (error) {
@@ -290,6 +303,28 @@ export default function ReceiptReviewExperience() {
     }, 600);
   };
 
+  const saveReviewerIdentity = async () => {
+    const name = reviewerDraft.trim();
+    if (!sessionToken || !name || identitySaving) return;
+    setIdentitySaving(true);
+    setFatalError("");
+    try {
+      await rpc("auf_review_bootstrap", {
+        p_session_token: sessionToken,
+        p_reviewer_name: name,
+      });
+      window.localStorage.setItem(REVIEWER_KEY, name);
+      setReviewerName(name);
+      await loadState(sessionToken);
+      setIdentityOpen(false);
+    } catch (error) {
+      console.error(error);
+      setFatalError("تعذر حفظ اسم المراجع. حاول مرة أخرى.");
+    } finally {
+      setIdentitySaving(false);
+    }
+  };
+
   const saveAndNext = async () => {
     if (!current || !sessionToken || !selectedResult || saving) return;
     if (selectedResult === "correct" && hasItemNotes) {
@@ -382,7 +417,7 @@ export default function ReceiptReviewExperience() {
     <section className="rx-workspace" ref={viewerRef} dir="rtl">
       <header className="rx-topbar">
         <div className="rx-title">
-          <div className="rx-brandline"><span>UberFix</span><i>•</i><span>Alazab</span></div>
+          <div className="rx-brandline"><span>UberFix</span><i>•</i><span>Alazab</span><button type="button" className="rx-reviewer-chip" onClick={()=>setIdentityOpen(true)}><UserRound size={13}/>{session.reviewer_name || reviewerName || "تحديد المراجع"}</button></div>
           <h1>مراجعة أذون استلام الصيانة</h1>
           <div className="rx-titlemeta">
             <span className={visualResult === "correct" ? "ok" : visualResult === "incorrect" ? "bad" : "pending"}>
@@ -448,9 +483,31 @@ export default function ReceiptReviewExperience() {
         </aside>
       </main>
 
+      {identityOpen && <div className="rx-modal-backdrop">
+        <div className="rx-welcome-card" role="dialog" aria-modal="true" aria-labelledby="rx-reviewer-title">
+          <div className="rx-welcome-icon"><ShieldCheck size={28}/></div>
+          <div className="rx-welcome-copy">
+            <span>UberFix • Alazab</span>
+            <h2 id="rx-reviewer-title">{session.completed_count ? "متابعة جلسة المراجعة" : "بدء مراجعة أذون الصيانة"}</h2>
+            <p>سيتم توثيق قرارات المطابقة والملاحظات باسم المراجع داخل التقرير النهائي.</p>
+          </div>
+          <label className="rx-reviewer-field">
+            <span>اسم المراجع</span>
+            <input autoFocus value={reviewerDraft} onChange={(e)=>setReviewerDraft(e.target.value)} placeholder="اكتب الاسم الكامل" onKeyDown={(e)=>{if(e.key==="Enter") void saveReviewerIdentity();}}/>
+          </label>
+          <div className="rx-welcome-stats"><div><b>{TOTAL}</b><span>إذن</span></div><div><b>{session.completed_count}</b><span>تمت مراجعته</span></div><div><b>{remaining}</b><span>متبقي</span></div></div>
+          <button className="rx-start-review" onClick={()=>void saveReviewerIdentity()} disabled={!reviewerDraft.trim()||identitySaving}>{identitySaving?"جارٍ الحفظ…":session.completed_count?"متابعة المراجعة":"بدء المراجعة"}</button>
+          {session.reviewer_name && <button className="rx-modal-cancel" onClick={()=>setIdentityOpen(false)}>إلغاء</button>}
+        </div>
+      </div>}
+
+      {session.status === "completed" && <div className="rx-finish-bar">
+        <div><CheckCircle2 size={18}/><span>اكتملت المراجعة</span><b>{session.correct_count} معتمد</b><b>{session.incorrect_count} غير معتمد</b></div>
+        <div><button onClick={exportExcel} disabled={exporting!==null}><FileSpreadsheet size={15}/>Excel</button><button onClick={exportPdf} disabled={exporting!==null}><FileText size={15}/>PDF</button></div>
+      </div>}
+
       {fatalError && <div className="rx-toast"><AlertCircle size={17}/>{fatalError}<button onClick={()=>setFatalError("")}>×</button></div>}
-      {successFlash !== null && <div className="rx-success"><CheckCircle2 size={24}/>تم حفظ واعتماد إذن {String(successFlash).padStart(3,"0")}</div>}
-      {session.status === "completed" && <div className="rx-complete"><CheckCircle2 size={16}/>اكتملت المراجعة — {session.correct_count} معتمد / {session.incorrect_count} به ملاحظات</div>}
+      {successFlash !== null && <div className="rx-success"><CheckCircle2 size={24}/>تم حفظ قرار إذن {String(successFlash).padStart(3,"0")}</div>}
     </section>
   );
 }

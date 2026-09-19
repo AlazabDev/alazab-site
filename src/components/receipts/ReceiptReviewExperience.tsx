@@ -133,6 +133,7 @@ export default function ReceiptReviewExperience() {
     [itemNotes],
   );
   const progress = session ? Math.round((session.completed_count / TOTAL) * 100) : 0;
+  const remaining = session ? TOTAL - session.completed_count : TOTAL;
 
   const rpc = useCallback(async (name: string, args: Record<string, unknown>) => {
     const { data, error } = await (supabase as any).rpc(name, args);
@@ -381,15 +382,19 @@ export default function ReceiptReviewExperience() {
     <section className="rx-workspace" ref={viewerRef} dir="rtl">
       <header className="rx-topbar">
         <div className="rx-title">
-          <h1>مراجعة أذون أبو عوف</h1>
-          <span className={visualResult === "correct" ? "ok" : visualResult === "incorrect" ? "bad" : "pending"}>
-            {visualResult === "correct" ? "معتمد" : visualResult === "incorrect" ? "غير معتمد" : "قيد المراجعة"}
-          </span>
+          <div className="rx-brandline"><span>UberFix</span><i>•</i><span>Alazab</span></div>
+          <h1>مراجعة أذون استلام الصيانة</h1>
+          <div className="rx-titlemeta">
+            <span className={visualResult === "correct" ? "ok" : visualResult === "incorrect" ? "bad" : "pending"}>
+              {visualResult === "correct" ? "معتمد" : visualResult === "incorrect" ? "غير معتمد" : "قيد المراجعة"}
+            </span>
+            <small>{current.branch} — {current.receipt_code}</small>
+          </div>
         </div>
         <div className="rx-progress">
-          <div><b>{session.completed_count} / {TOTAL}</b><span>{progress}%</span></div>
+          <div className="rx-progress-head"><b>{session.completed_count} من {TOTAL}</b><span>{progress}% مكتمل</span></div>
           <i><em style={{ width: `${progress}%` }} /></i>
-          <small><span className="ok">✓ {session.correct_count} صحيح</span><span className="bad">× {session.incorrect_count} خطأ</span><span>{TOTAL - session.completed_count} متبقي</span></small>
+          <small><span className="ok">✓ {session.correct_count} معتمد</span><span className="bad">× {session.incorrect_count} غير معتمد</span><span>{remaining} متبقي</span></small>
         </div>
         <div className="rx-actions">
           <form onSubmit={submitJump}><Search size={16}/><input value={jumpValue} onChange={(e)=>setJumpValue(e.target.value)} inputMode="numeric"/><button>انتقال</button></form>
@@ -433,12 +438,12 @@ export default function ReceiptReviewExperience() {
           </section>
 
           <section className={`rx-decision ${approved?"ok":incorrect?"bad":""}`}>
-            <div className="rx-card-head"><div><span>قرار المراجعة</span><b>مطابقة البيانات مع الإذن الأصلي</b></div>{completed&&<strong className={approved?"ok":"bad"}>{approved?<><CheckCircle2 size={15}/>معتمد</>:<><XCircle size={15}/>به ملاحظات</>}</strong>}</div>
-            <div className="rx-choice"><button className={selectedResult==="correct"?"selected ok":"ok"} disabled={hasItemNotes} onClick={()=>{setSelectedResult("correct");setGeneralComment("")}}><CheckCircle2/><b>صحيح</b><span>مطابق بالكامل</span></button><button className={selectedResult==="incorrect"?"selected bad":"bad"} onClick={()=>setSelectedResult("incorrect")}><XCircle/><b>خطأ</b><span>يوجد اختلاف</span></button></div>
+            <div className="rx-card-head"><div><span>قرار المراجعة</span><b>هل الإذن مطابق للبيانات المسجلة؟</b></div>{completed&&<strong className={approved?"ok":"bad"}>{approved?<><CheckCircle2 size={15}/>معتمد</>:<><XCircle size={15}/>غير معتمد</>}</strong>}</div>
+            <div className="rx-choice"><button className={selectedResult==="correct"?"selected ok":"ok"} disabled={hasItemNotes} onClick={()=>{setSelectedResult("correct");setGeneralComment("")}}><CheckCircle2/><b>مطابق</b><span>اعتماد الإذن كما هو</span></button><button className={selectedResult==="incorrect"?"selected bad":"bad"} onClick={()=>setSelectedResult("incorrect")}><XCircle/><b>غير مطابق</b><span>توجد ملاحظة أو اختلاف</span></button></div>
             {hasItemNotes && <div className="rx-hint"><MessageSquareText size={15}/>وجود ملاحظة على بند يجعل الإذن تلقائيًا «خطأ» حتى إزالة الملاحظات.</div>}
             {selectedResult==="incorrect"&&<label className="rx-general"><span>ملاحظة عامة <small>اختيارية إذا كتبت ملاحظات على البنود</small></span><textarea rows={3} value={generalComment} onChange={(e)=>setGeneralComment(e.target.value)} placeholder="ملخص عام للمشكلة إن لزم…"/></label>}
-            <button className="rx-save" onClick={saveAndNext} disabled={!selectedResult||saving}>{saving?"جارٍ الحفظ…":completed?"تحديث الاعتماد":"اعتماد وحفظ ثم التالي"}</button>
-            <div className="rx-shortcuts"><span>1 صحيح</span><span>2 خطأ</span><span>← → تنقل</span><span>+ − تكبير</span></div>
+            <button className="rx-save" onClick={saveAndNext} disabled={!selectedResult||saving}>{saving?"جارٍ الحفظ…":completed?"حفظ التحديث":selectedResult==="correct"?"اعتماد والانتقال للتالي":"حفظ الملاحظات والانتقال للتالي"}</button>
+            <div className="rx-shortcuts"><span>1 مطابق</span><span>2 غير مطابق</span><span>← → تنقل</span><span>+ − تكبير</span><span>ملاحظات البنود تحفظ تلقائيًا</span></div>
           </section>
         </aside>
       </main>

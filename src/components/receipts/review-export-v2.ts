@@ -283,43 +283,258 @@ export async function exportReviewWorkbookV2(report: ReviewReportPayloadV2) {
   );
 }
 
-export function openPrintableReviewReportV2(report: ReviewReportPayloadV2) {
+
+function dataUrlBytes(dataUrl: string): Uint8Array {
+  const base64 = dataUrl.split(",")[1] || "";
+  const binary = atob(base64);
+  const out = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) out[i] = binary.charCodeAt(i);
+  return out;
+}
+
+function wrapRtlText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+  lineHeight: number,
+): number {
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  if (!words.length) return y;
+  let line = words[0];
+  let cursorY = y;
+  for (let i = 1; i < words.length; i += 1) {
+    const candidate = \`\${line} \${words[i]}\`;
+    if (ctx.measureText(candidate).width > maxWidth) {
+      ctx.fillText(line, x, cursorY);
+      cursorY += lineHeight;
+      line = words[i];
+    } else {
+      line = candidate;
+    }
+  }
+  ctx.fillText(line, x, cursorY);
+  return cursorY + lineHeight;
+}
+
+function createPdf(canvases: HTMLCanvasElement[]): Uint8Array {
+  const pageWidth = 595.28;
+  const pageHeight = 841.89;
+  const objectCount = 2 + canvases.length * 3;
+  const objects: Array<Uint8Array | null> = new Array(objectCount + 1).fill(null);
+  const pageRefs: string[] = [];
+
+  objects[1] = encoder.encode("1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n");
+  canvases.forEach((canvas, index) => {
+    const pageObj = 3 + index * 3;
+    const imageObj = pageObj + 1;
+    const contentObj = pageObj + 2;
+    pageRefs.push(\`\${pageObj} 0 R\`);
+    const jpeg = dataUrlBytes(canvas.toDataURL("image/jpeg", 0.92));
+    objects[pageObj] = encoder.encode(
+      \`\${pageObj} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 \${pageWidth} \${pageHeight}] /Resources << /XObject << /Im0 \${imageObj} 0 R >> >> /Contents \${contentObj} 0 R >>\nendobj\n\`,
+    );
+    objects[imageObj] = concatBytes([
+      encoder.encode(\`\${imageObj} 0 obj\n<< /Type /XObject /Subtype /Image /Width \${canvas.width} /Height \${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length \${jpeg.length} >>\nstream\n\`),
+      jpeg,
+      encoder.encode("\nendstream\nendobj\n"),
+    ]);
+    const content = \`q\n\${pageWidth} 0 0 \${pageHeight} 0 0 cm\n/Im0 Do\nQ\n\`;
+    objects[contentObj] = encoder.encode(\`\${contentObj} 0 obj\n<< /Length \${content.length} >>\nstream\n\${content}endstream\nendobj\n\`);
+  });
+
+  objects[2] = encoder.encode(\`2 0 obj\n<< /Type /Pages /Count \${canvases.length} /Kids [\${pageRefs.join(" ")}] >>\nendobj\n\`);
+  const header = encoder.encode("%PDF-1.4\n%ALAZAB\n");
+  const bodyParts: Uint8Array[] = [header];
+  const offsets = new Array<number>(objectCount + 1).fill(0);
+  let offset = header.length;
+  for (let i = 1; i <= objectCount; i += 1) {
+    const object = objects[i];
+    if (!object) throw new Error(\`PDF object \${i} missing\`);
+    offsets[i] = offset;
+    bodyParts.push(object);
+    offset += object.length;
+  }
+
+  const xrefOffset = offset;
+  let xref = \`xref\n0 \${objectCount + 1}\n0000000000 65535 f \n\`;
+  for (let i = 1; i <= objectCount; i += 1) xref += \`\${String(offsets[i]).padStart(10, "0")} 00000 n \n\`;
+  xref += \`trailer\n<< /Size \${objectCount + 1} /Root 1 0 R >>\nstartxref\n\${xrefOffset}\n%%EOF\`;
+  bodyParts.push(encoder.encode(xref));
+  return concatBytes(bodyParts);
+}
+
+function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasElement[] {
+  const width = 1240;
+  const height = 1754;
+  const margin = 78;
+  const pages: HTMLCanvasElement[] = [];
   const issues = issueRows(report);
   const incorrect = report.rows.filter((row) => row.review_result === "incorrect");
-  const completedAt = report.session.completed_at ? dateTime.format(new Date(report.session.completed_at)) : "—";
-  const reviewer = esc(report.session.reviewer_name || "—");
   const totalNet = report.rows.reduce((sum, row) => sum + n(row.net_total), 0);
+  const completedAt = report.session.completed_at ? dateTime.format(new Date(report.session.completed_at)) : "—";
+  let canvas: HTMLCanvasElement;
+  let ctx: CanvasRenderingContext2D;
+  let y = 0;
 
-  const issueHtml = incorrect.length
-    ? incorrect.map((row) => {
-        const rowIssues = issues.filter((issue) => issue.receipt_number === row.receipt_number);
-        return `<section class="exception">
-          <div class="exception-head">
-            <div><b>${esc(row.receipt_code)}</b><span>${esc(row.branch)} — ${esc(row.receipt_date)}</span></div>
-            <strong>غير معتمد</strong>
-          </div>
-          ${row.error_comment ? `<p class="general-note">${esc(row.error_comment)}</p>` : ""}
-          ${rowIssues.length ? `<table><thead><tr><th>البند</th><th>الوصف</th><th>ملاحظة المراجع</th></tr></thead><tbody>${rowIssues.map((item) => `<tr><td>${item.line_no}</td><td>${esc(item.description)}</td><td>${esc(item.comment)}</td></tr>`).join("")}</tbody></table>` : ""}
-        </section>`;
-      }).join("")
-    : `<div class="all-clear"><div class="seal">✓</div><h2>تم اعتماد جميع الأذون بدون ملاحظات</h2><p>لا توجد استثناءات أو بنود مخالفة مسجلة أثناء المراجعة.</p></div>`;
+  const roundedRect = (x:number, yy:number, w:number, h:number, r:number, fill:string, stroke?:string) => {
+    ctx.beginPath();
+    ctx.roundRect(x, yy, w, h, r);
+    ctx.fillStyle = fill;
+    ctx.fill();
+    if (stroke) {
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  };
 
-  const html = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير مراجعة أذون أبو عوف</title><style>
-    @page{size:A4;margin:12mm}*{box-sizing:border-box}body{font-family:Tahoma,Arial,sans-serif;color:#111827;margin:0;background:white;font-size:12px}header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #030957;padding-bottom:14px;margin-bottom:18px}.brand h1{margin:0;color:#030957;font-size:24px}.brand p{margin:5px 0 0;color:#64748b}.meta{text-align:left;color:#475569}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0 18px}.card{border:1px solid #dbe3ee;border-radius:10px;padding:12px;background:#f8fafc}.card span{display:block;color:#64748b;font-size:10px}.card b{display:block;font-size:20px;margin-top:4px;color:#030957}.card.ok b{color:#15803d}.card.bad b{color:#b91c1c}.summary{border:1px solid #dbe3ee;border-radius:10px;padding:12px;margin-bottom:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.summary div span{color:#64748b;display:block}.summary div b{font-size:14px}.section-title{font-size:16px;color:#030957;margin:20px 0 10px}.exception{border:1px solid #fecaca;border-radius:10px;margin:0 0 12px;overflow:hidden;break-inside:avoid}.exception-head{display:flex;justify-content:space-between;padding:10px 12px;background:#fff1f2}.exception-head div{display:grid;gap:3px}.exception-head span{color:#64748b;font-size:10px}.exception-head strong{color:#b91c1c}.general-note{padding:0 12px;color:#7f1d1d}table{width:100%;border-collapse:collapse}th,td{border-top:1px solid #e5e7eb;padding:8px;text-align:right;vertical-align:top}th{background:#f8fafc;color:#334155}.all-clear{text-align:center;padding:50px 20px;border:2px solid #bbf7d0;border-radius:16px;background:#f0fdf4}.seal{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:#dcfce7;color:#15803d;font-size:40px;font-weight:900}.all-clear h2{color:#15803d;margin:0 0 8px}.all-clear p{color:#475569;margin:0}footer{margin-top:20px;border-top:1px solid #e5e7eb;padding-top:10px;color:#64748b;text-align:center}.no-print{position:fixed;left:20px;bottom:20px;background:#030957;color:#fff;border:0;border-radius:10px;padding:12px 18px;font-weight:bold;cursor:pointer}@media print{.no-print{display:none}.exception{break-inside:avoid}}
-  </style></head><body>
-    <header><div class="brand"><h1>تقرير مراجعة أذون استلام الصيانة — أبو عوف</h1><p>Alazab / UberFix — تقرير اعتماد نهائي</p></div><div class="meta"><div>المراجع: <b>${reviewer}</b></div><div>تاريخ الإقفال: <b>${esc(completedAt)}</b></div></div></header>
-    <div class="cards"><div class="card"><span>إجمالي الأذون</span><b>${report.rows.length}</b></div><div class="card ok"><span>معتمد</span><b>${report.session.correct_count}</b></div><div class="card bad"><span>غير معتمد</span><b>${report.session.incorrect_count}</b></div><div class="card"><span>ملاحظات البنود</span><b>${issues.length}</b></div></div>
-    <div class="summary"><div><span>نسبة المطابقة</span><b>${report.rows.length ? ((report.session.correct_count / report.rows.length) * 100).toFixed(1) : "0.0"}%</b></div><div><span>إجمالي صافي الأذون</span><b>${money.format(totalNet)} ج.م</b></div><div><span>حالة المراجعة</span><b>${report.session.status === "completed" ? "مكتملة" : "قيد المراجعة"}</b></div></div>
-    <h2 class="section-title">الاستثناءات والملاحظات</h2>${issueHtml}
-    <footer>هذا التقرير ناتج من جلسة مراجعة إلكترونية موثقة ضمن نظام Alazab Review.</footer>
-    <button class="no-print" onclick="window.print()">طباعة / حفظ PDF</button>
-    <script>setTimeout(()=>window.print(),500)</script>
-  </body></html>`;
+  const startPage = (continuation = false) => {
+    canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("تعذر إنشاء صفحة PDF");
+    ctx = context;
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0,0,width,height);
+    ctx.direction = "rtl";
+    ctx.textAlign = "right";
 
-  const win = window.open("", "_blank");
-  if (!win) throw new Error("تعذر فتح نافذة التقرير. اسمح بالنوافذ المنبثقة ثم أعد المحاولة.");
-  win.opener = null;
-  win.document.open();
-  win.document.write(html);
-  win.document.close();
+    ctx.fillStyle = "#ffb900";
+    ctx.font = "bold 22px Arial, Tahoma, sans-serif";
+    ctx.fillText("UberFix • Alazab", width - margin, 64);
+
+    ctx.fillStyle = "#030957";
+    ctx.font = "bold 38px Arial, Tahoma, sans-serif";
+    ctx.fillText(continuation ? "استكمال تقرير مراجعة أذون الصيانة" : "تقرير مراجعة أذون استلام الصيانة — أبو عوف", width - margin, 112);
+
+    ctx.fillStyle = "#667085";
+    ctx.font = "20px Arial, Tahoma, sans-serif";
+    ctx.fillText(\`المراجع: \${report.session.reviewer_name || "—"}    •    تاريخ التقرير: \${completedAt}\`, width - margin, 150);
+
+    ctx.strokeStyle = "#dfe6ee";
+    ctx.beginPath();
+    ctx.moveTo(margin, 178);
+    ctx.lineTo(width-margin, 178);
+    ctx.stroke();
+    y = 220;
+    pages.push(canvas);
+  };
+
+  startPage();
+
+  const cardW = (width - margin * 2 - 30) / 4;
+  const cards = [
+    ["إجمالي الأذون", String(report.rows.length), "#030957"],
+    ["معتمد", String(report.session.correct_count), "#117a3f"],
+    ["غير معتمد", String(report.session.incorrect_count), "#b42318"],
+    ["ملاحظات البنود", String(issues.length), "#030957"],
+  ];
+  cards.forEach((card,index)=>{
+    const x = margin + index * (cardW + 10);
+    roundedRect(x,y,cardW,112,16,"#f8fafc","#e2e8f0");
+    ctx.fillStyle="#667085";
+    ctx.font="18px Arial, Tahoma, sans-serif";
+    ctx.textAlign="center";
+    ctx.fillText(card[0],x+cardW/2,y+36);
+    ctx.fillStyle=card[2];
+    ctx.font="bold 34px Arial, Tahoma, sans-serif";
+    ctx.fillText(card[1],x+cardW/2,y+80);
+  });
+  ctx.textAlign="right";
+  y += 142;
+
+  roundedRect(margin,y,width-margin*2,105,16,"#f8fafc","#e2e8f0");
+  ctx.fillStyle="#667085";
+  ctx.font="18px Arial, Tahoma, sans-serif";
+  ctx.fillText("نسبة المطابقة",width-margin-24,y+34);
+  ctx.fillText("إجمالي صافي الأذون",width-margin-385,y+34);
+  ctx.fillText("حالة المراجعة",width-margin-790,y+34);
+  ctx.fillStyle="#111827";
+  ctx.font="bold 26px Arial, Tahoma, sans-serif";
+  ctx.fillText(\`\${report.rows.length ? ((report.session.correct_count/report.rows.length)*100).toFixed(1) : "0.0"}%\`,width-margin-24,y+75);
+  ctx.fillText(\`\${money.format(totalNet)} ج.م\`,width-margin-385,y+75);
+  ctx.fillText(report.session.status==="completed"?"مكتملة":"قيد المراجعة",width-margin-790,y+75);
+  y += 145;
+
+  ctx.fillStyle="#030957";
+  ctx.font="bold 28px Arial, Tahoma, sans-serif";
+  ctx.fillText("الاستثناءات والملاحظات",width-margin,y);
+  y += 32;
+
+  if (!incorrect.length) {
+    roundedRect(margin,y,width-margin*2,280,20,"#f0fdf4","#bbf7d0");
+    ctx.textAlign="center";
+    ctx.fillStyle="#117a3f";
+    ctx.font="bold 66px Arial, Tahoma, sans-serif";
+    ctx.fillText("✓",width/2,y+90);
+    ctx.font="bold 30px Arial, Tahoma, sans-serif";
+    ctx.fillText("تم اعتماد جميع الأذون بدون ملاحظات",width/2,y+150);
+    ctx.fillStyle="#667085";
+    ctx.font="20px Arial, Tahoma, sans-serif";
+    ctx.fillText("لا توجد استثناءات أو بنود مخالفة مسجلة أثناء المراجعة.",width/2,y+195);
+    ctx.textAlign="right";
+  } else {
+    for (const row of incorrect) {
+      const rowIssues = issues.filter((item)=>item.receipt_number===row.receipt_number);
+      const required = 150 + Math.max(1,rowIssues.length)*72 + (row.error_comment ? 60 : 0);
+      if (y + required > height - 110) startPage(true);
+
+      roundedRect(margin,y,width-margin*2,52,12,"#fff2f0","#fecaca");
+      ctx.fillStyle="#b42318";
+      ctx.font="bold 22px Arial, Tahoma, sans-serif";
+      ctx.fillText("غير معتمد",width-margin-18,y+33);
+      ctx.fillStyle="#111827";
+      ctx.font="bold 22px Arial, Tahoma, sans-serif";
+      ctx.fillText(\`\${row.receipt_code} — \${row.branch} — \${row.receipt_date}\`,width-margin-180,y+33);
+      y += 70;
+
+      if (row.error_comment) {
+        ctx.fillStyle="#7f1d1d";
+        ctx.font="20px Arial, Tahoma, sans-serif";
+        y = wrapRtlText(ctx,\`ملاحظة عامة: \${row.error_comment}\`,width-margin,y,width-margin*2-30,32)+12;
+      }
+
+      if (!rowIssues.length) {
+        ctx.fillStyle="#667085";
+        ctx.font="18px Arial, Tahoma, sans-serif";
+        ctx.fillText("لم تسجل ملاحظات على بنود محددة.",width-margin,y);
+        y += 42;
+      } else {
+        for (const item of rowIssues) {
+          roundedRect(margin,y-22,width-margin*2,62,10,"#f8fafc","#e5e7eb");
+          ctx.fillStyle="#111827";
+          ctx.font="bold 18px Arial, Tahoma, sans-serif";
+          ctx.fillText(\`بند \${item.line_no}: \${item.description || "—"}\`,width-margin-16,y+4);
+          ctx.fillStyle="#b42318";
+          ctx.font="18px Arial, Tahoma, sans-serif";
+          wrapRtlText(ctx,item.comment,width-margin-16,y+31,width-margin*2-32,26);
+          y += 76;
+        }
+      }
+      y += 20;
+    }
+  }
+
+  pages.forEach((page,index)=>{
+    const footer=page.getContext("2d");
+    if(!footer) return;
+    footer.direction="rtl";
+    footer.textAlign="center";
+    footer.fillStyle="#98a2b3";
+    footer.font="16px Arial, Tahoma, sans-serif";
+    footer.fillText(\`Alazab Review • صفحة \${index+1} من \${pages.length}\`,width/2,height-48);
+  });
+
+  return pages;
+}
+
+export function openPrintableReviewReportV2(report: ReviewReportPayloadV2) {
+  const pdf = createPdf(buildClientReportCanvases(report));
+  downloadBlob(
+    new Blob([pdf], { type:"application/pdf" }),
+    \`auf-maintenance-review-\${new Date().toISOString().slice(0,10)}.pdf\`,
+  );
 }

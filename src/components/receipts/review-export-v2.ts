@@ -305,7 +305,7 @@ function wrapRtlText(
   let line = words[0];
   let cursorY = y;
   for (let i = 1; i < words.length; i += 1) {
-    const candidate = \`\${line} \${words[i]}\`;
+    const candidate = `${line} ${words[i]}`;
     if (ctx.measureText(candidate).width > maxWidth) {
       ctx.fillText(line, x, cursorY);
       cursorY += lineHeight;
@@ -330,37 +330,37 @@ function createPdf(canvases: HTMLCanvasElement[]): Uint8Array {
     const pageObj = 3 + index * 3;
     const imageObj = pageObj + 1;
     const contentObj = pageObj + 2;
-    pageRefs.push(\`\${pageObj} 0 R\`);
+    pageRefs.push(`${pageObj} 0 R`);
     const jpeg = dataUrlBytes(canvas.toDataURL("image/jpeg", 0.92));
     objects[pageObj] = encoder.encode(
-      \`\${pageObj} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 \${pageWidth} \${pageHeight}] /Resources << /XObject << /Im0 \${imageObj} 0 R >> >> /Contents \${contentObj} 0 R >>\nendobj\n\`,
+      `${pageObj} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /XObject << /Im0 ${imageObj} 0 R >> >> /Contents ${contentObj} 0 R >>\nendobj\n`,
     );
     objects[imageObj] = concatBytes([
-      encoder.encode(\`\${imageObj} 0 obj\n<< /Type /XObject /Subtype /Image /Width \${canvas.width} /Height \${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length \${jpeg.length} >>\nstream\n\`),
+      encoder.encode(`${imageObj} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${canvas.width} /Height ${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`),
       jpeg,
       encoder.encode("\nendstream\nendobj\n"),
     ]);
-    const content = \`q\n\${pageWidth} 0 0 \${pageHeight} 0 0 cm\n/Im0 Do\nQ\n\`;
-    objects[contentObj] = encoder.encode(\`\${contentObj} 0 obj\n<< /Length \${content.length} >>\nstream\n\${content}endstream\nendobj\n\`);
+    const content = `q\n${pageWidth} 0 0 ${pageHeight} 0 0 cm\n/Im0 Do\nQ\n`;
+    objects[contentObj] = encoder.encode(`${contentObj} 0 obj\n<< /Length ${content.length} >>\nstream\n${content}endstream\nendobj\n`);
   });
 
-  objects[2] = encoder.encode(\`2 0 obj\n<< /Type /Pages /Count \${canvases.length} /Kids [\${pageRefs.join(" ")}] >>\nendobj\n\`);
+  objects[2] = encoder.encode(`2 0 obj\n<< /Type /Pages /Count ${canvases.length} /Kids [${pageRefs.join(" ")}] >>\nendobj\n`);
   const header = encoder.encode("%PDF-1.4\n%ALAZAB\n");
   const bodyParts: Uint8Array[] = [header];
   const offsets = new Array<number>(objectCount + 1).fill(0);
   let offset = header.length;
   for (let i = 1; i <= objectCount; i += 1) {
     const object = objects[i];
-    if (!object) throw new Error(\`PDF object \${i} missing\`);
+    if (!object) throw new Error(`PDF object ${i} missing`);
     offsets[i] = offset;
     bodyParts.push(object);
     offset += object.length;
   }
 
   const xrefOffset = offset;
-  let xref = \`xref\n0 \${objectCount + 1}\n0000000000 65535 f \n\`;
-  for (let i = 1; i <= objectCount; i += 1) xref += \`\${String(offsets[i]).padStart(10, "0")} 00000 n \n\`;
-  xref += \`trailer\n<< /Size \${objectCount + 1} /Root 1 0 R >>\nstartxref\n\${xrefOffset}\n%%EOF\`;
+  let xref = `xref\n0 ${objectCount + 1}\n0000000000 65535 f \n`;
+  for (let i = 1; i <= objectCount; i += 1) xref += `${String(offsets[i]).padStart(10, "0")} 00000 n \n`;
+  xref += `trailer\n<< /Size ${objectCount + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
   bodyParts.push(encoder.encode(xref));
   return concatBytes(bodyParts);
 }
@@ -412,7 +412,7 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
 
     ctx.fillStyle = "#667085";
     ctx.font = "20px Arial, Tahoma, sans-serif";
-    ctx.fillText(\`المراجع: \${report.session.reviewer_name || "—"}    •    تاريخ التقرير: \${completedAt}\`, width - margin, 150);
+    ctx.fillText(`المراجع: ${report.session.reviewer_name || "—"}    •    تاريخ التقرير: ${completedAt}`, width - margin, 150);
 
     ctx.strokeStyle = "#dfe6ee";
     ctx.beginPath();
@@ -454,8 +454,8 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
   ctx.fillText("حالة المراجعة",width-margin-790,y+34);
   ctx.fillStyle="#111827";
   ctx.font="bold 26px Arial, Tahoma, sans-serif";
-  ctx.fillText(\`\${report.rows.length ? ((report.session.correct_count/report.rows.length)*100).toFixed(1) : "0.0"}%\`,width-margin-24,y+75);
-  ctx.fillText(\`\${money.format(totalNet)} ج.م\`,width-margin-385,y+75);
+  ctx.fillText(`${report.rows.length ? ((report.session.correct_count/report.rows.length)*100).toFixed(1) : "0.0"}%`,width-margin-24,y+75);
+  ctx.fillText(`${money.format(totalNet)} ج.م`,width-margin-385,y+75);
   ctx.fillText(report.session.status==="completed"?"مكتملة":"قيد المراجعة",width-margin-790,y+75);
   y += 145;
 
@@ -488,13 +488,13 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
       ctx.fillText("غير معتمد",width-margin-18,y+33);
       ctx.fillStyle="#111827";
       ctx.font="bold 22px Arial, Tahoma, sans-serif";
-      ctx.fillText(\`\${row.receipt_code} — \${row.branch} — \${row.receipt_date}\`,width-margin-180,y+33);
+      ctx.fillText(`${row.receipt_code} — ${row.branch} — ${row.receipt_date}`,width-margin-180,y+33);
       y += 70;
 
       if (row.error_comment) {
         ctx.fillStyle="#7f1d1d";
         ctx.font="20px Arial, Tahoma, sans-serif";
-        y = wrapRtlText(ctx,\`ملاحظة عامة: \${row.error_comment}\`,width-margin,y,width-margin*2-30,32)+12;
+        y = wrapRtlText(ctx,`ملاحظة عامة: ${row.error_comment}`,width-margin,y,width-margin*2-30,32)+12;
       }
 
       if (!rowIssues.length) {
@@ -507,7 +507,7 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
           roundedRect(margin,y-22,width-margin*2,62,10,"#f8fafc","#e5e7eb");
           ctx.fillStyle="#111827";
           ctx.font="bold 18px Arial, Tahoma, sans-serif";
-          ctx.fillText(\`بند \${item.line_no}: \${item.description || "—"}\`,width-margin-16,y+4);
+          ctx.fillText(`بند ${item.line_no}: ${item.description || "—"}`,width-margin-16,y+4);
           ctx.fillStyle="#b42318";
           ctx.font="18px Arial, Tahoma, sans-serif";
           wrapRtlText(ctx,item.comment,width-margin-16,y+31,width-margin*2-32,26);
@@ -525,7 +525,7 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
     footer.textAlign="center";
     footer.fillStyle="#98a2b3";
     footer.font="16px Arial, Tahoma, sans-serif";
-    footer.fillText(\`Alazab Review • صفحة \${index+1} من \${pages.length}\`,width/2,height-48);
+    footer.fillText(`Alazab Review • صفحة ${index+1} من ${pages.length}`,width/2,height-48);
   });
 
   return pages;
@@ -535,6 +535,6 @@ export function openPrintableReviewReportV2(report: ReviewReportPayloadV2) {
   const pdf = createPdf(buildClientReportCanvases(report));
   downloadBlob(
     new Blob([pdf], { type:"application/pdf" }),
-    \`auf-maintenance-review-\${new Date().toISOString().slice(0,10)}.pdf\`,
+    `auf-maintenance-review-${new Date().toISOString().slice(0,10)}.pdf`,
   );
 }

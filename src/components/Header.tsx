@@ -261,7 +261,7 @@ const Header: React.FC = () => {
                       title={displayName}
                     >
                       <Avatar className="h-10 w-10 border-2 border-construction-primary shadow-sm">
-                        <AvatarImage src={avatarUrl} alt={displayName} className="object-cover" />
+                        {avatarUrl && <AvatarImage src={avatarUrl} alt={displayName} className="object-cover" />}
                         <AvatarFallback className="bg-construction-accent text-sm font-bold text-construction-primary">
                           {userInitials}
                         </AvatarFallback>
@@ -277,7 +277,7 @@ const Header: React.FC = () => {
                   >
                     <div className="flex items-center gap-3 px-2 py-2.5">
                       <Avatar className="h-9 w-9 border border-border">
-                        <AvatarImage src={avatarUrl} alt={displayName} className="object-cover" />
+                        {avatarUrl && <AvatarImage src={avatarUrl} alt={displayName} className="object-cover" />}
                         <AvatarFallback className="bg-construction-accent text-xs font-bold text-construction-primary">
                           {userInitials}
                         </AvatarFallback>

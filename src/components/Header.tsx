@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, Globe, ChevronDown } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, Globe, ChevronDown, User, Settings, HelpCircle, LogOut } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/shared/Logo";
@@ -19,19 +19,68 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { AdvancedSidebar } from './layout/AdvancedSidebar';
 import ThemeToggle from './shared/ThemeToggle';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
   const { language, setLanguage, t } = useLanguage();
+  const { user } = useAuth();
+
+  const userMetadata = user?.user_metadata ?? {};
+  const displayName =
+    [userMetadata.full_name, userMetadata.name, userMetadata.display_name]
+      .find((value) => typeof value === 'string' && value.trim().length > 0)
+      ?.trim() ||
+    user?.email?.split('@')[0] ||
+    user?.phone ||
+    t('المستخدم', 'User');
+
+  const avatarUrl =
+    [userMetadata.avatar_url, userMetadata.picture, userMetadata.photo_url, userMetadata.image]
+      .find((value) => typeof value === 'string' && value.trim().length > 0)
+      ?.trim() || '';
+
+  const getInitials = (name: string): string => {
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return `${parts[0][0] ?? ''}${parts[parts.length - 1][0] ?? ''}`.toUpperCase();
+    }
+    return (parts[0] || 'U').slice(0, 2).toUpperCase();
+  };
+
+  const userInitials = getInitials(displayName);
+
+  const handleLogout = async (): Promise<void> => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        title: t('تعذر تسجيل الخروج', 'Unable to sign out'),
+        description: error.message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      title: t('تم تسجيل الخروج', 'Signed out'),
+      description: t('تم إنهاء جلسة حسابك بنجاح', 'Your account session has been closed successfully'),
+    });
+    navigate('/');
+  };
 
   const productionLines = [
     { 
@@ -146,14 +195,11 @@ const Header: React.FC = () => {
               href="https://erp.alaza.cloud/apps"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-construction-accent hover:bg-construction-accent/90 text-white rounded-lg transition-all duration-300 font-medium text-xs shadow-md hover:shadow-lg"
+              className="hidden lg:flex h-10 min-w-14 items-center justify-center rounded-xl border-2 border-construction-primary bg-construction-accent px-3 text-sm font-extrabold tracking-wide text-construction-primary shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+              aria-label={t('فتح نظام ERP', 'Open ERP')}
+              title={t('نظام ERP', 'ERP System')}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="3" y1="9" x2="21" y2="9"></line>
-                <line x1="9" y1="21" x2="9" y2="9"></line>
-              </svg>
-              {t('نظام ERP', 'ERP System')}
+              ERP
             </a>
 
             {/* Advanced Sidebar Toggle */}
@@ -202,6 +248,84 @@ const Header: React.FC = () => {
                 </Button>
               </Link>
             </div>
+
+            {/* Authenticated Account Menu */}
+            {user && (
+              <div className="hidden md:flex">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      type="button"
+                      className="rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-construction-accent focus-visible:ring-offset-2"
+                      aria-label={t('فتح قائمة الحساب', 'Open account menu')}
+                      title={displayName}
+                    >
+                      <Avatar className="h-10 w-10 border-2 border-construction-primary shadow-sm">
+                        <AvatarImage src={avatarUrl} alt={displayName} className="object-cover" />
+                        <AvatarFallback className="bg-construction-accent text-sm font-bold text-construction-primary">
+                          {userInitials}
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+
+                  <DropdownMenuContent
+                    align="start"
+                    sideOffset={8}
+                    className="w-64 p-2"
+                    dir={language === 'ar' ? 'rtl' : 'ltr'}
+                  >
+                    <div className="flex items-center gap-3 px-2 py-2.5">
+                      <Avatar className="h-9 w-9 border border-border">
+                        <AvatarImage src={avatarUrl} alt={displayName} className="object-cover" />
+                        <AvatarFallback className="bg-construction-accent text-xs font-bold text-construction-primary">
+                          {userInitials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold text-foreground">{displayName}</p>
+                        <p className="truncate text-xs text-muted-foreground">
+                          {user.email || user.phone || ''}
+                        </p>
+                      </div>
+                    </div>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="cursor-pointer">
+                        <User className="h-4 w-4" />
+                        <span>{t('ملف التعريف', 'Profile')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem asChild>
+                      <Link to="/settings" className="cursor-pointer">
+                        <Settings className="h-4 w-4" />
+                        <span>{t('الإعدادات', 'Settings')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator />
+
+                    <DropdownMenuItem asChild>
+                      <Link to="/contact" className="cursor-pointer">
+                        <HelpCircle className="h-4 w-4" />
+                        <span>{t('المساعدة', 'Help')}</span>
+                      </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem
+                      onSelect={() => void handleLogout()}
+                      className="cursor-pointer text-destructive focus:text-destructive"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span>{t('تسجيل الخروج', 'Sign out')}</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}

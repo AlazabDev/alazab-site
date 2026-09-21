@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import AuthCard from './AuthCard';
 import { Separator } from "@/components/ui/separator";
-import { Mail, Lock, Loader2 } from 'lucide-react';
+import { Mail, Lock, Loader2, MessageCircle } from 'lucide-react';
 
 interface LoginFormProps {
   onSwitchToSignup: () => void;
@@ -76,13 +76,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
     }
   };
 
-  const handleSocialLogin = async (provider: 'google' | 'facebook') => {
+  const handleSocialLogin = async (provider: 'google' | 'facebook' | 'azure') => {
     setSocialLoading(provider);
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/auth`,
+          ...(provider === 'azure' ? { scopes: 'email' } : {}),
         },
       });
 
@@ -144,6 +145,37 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup, onSwitchToReset
               </svg>
             )}
             <span className="text-sm font-medium">Facebook</span>
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => handleSocialLogin('azure')}
+            disabled={!!socialLoading}
+            className="w-full flex items-center justify-center gap-2 h-11"
+          >
+            {socialLoading === 'azure' ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2 2h9v9H2z" fill="#F25022"/>
+                <path d="M13 2h9v9h-9z" fill="#7FBA00"/>
+                <path d="M2 13h9v9H2z" fill="#00A4EF"/>
+                <path d="M13 13h9v9h-9z" fill="#FFB900"/>
+              </svg>
+            )}
+            <span className="text-sm font-medium">Azure</span>
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => onSwitchToWhatsApp?.()}
+            disabled={!!socialLoading}
+            className="w-full flex items-center justify-center gap-2 h-11"
+          >
+            <MessageCircle className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-medium">WhatsApp</span>
           </Button>
         </div>
 

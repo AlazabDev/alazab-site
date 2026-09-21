@@ -485,11 +485,11 @@ export async function exportReviewFiles(report: ReviewReportPayload): Promise<vo
   const stamp = timestamp();
   const xlsx = createXlsx(report);
   downloadBlob(
-    new Blob([xlsx], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),
+    new Blob([xlsx as BlobPart], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),
     `auf-maintenance-review-${stamp}.xlsx`,
   );
 
   const pdf = createPdf(buildReportCanvases(report));
   await new Promise((resolve) => window.setTimeout(resolve, 150));
-  downloadBlob(new Blob([pdf], { type: "application/pdf" }), `auf-maintenance-review-${stamp}.pdf`);
+  downloadBlob(new Blob([pdf as BlobPart], { type: "application/pdf" }), `auf-maintenance-review-${stamp}.pdf`);
 }

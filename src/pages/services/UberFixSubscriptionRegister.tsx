@@ -53,7 +53,7 @@ const UberFixSubscriptionRegister: React.FC = () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
-      const { error } = await supabase.from('uberfix_subscriptions').insert({
+      const { error } = await supabase.from('uberfix_subscriptions' as never).insert({
         full_name: values.full_name,
         phone_number: values.phone_number,
         store_name: values.store_name,
@@ -62,7 +62,7 @@ const UberFixSubscriptionRegister: React.FC = () => {
         notes: values.notes,
         user_id: user?.id || null, // Link to logged-in user if exists
         status: 'pending'
-      });
+      } as never);
 
       if (error) throw error;
 

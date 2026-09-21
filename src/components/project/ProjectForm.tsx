@@ -23,9 +23,7 @@ const projectFormSchema = z.object({
   name: z.string().min(2, {
     message: "يجب أن يكون عنوان المشروع بطول حرفين على الأقل",
   }),
-  category: z.string({
-    required_error: "يرجى اختيار فئة المشروع",
-  }).optional(),
+  category: z.string().optional(),
   location: z.string().min(2, {
     message: "يرجى إدخال موقع المشروع",
   }).optional(),

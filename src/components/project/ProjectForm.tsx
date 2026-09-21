@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from "@/components/ui/button";
@@ -23,9 +23,7 @@ const projectFormSchema = z.object({
   name: z.string().min(2, {
     message: "يجب أن يكون عنوان المشروع بطول حرفين على الأقل",
   }),
-  category: z.string({
-    required_error: "يرجى اختيار فئة المشروع",
-  }).optional(),
+  category: z.string().optional(),
   location: z.string().min(2, {
     message: "يرجى إدخال موقع المشروع",
   }).optional(),
@@ -63,7 +61,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
 }) => {
   const { toast } = useToast();
   const form = useForm<ProjectFormValues>({
-    resolver: zodResolver(projectFormSchema),
+    resolver: zodResolver(projectFormSchema) as Resolver<ProjectFormValues>,
     defaultValues: {
       name: initialData?.name || "",
       category: initialData?.category || "",

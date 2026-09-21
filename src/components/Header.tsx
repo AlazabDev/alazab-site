@@ -272,8 +272,7 @@ const Header: React.FC = () => {
                   <DropdownMenuContent
                     align="start"
                     sideOffset={8}
-                    className="w-64 p-2"
-                    dir={language === 'ar' ? 'rtl' : 'ltr'}
+                    className={language === 'ar' ? 'w-64 p-2 text-right' : 'w-64 p-2'}
                   >
                     <div className="flex items-center gap-3 px-2 py-2.5">
                       <Avatar className="h-9 w-9 border border-border">

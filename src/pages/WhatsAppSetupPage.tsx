@@ -78,8 +78,8 @@ const WhatsAppSetupPage: React.FC = () => {
     const phoneResult = phoneSchema.safeParse(customerPhone);
     const newErrors: { name?: string; phone?: string } = {};
 
-    if (!nameResult.success) newErrors.name = nameResult.error.errors[0].message;
-    if (!phoneResult.success) newErrors.phone = phoneResult.error.errors[0].message;
+    if (!nameResult.success) newErrors.name = nameResult.error.issues[0].message;
+    if (!phoneResult.success) newErrors.phone = phoneResult.error.issues[0].message;
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

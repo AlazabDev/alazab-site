@@ -14,6 +14,7 @@ interface LoginFormProps {
   onSwitchToSignup: () => void;
   onSwitchToReset: () => void;
   onSwitchToWhatsApp?: () => void;
+  onSwitchToPhone?: () => void;
   onSuccess: () => void;
 }
 

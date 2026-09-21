@@ -278,7 +278,7 @@ export async function exportReviewWorkbookV2(report: ReviewReportPayloadV2) {
   ]);
 
   downloadBlob(
-    new Blob([workbook], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),
+    new Blob([workbook as BlobPart], { type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }),
     `auf-maintenance-review-${new Date().toISOString().slice(0,10)}.xlsx`,
   );
 }
@@ -534,7 +534,7 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
 export function openPrintableReviewReportV2(report: ReviewReportPayloadV2) {
   const pdf = createPdf(buildClientReportCanvases(report));
   downloadBlob(
-    new Blob([pdf], { type:"application/pdf" }),
+    new Blob([pdf as BlobPart], { type:"application/pdf" }),
     `auf-maintenance-review-${new Date().toISOString().slice(0,10)}.pdf`,
   );
 }

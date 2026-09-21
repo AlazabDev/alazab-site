@@ -107,7 +107,7 @@ const DetailsStep: React.FC<DetailsStepProps> = ({ formData, updateFormData, nex
                 onSelect={handleDateSelect}
                 locale={ar}
                 disabled={(date) => date < new Date()}
-                initialFocus
+                autoFocus
                 className={cn("p-3 pointer-events-auto")}
               />
             </PopoverContent>

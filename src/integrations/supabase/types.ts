@@ -497,6 +497,30 @@ export type Database = {
         }
         Relationships: []
       }
+      approval_memberships: {
+        Row: {
+          active: boolean
+          created_at: string
+          role: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          role: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          role?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -1269,6 +1293,421 @@ export type Database = {
             columns: ["system_id"]
             isOneToOne: false
             referencedRelation: "systems"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_audit_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_name: string
+          created_at: string
+          document_id: string
+          id: string
+          metadata: Json | null
+          new_value: Json | null
+          old_value: Json | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_name: string
+          created_at?: string
+          document_id: string
+          id?: string
+          metadata?: Json | null
+          new_value?: Json | null
+          old_value?: Json | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_name?: string
+          created_at?: string
+          document_id?: string
+          id?: string
+          metadata?: Json | null
+          new_value?: Json | null
+          old_value?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_audit_logs_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_comments: {
+        Row: {
+          created_at: string
+          document_id: string
+          id: string
+          page: number | null
+          resolved: boolean
+          resolved_at: string | null
+          resolved_by: string | null
+          text: string
+          updated_at: string
+          user_id: string | null
+          user_name: string
+          x_position: number | null
+          y_position: number | null
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          id?: string
+          page?: number | null
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          text: string
+          updated_at?: string
+          user_id?: string | null
+          user_name: string
+          x_position?: number | null
+          y_position?: number | null
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          id?: string
+          page?: number | null
+          resolved?: boolean
+          resolved_at?: string | null
+          resolved_by?: string | null
+          text?: string
+          updated_at?: string
+          user_id?: string | null
+          user_name?: string
+          x_position?: number | null
+          y_position?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_comments_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_reviewers: {
+        Row: {
+          access_count: number
+          access_token_hash: string | null
+          created_at: string
+          created_by: string | null
+          department: string
+          document_id: string
+          email_sent_at: string | null
+          id: string
+          last_accessed_at: string | null
+          rejection_reason: string | null
+          reviewer_email: string
+          reviewer_name: string
+          signature_data: string | null
+          signed_at: string | null
+          status: string
+          token_expires_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          access_count?: number
+          access_token_hash?: string | null
+          created_at?: string
+          created_by?: string | null
+          department: string
+          document_id: string
+          email_sent_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          rejection_reason?: string | null
+          reviewer_email: string
+          reviewer_name: string
+          signature_data?: string | null
+          signed_at?: string | null
+          status?: string
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          access_count?: number
+          access_token_hash?: string | null
+          created_at?: string
+          created_by?: string | null
+          department?: string
+          document_id?: string
+          email_sent_at?: string | null
+          id?: string
+          last_accessed_at?: string | null
+          rejection_reason?: string | null
+          reviewer_email?: string
+          reviewer_name?: string
+          signature_data?: string | null
+          signed_at?: string | null
+          status?: string
+          token_expires_at?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_reviewers_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_signatures: {
+        Row: {
+          document_id: string
+          id: string
+          ip_address: unknown
+          pdf_hash: string | null
+          reviewer_id: string | null
+          signature_data: string
+          signed_at: string
+          signed_pdf_url: string | null
+          signer_id: string | null
+          signer_name: string
+        }
+        Insert: {
+          document_id: string
+          id?: string
+          ip_address?: unknown
+          pdf_hash?: string | null
+          reviewer_id?: string | null
+          signature_data: string
+          signed_at?: string
+          signed_pdf_url?: string | null
+          signer_id?: string | null
+          signer_name: string
+        }
+        Update: {
+          document_id?: string
+          id?: string
+          ip_address?: unknown
+          pdf_hash?: string | null
+          reviewer_id?: string | null
+          signature_data?: string
+          signed_at?: string
+          signed_pdf_url?: string | null
+          signer_id?: string | null
+          signer_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_signatures_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "document_signatures_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: false
+            referencedRelation: "document_reviewers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      document_sync_logs: {
+        Row: {
+          completed_at: string | null
+          document_type: string
+          error_count: number
+          id: string
+          items_synced: number
+          message: string | null
+          page: number
+          requested_by: string | null
+          started_at: string
+          status: string
+          synced_count: number
+        }
+        Insert: {
+          completed_at?: string | null
+          document_type: string
+          error_count?: number
+          id?: string
+          items_synced?: number
+          message?: string | null
+          page?: number
+          requested_by?: string | null
+          started_at?: string
+          status: string
+          synced_count?: number
+        }
+        Update: {
+          completed_at?: string | null
+          document_type?: string
+          error_count?: number
+          id?: string
+          items_synced?: number
+          message?: string | null
+          page?: number
+          requested_by?: string | null
+          started_at?: string
+          status?: string
+          synced_count?: number
+        }
+        Relationships: []
+      }
+      document_versions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          document_id: string
+          file_bucket: string | null
+          file_path: string | null
+          file_url: string | null
+          id: string
+          notes: string | null
+          source: string
+          version_number: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          document_id: string
+          file_bucket?: string | null
+          file_path?: string | null
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          source: string
+          version_number?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          document_id?: string
+          file_bucket?: string | null
+          file_path?: string | null
+          file_url?: string | null
+          id?: string
+          notes?: string | null
+          source?: string
+          version_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "document_versions_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      documents: {
+        Row: {
+          ai_extracted_data: Json | null
+          ai_summary: string | null
+          assigned_approver_id: string | null
+          assigned_reviewer_id: string | null
+          client_email: string | null
+          client_name: string
+          created_at: string
+          created_by: string | null
+          currency: string
+          daftra_id: string | null
+          date: string
+          description: string | null
+          file_bucket: string | null
+          file_path: string | null
+          file_url: string | null
+          html_url: string | null
+          id: string
+          number: string
+          payment_status: string
+          pdf_url: string | null
+          project_id: string | null
+          raw_json: Json | null
+          sender_name: string | null
+          status: string
+          synced_at: string | null
+          title: string | null
+          total: number
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          ai_extracted_data?: Json | null
+          ai_summary?: string | null
+          assigned_approver_id?: string | null
+          assigned_reviewer_id?: string | null
+          client_email?: string | null
+          client_name?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          daftra_id?: string | null
+          date?: string
+          description?: string | null
+          file_bucket?: string | null
+          file_path?: string | null
+          file_url?: string | null
+          html_url?: string | null
+          id?: string
+          number: string
+          payment_status?: string
+          pdf_url?: string | null
+          project_id?: string | null
+          raw_json?: Json | null
+          sender_name?: string | null
+          status?: string
+          synced_at?: string | null
+          title?: string | null
+          total?: number
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          ai_extracted_data?: Json | null
+          ai_summary?: string | null
+          assigned_approver_id?: string | null
+          assigned_reviewer_id?: string | null
+          client_email?: string | null
+          client_name?: string
+          created_at?: string
+          created_by?: string | null
+          currency?: string
+          daftra_id?: string | null
+          date?: string
+          description?: string | null
+          file_bucket?: string | null
+          file_path?: string | null
+          file_url?: string | null
+          html_url?: string | null
+          id?: string
+          number?: string
+          payment_status?: string
+          pdf_url?: string | null
+          project_id?: string | null
+          raw_json?: Json | null
+          sender_name?: string | null
+          status?: string
+          synced_at?: string | null
+          title?: string | null
+          total?: number
+          type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documents_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
             referencedColumns: ["id"]
           },
         ]
@@ -2996,6 +3435,68 @@ export type Database = {
           },
         ]
       }
+      quote_items: {
+        Row: {
+          approval_status: string
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          daftra_item_id: string | null
+          document_id: string
+          id: string
+          notes: string | null
+          product_description: string | null
+          product_name: string
+          quantity: number
+          rejection_reason: string | null
+          total_price: number
+          unit_price: number
+          updated_at: string
+        }
+        Insert: {
+          approval_status?: string
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          daftra_item_id?: string | null
+          document_id: string
+          id?: string
+          notes?: string | null
+          product_description?: string | null
+          product_name: string
+          quantity?: number
+          rejection_reason?: string | null
+          total_price?: number
+          unit_price?: number
+          updated_at?: string
+        }
+        Update: {
+          approval_status?: string
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          daftra_item_id?: string | null
+          document_id?: string
+          id?: string
+          notes?: string | null
+          product_description?: string | null
+          product_name?: string
+          quantity?: number
+          rejection_reason?: string | null
+          total_price?: number
+          unit_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quote_items_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       request_server: {
         Row: {
           data: Json | null
@@ -4460,6 +4961,10 @@ export type Database = {
           total_conversations: number
         }[]
       }
+      has_approval_role: {
+        Args: { _roles: string[]; _user_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -4468,6 +4973,7 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: never; Returns: boolean }
+      is_approval_member: { Args: { _user_id?: string }; Returns: boolean }
       log_security_event: {
         Args: {
           _actor_email?: string

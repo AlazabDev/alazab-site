@@ -11,13 +11,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Eye, MoreHorizontal } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Eye } from 'lucide-react';
 
 interface DocumentsTableProps {
   documents: Document[];
@@ -64,7 +58,7 @@ export function DocumentsTable({ documents }: DocumentsTableProps) {
             >
               <TableCell className="font-medium">
                 <Link 
-                  to={`/documents/${doc.id}`}
+                  to={`/approvals/documents/${doc.id}`}
                   className="hover:text-primary transition-colors"
                 >
                   {doc.number}
@@ -104,22 +98,11 @@ export function DocumentsTable({ documents }: DocumentsTableProps) {
                     className="h-8 w-8"
                     asChild
                   >
-                    <Link to={`/documents/${doc.id}`}>
+                    <Link to={`/approvals/documents/${doc.id}`}>
                       <Eye className="w-4 h-4" />
                     </Link>
                   </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreHorizontal className="w-4 h-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      <DropdownMenuItem>إرسال للمراجعة</DropdownMenuItem>
-                      <DropdownMenuItem>تحميل PDF</DropdownMenuItem>
-                      <DropdownMenuItem>عرض السجل</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+
                 </div>
               </TableCell>
             </TableRow>

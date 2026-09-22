@@ -4160,6 +4160,48 @@ export type Database = {
           },
         ]
       }
+      sso_apps_public: {
+        Row: {
+          base_url: string | null
+          color: string | null
+          description_ar: string | null
+          description_en: string | null
+          id: string | null
+          is_default: boolean | null
+          logo_url: string | null
+          name_ar: string | null
+          name_en: string | null
+          slug: string | null
+          sort_order: number | null
+        }
+        Insert: {
+          base_url?: string | null
+          color?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          id?: string | null
+          is_default?: boolean | null
+          logo_url?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          slug?: string | null
+          sort_order?: number | null
+        }
+        Update: {
+          base_url?: string | null
+          color?: string | null
+          description_ar?: string | null
+          description_en?: string | null
+          id?: string | null
+          is_default?: boolean | null
+          logo_url?: string | null
+          name_ar?: string | null
+          name_en?: string | null
+          slug?: string | null
+          sort_order?: number | null
+        }
+        Relationships: []
+      }
       storage_object_resolution: {
         Row: {
           availability: string | null

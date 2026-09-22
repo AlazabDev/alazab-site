@@ -2,6 +2,7 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { UserProfileProvider } from './contexts/UserProfileContext';
 import { AuthProvider } from './hooks/useAuth';
@@ -10,6 +11,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import JsonLd from './components/SEO/JsonLd';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminRoute from './components/auth/AdminRoute';
+import ApprovalsRoute from './components/auth/ApprovalsRoute';
 import ScrollToTop from './components/shared/ScrollToTop';
 import { PublicShell, OperationalShell, AdminShell } from './components/layout/AppShells';
 import { supabase } from '@/integrations/supabase/client';
@@ -78,6 +80,18 @@ const AdminContentManager = lazy(() => import('./pages/AdminContentManager'));
 const AdminServerDashboard = lazy(() => import('./pages/AdminServerDashboard'));
 const TikTokLinkPage = lazy(() => import('./pages/TikTokLinkPage'));
 const ReceiptsPage = lazy(() => import('./pages/ReceiptsPage'));
+const ApprovalDashboard = lazy(() => import('./pages/Dashboard'));
+const ApprovalDocuments = lazy(() => import('./pages/Documents'));
+const ApprovalDocumentDetail = lazy(() => import('./pages/DocumentDetail'));
+const ApprovalUploadDocument = lazy(() => import('./pages/UploadDocument'));
+const ApprovalQuotes = lazy(() => import('./pages/Quotes'));
+const ApprovalQuoteReview = lazy(() => import('./pages/QuoteReview'));
+const ApprovalDaftraInvoices = lazy(() => import('./pages/DaftraInvoices'));
+const ApprovalInvoiceView = lazy(() => import('./pages/InvoiceView'));
+const ApprovalUsers = lazy(() => import('./pages/Users'));
+const ApprovalSync = lazy(() => import('./pages/Sync'));
+const ApprovalSystemReport = lazy(() => import('./pages/SystemReport'));
+const ExternalReviewDocument = lazy(() => import('./pages/ReviewDocument'));
 const ContentSectionPage = lazy(() => import('./content/lib/ContentPages').then((m) => ({ default: m.ContentSectionPage })));
 const ContentArticlePage = lazy(() => import('./content/lib/ContentPages').then((m) => ({ default: m.ContentArticlePage })));
 
@@ -86,6 +100,16 @@ const PageLoader = () => (
     <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-primary" />
   </div>
 );
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 const AppDirectionProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { isRTL } = useLanguage();
@@ -111,8 +135,9 @@ function App() {
     <HelmetProvider>
       <LanguageProvider>
         <AppDirectionProvider>
-          <AuthProvider>
-            <UserProfileProvider>
+          <QueryClientProvider client={queryClient}>
+            <AuthProvider>
+              <UserProfileProvider>
               <ErrorBoundary>
                 <BrowserRouter>
                   <RecoveryRedirect />
@@ -121,6 +146,7 @@ function App() {
                     <Routes>
                       <Route path="/auth" element={<AuthPage />} />
                       <Route path="/auth/reset-password" element={<ResetPasswordPage />} />
+                      <Route path="/review/:id" element={<ExternalReviewDocument />} />
 
                       <Route element={<PublicShell />}>
                         <Route path="/" element={<Index />} />
@@ -189,6 +215,17 @@ function App() {
                         <Route path="/maintenance-reports" element={protectedPage(<MaintenanceReports />)} />
                         <Route path="/whatsapp-setup" element={<WhatsAppSetupPage />} />
                         <Route path="/receipts" element={<ReceiptsPage />} />
+                        <Route path="/approvals" element={<ApprovalsRoute><ApprovalDashboard /></ApprovalsRoute>} />
+                        <Route path="/approvals/documents" element={<ApprovalsRoute><ApprovalDocuments /></ApprovalsRoute>} />
+                        <Route path="/approvals/documents/:id" element={<ApprovalsRoute><ApprovalDocumentDetail /></ApprovalsRoute>} />
+                        <Route path="/approvals/upload" element={<ApprovalsRoute allowedRoles={['owner','admin','reviewer','approver']}><ApprovalUploadDocument /></ApprovalsRoute>} />
+                        <Route path="/approvals/quotes" element={<ApprovalsRoute><ApprovalQuotes /></ApprovalsRoute>} />
+                        <Route path="/approvals/quotes/:id" element={<ApprovalsRoute allowedRoles={['owner','admin','reviewer','approver']}><ApprovalQuoteReview /></ApprovalsRoute>} />
+                        <Route path="/approvals/daftra-invoices" element={<ApprovalsRoute><ApprovalDaftraInvoices /></ApprovalsRoute>} />
+                        <Route path="/approvals/invoices/:id" element={<ApprovalsRoute><ApprovalInvoiceView /></ApprovalsRoute>} />
+                        <Route path="/approvals/sync" element={<ApprovalsRoute allowedRoles={['owner','admin']}><ApprovalSync /></ApprovalsRoute>} />
+                        <Route path="/approvals/system-report" element={<ApprovalsRoute allowedRoles={['owner','admin']}><ApprovalSystemReport /></ApprovalsRoute>} />
+                        <Route path="/approvals/users" element={<ApprovalsRoute allowedRoles={['owner','admin']}><ApprovalUsers /></ApprovalsRoute>} />
                       </Route>
 
                       <Route element={<AdminShell />}>
@@ -210,8 +247,9 @@ function App() {
                   <Toaster />
                 </BrowserRouter>
               </ErrorBoundary>
-            </UserProfileProvider>
-          </AuthProvider>
+              </UserProfileProvider>
+            </AuthProvider>
+          </QueryClientProvider>
         </AppDirectionProvider>
       </LanguageProvider>
     </HelmetProvider>

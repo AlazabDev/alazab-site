@@ -41,6 +41,8 @@ import { ReviewLinksDialog } from '@/components/documents/ReviewLinksDialog';
 import { SignaturePanel } from '@/components/review/SignaturePanel';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useApprovalAccess } from '@/hooks/useApprovalAccess';
+import { FileUploader } from '@/components/review/FileUploader';
+import UserAvatar from '@/components/shared/UserAvatar';
 import { supabase } from '@/integrations/supabase/client';
 
 interface QuoteItem {
@@ -421,11 +423,7 @@ export default function DocumentDetail() {
                 <CardContent className="p-4 space-y-4">
                   {/* New Comment */}
                   <div className="flex gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                        م
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar className="h-10 w-10" />
                     <div className="flex-1">
                       <Textarea
                         placeholder="أضف تعليقك هنا..."
@@ -483,6 +481,17 @@ export default function DocumentDetail() {
             <TabsContent value="versions" className="mt-4">
               <Card>
                 <CardContent className="p-4">
+                  {canReview && (
+                    <div className="mb-5">
+                      <FileUploader
+                        documentId={document.id}
+                        onUploadComplete={() => {
+                          void queryClient.invalidateQueries({ queryKey: ['documentVersions', document.id] });
+                          void queryClient.invalidateQueries({ queryKey: ['document', document.id] });
+                        }}
+                      />
+                    </div>
+                  )}
                   {versions.length === 0 ? (
                     <p className="text-center text-muted-foreground py-4">لا توجد إصدارات</p>
                   ) : (

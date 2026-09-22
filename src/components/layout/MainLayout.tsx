@@ -1,29 +1,29 @@
-import { ReactNode } from 'react';
+import React from 'react';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { SEO } from '@/components/SEO';
-import { cn } from '@/lib/utils';
 
 interface MainLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
   title: string;
   subtitle?: string;
 }
 
 export function MainLayout({ children, title, subtitle }: MainLayoutProps) {
   return (
-    <div className="min-h-screen bg-gradient-hero">
-      <SEO
-        title={`${title} | نظام اعتماد المستندات`}
-        description={subtitle || 'نظام متكامل لإدارة ومراجعة واعتماد المستندات والفواتير وعروض الأسعار مع التكامل مع دفترة.'}
-      />
-      <Sidebar />
-      <main className={cn("mr-64 min-h-screen transition-all duration-300")}>
-        <Header title={title} subtitle={subtitle} />
-        <div className="p-6">
-          {children}
-        </div>
-      </main>
-    </div>
+    <SidebarProvider>
+      <div className="flex min-h-svh w-full bg-muted/20">
+        <Sidebar />
+        <SidebarInset>
+          <SEO
+            title={`${title} | نظام اعتماد المستندات | العزب`}
+            description={subtitle || 'نظام العزب لإدارة ومراجعة واعتماد المستندات والفواتير وعروض الأسعار.'}
+          />
+          <Header title={title} subtitle={subtitle} />
+          <div className="flex-1 p-3 sm:p-6">{children}</div>
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
   );
 }

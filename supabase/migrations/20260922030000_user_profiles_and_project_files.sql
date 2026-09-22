@@ -126,8 +126,8 @@ for select to authenticated using (bucket_id = 'project-files');
 
 drop policy if exists project_files_storage_insert on storage.objects;
 create policy project_files_storage_insert on storage.objects
-for insert to authenticated with check (bucket_id = 'project-files');
+for insert to authenticated with check (bucket_id = 'project-files' and split_part(name, '/', 2) = (select auth.uid())::text);
 
 drop policy if exists project_files_storage_delete on storage.objects;
 create policy project_files_storage_delete on storage.objects
-for delete to authenticated using (bucket_id = 'project-files');
+for delete to authenticated using (bucket_id = 'project-files' and (split_part(name, '/', 2) = (select auth.uid())::text or public.is_admin()));

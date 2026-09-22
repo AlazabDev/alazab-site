@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Upload, FileType, AlertCircle, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useAuth } from '@/hooks/useAuth';
 
 interface ProjectFileUploadProps {
   projectId: string;
@@ -16,12 +17,13 @@ const ProjectFileUpload: React.FC<ProjectFileUploadProps> = ({ projectId, onFile
   const [files, setFiles] = useState<FileList | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const formatFileSize = (bytes: number): string =>
     bytes < 1024 ? `${bytes} B` : bytes < 1048576 ? `${(bytes / 1024).toFixed(2)} KB` : `${(bytes / 1048576).toFixed(2)} MB`;
 
   const handleUpload = async (): Promise<void> => {
-    if (!files?.length) return;
+    if (!files?.length || !user) return;
     setUploading(true);
     setError(null);
     let successCount = 0;
@@ -29,7 +31,7 @@ const ProjectFileUpload: React.FC<ProjectFileUploadProps> = ({ projectId, onFile
     try {
       for (const file of Array.from(files)) {
         const safeName = file.name.replace(/[^\p{L}\p{N}._-]+/gu, '-');
-        const objectPath = `${projectId}/${crypto.randomUUID()}-${safeName}`;
+        const objectPath = `${projectId}/${user.id}/${crypto.randomUUID()}-${safeName}`;
 
         const { error: uploadError } = await supabase.storage
           .from('project-files')

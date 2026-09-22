@@ -172,24 +172,36 @@ export type Database = {
       }
       adp_profiles: {
         Row: {
+          address: string | null
+          avatar_url: string | null
           created_at: string
           email: string | null
           full_name: string | null
           id: string
+          phone: string | null
+          preferences: Json
           updated_at: string
         }
         Insert: {
+          address?: string | null
+          avatar_url?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
           id: string
+          phone?: string | null
+          preferences?: Json
           updated_at?: string
         }
         Update: {
+          address?: string | null
+          avatar_url?: string | null
           created_at?: string
           email?: string | null
           full_name?: string | null
           id?: string
+          phone?: string | null
+          preferences?: Json
           updated_at?: string
         }
         Relationships: []
@@ -2467,6 +2479,50 @@ export type Database = {
           },
           {
             foreignKeyName: "project_comments_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_files: {
+        Row: {
+          bucket_id: string
+          created_at: string
+          file_size: number | null
+          id: string
+          mime_type: string | null
+          name: string
+          object_path: string
+          project_id: string
+          uploaded_by: string
+        }
+        Insert: {
+          bucket_id?: string
+          created_at?: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          name: string
+          object_path: string
+          project_id: string
+          uploaded_by?: string
+        }
+        Update: {
+          bucket_id?: string
+          created_at?: string
+          file_size?: number | null
+          id?: string
+          mime_type?: string | null
+          name?: string
+          object_path?: string
+          project_id?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_files_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"

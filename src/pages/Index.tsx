@@ -66,7 +66,7 @@ const Index: React.FC = () => {
         <link rel="canonical" href="https://alazab.com" />
       </Helmet>
 
-      <div className="bg-white min-h-screen" dir="rtl">
+      <div className="bg-white min-h-screen">
         <Header />
         <main className="space-y-0">
           <Hero />

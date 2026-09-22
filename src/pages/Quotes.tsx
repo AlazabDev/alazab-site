@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useDocuments } from "@/hooks/useDocuments";
+import { useApprovalAccess } from '@/hooks/useApprovalAccess';
 import { toast } from "sonner";
 import { 
   Search, 
@@ -24,6 +25,7 @@ export default function Quotes() {
   const { data: documents = [], isLoading, refetch } = useDocuments();
   const [searchQuery, setSearchQuery] = useState("");
   const [syncing, setSyncing] = useState(false);
+  const { canManage } = useApprovalAccess();
 
   // Filter only quotes
   const quotes = documents.filter(doc => doc.type === 'quote');
@@ -37,7 +39,7 @@ export default function Quotes() {
     setSyncing(true);
     try {
       const response = await supabase.functions.invoke('sync-daftra', {
-        body: { type: 'quotes', limit: 100 }
+        body: { type: 'quotes', page: 1, limit: 15 }
       });
 
       if (response.error) {
@@ -82,20 +84,14 @@ export default function Quotes() {
               إدارة ومراجعة عروض الأسعار المسحوبة من دفترة
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button 
-              onClick={handleSync} 
-              disabled={syncing}
-              className="bg-primary hover:bg-primary/90"
-            >
-              {syncing ? (
-                <RefreshCw className="w-4 h-4 ml-2 animate-spin" />
-              ) : (
-                <RefreshCw className="w-4 h-4 ml-2" />
-              )}
-              مزامنة من دفترة
-            </Button>
-          </div>
+          {canManage && (
+            <div className="flex gap-2">
+              <Button onClick={() => void handleSync()} disabled={syncing}>
+                <RefreshCw className={`ml-2 h-4 w-4 ${syncing ? 'animate-spin' : ''}`} />
+                مزامنة من دفترة
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Search */}
@@ -122,7 +118,7 @@ export default function Quotes() {
             <CardContent className="p-4 text-center">
               <Clock className="w-8 h-8 mx-auto text-yellow-500 mb-2" />
               <p className="text-2xl font-bold">
-                {quotes.filter(q => q.status === 'pending').length}
+                {quotes.filter(q => ['draft', 'in_review', 'ready_to_approve'].includes(q.status)).length}
               </p>
               <p className="text-sm text-muted-foreground">في الانتظار</p>
             </CardContent>
@@ -131,7 +127,7 @@ export default function Quotes() {
             <CardContent className="p-4 text-center">
               <CheckCircle2 className="w-8 h-8 mx-auto text-green-500 mb-2" />
               <p className="text-2xl font-bold">
-                {quotes.filter(q => q.status === 'approved').length}
+                {quotes.filter(q => ['approved', 'signed'].includes(q.status)).length}
               </p>
               <p className="text-sm text-muted-foreground">معتمد</p>
             </CardContent>
@@ -140,9 +136,9 @@ export default function Quotes() {
             <CardContent className="p-4 text-center">
               <XCircle className="w-8 h-8 mx-auto text-red-500 mb-2" />
               <p className="text-2xl font-bold">
-                {quotes.filter(q => q.status === 'rejected').length}
+                {quotes.filter(q => q.status === 'needs_fix').length}
               </p>
-              <p className="text-sm text-muted-foreground">مرفوض</p>
+              <p className="text-sm text-muted-foreground">يحتاج تعديل</p>
             </CardContent>
           </Card>
         </div>
@@ -160,10 +156,12 @@ export default function Quotes() {
               <p className="text-muted-foreground mb-4">
                 اضغط على "مزامنة من دفترة" لسحب عروض الأسعار
               </p>
-              <Button onClick={handleSync} disabled={syncing}>
-                <RefreshCw className="w-4 h-4 ml-2" />
-                مزامنة الآن
-              </Button>
+              {canManage && (
+                <Button onClick={() => void handleSync()} disabled={syncing}>
+                  <RefreshCw className={`ml-2 h-4 w-4 ${syncing ? 'animate-spin' : ''}`} />
+                  مزامنة الآن
+                </Button>
+              )}
             </CardContent>
           </Card>
         ) : (
@@ -197,7 +195,7 @@ export default function Quotes() {
                       )}
                       <Button 
                         size="sm"
-                        onClick={() => navigate(`/quote-review/${quote.id}`)}
+                        onClick={() => navigate(`/approvals/quotes/${quote.id}`)}
                       >
                         <Eye className="w-4 h-4 ml-2" />
                         مراجعة العناصر

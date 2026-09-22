@@ -43,12 +43,13 @@ router.get('/callback', async (req, res) => {
     try {
         const { code, state, error } = req.query;
         
-        // التحقق من الـ state لمنع هجمات CSRF
-        const savedState = req.cookies.tiktok_state;
-        if (state !== savedState) {
+        // التحقق من الـ state لمنع هجمات CSRF (يجب وجود الاثنين وتطابقهما)
+        const savedState = req.cookies ? req.cookies.tiktok_state : undefined;
+        if (!state || !savedState || state !== savedState) {
             logger.warn(`TikTok: عدم تطابق الـ state`);
             return res.status(403).json({ error: 'Invalid state parameter' });
         }
+        res.clearCookie('tiktok_state');
         
         if (error) {
             logger.error(`TikTok: خطأ من المنصة: ${error}`);

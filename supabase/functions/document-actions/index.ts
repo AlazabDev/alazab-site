@@ -94,6 +94,7 @@ const updateDocumentStatus = async (
   actorName: string,
   comment?: string,
   signatureData?: string,
+  requestIp?: string | null,
 ) => {
   const { data: document, error: docError } = await admin
     .from("documents")
@@ -114,13 +115,12 @@ const updateDocumentStatus = async (
       throw new Error("VALID_SIGNATURE_REQUIRED");
     }
 
-    const ip = (reqIpHolder.value || "0.0.0.0").split(",")[0].trim();
     const { error: signatureError } = await admin.from("document_signatures").insert({
       document_id: documentId,
       signer_id: actorId,
       signer_name: actorName,
       signature_data: signatureData,
-      ip_address: ip === "unknown" ? null : ip,
+      ip_address: requestIp || null,
     });
     if (signatureError) throw signatureError;
   }
@@ -157,16 +157,14 @@ const updateDocumentStatus = async (
   return data;
 };
 
-const reqIpHolder = { value: "unknown" };
+const getRequestIp = (req: Request) => {
+  const value = req.headers.get("cf-connecting-ip") || req.headers.get("x-forwarded-for") || "";
+  return value.split(",")[0].trim() || null;
+};
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders(req) });
   if (req.method !== "POST") return json(req, { success: false, error: "METHOD_NOT_ALLOWED" }, 405);
-
-  reqIpHolder.value =
-    req.headers.get("x-forwarded-for") ||
-    req.headers.get("cf-connecting-ip") ||
-    "unknown";
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -216,6 +214,7 @@ Deno.serve(async (req: Request) => {
         actorName,
         body.comment,
         body.signatureData,
+        getRequestIp(req),
       );
       return json(req, { success: true, action: body.action, data });
     }

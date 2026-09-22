@@ -1,15 +1,10 @@
-import { Bell, Search, User } from 'lucide-react';
+import React, { FormEvent, useState } from 'react';
+import { Home, Search } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { SidebarTrigger } from '@/components/ui/sidebar';
+import UserAccountMenu from '@/components/shared/UserAccountMenu';
 
 interface HeaderProps {
   title: string;
@@ -17,66 +12,33 @@ interface HeaderProps {
 }
 
 export function Header({ title, subtitle }: HeaderProps) {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState('');
+
+  const submitSearch = (event: FormEvent) => {
+    event.preventDefault();
+    const value = query.trim();
+    navigate(value ? `/approvals/documents?search=${encodeURIComponent(value)}` : '/approvals/documents');
+  };
+
   return (
-    <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="flex items-center justify-between h-16 px-6">
-        {/* Title */}
-        <div>
-          <h1 className="text-xl font-bold text-foreground">{title}</h1>
-          {subtitle && (
-            <p className="text-sm text-muted-foreground">{subtitle}</p>
-          )}
+    <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="flex min-h-16 items-center gap-3 px-3 sm:px-6">
+        <SidebarTrigger className="shrink-0" />
+        <div className="min-w-0 flex-1">
+          <h1 className="truncate text-lg font-bold sm:text-xl">{title}</h1>
+          {subtitle ? <p className="hidden truncate text-sm text-muted-foreground sm:block">{subtitle}</p> : null}
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-4">
-          {/* Search */}
-          <div className="relative hidden md:block">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="بحث في المستندات..."
-              className="w-64 pr-10 bg-muted/50 border-0 focus-visible:ring-1"
-            />
-          </div>
+        <form onSubmit={submitSearch} className="relative hidden w-64 lg:block">
+          <Search className="absolute end-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="بحث في المستندات..." className="pe-10" />
+        </form>
 
-          {/* Notifications */}
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="w-5 h-5" />
-            <span className="absolute -top-0.5 -left-0.5 w-4 h-4 text-[10px] font-bold rounded-full bg-destructive text-destructive-foreground flex items-center justify-center">
-              3
-            </span>
-          </Button>
-
-          {/* User Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2 px-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                    أم
-                  </AvatarFallback>
-                </Avatar>
-                <div className="hidden md:block text-right">
-                  <p className="text-sm font-medium">أحمد محمد</p>
-                  <p className="text-xs text-muted-foreground">مدير</p>
-                </div>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-48">
-              <DropdownMenuLabel>حسابي</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <User className="w-4 h-4 ml-2" />
-                الملف الشخصي
-              </DropdownMenuItem>
-              <DropdownMenuItem>الإعدادات</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive">
-                تسجيل الخروج
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <Button variant="ghost" size="icon" asChild className="hidden sm:inline-flex" title="لوحة التحكم الرئيسية">
+          <Link to="/dashboard"><Home className="h-5 w-5" /></Link>
+        </Button>
+        <UserAccountMenu />
       </div>
     </header>
   );

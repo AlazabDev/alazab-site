@@ -7,6 +7,7 @@ on:
       - main
       - 'agent/**'
       - 'feature/**'
+      - 'fix/**'
   pull_request:
     branches: [main, development]
   workflow_dispatch:
@@ -47,7 +48,7 @@ jobs:
         run: pnpm run lint
 
       - name: Unit tests
-        run: pnpm exec vitest run --passWithNoTests
+        run: pnpm run test:ci
 
       - name: Production build
         run: pnpm run build

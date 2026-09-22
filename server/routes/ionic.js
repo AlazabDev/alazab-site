@@ -67,90 +67,24 @@ router.post('/webhook', async (req, res) => {
 // ==============================================================
 // 2. الحصول على معلومات بناء معين
 // ==============================================================
-router.get('/build/:buildId', async (req, res) => {
-    try {
-        const { buildId } = req.params;
-        
-        // يمكن جلب البيانات من قاعدة البيانات أو من خدمة Ionic API
-        // هنا نعيد بيانات تجريبية
-        const buildData = {
-            id: buildId,
-            state: 'success',
-            type: 'debug',
-            created: new Date().toISOString(),
-            started: new Date().toISOString(),
-            finished: new Date().toISOString(),
-            platform: 'android',
-            artifacts: [
-                {
-                    url: `https://download.ionicjs.com/builds/${buildId}/app.aab`,
-                    name: `app-${buildId}.aab`,
-                    artifactType: 'AAB'
-                },
-                {
-                    url: `https://download.ionicjs.com/builds/${buildId}/app.apk`,
-                    name: `app-${buildId}.apk`,
-                    artifactType: 'APK'
-                }
-            ]
-        };
-
-        res.status(200).json({
-            success: true,
-            data: buildData
-        });
-
-    } catch (error) {
-        console.error('[Ionic Build] Error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'حدث خطأ أثناء جلب بيانات البناء',
-            error: error.message
-        });
-    }
+router.get('/build/:buildId', (req, res) => {
+    res.status(501).json({
+        success: false,
+        code: 'IONIC_BUILD_PROVIDER_NOT_CONFIGURED',
+        message: 'Build lookup is disabled until an Ionic build provider is configured.',
+        buildId: req.params.buildId
+    });
 });
 
 // ==============================================================
 // 3. الحصول على قائمة البناءات الأخيرة
 // ==============================================================
-router.get('/builds', async (req, res) => {
-    try {
-        const { appId, limit = 10 } = req.query;
-        
-        // يمكن جلب البيانات من قاعدة البيانات
-        const builds = [
-            {
-                id: '2216322b-35be-4af2-aaad-2b4e57354f88',
-                appId: appId || '55810d8d',
-                state: 'success',
-                type: 'debug',
-                platform: 'android',
-                created: new Date().toISOString(),
-                finished: new Date().toISOString()
-            },
-            {
-                id: '3316322b-35be-4af2-aaad-2b4e57354f89',
-                appId: appId || '55810d8d',
-                state: 'pending',
-                type: 'release',
-                platform: 'android',
-                created: new Date(Date.now() - 3600000).toISOString()
-            }
-        ];
-
-        res.status(200).json({
-            success: true,
-            data: builds.slice(0, parseInt(limit))
-        });
-
-    } catch (error) {
-        console.error('[Ionic Builds] Error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'حدث خطأ أثناء جلب قائمة البناءات',
-            error: error.message
-        });
-    }
+router.get('/builds', (_req, res) => {
+    res.status(501).json({
+        success: false,
+        code: 'IONIC_BUILD_PROVIDER_NOT_CONFIGURED',
+        message: 'Build history is disabled until an Ionic build provider is configured.'
+    });
 });
 
 // ==============================================================

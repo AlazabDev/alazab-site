@@ -20,7 +20,7 @@ function github(req) {
   const body = req.body || {};
   let severity = 'info';
   let title = `GitHub: ${eventName}`;
-  let summary = '';
+  let summary;
 
   if (eventName === 'workflow_run') {
     const run = body.workflow_run || {};

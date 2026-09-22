@@ -38,6 +38,7 @@ const ProjectsPage: React.FC = () => {
         const { data, error } = await supabase
           .from('projects')
           .select('*')
+          .eq('is_published', true)
           .order('created_at', { ascending: false });
           
         if (error) {
@@ -110,7 +111,7 @@ const ProjectsPage: React.FC = () => {
         <div className="relative z-10 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">مشاريعنا المتميزة</h2>
           <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            نفخر بتقديم مشاريع استثنائية تجمع بين الإبداع والجودة العالية في جميع أنحاء المملكة
+            نفخر بتقديم مشاريع استثنائية تجمع بين الإبداع والجودة العالية في جميع أنحاء جمهورية مصر العربية
           </p>
         </div>
         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
@@ -190,7 +191,7 @@ const ProjectsPage: React.FC = () => {
         }>
           {paginatedProjects.map((project) => (
             viewMode === 'grid' ? (
-              <Link to={`/projects/${project.id}`} key={project.id}>
+              <Link to={`/portfolio/${project.id}`} key={project.id}>
                 <div className="project-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
                   <div className="relative overflow-hidden">
                     <img 
@@ -277,7 +278,7 @@ const ProjectsPage: React.FC = () => {
                     )}
                     
                     <div className="flex items-center justify-between mt-auto">
-                      <Link to={`/projects/${project.id}`}>
+                      <Link to={`/portfolio/${project.id}`}>
                         <Button size="sm" className="bg-construction-primary hover:bg-construction-dark transition-all duration-300 font-medium">
                           عرض التفاصيل
                           <ArrowLeft className="mr-2" size={14} />

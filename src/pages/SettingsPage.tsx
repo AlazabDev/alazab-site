@@ -1,125 +1,97 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { 
-  Bell, 
-  Shield, 
-  Globe, 
-  Palette, 
-  Database,
-  Key
-} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Globe2, Key, Moon, UserRound } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/hooks/useTheme';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
 
 const SettingsPage: React.FC = () => {
-  const settingSections = [
-    {
-      title: "الإشعارات",
-      icon: Bell,
-      settings: [
-        { label: "إشعارات البريد الإلكتروني", enabled: true },
-        { label: "الإشعارات الفورية", enabled: false },
-        { label: "تحديثات المشاريع", enabled: true },
-      ]
-    },
-    {
-      title: "الأمان والخصوصية",
-      icon: Shield,
-      settings: [
-        { label: "المصادقة الثنائية", enabled: false },
-        { label: "تسجيل الأنشطة", enabled: true },
-        { label: "إخفاء الملف الشخصي", enabled: false },
-      ]
-    },
-    {
-      title: "المظهر واللغة",
-      icon: Palette,
-      settings: [
-        { label: "الوضع الليلي", enabled: false },
-        { label: "اللغة العربية", enabled: true },
-        { label: "حجم الخط الكبير", enabled: false },
-      ]
+  const { language, setLanguage } = useLanguage();
+  const { theme, setTheme } = useTheme();
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [savingPassword, setSavingPassword] = useState(false);
+
+  const updatePassword = async (): Promise<void> => {
+    if (password.length < 8) {
+      toast({ title: 'كلمة المرور قصيرة', description: 'استخدم 8 أحرف على الأقل.', variant: 'destructive' });
+      return;
     }
-  ];
+    if (password !== confirmPassword) {
+      toast({ title: 'كلمتا المرور غير متطابقتين', variant: 'destructive' });
+      return;
+    }
+
+    setSavingPassword(true);
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) throw error;
+      setPassword('');
+      setConfirmPassword('');
+      toast({ title: 'تم تحديث كلمة المرور' });
+    } catch (error) {
+      toast({
+        title: 'تعذر تحديث كلمة المرور',
+        description: error instanceof Error ? error.message : 'حدث خطأ غير متوقع',
+        variant: 'destructive',
+      });
+    } finally {
+      setSavingPassword(false);
+    }
+  };
 
   return (
     <DashboardLayout>
-      <div className="max-w-4xl mx-auto space-y-6">
+      <div className="mx-auto max-w-4xl space-y-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">الإعدادات</h2>
-          <p className="text-gray-600">إدارة إعدادات النظام والتفضيلات الشخصية</p>
+          <h2 className="text-2xl font-bold text-foreground">الإعدادات</h2>
+          <p className="text-muted-foreground">إعدادات فعالة فقط؛ تم حذف عناصر النسخ الاحتياطي والإشعارات الوهمية.</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {settingSections.map((section, index) => (
-            <Card key={index}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <section.icon className="w-5 h-5" />
-                  {section.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {section.settings.map((setting, settingIndex) => (
-                  <div key={settingIndex} className="flex items-center justify-between">
-                    <Label htmlFor={`setting-${index}-${settingIndex}`} className="flex-1">
-                      {setting.label}
-                    </Label>
-                    <Switch
-                      id={`setting-${index}-${settingIndex}`}
-                      checked={setting.enabled}
-                    />
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          ))}
-
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Key className="w-5 h-5" />
-                تغيير كلمة المرور
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="currentPassword">كلمة المرور الحالية</Label>
-                <Input id="currentPassword" type="password" />
+            <CardHeader><CardTitle className="flex items-center gap-2"><Globe2 className="h-5 w-5" />المظهر واللغة</CardTitle></CardHeader>
+            <CardContent className="space-y-5">
+              <div className="flex items-center justify-between gap-4">
+                <Label htmlFor="arabic-language">اللغة العربية</Label>
+                <Switch id="arabic-language" checked={language === 'ar'} onCheckedChange={(checked) => setLanguage(checked ? 'ar' : 'en')} />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
-                <Input id="newPassword" type="password" />
+              <div className="flex items-center justify-between gap-4">
+                <Label htmlFor="dark-mode" className="flex items-center gap-2"><Moon className="h-4 w-4" />الوضع الداكن</Label>
+                <Switch id="dark-mode" checked={theme === 'dark'} onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')} />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
-                <Input id="confirmPassword" type="password" />
-              </div>
-              <Button className="w-full">تحديث كلمة المرور</Button>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="w-5 h-5" />
-                النسخ الاحتياطي
-              </CardTitle>
-            </CardHeader>
+            <CardHeader><CardTitle className="flex items-center gap-2"><Key className="h-5 w-5" />تغيير كلمة المرور</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-sm text-gray-600">
-                آخر نسخة احتياطية: 15 ديسمبر 2024
-              </p>
-              <Button variant="outline" className="w-full">
-                إنشاء نسخة احتياطية الآن
+              <div className="space-y-2">
+                <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
+                <Input id="newPassword" type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">تأكيد كلمة المرور</Label>
+                <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
+              </div>
+              <Button className="w-full" onClick={() => void updatePassword()} disabled={savingPassword}>
+                {savingPassword ? 'جارٍ التحديث...' : 'تحديث كلمة المرور'}
               </Button>
-              <Button variant="outline" className="w-full">
-                استعادة من نسخة احتياطية
-              </Button>
+            </CardContent>
+          </Card>
+
+          <Card className="lg:col-span-2">
+            <CardHeader><CardTitle className="flex items-center gap-2"><UserRound className="h-5 w-5" />بيانات الحساب</CardTitle></CardHeader>
+            <CardContent>
+              <p className="mb-4 text-sm text-muted-foreground">الاسم والصورة والهاتف والعنوان تتم إدارتها من الملف الشخصي الموحد.</p>
+              <Button variant="outline" asChild><Link to="/profile">فتح الملف الشخصي</Link></Button>
             </CardContent>
           </Card>
         </div>

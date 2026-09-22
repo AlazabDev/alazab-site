@@ -34,7 +34,7 @@ export function DocumentCard({ document, delay = 0 }: DocumentCardProps) {
 
   return (
     <Link 
-      to={`/documents/${document.id}`}
+      to={`/approvals/documents/${document.id}`}
       className="block animate-slide-up"
       style={{ animationDelay: `${delay}ms` }}
     >

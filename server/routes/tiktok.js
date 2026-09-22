@@ -5,11 +5,12 @@ const axios = require('axios');
 const crypto = require('crypto');
 const logger = require('../logger');
 const config = require('../config/tiktok.config');
+const requireAdminKey = require('../middleware/requireAdminKey');
 
 // ============================================
 // 1. بدء عملية المصادقة OAuth
 // ============================================
-router.get('/auth', (req, res) => {
+router.get('/auth', requireAdminKey, (req, res) => {
     try {
         const state = crypto.randomBytes(16).toString('hex');
         // تخزين الـ state في الجلسة أو الـ Cookie
@@ -93,7 +94,7 @@ router.get('/callback', async (req, res) => {
 // ============================================
 // 3. جلب معلومات الحساب المعلن
 // ============================================
-router.get('/advertisers', async (req, res) => {
+router.get('/advertisers', requireAdminKey, async (req, res) => {
     try {
         const token = await getValidAccessToken();
         
@@ -114,7 +115,7 @@ router.get('/advertisers', async (req, res) => {
 // ============================================
 // 4. جلب تقارير الأداء للحملات
 // ============================================
-router.post('/report', async (req, res) => {
+router.post('/report', requireAdminKey, async (req, res) => {
     try {
         const { advertiser_id, start_date, end_date, dimensions } = req.body;
         const token = await getValidAccessToken();
@@ -146,7 +147,7 @@ router.post('/report', async (req, res) => {
 // ============================================
 // 5. إنشاء حملة إعلانية جديدة
 // ============================================
-router.post('/campaign', async (req, res) => {
+router.post('/campaign', requireAdminKey, async (req, res) => {
     try {
         const { advertiser_id, campaign_name, budget, objective } = req.body;
         const token = await getValidAccessToken();

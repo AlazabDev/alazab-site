@@ -8,6 +8,7 @@ const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const logger = require('../logger');
 const db = require('../db-stripe');
+const requireAdminKey = require('../middleware/requireAdminKey');
 
 // ============================================
 // Middleware للـ Webhook (يحتاج raw body)
@@ -144,7 +145,7 @@ router.post('/webhook', express.raw({type: 'application/json'}), async (req, res
 // ============================================
 // 1. اختبار الاتصال بـ Stripe
 // ============================================
-router.get('/test', async (req, res) => {
+router.get('/test', requireAdminKey, async (req, res) => {
     try {
         const balance = await stripe.balance.retrieve();
         
@@ -289,7 +290,7 @@ router.post('/create-payment-intent', async (req, res) => {
 // ============================================
 // 3. استرداد معلومات الدفع
 // ============================================
-router.get('/payment-intent/:id', async (req, res) => {
+router.get('/payment-intent/:id', requireAdminKey, async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -322,7 +323,7 @@ router.get('/payment-intent/:id', async (req, res) => {
 // ============================================
 // 4. إلغاء الدفع
 // ============================================
-router.post('/cancel-payment/:id', async (req, res) => {
+router.post('/cancel-payment/:id', requireAdminKey, async (req, res) => {
     try {
         const { id } = req.params;
         const paymentIntent = await stripe.paymentIntents.cancel(id);
@@ -508,7 +509,7 @@ router.post('/create-checkout-session', async (req, res) => {
 // ============================================
 // 6. استرداد Checkout Session
 // ============================================
-router.get('/checkout-session/:id', async (req, res) => {
+router.get('/checkout-session/:id', requireAdminKey, async (req, res) => {
     try {
         const { id } = req.params;
         const session = await stripe.checkout.sessions.retrieve(id, {
@@ -538,7 +539,7 @@ router.get('/checkout-session/:id', async (req, res) => {
 // ============================================
 // 7. إنشاء فاتورة
 // ============================================
-router.post('/create-invoice', async (req, res) => {
+router.post('/create-invoice', requireAdminKey, async (req, res) => {
     try {
         const {
             customerEmail,
@@ -680,7 +681,7 @@ router.post('/create-invoice', async (req, res) => {
 // ============================================
 // 8. استرداد فاتورة
 // ============================================
-router.get('/invoice/:id', async (req, res) => {
+router.get('/invoice/:id', requireAdminKey, async (req, res) => {
     try {
         const { id } = req.params;
         const invoice = await stripe.invoices.retrieve(id, {
@@ -740,7 +741,7 @@ router.post('/calculate-tax', async (req, res) => {
 // ============================================
 // 10. إحصائيات المدفوعات
 // ============================================
-router.get('/stats', async (req, res) => {
+router.get('/stats', requireAdminKey, async (req, res) => {
     try {
         const stats = await db.getPaymentStats();
 
@@ -873,7 +874,7 @@ router.post('/create-subscription-session', async (req, res) => {
 // ============================================
 // 12. إلغاء اشتراك
 // ============================================
-router.post('/cancel-subscription/:id', async (req, res) => {
+router.post('/cancel-subscription/:id', requireAdminKey, async (req, res) => {
     try {
         const { id } = req.params;
         const subscription = await stripe.subscriptions.cancel(id);
@@ -896,7 +897,7 @@ router.post('/cancel-subscription/:id', async (req, res) => {
 // ============================================
 // 13. استرداد الاشتراكات
 // ============================================
-router.get('/subscriptions/:customerId', async (req, res) => {
+router.get('/subscriptions/:customerId', requireAdminKey, async (req, res) => {
     try {
         const { customerId } = req.params;
         

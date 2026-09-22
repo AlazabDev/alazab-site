@@ -2,155 +2,177 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- الصفحات الرئيسية -->
   <url>
-    <loc>https://alazab.com/</loc>
+    <loc>https://azab.services/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://alazab.com/about</loc>
+    <loc>https://azab.services/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alazab.com/ceo</loc>
+    <loc>https://azab.services/ceo</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://alazab.com/contact</loc>
+    <loc>https://azab.services/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://alazab.com/sitemap</loc>
+    <loc>https://azab.services/sitemap</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
 
   <!-- الخدمات -->
   <url>
-    <loc>https://alazab.com/services</loc>
+    <loc>https://azab.services/services</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alazab.com/services/luxury-finishing</loc>
+    <loc>https://azab.services/services/luxury-finishing</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alazab.com/services/uberfix</loc>
+    <loc>https://azab.services/services/uberfix</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alazab.com/services/brand-identity</loc>
+    <loc>https://azab.services/services/brand-identity</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alazab.com/services/laban-alasfour</loc>
+    <loc>https://azab.services/services/laban-alasfour</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- المشاريع والأعمال -->
   <url>
-    <loc>https://alazab.com/projects</loc>
+    <loc>https://azab.services/projects</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://alazab.com/projects-gallery</loc>
+    <loc>https://azab.services/projects-gallery</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://alazab.com/portfolio</loc>
+    <loc>https://azab.services/portfolio</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://alazab.com/furniture-gallery</loc>
+    <loc>https://azab.services/furniture-gallery</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <!-- خدمات العملاء -->
   <url>
-    <loc>https://alazab.com/maintenance-request</loc>
+    <loc>https://azab.services/maintenance-request</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://alazab.com/maintenance-tracking</loc>
+    <loc>https://azab.services/maintenance-tracking</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://alazab.com/chatbot</loc>
+    <loc>https://azab.services/chatbot</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://alazab.com/facebook</loc>
+    <loc>https://azab.services/facebook</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <!-- الصفحات القانونية -->
   <url>
-    <loc>https://alazab.com/privacy-policy</loc>
+    <loc>https://azab.services/privacy-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/terms-of-service</loc>
+    <loc>https://azab.services/terms-of-service</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/cookie-policy</loc>
+    <loc>https://azab.services/cookie-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/refund-policy</loc>
+    <loc>https://azab.services/refund-policy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/acceptable-use</loc>
+    <loc>https://azab.services/acceptable-use</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/disclaimer</loc>
+    <loc>https://azab.services/disclaimer</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/security</loc>
+    <loc>https://azab.services/security</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/data-deletion</loc>
+    <loc>https://azab.services/data-deletion</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://alazab.com/legal-contact</loc>
+    <loc>https://azab.services/legal-contact</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <!-- المحتوى المعرفي -->
-  <url><loc>https://alazab.com/blogs</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://alazab.com/knowledge</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://alazab.com/brands</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://alazab.com/guidance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://alazab.com/faq</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://alazab.com/maintenance-services</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://alazab.com/cost-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://azab.services/blogs</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://azab.services/knowledge</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://azab.services/brands</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://azab.services/guidance</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://azab.services/faq</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://azab.services/maintenance-services</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://azab.services/cost-calculator</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <!-- خدمات واشتراكات إضافية -->
+  <url>
+    <loc>https://azab.services/services/maintenance-renovation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://azab.services/services/luxury-cleaning</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://azab.services/uberfix-subscriptions</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://azab.services/uberfix-subscriptions/register</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

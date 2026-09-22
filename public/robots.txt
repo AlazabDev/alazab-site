@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://alazab.com/sitemap.xml
+Sitemap: https://azab.services/sitemap.xml

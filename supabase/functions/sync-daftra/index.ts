@@ -1,382 +1,298 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+const ALLOWED_ORIGINS = new Set([
+  "https://alazab.com",
+  "https://www.alazab.com",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+]);
+
+const corsHeaders = (req: Request) => {
+  const origin = req.headers.get("origin") || "";
+  return {
+    "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin) ? origin : "https://alazab.com",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Vary": "Origin",
+  };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DaftraDocument = Record<string, any>;
+const json = (req: Request, body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { ...corsHeaders(req), "Content-Type": "application/json" },
+  });
 
-Deno.serve(async (req) => {
-  // Handle CORS preflight
-  if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+type Raw = Record<string, any>;
+
+const asArray = (payload: any): Raw[] => {
+  if (Array.isArray(payload)) return payload;
+  if (Array.isArray(payload?.data)) return payload.data;
+
+  for (const key of ["invoices", "estimates", "quotes", "Invoices", "Estimates", "Quotes"]) {
+    if (Array.isArray(payload?.[key])) return payload[key];
   }
 
+  const candidate = Object.values(payload || {}).find((value) => Array.isArray(value));
+  return Array.isArray(candidate) ? candidate as Raw[] : [];
+};
+
+const unwrap = (raw: Raw): Raw =>
+  raw.Invoice || raw.Estimate || raw.Quote || raw.invoice || raw.estimate || raw.quote || raw;
+
+const normalizeDate = (value: unknown) => {
+  const raw = typeof value === "string" ? value.trim() : "";
+  if (!raw) return new Date().toISOString().slice(0, 10);
+  if (/^\d{2}-\d{2}-\d{4}$/.test(raw)) {
+    const [day, month, year] = raw.split("-");
+    return `${year}-${month}-${day}`;
+  }
+  if (/^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.slice(0, 10);
+  return new Date().toISOString().slice(0, 10);
+};
+
+const numberValue = (value: unknown) => {
+  const n = Number.parseFloat(String(value ?? ""));
+  return Number.isFinite(n) ? n : 0;
+};
+
+Deno.serve(async (req: Request) => {
+  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders(req) });
+  if (req.method !== "POST") return json(req, { success: false, error: "METHOD_NOT_ALLOWED" }, 405);
+
+  let admin: any;
+  let logId: string | null = null;
+
   try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     const daftraApiKey = Deno.env.get("DAFTRA_API_KEY");
-    const daftraSubdomain = Deno.env.get("DAFTRA_SUBDOMAIN");
+    const daftraSubdomainRaw = Deno.env.get("DAFTRA_SUBDOMAIN");
 
-    if (!daftraApiKey || !daftraSubdomain) {
-      console.error("Missing Daftra credentials");
-      return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: "Daftra API credentials not configured",
-          message: "Please add DAFTRA_API_KEY and DAFTRA_SUBDOMAIN secrets" 
-        }),
-        { 
-          status: 400,
-          headers: { ...corsHeaders, "Content-Type": "application/json" } 
-        }
-      );
+    if (!supabaseUrl || !serviceKey) return json(req, { success: false, error: "SERVER_NOT_CONFIGURED" }, 500);
+    if (!daftraApiKey || !daftraSubdomainRaw) {
+      return json(req, { success: false, error: "DAFTRA_NOT_CONFIGURED" }, 503);
     }
 
-    // Clean up subdomain
-    let cleanSubdomain = daftraSubdomain.trim();
-    cleanSubdomain = cleanSubdomain.replace(/^https?:\/\//i, '');
-    cleanSubdomain = cleanSubdomain.replace(/\.daftra\.com.*$/i, '');
-    cleanSubdomain = cleanSubdomain.replace(/\/+$/, '');
-    
-    console.log(`Cleaned subdomain: ${cleanSubdomain}`);
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) return json(req, { success: false, error: "UNAUTHORIZED" }, 401);
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
-    
-    // Parse request body for options
-    let documentType = "invoices"; // افتراضياً نسحب الفواتير
-    let page = 1;
-    let limit = 10; // ⚠️ تقليل الحد لتجنب timeout - كان 50
-    let syncAll = false; // مزامنة كل الأنواع
-    let skipDetails = false; // تخطي جلب التفاصيل لتسريع المزامنة
-    
-    try {
-      const body = await req.json();
-      // Map user-friendly names to Daftra API endpoints
-      const typeMapping: Record<string, string> = {
-        quotes: "estimates",      // عروض الأسعار = estimates
-        estimates: "estimates",   
-        invoices: "invoices",     // الفواتير
-        all: "all",               // مزامنة الكل
-      };
-      const requestedType = body.type || "invoices";
-      if (requestedType === "all") {
-        syncAll = true;
-      } else {
-        documentType = typeMapping[requestedType] || requestedType;
-      }
-      page = body.page || 1;
-      limit = Math.min(body.limit || 10, 15); // ⚠️ حد أقصى 15 مستند لكل طلب
-      skipDetails = body.skipDetails || false;
-    } catch {
-      // Use defaults if no body
+    admin = createClient(supabaseUrl, serviceKey, {
+      auth: { persistSession: false, autoRefreshToken: false },
+    });
+
+    const { data: { user }, error: authError } = await admin.auth.getUser(authHeader.slice(7));
+    if (authError || !user) return json(req, { success: false, error: "UNAUTHORIZED" }, 401);
+
+    const { data: membership, error: membershipError } = await admin
+      .from("approval_memberships")
+      .select("role,active")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    if (membershipError) throw membershipError;
+    if (!membership?.active || !["owner", "admin"].includes(membership.role)) {
+      return json(req, { success: false, error: "SYNC_ACCESS_DENIED" }, 403);
     }
 
-    // Helper function to sync a specific document type
-    async function syncDocumentType(docType: string): Promise<{synced: number, itemsSynced: number, errors: number, total: number}> {
-      console.log(`Syncing ${docType} from Daftra (page ${page}, limit ${limit})`);
-      
-      // Fetch list from Daftra API
-      const daftraListUrl = `https://${cleanSubdomain}.daftra.com/api2/${docType}?page=${page}&limit=${limit}`;
-      console.log(`Calling Daftra API: ${daftraListUrl}`);
-      
-      const daftraResponse = await fetch(daftraListUrl, {
-        method: "GET",
-        headers: {
-          "APIKEY": daftraApiKey!,
-          "Accept": "application/json",
-        },
-      });
+    let body: Raw = {};
+    try { body = await req.json(); } catch { body = {}; }
 
-      if (!daftraResponse.ok) {
-        const errorText = await daftraResponse.text();
-        console.error(`Daftra API error for ${docType}:`, errorText);
-        return { synced: 0, itemsSynced: 0, errors: 1, total: 0 };
-      }
+    const requested = String(body.type || body.documentType || "all").toLowerCase();
+    const page = Math.max(1, Number.parseInt(String(body.page || 1), 10) || 1);
+    const limit = Math.min(25, Math.max(1, Number.parseInt(String(body.limit || 15), 10) || 15));
+    const skipDetails = body.skipDetails === true;
 
-      const daftraData = await daftraResponse.json();
-      console.log(`Daftra response for ${docType}:`, Object.keys(daftraData));
-      
-      // Handle Daftra API response structure
-      let documents: DaftraDocument[] = [];
-      
-      if (Array.isArray(daftraData)) {
-        documents = daftraData;
-      } else if (daftraData.data && Array.isArray(daftraData.data)) {
-        documents = daftraData.data;
-      } else {
-        const keys = Object.keys(daftraData).filter(k => 
-          k.toLowerCase().includes('invoice') || 
-          k.toLowerCase().includes('quote') || 
-          k.toLowerCase().includes('estimate')
-        );
-        if (keys.length > 0) {
-          const value = daftraData[keys[0]];
-          documents = Array.isArray(value) ? value : [{ [keys[0]]: value }];
+    const endpoints =
+      requested === "all" ? ["invoices", "estimates"] :
+      requested === "quotes" || requested === "quote" || requested === "estimates" ? ["estimates"] :
+      requested === "invoices" || requested === "invoice" ? ["invoices"] :
+      null;
+
+    if (!endpoints) return json(req, { success: false, error: "UNSUPPORTED_DOCUMENT_TYPE" }, 400);
+
+    const { data: log, error: logError } = await admin.from("document_sync_logs").insert({
+      requested_by: user.id,
+      document_type: requested,
+      page,
+      status: "running",
+    }).select("id").single();
+    if (logError) throw logError;
+    logId = log.id;
+
+    const cleanSubdomain = daftraSubdomainRaw
+      .trim()
+      .replace(/^https?:\/\//i, "")
+      .replace(/\.daftra\.com.*$/i, "")
+      .replace(/\/+$/, "");
+
+    let totalSynced = 0;
+    let totalItems = 0;
+    let totalErrors = 0;
+    const results: Array<Record<string, unknown>> = [];
+
+    const fetchDaftra = async (url: string) => {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12_000);
+      try {
+        const response = await fetch(url, {
+          headers: { APIKEY: daftraApiKey, Accept: "application/json" },
+          signal: controller.signal,
+        });
+        if (!response.ok) {
+          const detail = (await response.text()).slice(0, 300);
+          throw new Error(`DAFTRA_${response.status}:${detail}`);
         }
+        return await response.json();
+      } finally {
+        clearTimeout(timeout);
       }
-      
-      console.log(`Found ${documents.length} ${docType} to sync`);
+    };
 
-      // Map document type
-      const typeMap: Record<string, string> = {
-        invoices: "invoice",
-        quotes: "quote",
-        estimates: "quote",
-      };
-      const mappedType = typeMap[docType] || "quote";
-
-      // Helper function to fetch single document with items (with timeout)
-      async function fetchDocumentDetails(docId: string): Promise<DaftraDocument | null> {
-        // إذا كان skipDetails مفعل، نتخطى جلب التفاصيل
-        if (skipDetails) return null;
-        
-        try {
-          const detailUrl = `https://${cleanSubdomain}.daftra.com/api2/${docType}/${docId}`;
-          console.log(`Fetching document details: ${detailUrl}`);
-          
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
-          
-          const response = await fetch(detailUrl, {
-            method: "GET",
-            headers: {
-              "APIKEY": daftraApiKey!,
-              "Accept": "application/json",
-            },
-            signal: controller.signal,
-          });
-          
-          clearTimeout(timeoutId);
-          
-          if (!response.ok) {
-            console.error(`Failed to fetch document ${docId}: ${response.status}`);
-            return null;
-          }
-          
-          const data = await response.json();
-          return data.data || data;
-        } catch (err) {
-          console.error(`Error fetching document ${docId}:`, err);
-          return null;
-        }
-      }
-
-      // Upsert documents into Supabase
+    for (const endpoint of endpoints) {
       let synced = 0;
       let itemsSynced = 0;
       let errors = 0;
 
-      for (const rawDoc of documents) {
-        try {
-          // Daftra wraps each item: {Estimate: {id: 314, no: "...", Client: {...}, ...}}
-          const listDoc = rawDoc.Quote || rawDoc.Invoice || rawDoc.Estimate || rawDoc;
-          
-          // Validate we have an ID
-          if (!listDoc.id) {
-            console.log("Skipping document without id:", JSON.stringify(rawDoc).substring(0, 200));
-            continue;
-          }
-          
-          const daftraId = listDoc.id.toString();
-          
-          // ✅ جلب المستند الكامل مع العناصر من الـ API
-          const fullDocData = await fetchDocumentDetails(daftraId);
-          
-          // استخدم البيانات الكاملة إن وجدت، وإلا استخدم بيانات القائمة
-          const doc = fullDocData?.Estimate || fullDocData?.Invoice || fullDocData?.Quote || fullDocData || listDoc;
-          const client = doc.Client || {};
-          
-          // ✅ العناصر تأتي كـ InvoiceItem في الـ single document response
-          const items = doc.InvoiceItem || doc.QuoteItem || doc.EstimateItem || [];
-          
-          console.log(`Document ${daftraId} (${doc.no}) has ${items.length} items`);
-          
-          // Build document number
-          const docNumber = doc.no || doc.number || `${mappedType.toUpperCase()}-${daftraId}`;
-          
-          // Build client name
-          let clientName = "غير محدد";
-          if (doc.client_business_name && doc.client_business_name.trim()) {
-            clientName = doc.client_business_name;
-          } else if (client.business_name && client.business_name.trim()) {
-            clientName = client.business_name;
-          } else if (doc.client_first_name || doc.client_last_name) {
-            clientName = `${doc.client_first_name || ''} ${doc.client_last_name || ''}`.trim() || "غير محدد";
-          } else if (client.first_name || client.last_name) {
-            clientName = `${client.first_name || ''} ${client.last_name || ''}`.trim() || "غير محدد";
-          }
-          
-          // Extract and format date (Daftra uses dd-mm-yyyy, Supabase needs yyyy-mm-dd)
-          let docDate = doc.date || doc.issue_date || new Date().toISOString().split("T")[0];
-          if (docDate && docDate.match(/^\d{2}-\d{2}-\d{4}$/)) {
-            const [day, month, year] = docDate.split('-');
-            docDate = `${year}-${month}-${day}`;
-          }
-          
-          // Extract total
-          const total = parseFloat(doc.summary_total) || parseFloat(doc.total) || 0;
-          
-          // Extract client email
-          const clientEmail = doc.client_email || client.email || null;
-          
-          // Extract URLs
-          const pdfUrl = doc.invoice_pdf_url || doc.quote_pdf_url || doc.estimate_pdf_url || doc.pdf_url || null;
-          const htmlUrl = doc.invoice_html_url || doc.quote_html_url || doc.estimate_html_url || doc.html_url || null;
-          
-          // Map payment status
-          let paymentStatus: "paid" | "partial" | "unpaid" = "unpaid";
-          const paymentStatusNum = parseInt(doc.payment_status);
-          if (paymentStatusNum === 2 || doc.payment_status === "paid") {
-            paymentStatus = "paid";
-          } else if (paymentStatusNum === 1 || doc.payment_status === "partial") {
-            paymentStatus = "partial";
-          }
-          
-          console.log(`Syncing: ${docNumber} | Client: ${clientName} | Total: ${total} | Items: ${items.length}`);
-          
-          // Upsert document
-          const { data: docData, error: docError } = await supabase
-            .from("documents")
-            .upsert({
+      try {
+        const listUrl = `https://${cleanSubdomain}.daftra.com/api2/${endpoint}?page=${page}&limit=${limit}`;
+        const listPayload = await fetchDaftra(listUrl);
+        const rows = asArray(listPayload);
+
+        for (const raw of rows) {
+          try {
+            const listDoc = unwrap(raw);
+            if (!listDoc?.id) {
+              errors += 1;
+              continue;
+            }
+
+            const rawId = String(listDoc.id);
+            let fullPayload: any = null;
+            if (!skipDetails) {
+              try {
+                fullPayload = await fetchDaftra(`https://${cleanSubdomain}.daftra.com/api2/${endpoint}/${rawId}`);
+              } catch (detailError) {
+                console.warn("Daftra detail fallback", endpoint, rawId, detailError);
+              }
+            }
+
+            const doc = unwrap(fullPayload?.data || fullPayload || listDoc);
+            const client = doc.Client || doc.client || {};
+            const mappedType = endpoint === "invoices" ? "invoice" : "quote";
+            const daftraId = `${endpoint}:${rawId}`;
+            const docNumber = String(doc.no || doc.number || `${mappedType.toUpperCase()}-${rawId}`);
+            const clientName = String(
+              doc.client_business_name ||
+              client.business_name ||
+              [doc.client_first_name || client.first_name, doc.client_last_name || client.last_name].filter(Boolean).join(" ") ||
+              "غير محدد"
+            );
+            const paymentRaw = String(doc.payment_status ?? "").toLowerCase();
+            const paymentNumeric = Number.parseInt(paymentRaw, 10);
+            const paymentStatus =
+              paymentRaw === "paid" || paymentNumeric === 2 ? "paid" :
+              paymentRaw === "partial" || paymentNumeric === 1 ? "partial" :
+              "unpaid";
+
+            const { data: stored, error: docError } = await admin.from("documents").upsert({
               daftra_id: daftraId,
               type: mappedType,
               number: docNumber,
               client_name: clientName,
-              client_email: clientEmail,
-              total: total,
-              currency: doc.currency_code || "EGP",
-              date: docDate,
+              client_email: doc.client_email || client.email || null,
+              total: numberValue(doc.summary_total ?? doc.total),
+              currency: String(doc.currency_code || doc.currency || "EGP"),
+              date: normalizeDate(doc.date || doc.issue_date),
               payment_status: paymentStatus,
-              pdf_url: pdfUrl,
-              html_url: htmlUrl,
-              raw_json: fullDocData || rawDoc,
+              pdf_url: doc.invoice_pdf_url || doc.quote_pdf_url || doc.estimate_pdf_url || doc.pdf_url || null,
+              html_url: doc.invoice_html_url || doc.quote_html_url || doc.estimate_html_url || doc.html_url || null,
+              raw_json: fullPayload || raw,
               synced_at: new Date().toISOString(),
-            }, {
-              onConflict: "daftra_id",
-            })
-            .select('id')
-            .single();
+            }, { onConflict: "daftra_id" }).select("id").single();
 
-          if (docError) {
-            console.error(`Error upserting document ${daftraId}:`, docError.message);
-            errors++;
-            continue;
-          }
-          
-          synced++;
-          
-          // ✅ Sync items if present
-          if (Array.isArray(items) && items.length > 0 && docData?.id) {
-            // First, delete existing items for this document to avoid duplicates
-            await supabase
-              .from("quote_items")
-              .delete()
-              .eq("document_id", docData.id);
-            
-            for (const item of items) {
-              const itemId = item.id?.toString() || null;
-              
-              // Extract item name - Daftra uses 'item' field for product name
-              const productName = item.item || item.product || item.name || item.description || "منتج/خدمة";
-              
-              const itemData = {
-                document_id: docData.id,
-                daftra_item_id: itemId,
-                product_name: productName,
-                product_description: item.description || null,
-                quantity: parseFloat(item.quantity) || 1,
-                unit_price: parseFloat(item.unit_price) || 0,
-                total_price: parseFloat(item.subtotal) || (parseFloat(item.quantity) * parseFloat(item.unit_price)) || 0,
-                notes: item.notes || null,
-              };
-              
-              console.log(`  Item: ${productName} | Qty: ${itemData.quantity} | Price: ${itemData.unit_price}`);
-              
-              const { error: itemError } = await supabase
-                .from("quote_items")
-                .insert(itemData);
-              
-              if (itemError) {
-                console.error(`Error inserting item:`, itemError.message);
-              } else {
-                itemsSynced++;
+            if (docError) throw docError;
+            synced += 1;
+
+            const items = doc.InvoiceItem || doc.QuoteItem || doc.EstimateItem || [];
+            if (Array.isArray(items) && stored?.id) {
+              const { error: deleteError } = await admin.from("quote_items").delete().eq("document_id", stored.id);
+              if (deleteError) throw deleteError;
+
+              if (items.length) {
+                const mappedItems = items.map((item: Raw) => ({
+                  document_id: stored.id,
+                  daftra_item_id: item.id ? String(item.id) : null,
+                  product_name: String(item.item || item.product || item.name || item.description || "منتج/خدمة"),
+                  product_description: item.description ? String(item.description) : null,
+                  quantity: numberValue(item.quantity) || 1,
+                  unit_price: numberValue(item.unit_price ?? item.price),
+                  total_price: numberValue(item.subtotal ?? item.total) || ((numberValue(item.quantity) || 1) * numberValue(item.unit_price ?? item.price)),
+                  notes: item.notes ? String(item.notes) : null,
+                }));
+                const { error: itemsError } = await admin.from("quote_items").insert(mappedItems);
+                if (itemsError) throw itemsError;
+                itemsSynced += mappedItems.length;
               }
             }
+          } catch (rowError) {
+            errors += 1;
+            console.error("Daftra row sync failed", endpoint, rowError);
           }
-        } catch (err) {
-          console.error(`Exception:`, err);
-          errors++;
         }
+
+        results.push({ endpoint, synced, itemsSynced, errors, total: rows.length });
+      } catch (endpointError) {
+        errors += 1;
+        results.push({
+          endpoint,
+          synced,
+          itemsSynced,
+          errors,
+          error: endpointError instanceof Error ? endpointError.message : "UNKNOWN_ERROR",
+        });
       }
 
-      return { synced, itemsSynced, errors, total: documents.length };
+      totalSynced += synced;
+      totalItems += itemsSynced;
+      totalErrors += errors;
     }
 
-    // Execute sync
-    let totalSynced = 0;
-    let totalItemsSynced = 0;
-    let totalErrors = 0;
-    let totalDocs = 0;
-    const syncedTypes: string[] = [];
+    const status = totalErrors > 0 && totalSynced === 0 ? "error" : "success";
+    const message = totalErrors
+      ? `Completed with ${totalErrors} error(s)`
+      : "Completed successfully";
 
-    if (syncAll) {
-      // Sync both invoices and estimates
-      console.log("Syncing ALL document types...");
-      
-      const invoicesResult = await syncDocumentType("invoices");
-      totalSynced += invoicesResult.synced;
-      totalItemsSynced += invoicesResult.itemsSynced;
-      totalErrors += invoicesResult.errors;
-      totalDocs += invoicesResult.total;
-      if (invoicesResult.synced > 0) syncedTypes.push("invoices");
-      
-      const estimatesResult = await syncDocumentType("estimates");
-      totalSynced += estimatesResult.synced;
-      totalItemsSynced += estimatesResult.itemsSynced;
-      totalErrors += estimatesResult.errors;
-      totalDocs += estimatesResult.total;
-      if (estimatesResult.synced > 0) syncedTypes.push("estimates");
-    } else {
-      const result = await syncDocumentType(documentType);
-      totalSynced = result.synced;
-      totalItemsSynced = result.itemsSynced;
-      totalErrors = result.errors;
-      totalDocs = result.total;
-      syncedTypes.push(documentType);
+    await admin.from("document_sync_logs").update({
+      status,
+      synced_count: totalSynced,
+      items_synced: totalItems,
+      error_count: totalErrors,
+      message,
+      completed_at: new Date().toISOString(),
+    }).eq("id", logId);
+
+    return json(req, {
+      success: status === "success",
+      synced: totalSynced,
+      itemsSynced: totalItems,
+      errors: totalErrors,
+      page,
+      limit,
+      results,
+    }, status === "success" ? 200 : 502);
+  } catch (error) {
+    console.error("sync-daftra error", error);
+    if (admin && logId) {
+      await admin.from("document_sync_logs").update({
+        status: "error",
+        error_count: 1,
+        message: error instanceof Error ? error.message.slice(0, 1000) : "UNKNOWN_ERROR",
+        completed_at: new Date().toISOString(),
+      }).eq("id", logId);
     }
-
-    console.log(`Sync complete: ${totalSynced} docs, ${totalItemsSynced} items, ${totalErrors} errors`);
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        synced: totalSynced,
-        itemsSynced: totalItemsSynced,
-        errors: totalErrors,
-        total: totalDocs,
-        types: syncedTypes,
-        page,
-      }),
-      { 
-        headers: { ...corsHeaders, "Content-Type": "application/json" } 
-      }
-    );
-
-  } catch (error: unknown) {
-    console.error("Sync error:", error);
-    const message = error instanceof Error ? error.message : "Unknown error";
-    return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: message 
-      }),
-      { 
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" } 
-      }
-    );
+    return json(req, {
+      success: false,
+      error: error instanceof Error ? error.message : "UNKNOWN_ERROR",
+    }, 500);
   }
 });

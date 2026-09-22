@@ -43,7 +43,7 @@ export function FileUploader({ documentId, onUploadComplete }: FileUploaderProps
     setProgress(10);
 
     const safeName = file.name.replace(/[^\p{L}\p{N}._-]+/gu, '-');
-    const objectPath = `${documentId}/${user.id}/${crypto.randomUUID()}-${safeName}`;
+    const objectPath = `${user.id}/${documentId}/${crypto.randomUUID()}-${safeName}`;
 
     try {
       const { error: uploadError } = await supabase.storage

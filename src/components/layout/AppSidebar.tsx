@@ -1,12 +1,13 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, Settings, User, Wrench, ClipboardList, FolderOpen, MessageSquare, Search, ListChecks } from 'lucide-react';
+import { Home, Settings, User, Wrench, ClipboardList, FolderOpen, MessageSquare, Search, ListChecks, ShieldCheck } from 'lucide-react';
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
   SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarHeader, SidebarFooter,
 } from '@/components/ui/sidebar';
 import UserAvatar from '@/components/shared/UserAvatar';
 import { useUserProfile } from '@/contexts/UserProfileContext';
+import { useApprovalAccess } from '@/hooks/useApprovalAccess';
 
 const navigationItems = [
   { title: 'الرئيسية', url: '/dashboard', icon: Home },
@@ -25,6 +26,7 @@ const bottomItems = [
 export function AppSidebar() {
   const location = useLocation();
   const { profile, roleLabel } = useUserProfile();
+  const { active: approvalAccess } = useApprovalAccess();
 
   const isActive = (url: string) => {
     const [pathname, query] = url.split('?');
@@ -57,7 +59,21 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>القائمة الرئيسية</SidebarGroupLabel>
-          <SidebarGroupContent><SidebarMenu>{renderItems(navigationItems)}</SidebarMenu></SidebarGroupContent>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {renderItems(navigationItems)}
+              {approvalAccess && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <NavLink to="/approvals" className={`flex items-center gap-3 rounded-lg p-3 transition-colors ${getNavClass('/approvals')}`}>
+                      <ShieldCheck className="h-5 w-5" />
+                      <span>نظام الاعتماد</span>
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup className="mt-auto">
           <SidebarGroupContent><SidebarMenu>{renderItems(bottomItems)}</SidebarMenu></SidebarGroupContent>

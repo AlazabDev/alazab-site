@@ -7,7 +7,7 @@ export type DocumentStatus =
   | 'signed'
   | 'archived';
 
-export type DocumentType = 'invoice' | 'quote' | 'estimate';
+export type DocumentType = 'invoice' | 'quote' | 'estimate' | 'document';
 
 export interface Document {
   id: string;
@@ -85,4 +85,5 @@ export const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
   invoice: 'فاتورة',
   quote: 'عرض سعر',
   estimate: 'تقدير',
+  document: 'مستند',
 };

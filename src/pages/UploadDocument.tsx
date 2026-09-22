@@ -1,5 +1,6 @@
-import { useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowRight, FileText, Loader2, Plus, Send, Trash2, Upload, X } from 'lucide-react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,16 +8,18 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-import { Upload, Plus, Trash2, Send, ArrowRight, FileText, Loader2, X } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
+import { useUserProfile } from '@/contexts/UserProfileContext';
+import { supabase } from '@/integrations/supabase/client';
+import { invokeDocumentAction } from '@/hooks/useDocuments';
 
 interface Reviewer {
   id: string;
   name: string;
   email: string;
-  department: 'engineering' | 'procurement' | 'accounting';
+  department: 'engineering' | 'procurement' | 'accounting' | 'management' | 'other';
 }
 
 interface UploadedFile {
@@ -26,406 +29,384 @@ interface UploadedFile {
   error?: string;
 }
 
-const departmentLabels: Record<string, string> = {
+interface ProjectOption {
+  id: string;
+  name: string;
+  status: string | null;
+}
+
+const MAX_FILE_SIZE = 50 * 1024 * 1024;
+
+const departmentLabels: Record<Reviewer['department'], string> = {
   engineering: 'الهندسة',
   procurement: 'المشتريات',
   accounting: 'الحسابات',
+  management: 'الإدارة',
+  other: 'أخرى',
 };
+
+const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 export default function UploadDocument() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const { profile } = useUserProfile();
+
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [projects, setProjects] = useState<ProjectOption[]>([]);
+  const [projectsLoading, setProjectsLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [senderName, setSenderName] = useState('');
-  const [projectId, setProjectId] = useState('');
+  const [projectId, setProjectId] = useState('none');
   const [dragActive, setDragActive] = useState(false);
   const [reviewers, setReviewers] = useState<Reviewer[]>([
-    { id: '1', name: '', email: '', department: 'engineering' },
-    { id: '2', name: '', email: '', department: 'procurement' },
-    { id: '3', name: '', email: '', department: 'accounting' },
+    { id: crypto.randomUUID(), name: '', email: '', department: 'engineering' },
   ]);
 
-  const handleFiles = useCallback((selectedFiles: FileList | File[]) => {
-    const validFiles: UploadedFile[] = [];
-    Array.from(selectedFiles).forEach((file) => {
-      if (file.type === 'application/pdf') {
-        validFiles.push({ file, progress: 0, status: 'pending' });
-      }
-    });
-    
-    if (validFiles.length === 0) {
-      toast({ title: 'خطأ', description: 'يرجى اختيار ملفات PDF فقط', variant: 'destructive' });
-      return;
-    }
-    
-    setFiles((prev) => [...prev, ...validFiles]);
+  useEffect(() => {
+    let active = true;
+    void supabase
+      .from('projects')
+      .select('id,name,status')
+      .order('created_at', { ascending: false })
+      .then(({ data, error }) => {
+        if (!active) return;
+        if (error) {
+          console.error('[approvals] projects load failed', error);
+          toast({ title: 'تعذر تحميل المشاريع', description: error.message, variant: 'destructive' });
+        }
+        setProjects((data || []) as ProjectOption[]);
+        setProjectsLoading(false);
+      });
+    return () => { active = false; };
   }, [toast]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      handleFiles(e.target.files);
-    }
-  };
+  const handleFiles = useCallback((selectedFiles: FileList | File[]) => {
+    const accepted: UploadedFile[] = [];
+    const rejected: string[] = [];
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragActive(false);
-    if (e.dataTransfer.files) {
-      handleFiles(e.dataTransfer.files);
+    for (const file of Array.from(selectedFiles)) {
+      if (file.type !== 'application/pdf') {
+        rejected.push(`${file.name}: يجب أن يكون PDF`);
+      } else if (file.size > MAX_FILE_SIZE) {
+        rejected.push(`${file.name}: أكبر من 50MB`);
+      } else {
+        accepted.push({ file, progress: 0, status: 'pending' });
+      }
     }
-  }, [handleFiles]);
+
+    if (accepted.length) setFiles((current) => [...current, ...accepted]);
+    if (rejected.length) {
+      toast({
+        title: 'تم استبعاد بعض الملفات',
+        description: rejected.slice(0, 3).join(' — '),
+        variant: 'destructive',
+      });
+    }
+  }, [toast]);
 
   const removeFile = (index: number) => {
-    setFiles((prev) => prev.filter((_, i) => i !== index));
+    setFiles((current) => current.filter((_, currentIndex) => currentIndex !== index));
   };
 
   const addReviewer = () => {
-    setReviewers([
-      ...reviewers,
+    setReviewers((current) => [
+      ...current,
       { id: crypto.randomUUID(), name: '', email: '', department: 'engineering' },
     ]);
   };
 
   const removeReviewer = (id: string) => {
-    if (reviewers.length > 1) {
-      setReviewers(reviewers.filter((r) => r.id !== id));
-    }
+    setReviewers((current) => current.length > 1 ? current.filter((reviewer) => reviewer.id !== id) : current);
   };
 
   const updateReviewer = (id: string, field: keyof Reviewer, value: string) => {
-    setReviewers(
-      reviewers.map((r) => (r.id === id ? { ...r, [field]: value } : r))
+    setReviewers((current) =>
+      current.map((reviewer) => reviewer.id === id ? { ...reviewer, [field]: value } as Reviewer : reviewer),
     );
   };
 
+  const setFileState = (index: number, patch: Partial<UploadedFile>) => {
+    setFiles((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, ...patch } : item));
+  };
+
   const handleSubmit = async () => {
-    if (files.length === 0) {
-      toast({ title: 'خطأ', description: 'يرجى اختيار ملف PDF واحد على الأقل', variant: 'destructive' });
+    if (!user) {
+      toast({ title: 'غير مصرح', description: 'تعذر تحديد المستخدم الحالي.', variant: 'destructive' });
       return;
     }
-
+    if (!files.length) {
+      toast({ title: 'اختر ملفًا', description: 'يجب اختيار ملف PDF واحد على الأقل.', variant: 'destructive' });
+      return;
+    }
     if (!title.trim()) {
-      toast({ title: 'خطأ', description: 'يرجى إدخال عنوان المستند', variant: 'destructive' });
+      toast({ title: 'العنوان مطلوب', variant: 'destructive' });
       return;
     }
 
-    const validReviewers = reviewers.filter((r) => r.name.trim() && r.email.trim());
-    if (validReviewers.length === 0) {
-      toast({ title: 'خطأ', description: 'يرجى إضافة مراجع واحد على الأقل', variant: 'destructive' });
+    const validReviewers = reviewers
+      .map((reviewer) => ({ ...reviewer, name: reviewer.name.trim(), email: reviewer.email.trim().toLowerCase() }))
+      .filter((reviewer) => reviewer.name && reviewer.email);
+
+    if (!validReviewers.length || validReviewers.some((reviewer) => !isEmail(reviewer.email))) {
+      toast({ title: 'بيانات المراجعين غير مكتملة', description: 'أدخل اسمًا وبريدًا صحيحًا لكل مراجع مستخدم.', variant: 'destructive' });
+      return;
+    }
+
+    const uniqueEmails = new Set(validReviewers.map((reviewer) => reviewer.email));
+    if (uniqueEmails.size !== validReviewers.length) {
+      toast({ title: 'بريد مكرر', description: 'لا يمكن إضافة نفس البريد كمراجع أكثر من مرة للمستند.', variant: 'destructive' });
       return;
     }
 
     setUploading(true);
     let successCount = 0;
+    let invitationCount = 0;
+    let emailedCount = 0;
     let lastDocumentId = '';
 
-    try {
-      for (let i = 0; i < files.length; i++) {
-        const uploadFile = files[i];
-        
-        // Update status to uploading
-        setFiles((prev) => prev.map((f, idx) => 
-          idx === i ? { ...f, status: 'uploading' as const, progress: 10 } : f
-        ));
+    for (let index = 0; index < files.length; index += 1) {
+      const item = files[index];
+      setFileState(index, { status: 'uploading', progress: 10, error: undefined });
 
-        try {
-          // 1. Upload file to storage
-          const fileName = `${Date.now()}-${uploadFile.file.name}`;
-          const { error: uploadError } = await supabase.storage
-            .from('documents')
-            .upload(fileName, uploadFile.file);
+      const safeName = item.file.name.replace(/[^\p{L}\p{N}._-]+/gu, '-');
+      const objectPath = `${user.id}/${crypto.randomUUID()}/${safeName}`;
+      let storageUploaded = false;
 
-          if (uploadError) throw uploadError;
+      try {
+        const { error: uploadError } = await supabase.storage
+          .from('approval-documents')
+          .upload(objectPath, item.file, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: item.file.type,
+          });
+        if (uploadError) throw uploadError;
+        storageUploaded = true;
+        setFileState(index, { progress: 35 });
 
-          setFiles((prev) => prev.map((f, idx) => 
-            idx === i ? { ...f, progress: 50 } : f
-          ));
+        const docTitle = files.length > 1 ? `${title.trim()} (${index + 1}/${files.length})` : title.trim();
+        const number = `DOC-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
 
-          // 2. Get public URL
-          const { data: urlData } = supabase.storage
-            .from('documents')
-            .getPublicUrl(fileName);
+        const { data: documentRow, error: documentError } = await supabase
+          .from('documents')
+          .insert({
+            number,
+            type: 'document',
+            title: docTitle,
+            description: description.trim() || null,
+            sender_name: profile?.fullName || user.email || user.phone || 'مستخدم',
+            project_id: projectId === 'none' ? null : projectId,
+            file_bucket: 'approval-documents',
+            file_path: objectPath,
+            file_url: null,
+            total: 0,
+            currency: 'EGP',
+            date: new Date().toISOString().slice(0, 10),
+          })
+          .select('id')
+          .single();
+        if (documentError) throw documentError;
+        lastDocumentId = documentRow.id;
 
-          // 3. Create document record
-          const docTitle = files.length > 1 ? `${title} (${i + 1}/${files.length})` : title;
-          const { data: documentData, error: docError } = await supabase
-            .from('documents')
-            .insert({
-              number: `DOC-${Date.now()}-${i}`,
-              type: 'estimate',
-              client_name: senderName || 'غير محدد',
-              title: docTitle,
-              description,
-              sender_name: senderName,
-              project_id: projectId || null,
-              file_url: urlData.publicUrl,
-              status: 'in_review',
-              total: 0,
-              currency: 'SAR',
-            })
-            .select()
-            .single();
+        setFileState(index, { progress: 55 });
 
-          if (docError) throw docError;
-
-          setFiles((prev) => prev.map((f, idx) => 
-            idx === i ? { ...f, progress: 80 } : f
-          ));
-
-          lastDocumentId = documentData.id;
-
-          // 4. Create reviewer records
-          const reviewerRecords = validReviewers.map((r) => ({
-            document_id: documentData.id,
-            reviewer_name: r.name,
-            reviewer_email: r.email,
-            department: r.department,
-          }));
-
-          const { error: reviewerError } = await supabase
-            .from('document_reviewers')
-            .insert(reviewerRecords);
-
-          if (reviewerError) throw reviewerError;
-
-          setFiles((prev) => prev.map((f, idx) => 
-            idx === i ? { ...f, status: 'success' as const, progress: 100 } : f
-          ));
-          
-          successCount++;
-        } catch (fileError) {
-          console.error(`Error uploading file ${i}:`, fileError);
-          setFiles((prev) => prev.map((f, idx) => 
-            idx === i ? { ...f, status: 'error' as const, error: 'فشل الرفع' } : f
-          ));
-        }
-      }
-
-      if (successCount > 0) {
-        toast({
-          title: 'تم الرفع بنجاح',
-          description: `تم رفع ${successCount} من ${files.length} ملفات وإرسالها للمراجعين`,
+        const { error: versionError } = await supabase.from('document_versions').insert({
+          document_id: documentRow.id,
+          version_number: 1,
+          source: 'upload',
+          file_bucket: 'approval-documents',
+          file_path: objectPath,
+          file_url: null,
+          created_by: user.id,
+          notes: 'النسخة الأصلية',
         });
+        if (versionError) throw versionError;
 
-        if (files.length === 1 && lastDocumentId) {
-          navigate(`/documents/${lastDocumentId}`);
-        } else {
-          navigate('/documents');
+        const { data: reviewerRows, error: reviewerError } = await supabase
+          .from('document_reviewers')
+          .insert(validReviewers.map((reviewer) => ({
+            document_id: documentRow.id,
+            reviewer_name: reviewer.name,
+            reviewer_email: reviewer.email,
+            department: reviewer.department,
+            created_by: user.id,
+          })))
+          .select('id');
+        if (reviewerError) throw reviewerError;
+
+        setFileState(index, { progress: 70 });
+
+        for (const reviewerRow of reviewerRows || []) {
+          try {
+            const { data: inviteData, error: inviteError } = await supabase.functions.invoke('send-review-email', {
+              body: { reviewerId: reviewerRow.id },
+            });
+            if (inviteError) throw inviteError;
+            if (inviteData?.success) {
+              invitationCount += 1;
+              if (inviteData.emailSent) emailedCount += 1;
+            }
+          } catch (inviteError) {
+            console.error('[approvals] invitation creation failed', reviewerRow.id, inviteError);
+          }
         }
-      } else {
-        toast({
-          title: 'خطأ',
-          description: 'فشل رفع جميع الملفات',
-          variant: 'destructive',
+
+        await invokeDocumentAction({ action: 'submit_review', documentId: documentRow.id });
+
+        setFileState(index, { status: 'success', progress: 100 });
+        successCount += 1;
+      } catch (error) {
+        console.error('[approvals] document creation failed', error);
+        if (storageUploaded) {
+          const { error: cleanupError } = await supabase.storage.from('approval-documents').remove([objectPath]);
+          if (cleanupError) console.error('[approvals] orphan cleanup failed', cleanupError);
+        }
+        setFileState(index, {
+          status: 'error',
+          error: error instanceof Error ? error.message : 'فشل إنشاء المستند',
         });
       }
-    } catch (error) {
-      console.error('Upload error:', error);
-      toast({
-        title: 'خطأ',
-        description: 'حدث خطأ أثناء رفع المستندات',
-        variant: 'destructive',
-      });
-    } finally {
-      setUploading(false);
     }
+
+    setUploading(false);
+
+    if (!successCount) {
+      toast({ title: 'فشل رفع المستندات', description: 'لم يتم إنشاء أي مستند.', variant: 'destructive' });
+      return;
+    }
+
+    toast({
+      title: 'تم إنشاء المستندات',
+      description: `تم إنشاء ${successCount} مستند، وإنشاء ${invitationCount} رابط مراجعة، وإرسال ${emailedCount} بريد.`,
+    });
+
+    navigate(successCount === 1 && lastDocumentId ? `/approvals/documents/${lastDocumentId}` : '/approvals/documents');
   };
 
   return (
-    <MainLayout title="رفع مستند جديد" subtitle="قم برفع ملف PDF وتحديد المراجعين للتوقيع">
-      <div className="max-w-3xl mx-auto">
-        <Button
-          variant="ghost"
-          className="mb-6"
-          onClick={() => navigate('/documents')}
-        >
-          <ArrowRight className="w-4 h-4 ml-2" />
-          العودة
+    <MainLayout title="رفع مستند جديد" subtitle="رفع PDF وربطه بمشروع وإرساله للمراجعين">
+      <div className="mx-auto max-w-3xl">
+        <Button variant="ghost" className="mb-6" onClick={() => navigate('/approvals/documents')}>
+          <ArrowRight className="me-2 h-4 w-4" />العودة
         </Button>
 
-        <Card className="glass-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Upload className="w-5 h-5" />
-              رفع مستند جديد
-            </CardTitle>
-          </CardHeader>
+        <Card>
+          <CardHeader><CardTitle className="flex items-center gap-2"><Upload className="h-5 w-5" />مستند جديد</CardTitle></CardHeader>
           <CardContent className="space-y-6">
-            {/* File Upload */}
             <div className="space-y-2">
-              <Label>ملفات PDF (يمكن رفع عدة ملفات)</Label>
+              <Label>ملفات PDF</Label>
               <div
-                onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
+                onDragOver={(event) => { event.preventDefault(); setDragActive(true); }}
                 onDragLeave={() => setDragActive(false)}
-                onDrop={handleDrop}
-                className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer hover:border-primary/50 ${
-                  dragActive ? 'border-primary bg-primary/5' : files.length > 0 ? 'border-primary/50' : 'border-border'
-                }`}
-                onClick={() => document.getElementById('file-input')?.click()}
+                onDrop={(event) => { event.preventDefault(); setDragActive(false); void handleFiles(event.dataTransfer.files); }}
+                onClick={() => document.getElementById('approval-file-input')?.click()}
+                className={`cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-colors ${dragActive ? 'border-primary bg-primary/5' : files.length ? 'border-primary/50' : 'border-border'}`}
               >
-                <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
+                <Upload className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
                 <p className="text-muted-foreground">اسحب الملفات هنا أو اضغط للاختيار</p>
-                <p className="text-xs text-muted-foreground mt-2">PDF فقط - يمكن رفع عدة ملفات</p>
+                <p className="mt-2 text-xs text-muted-foreground">PDF فقط — حتى 50MB لكل ملف</p>
                 <input
-                  id="file-input"
+                  id="approval-file-input"
                   type="file"
-                  accept=".pdf"
+                  accept="application/pdf,.pdf"
                   multiple
                   className="hidden"
-                  onChange={handleFileChange}
+                  onChange={(event) => event.target.files && handleFiles(event.target.files)}
+                  disabled={uploading}
                 />
               </div>
-              
-              {/* Files List */}
-              {files.length > 0 && (
-                <div className="space-y-2 mt-4">
-                  {files.map((f, index) => (
-                    <div key={index} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-                      <FileText className={`w-5 h-5 ${
-                        f.status === 'success' ? 'text-green-500' : 
-                        f.status === 'error' ? 'text-destructive' : 
-                        'text-primary'
-                      }`} />
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium truncate">{f.file.name}</p>
-                        {f.status === 'uploading' && (
-                          <Progress value={f.progress} className="h-1 mt-1" />
-                        )}
-                        {f.status === 'error' && (
-                          <p className="text-xs text-destructive">{f.error}</p>
-                        )}
+
+              {files.length ? (
+                <div className="space-y-2 pt-2">
+                  {files.map((item, index) => (
+                    <div key={`${item.file.name}-${item.file.lastModified}-${index}`} className="rounded-lg border p-3">
+                      <div className="flex items-center gap-3">
+                        <FileText className="h-5 w-5 shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium">{item.file.name}</p>
+                          <p className="text-xs text-muted-foreground">{(item.file.size / 1024 / 1024).toFixed(2)} MB</p>
+                        </div>
+                        {item.status === 'pending' ? (
+                          <Button variant="ghost" size="icon" onClick={(event) => { event.stopPropagation(); removeFile(index); }} disabled={uploading}>
+                            <X className="h-4 w-4" />
+                          </Button>
+                        ) : null}
                       </div>
-                      {f.status === 'pending' && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={(e) => { e.stopPropagation(); removeFile(index); }}
-                        >
-                          <X className="w-4 h-4" />
-                        </Button>
-                      )}
-                      {f.status === 'success' && (
-                        <span className="text-xs text-green-500">✓</span>
-                      )}
+                      {item.status !== 'pending' ? <Progress value={item.progress} className="mt-2 h-1" /> : null}
+                      {item.status === 'error' ? <p className="mt-2 text-xs text-destructive">{item.error}</p> : null}
                     </div>
                   ))}
                 </div>
-              )}
+              ) : null}
             </div>
 
-            {/* Project Selection */}
             <div className="space-y-2">
               <Label>المشروع</Label>
-              <Select value={projectId} onValueChange={setProjectId}>
-                <SelectTrigger>
-                  <SelectValue placeholder="اختر المشروع (اختياري)" />
-                </SelectTrigger>
+              <Select value={projectId} onValueChange={setProjectId} disabled={projectsLoading || uploading}>
+                <SelectTrigger><SelectValue placeholder="اختر المشروع (اختياري)" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="project1">مشروع الرياض - فرع 1</SelectItem>
-                  <SelectItem value="project2">مشروع جدة - فرع 2</SelectItem>
-                  <SelectItem value="project3">مشروع الدمام - فرع 3</SelectItem>
+                  <SelectItem value="none">بدون مشروع</SelectItem>
+                  {projects.map((project) => (
+                    <SelectItem key={project.id} value={project.id}>
+                      {project.name}{project.status ? ` — ${project.status}` : ''}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
-            {/* Title */}
             <div className="space-y-2">
-              <Label>عنوان المستند *</Label>
-              <Input
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="مثال: مستخلص أعمال فرع المهندسين"
-              />
+              <Label htmlFor="document-title">عنوان المستند *</Label>
+              <Input id="document-title" value={title} onChange={(event) => setTitle(event.target.value)} disabled={uploading} />
             </div>
 
-            {/* Description */}
             <div className="space-y-2">
-              <Label>الوصف</Label>
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="وصف مختصر للمستند..."
-                rows={3}
-              />
+              <Label htmlFor="document-description">الوصف</Label>
+              <Textarea id="document-description" value={description} onChange={(event) => setDescription(event.target.value)} rows={3} disabled={uploading} />
             </div>
 
-            {/* Sender Name */}
             <div className="space-y-2">
-              <Label>اسم المرسل</Label>
-              <Input
-                value={senderName}
-                onChange={(e) => setSenderName(e.target.value)}
-                placeholder="اسمك"
-              />
+              <Label>المرسل</Label>
+              <Input value={profile?.fullName || user?.email || user?.phone || ''} disabled />
             </div>
 
-            {/* Reviewers */}
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Label className="text-lg font-bold">المراجعون</Label>
-                <Button variant="outline" size="sm" onClick={addReviewer}>
-                  <Plus className="w-4 h-4 ml-2" />
-                  إضافة مراجع
+              <div className="flex items-center justify-between gap-3">
+                <Label className="text-base font-bold">المراجعون</Label>
+                <Button variant="outline" size="sm" onClick={addReviewer} disabled={uploading}>
+                  <Plus className="me-2 h-4 w-4" />إضافة مراجع
                 </Button>
               </div>
 
               {reviewers.map((reviewer, index) => (
-                <Card key={reviewer.id} className="border border-border">
+                <Card key={reviewer.id}>
                   <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="mb-4 flex items-center justify-between">
                       <span className="font-medium">مراجع {index + 1}</span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-destructive hover:text-destructive"
-                        onClick={() => removeReviewer(reviewer.id)}
-                        disabled={reviewers.length === 1}
-                      >
-                        <Trash2 className="w-4 h-4" />
+                      <Button variant="ghost" size="icon" className="text-destructive" onClick={() => removeReviewer(reviewer.id)} disabled={reviewers.length === 1 || uploading}>
+                        <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid gap-4 md:grid-cols-3">
                       <div className="space-y-2">
                         <Label>الإدارة</Label>
-                        <Select
-                          value={reviewer.department}
-                          onValueChange={(v) =>
-                            updateReviewer(reviewer.id, 'department', v)
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue />
-                          </SelectTrigger>
+                        <Select value={reviewer.department} onValueChange={(value) => updateReviewer(reviewer.id, 'department', value)} disabled={uploading}>
+                          <SelectTrigger><SelectValue /></SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="engineering">الهندسة</SelectItem>
-                            <SelectItem value="procurement">المشتريات</SelectItem>
-                            <SelectItem value="accounting">الحسابات</SelectItem>
+                            {Object.entries(departmentLabels).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}
                           </SelectContent>
                         </Select>
                       </div>
                       <div className="space-y-2">
-                        <Label>اسم المراجع *</Label>
-                        <Input
-                          value={reviewer.name}
-                          onChange={(e) =>
-                            updateReviewer(reviewer.id, 'name', e.target.value)
-                          }
-                          placeholder="الاسم"
-                        />
+                        <Label>الاسم *</Label>
+                        <Input value={reviewer.name} onChange={(event) => updateReviewer(reviewer.id, 'name', event.target.value)} disabled={uploading} />
                       </div>
                       <div className="space-y-2">
-                        <Label>البريد الإلكتروني</Label>
-                        <Input
-                          type="email"
-                          value={reviewer.email}
-                          onChange={(e) =>
-                            updateReviewer(reviewer.id, 'email', e.target.value)
-                          }
-                          placeholder="email@example.com"
-                        />
+                        <Label>البريد *</Label>
+                        <Input type="email" dir="ltr" value={reviewer.email} onChange={(event) => updateReviewer(reviewer.id, 'email', event.target.value)} disabled={uploading} />
                       </div>
                     </div>
                   </CardContent>
@@ -433,24 +414,9 @@ export default function UploadDocument() {
               ))}
             </div>
 
-            {/* Submit Button */}
-            <Button
-              className="w-full"
-              size="lg"
-              onClick={handleSubmit}
-              disabled={uploading}
-            >
-              {uploading ? (
-                <>
-                  <Loader2 className="w-5 h-5 ml-2 animate-spin" />
-                  جاري الرفع...
-                </>
-              ) : (
-                <>
-                  <Send className="w-5 h-5 ml-2" />
-                  رفع وإرسال للمراجعة
-                </>
-              )}
+            <Button className="w-full" size="lg" onClick={() => void handleSubmit()} disabled={uploading}>
+              {uploading ? <Loader2 className="me-2 h-5 w-5 animate-spin" /> : <Send className="me-2 h-5 w-5" />}
+              {uploading ? 'جارٍ الإنشاء والإرسال...' : 'رفع وإرسال للمراجعة'}
             </Button>
           </CardContent>
         </Card>

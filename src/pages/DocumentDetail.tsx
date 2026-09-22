@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { MainLayout } from '@/components/layout/MainLayout';
-import { useDocument, useDocumentComments, useDocumentVersions, useDocumentAuditLogs, useAddComment, useUpdateDocumentStatus } from '@/hooks/useDocuments';
+import { useDocument, useDocumentComments, useDocumentVersions, useDocumentAuditLogs, useAddComment, useUpdateDocumentStatus, invokeDocumentAction } from '@/hooks/useDocuments';
 import { STATUS_LABELS, STATUS_CLASSES, DOCUMENT_TYPE_LABELS, DocumentStatus } from '@/types/document';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -36,6 +36,13 @@ import {
   Printer
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { ReviewLinksDialog } from '@/components/documents/ReviewLinksDialog';
+import { SignaturePanel } from '@/components/review/SignaturePanel';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useApprovalAccess } from '@/hooks/useApprovalAccess';
+import { FileUploader } from '@/components/review/FileUploader';
+import UserAvatar from '@/components/shared/UserAvatar';
 import { supabase } from '@/integrations/supabase/client';
 
 interface QuoteItem {
@@ -53,6 +60,9 @@ export default function DocumentDetail() {
   const [newComment, setNewComment] = useState('');
   const [items, setItems] = useState<QuoteItem[]>([]);
   const [itemsLoading, setItemsLoading] = useState(false);
+  const [reviewLinksOpen, setReviewLinksOpen] = useState(false);
+  const [signDialogOpen, setSignDialogOpen] = useState(false);
+  const [signing, setSigning] = useState(false);
   
   const { data: document, isLoading } = useDocument(id || '');
   const { data: comments = [] } = useDocumentComments(id || '');
@@ -61,6 +71,8 @@ export default function DocumentDetail() {
   
   const addComment = useAddComment();
   const updateStatus = useUpdateDocumentStatus();
+  const queryClient = useQueryClient();
+  const { canReview, canApprove } = useApprovalAccess();
 
   // Fetch quote items from database
   useEffect(() => {
@@ -133,6 +145,25 @@ export default function DocumentDetail() {
     updateStatus.mutate({ id, status });
   };
 
+  const handleSign = async (signatureData: string) => {
+    if (!id) return;
+    setSigning(true);
+    try {
+      await invokeDocumentAction({ action: 'sign', documentId: id, signatureData });
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['document', id] }),
+        queryClient.invalidateQueries({ queryKey: ['documents'] }),
+        queryClient.invalidateQueries({ queryKey: ['documentStats'] }),
+        queryClient.invalidateQueries({ queryKey: ['documentAuditLogs', id] }),
+      ]);
+      setSignDialogOpen(false);
+    } catch (error) {
+      console.error('[approvals] signing failed', error);
+    } finally {
+      setSigning(false);
+    }
+  };
+
   const handlePrint = () => {
     window.print();
   };
@@ -161,7 +192,7 @@ export default function DocumentDetail() {
           <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
           <p className="text-muted-foreground">لم يتم العثور على المستند المطلوب</p>
           <Button asChild className="mt-4">
-            <Link to="/documents">العودة للمستندات</Link>
+            <Link to="/approvals/documents">العودة للمستندات</Link>
           </Button>
         </div>
       </MainLayout>
@@ -194,7 +225,8 @@ export default function DocumentDetail() {
     }).format(new Date(dateString));
   };
 
-  const docType = document.type as 'invoice' | 'quote';
+  const docType = document.type as 'invoice' | 'quote' | 'estimate' | 'document';
+  const typeLabel = docType === 'document' ? 'مستند' : DOCUMENT_TYPE_LABELS[docType as 'invoice' | 'quote' | 'estimate'];
   const docStatus = document.status as DocumentStatus;
 
   // Calculate totals from items
@@ -215,10 +247,10 @@ export default function DocumentDetail() {
   };
 
   return (
-    <MainLayout title={document.number} subtitle={DOCUMENT_TYPE_LABELS[docType]}>
+    <MainLayout title={document.number} subtitle={typeLabel}>
       {/* Back Button */}
       <Link 
-        to="/documents" 
+        to="/approvals/documents" 
         className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors print:hidden"
       >
         <ArrowRight className="w-4 h-4" />
@@ -238,7 +270,7 @@ export default function DocumentDetail() {
                     <FileText className="w-7 h-7 text-primary" />
                   </div>
                   <div>
-                    <CardTitle className="text-xl">{DOCUMENT_TYPE_LABELS[docType]}</CardTitle>
+                    <CardTitle className="text-xl">{typeLabel}</CardTitle>
                     <p className="text-muted-foreground text-sm mt-1 font-mono">{document.number}</p>
                   </div>
                 </div>
@@ -391,11 +423,7 @@ export default function DocumentDetail() {
                 <CardContent className="p-4 space-y-4">
                   {/* New Comment */}
                   <div className="flex gap-3">
-                    <Avatar className="w-10 h-10">
-                      <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                        م
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar className="h-10 w-10" />
                     <div className="flex-1">
                       <Textarea
                         placeholder="أضف تعليقك هنا..."
@@ -453,6 +481,17 @@ export default function DocumentDetail() {
             <TabsContent value="versions" className="mt-4">
               <Card>
                 <CardContent className="p-4">
+                  {canReview && (
+                    <div className="mb-5">
+                      <FileUploader
+                        documentId={document.id}
+                        onUploadComplete={() => {
+                          void queryClient.invalidateQueries({ queryKey: ['documentVersions', document.id] });
+                          void queryClient.invalidateQueries({ queryKey: ['document', document.id] });
+                        }}
+                      />
+                    </div>
+                  )}
                   {versions.length === 0 ? (
                     <p className="text-center text-muted-foreground py-4">لا توجد إصدارات</p>
                   ) : (
@@ -528,66 +567,56 @@ export default function DocumentDetail() {
               </div>
 
               <div className="space-y-2">
-                {document.status === 'in_review' && (
+                {canReview && (
+                  <Button
+                    className="w-full gap-2"
+                    variant="outline"
+                    onClick={() => setReviewLinksOpen(true)}
+                  >
+                    <Mail className="h-4 w-4" />
+                    روابط ودعوات المراجعين
+                  </Button>
+                )}
+
+                {canApprove && document.status === 'in_review' && (
                   <>
-                    <Button 
-                      className="w-full gap-2" 
-                      variant="default"
+                    <Button
+                      className="w-full gap-2"
                       onClick={() => handleStatusUpdate('approved')}
                       disabled={updateStatus.isPending}
                     >
-                      {updateStatus.isPending ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <CheckCircle className="w-4 h-4" />
-                      )}
+                      {updateStatus.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
                       اعتماد المستند
                     </Button>
-                    <Button 
-                      className="w-full gap-2" 
+                    <Button
+                      className="w-full gap-2"
                       variant="outline"
                       onClick={() => handleStatusUpdate('needs_fix')}
                       disabled={updateStatus.isPending}
                     >
-                      <AlertCircle className="w-4 h-4" />
+                      <AlertCircle className="h-4 w-4" />
                       طلب تعديل
                     </Button>
                   </>
                 )}
-                {document.status === 'ready_to_approve' && (
-                  <Button 
-                    className="w-full gap-2" 
-                    variant="default"
-                    onClick={() => handleStatusUpdate('approved')}
-                    disabled={updateStatus.isPending}
-                  >
-                    {updateStatus.isPending ? (
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                    ) : (
-                      <CheckCircle className="w-4 h-4" />
-                    )}
-                    اعتماد المستند
+
+                {canApprove && document.status === 'ready_to_approve' && (
+                  <Button className="w-full gap-2" onClick={() => handleStatusUpdate('approved')} disabled={updateStatus.isPending}>
+                    {updateStatus.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle className="h-4 w-4" />}
+                    الاعتماد النهائي
                   </Button>
                 )}
-                {document.status === 'approved' && (
-                  <Button 
-                    className="w-full gap-2" 
-                    variant="default"
-                    onClick={() => handleStatusUpdate('signed')}
-                    disabled={updateStatus.isPending}
-                  >
-                    <PenTool className="w-4 h-4" />
+
+                {canApprove && document.status === 'approved' && (
+                  <Button className="w-full gap-2" onClick={() => setSignDialogOpen(true)}>
+                    <PenTool className="h-4 w-4" />
                     توقيع المستند
                   </Button>
                 )}
-                {document.status === 'draft' && (
-                  <Button 
-                    className="w-full gap-2" 
-                    variant="default"
-                    onClick={() => handleStatusUpdate('in_review')}
-                    disabled={updateStatus.isPending}
-                  >
-                    <Send className="w-4 h-4" />
+
+                {canReview && ['draft', 'needs_fix'].includes(document.status) && (
+                  <Button className="w-full gap-2" onClick={() => handleStatusUpdate('in_review')} disabled={updateStatus.isPending}>
+                    <Send className="h-4 w-4" />
                     إرسال للمراجعة
                   </Button>
                 )}
@@ -684,6 +713,20 @@ export default function DocumentDetail() {
           )}
         </div>
       </div>
+
+      <ReviewLinksDialog
+        open={reviewLinksOpen}
+        onOpenChange={setReviewLinksOpen}
+        documentId={document.id}
+        documentTitle={document.title || document.number}
+      />
+
+      <Dialog open={signDialogOpen} onOpenChange={setSignDialogOpen}>
+        <DialogContent dir="rtl">
+          <DialogHeader><DialogTitle>توقيع المستند</DialogTitle></DialogHeader>
+          <SignaturePanel onSign={(signature) => void handleSign(signature)} disabled={signing} />
+        </DialogContent>
+      </Dialog>
     </MainLayout>
   );
 }

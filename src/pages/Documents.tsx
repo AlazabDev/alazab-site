@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useApprovalAccess } from '@/hooks/useApprovalAccess';
 import { toast } from 'sonner';
 
 // Transform DB document to UI document format
@@ -31,7 +33,7 @@ function transformDocument(doc: DBDocument) {
   return {
     id: doc.id,
     daftraId: doc.daftra_id || '',
-    type: doc.type as 'invoice' | 'quote',
+    type: doc.type as 'invoice' | 'quote' | 'estimate' | 'document',
     number: doc.number,
     clientName: doc.client_name,
     clientEmail: doc.client_email || '',
@@ -53,9 +55,10 @@ export default function Documents() {
   const [searchParams] = useSearchParams();
   const statusFilter = searchParams.get('status') as DocumentStatus | null;
   const queryClient = useQueryClient();
+  const { canManage } = useApprovalAccess();
   
   const [viewMode, setViewMode] = useState<'grid' | 'table'>('table');
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(searchParams.get('search') || '');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedStatus, setSelectedStatus] = useState<string>(statusFilter || 'all');
   const [isSyncing, setIsSyncing] = useState(false);
@@ -73,21 +76,18 @@ export default function Documents() {
   const handleSync = async () => {
     setIsSyncing(true);
     try {
-      const response = await fetch(
-        `https://zrrffsjbfkphridqyais.supabase.co/functions/v1/sync-daftra`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
-      
-      if (!response.ok) throw new Error('Sync failed');
-      
+      const { data, error } = await supabase.functions.invoke('sync-daftra', {
+        body: { type: 'all', page: 1, limit: 15 },
+      });
+      if (error) throw error;
+      if (!data?.success) throw new Error(data?.error || 'فشلت المزامنة');
+
       await refetch();
-      queryClient.invalidateQueries({ queryKey: ['documentStats'] });
-      toast.success('تمت المزامنة بنجاح');
+      await queryClient.invalidateQueries({ queryKey: ['documentStats'] });
+      toast.success(`تمت مزامنة ${data.synced || 0} مستند`);
     } catch (error) {
-      toast.error('فشلت المزامنة');
+      console.error('[approvals] Daftra sync failed', error);
+      toast.error(error instanceof Error ? error.message : 'فشلت المزامنة');
     } finally {
       setIsSyncing(false);
     }
@@ -152,20 +152,12 @@ export default function Documents() {
             </Button>
           </div>
 
-          {/* Sync Button */}
-          <Button 
-            variant="outline" 
-            className="gap-2"
-            onClick={handleSync}
-            disabled={isSyncing}
-          >
-            {isSyncing ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <RefreshCw className="w-4 h-4" />
-            )}
-            مزامنة
-          </Button>
+          {canManage && (
+            <Button variant="outline" className="gap-2" onClick={() => void handleSync()} disabled={isSyncing}>
+              {isSyncing ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+              مزامنة
+            </Button>
+          )}
         </div>
       </div>
 

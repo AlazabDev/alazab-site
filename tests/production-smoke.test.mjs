@@ -17,7 +17,8 @@ test('project files use persistent storage', () => {
   const hook = read('src/hooks/useProject.ts');
   const upload = read('src/components/project/ProjectFileUpload.tsx');
   assert.match(hook, /from\('project_files'\)/);
-  assert.match(upload, /from\('project-files'\)/);\n  assert.match(upload, /projectId}\/\${user.id}/);
+  assert.match(upload, /from\('project-files'\)/);
+  assert.match(upload, /projectId}\/\$\{user\.id\}/);
   assert.doesNotMatch(hook, /TODO:/);
   assert.doesNotMatch(upload, /TODO:/);
 });

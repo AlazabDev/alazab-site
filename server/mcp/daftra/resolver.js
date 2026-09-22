@@ -81,7 +81,7 @@ function projectMap() {
     const parsed = JSON.parse(process.env.DAFTRA_PROJECT_COST_CENTER_MAP || '{}');
     return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
   } catch (error) {
-    throw new Error(`Invalid DAFTRA_PROJECT_COST_CENTER_MAP JSON: ${error.message}`);
+    throw new Error(`Invalid DAFTRA_PROJECT_COST_CENTER_MAP JSON: ${error.message}`, { cause: error });
   }
 }
 

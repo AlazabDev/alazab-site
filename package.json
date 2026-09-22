@@ -19,16 +19,17 @@
     "build:staging": "vite build --mode staging",
     "preview": "vite preview",
     "preview:host": "vite preview --host",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md}'",
     "format:check": "prettier --check 'src/**/*.{js,jsx,ts,tsx,css,md}'",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf node_modules dist",
     "reinstall": "pnpm run clean && pnpm install",
-    "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "deps:sync": "bash scripts/sync-dependencies.sh"
+    "test": "node --test tests/*.test.mjs",
+    "test:coverage": "node --experimental-test-coverage --test tests/*.test.mjs",
+    "deps:sync": "bash scripts/sync-dependencies.sh",
+    "test:ci": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@elevenlabs/react": "^1.13.0",

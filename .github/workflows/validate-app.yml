@@ -6,7 +6,8 @@ on:
       - development
       - main
       - 'agent/**'
-      - 'feature/**'\n      - 'fix/**'
+      - 'feature/**'
+      - 'fix/**'
   pull_request:
     branches: [main, development]
   workflow_dispatch:

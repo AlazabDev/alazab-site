@@ -113,6 +113,17 @@ server {
         proxy_send_timeout 3600s;
     }
 
+    location ^~ /fm-files/ {
+        alias /var/www/core/alazab-site/fm/;
+        autoindex on;
+        autoindex_format json;
+        autoindex_exact_size off;
+        autoindex_localtime on;
+        add_header Cache-Control "no-store, no-cache, must-revalidate" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        charset utf-8;
+    }
+
     location /dataset/ {
         alias /var/www/core/alazab-site/dataset/;
         autoindex on;

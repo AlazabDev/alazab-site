@@ -78,6 +78,7 @@ const AdminContentManager = lazy(() => import('./pages/AdminContentManager'));
 const AdminServerDashboard = lazy(() => import('./pages/AdminServerDashboard'));
 const TikTokLinkPage = lazy(() => import('./pages/TikTokLinkPage'));
 const ReceiptsPage = lazy(() => import('./pages/ReceiptsPage'));
+const FormsManagerPage = lazy(() => import('./pages/FormsManagerPage'));
 const ContentSectionPage = lazy(() => import('./content/lib/ContentPages').then((m) => ({ default: m.ContentSectionPage })));
 const ContentArticlePage = lazy(() => import('./content/lib/ContentPages').then((m) => ({ default: m.ContentArticlePage })));
 
@@ -128,6 +129,7 @@ function App() {
                         <Route path="/maintenance-tracking" element={<MaintenanceTracking />} />
                         <Route path="/services" element={<ServicesPage />} />
                         <Route path="/cost-calculator" element={<CostCalculator />} />
+                        <Route path="/fm" element={<FormsManagerPage />} />
                         <Route path="/projects" element={<ProjectsPage />} />
                         <Route path="/portfolio/:projectId" element={<ProjectPortfolioDetails />} />
                         <Route path="/about" element={<AboutPage />} />

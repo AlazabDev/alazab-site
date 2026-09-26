@@ -74,6 +74,7 @@ const mainSections: SidebarSection[] = [
       { title: "خدماتنا", href: "/services", icon: Wrench, description: "تصفح جميع خدماتنا" },
       { title: "مشاريعنا", href: "/projects-gallery", icon: Building, description: "معرض المشاريع المنجزة" },
       { title: "معرض الأثاث", href: "/furniture-gallery", icon: Camera, description: "أثاث وتصميم داخلي فاخر", badge: "جديد" },
+      { title: "نماذج العمل", href: "/fm", icon: FileText, description: "تحميل نماذج الصيانة والتوريد والتشغيل", badge: "جديد" },
       { title: "من نحن", href: "/about", icon: Users, description: "تعرف على شركتنا" },
       { title: "اتصل بنا", href: "/contact", icon: Phone, description: "طرق التواصل معنا" },
     ]

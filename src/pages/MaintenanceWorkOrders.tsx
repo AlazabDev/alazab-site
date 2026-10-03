@@ -42,6 +42,21 @@ const statusLabels: Record<string, string> = {
   cancelled: 'ملغي',
 };
 
+const allowedTransitions: Record<string, string[]> = {
+  new: ['triaged', 'cancelled'],
+  triaged: ['approved', 'cancelled'],
+  approved: ['assigned', 'scheduled', 'cancelled'],
+  assigned: ['scheduled', 'in_progress', 'cancelled'],
+  scheduled: ['in_progress', 'cancelled'],
+  in_progress: ['waiting_parts', 'waiting_approval', 'completed', 'cancelled'],
+  waiting_parts: ['in_progress', 'completed', 'cancelled'],
+  waiting_approval: ['in_progress', 'completed', 'cancelled'],
+  completed: ['financial_review'],
+  financial_review: ['closed', 'in_progress'],
+  closed: [],
+  cancelled: [],
+};
+
 const MaintenanceWorkOrders: React.FC = () => {
   const [rows, setRows] = useState<WorkOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -82,6 +97,15 @@ const MaintenanceWorkOrders: React.FC = () => {
 
   const updateStatus = async (row: WorkOrder, nextStatus: string) => {
     if (nextStatus === row.status) return;
+    if (!(allowedTransitions[row.status] || []).includes(nextStatus)) {
+      toast({
+        title: 'انتقال حالة غير مسموح',
+        description: `${statusLabels[row.status] || row.status} → ${statusLabels[nextStatus] || nextStatus}`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
     const { error } = await (supabase as any)
       .from('maintenance_work_orders')
       .update({ status: nextStatus })
@@ -158,26 +182,34 @@ const MaintenanceWorkOrders: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filtered.map((row) => (
-                      <TableRow key={row.id}>
-                        <TableCell className="font-mono text-xs">{row.work_order_number}</TableCell>
-                        <TableCell>
-                          <div className="font-medium">{row.title}</div>
-                          <div className="text-xs text-muted-foreground">{row.service_type || 'غير مصنف'}</div>
-                        </TableCell>
-                        <TableCell>{row.branch || '—'}</TableCell>
-                        <TableCell><Badge variant="outline">{row.priority}</Badge></TableCell>
-                        <TableCell className="min-w-[180px]">
-                          <Select value={row.status} onValueChange={(value) => void updateStatus(row, value)}>
-                            <SelectTrigger><SelectValue /></SelectTrigger>
-                            <SelectContent>
-                              {Object.entries(statusLabels).map(([value, label]) => <SelectItem key={value} value={value}>{label}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                        </TableCell>
-                        <TableCell>{row.actual_cost ?? row.estimated_cost ?? '—'}</TableCell>
-                      </TableRow>
-                    ))}
+                    {filtered.map((row) => {
+                      const nextStatuses = allowedTransitions[row.status] || [];
+                      return (
+                        <TableRow key={row.id}>
+                          <TableCell className="font-mono text-xs">{row.work_order_number}</TableCell>
+                          <TableCell>
+                            <div className="font-medium">{row.title}</div>
+                            <div className="text-xs text-muted-foreground">{row.service_type || 'غير مصنف'}</div>
+                          </TableCell>
+                          <TableCell>{row.branch || '—'}</TableCell>
+                          <TableCell><Badge variant="outline">{row.priority}</Badge></TableCell>
+                          <TableCell className="min-w-[180px]">
+                            {nextStatuses.length > 0 ? (
+                              <Select value={row.status} onValueChange={(value) => void updateStatus(row, value)}>
+                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value={row.status}>{statusLabels[row.status] || row.status}</SelectItem>
+                                  {nextStatuses.map((value) => <SelectItem key={value} value={value}>{statusLabels[value] || value}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            ) : (
+                              <Badge variant="secondary">{statusLabels[row.status] || row.status}</Badge>
+                            )}
+                          </TableCell>
+                          <TableCell>{row.actual_cost ?? row.estimated_cost ?? '—'}</TableCell>
+                        </TableRow>
+                      );
+                    })}
                     {!loading && filtered.length === 0 && (
                       <TableRow><TableCell colSpan={6} className="h-28 text-center text-muted-foreground">لا توجد أوامر عمل مطابقة.</TableCell></TableRow>
                     )}

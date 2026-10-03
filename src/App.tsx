@@ -22,6 +22,8 @@ import NotFound from './pages/NotFound';
 const MaintenanceRequest = lazy(() => import('./pages/MaintenanceRequest'));
 const MaintenanceTracking = lazy(() => import('./pages/MaintenanceTracking'));
 const MaintenanceList = lazy(() => import('./pages/MaintenanceList'));
+const MaintenanceOperations = lazy(() => import('./pages/MaintenanceOperations'));
+const MaintenanceWorkOrders = lazy(() => import('./pages/MaintenanceWorkOrders'));
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'));
 const ProjectManagement = lazy(() => import('./pages/ProjectManagement'));
@@ -181,6 +183,11 @@ function App() {
                         <Route path="/pn" element={<PNPage />} />
                         <Route path="/search" element={protectedPage(<SearchPage />)} />
                         <Route path="/messages" element={protectedPage(<MessagesPage />)} />
+                        <Route path="/maintenance" element={protectedPage(<MaintenanceOperations />)} />
+                        <Route path="/maintenance/requests" element={protectedPage(<MaintenanceList />)} />
+                        <Route path="/maintenance/work-orders" element={protectedPage(<MaintenanceWorkOrders />)} />
+                        <Route path="/maintenance/receipts" element={protectedPage(<ReceiptsPage />)} />
+                        <Route path="/maintenance/reports" element={protectedPage(<MaintenanceReports />)} />
                         <Route path="/maintenance-list" element={protectedPage(<MaintenanceList />)} />
                         <Route path="/project-management" element={protectedPage(<ProjectManagement />)} />
                         <Route path="/projects/:projectId" element={protectedPage(<ProjectDetails />)} />

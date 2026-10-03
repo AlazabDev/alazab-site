@@ -118,6 +118,7 @@ $$;
 create or replace function public.maintenance_log_work_order_status()
 returns trigger
 language plpgsql
+security definer
 set search_path = public
 as $$
 begin
@@ -131,6 +132,10 @@ begin
   return new;
 end;
 $$;
+
+revoke all on function public.maintenance_log_work_order_status() from public;
+revoke all on function public.maintenance_log_work_order_status() from anon;
+revoke all on function public.maintenance_log_work_order_status() from authenticated;
 
 drop trigger if exists maintenance_work_orders_validate_transition on public.maintenance_work_orders;
 create trigger maintenance_work_orders_validate_transition

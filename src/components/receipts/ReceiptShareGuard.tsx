@@ -13,6 +13,7 @@ function accessMessage(error: unknown): string {
   if (raw.includes("share_device_limit_reached")) return "تم الوصول إلى الحد المسموح للأجهزة لهذا الرابط. افتح الرابط من جهاز مسجل أو اطلب رابطًا جديدًا.";
   if (raw.includes("share_session_missing")) return "هذه الصفحة تحتاج رابط المراجعة الأصلي الذي تم إرساله لك.";
   if (raw.includes("share_session_invalid")) return "انتهت جلسة المراجعة على هذا الجهاز. افتح رابط المشاركة الأصلي مرة أخرى.";
+  if (raw.includes("share_link_invalid")) return "رابط المراجعة غير صالح أو لم يعد متاحًا. اطلب رابطًا جديدًا من فريق العزب.";
   return "تعذر التحقق من رابط المراجعة. تأكد أنك تستخدم الرابط الأصلي المرسل لك.";
 }
 
@@ -46,10 +47,12 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
         const hashToken = params.get("hash")?.trim() || "";
         const legacyShareToken = params.get("share")?.trim() || "";
         const shareToken = hashToken || legacyShareToken;
-        const queryDeviceId = params.get("device")?.trim() || "";
 
         if (shareToken) {
-          const deviceId = queryDeviceId || getOrCreateDeviceId();
+          // The device identity must always originate from this browser. Accepting a
+          // device id from the URL would allow a forwarded link to impersonate an
+          // already registered device and bypass the intended device limit.
+          const deviceId = getOrCreateDeviceId();
 
           const { data, error } = await (supabase as any).rpc(
             "redeem_auf_share_link",
@@ -68,7 +71,7 @@ export default function ReceiptShareGuard({ children }: ReceiptShareGuardProps) 
           window.localStorage.setItem(SHARE_DEVICE_KEY, deviceId);
 
           // Capability token is used once, then removed from the browser address bar.
-          window.history.replaceState({}, document.title, "/receipts");
+          window.history.replaceState({}, document.title, window.location.pathname);
 
           if (active) setState("allowed");
           return;

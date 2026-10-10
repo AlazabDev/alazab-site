@@ -7,6 +7,7 @@ import {
   Download,
   FileSpreadsheet,
   FileText,
+  Printer,
   Maximize2,
   MessageSquareText,
   RotateCw,
@@ -125,6 +126,7 @@ export default function ReceiptReviewExperience() {
   const [secureImageUrl, setSecureImageUrl] = useState("");
   const [imageError, setImageError] = useState(false);
   const [zoom, setZoom] = useState(1);
+  const [reviewZoom, setReviewZoom] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
   const [showOnlyErrors, setShowOnlyErrors] = useState(false);
@@ -375,6 +377,27 @@ export default function ReceiptReviewExperience() {
     else await viewerRef.current.requestFullscreen();
   };
 
+  const printCurrentReceipt = () => {
+    if (!current || !secureImageUrl) { setFatalError("صورة الإذن لم تُحمّل بعد."); return; }
+    const popup = window.open("", "_blank");
+    if (!popup) { setFatalError("يرجى السماح بفتح نافذة الطباعة."); return; }
+    const escapeHtml = (value: unknown) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[ch] || ch));
+    const itemsHtml = current.items.map((item,index) =>
+      `<tr><td>${index+1}</td><td>${escapeHtml(item.description)}</td><td>${escapeHtml(item.unit)}</td><td>${escapeHtml(item.quantity)}</td><td>${fmt(item.unit_price)}</td><td>${fmt(item.total)}</td></tr>`
+    ).join("");
+    popup.document.open();
+    popup.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>${escapeHtml(current.receipt_code)}</title>
+    <style>body{font-family:Tahoma,Arial;margin:20mm;color:#030957}h1{font-size:22px}header{display:flex;justify-content:space-between}img{max-width:100%;max-height:210mm;object-fit:contain;display:block;margin:auto}table{width:100%;border-collapse:collapse;font-size:12px}td,th{border:1px solid #bbb;padding:7px;text-align:right}.total{font-weight:bold;margin:15px 0}.pagebreak{break-before:page}@media print{button{display:none}body{margin:9mm}}</style></head>
+    <body><header><h1>إذن استلام صيانة — ${escapeHtml(current.receipt_code)}</h1><b>${escapeHtml(current.branch)} — ${escapeHtml(current.receipt_date)}</b></header>
+    <button onclick="window.print()">طباعة / حفظ PDF</button>
+    <img id="receipt-original" src="${escapeHtml(secureImageUrl)}" alt="صورة إذن الاستلام"/>
+    <section class="pagebreak"><h2>Receipt — ${escapeHtml(current.receipt_code)}</h2>
+    <table><thead><tr><th>#</th><th>وصف البند</th><th>الوحدة</th><th>الكمية</th><th>سعر الوحدة</th><th>الإجمالي</th></tr></thead><tbody>${itemsHtml}</tbody></table>
+    <p class="total">قبل الضريبة: ${fmt(current.subtotal)} ج.م | ضريبة 14%: ${fmt(current.vat_14)} ج.م | خصم 1%: ${fmt(current.withholding_1)} ج.م | الصافي: ${fmt(current.net_total)} ج.م</p>
+    <p>حالة المراجعة: ${currentReview?.result === "correct" ? "تم التحقق والاعتماد" : currentReview?.result === "incorrect" ? "غير مطابق" : "لم تكتمل المراجعة"} — ${currentReview?.error_comment ? escapeHtml(currentReview.error_comment) : "لا توجد ملاحظة عامة مسجلة"}</p></section></body></html>`);
+    popup.document.close();
+  };
+
   const fetchReport = async () => {
     if (!sessionToken) throw new Error("session_missing");
     return await rpc("auf_review_report", { p_session_token: sessionToken }) as ReviewReportPayloadV2;
@@ -435,6 +458,7 @@ export default function ReceiptReviewExperience() {
           <form onSubmit={submitJump}><Search size={16}/><input value={jumpValue} onChange={(e)=>setJumpValue(e.target.value)} inputMode="numeric"/><button>انتقال</button></form>
           <button className="excel" onClick={exportExcel} disabled={exporting !== null}><FileSpreadsheet size={17}/>{exporting === "excel" ? "جارٍ الإنشاء" : "Excel"}</button>
           <button className="pdf" onClick={exportPdf} disabled={exporting !== null}><FileText size={17}/>{exporting === "pdf" ? "جارٍ التجهيز" : "PDF"}</button>
+          <button className="pdf" type="button" onClick={printCurrentReceipt} title="طباعة الإذن أو حفظه PDF" disabled={!secureImageUrl}><Printer size={17}/>طباعة الإذن</button>
         </div>
       </header>
 
@@ -465,10 +489,18 @@ export default function ReceiptReviewExperience() {
         </section>
 
         <aside className="rx-review">
+          <div className="rx-review-scale-controls" aria-label="حجم لوحة المراجعة">
+            <span>حجم المراجعة</span>
+            <button type="button" onClick={()=>setReviewZoom(z=>Math.max(.8,Math.round((z-.1)*10)/10))} aria-label="تصغير جزء المراجعة"><ZoomOut size={15}/></button>
+            <button type="button" onClick={()=>setReviewZoom(1)}>{Math.round(reviewZoom*100)}%</button>
+            <button type="button" onClick={()=>setReviewZoom(z=>Math.min(1.4,Math.round((z+.1)*10)/10))} aria-label="تكبير جزء المراجعة"><ZoomIn size={15}/></button>
+          </div>
+          <div className="rx-review-scaled" style={{zoom:reviewZoom}}>
           <section className="rx-data">
             <div className="rx-card-head"><div><span>بيانات الإذن</span><b>{current.receipt_code}</b></div><button className={showOnlyErrors ? "active" : ""} onClick={()=>setShowOnlyErrors((v)=>!v)}><AlertCircle size={14}/>الأخطاء فقط</button></div>
             <div className="rx-facts"><div><span>الفرع</span><b>{current.branch}</b></div><div><span>التاريخ</span><b>{current.receipt_date}</b></div><div><span>البنود</span><b>{current.items_count}</b></div><div><span>الكمية</span><b>{fmt(current.total_quantity)}</b></div></div>
             <div className="rx-items"><h3>بنود الصيانة <small>اكتب الملاحظة على نفس البند</small></h3>{current.items.map((item,index)=>{const line=item.line_no||index+1;const note=itemNotes[line]||"";return <article key={line} className={note.trim()?"has-note":""}><div className="rx-item-row"><i>{line}</i><div><b>{item.description||"—"}</b><span>{item.unit||"—"} × {fmt(item.quantity)} × {fmt(item.unit_price)}</span></div><strong>{fmt(item.total)}</strong></div><label><MessageSquareText size={14}/><textarea rows={1} value={note} onChange={(e)=>setNote(line,e.target.value)} placeholder="ملاحظة على هذا البند — اتركه فارغًا إذا كان مطابقًا"/><small>{noteSaving[line]?"جارٍ الحفظ…":note.trim()?"محفوظ":""}</small></label></article>})}</div>
+            <div className="rx-audit-note">{completed ? "تم اتخاذ قرار على مستوى الإذن بالكامل؛ البنود التي لم تُسجل عليها ملاحظات لا تُعد معتمدة بشكل مستقل." : "عدم تسجيل ملاحظة لا يعني التحقق من كل البيانات. اعتماد الإذن الكامل يتم من قرار المراجعة أدناه."}</div>
             <div className="rx-money"><div><span>قبل الضريبة</span><b>{fmt(current.subtotal)}</b></div><div><span>VAT 14%</span><b>{fmt(current.vat_14)}</b></div><div><span>خصم 1%</span><b>{fmt(current.withholding_1)}</b></div><div className="net"><span>صافي الإذن</span><b>{fmt(current.net_total)}</b></div></div>
           </section>
 
@@ -480,6 +512,7 @@ export default function ReceiptReviewExperience() {
             <button className="rx-save" onClick={saveAndNext} disabled={!selectedResult||saving}>{saving?"جارٍ الحفظ…":completed?"حفظ التحديث":selectedResult==="correct"?"اعتماد والانتقال للتالي":"حفظ الملاحظات والانتقال للتالي"}</button>
             <div className="rx-shortcuts"><span>1 مطابق</span><span>2 غير مطابق</span><span>← → تنقل</span><span>+ − تكبير</span><span>ملاحظات البنود تحفظ تلقائيًا</span></div>
           </section>
+          </div>
         </aside>
       </main>
 

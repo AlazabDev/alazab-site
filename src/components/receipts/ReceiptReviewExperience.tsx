@@ -398,6 +398,62 @@ export default function ReceiptReviewExperience() {
     popup.document.close();
   };
 
+  const printAllOriginalReceipts = async () => {
+    if (!sessionToken || !receipts.length) return;
+    // Open immediately from the click to avoid popup blockers; load protected images in small batches.
+    const popup = window.open("", "_blank");
+    if (!popup) { setFatalError("يرجى السماح بفتح نافذة طباعة الأذون."); return; }
+    popup.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>أذون أبو عوف — 120</title>
+    <style>body{font-family:Tahoma,Arial;color:#030957;text-align:center;margin:0}.receipt-page{break-after:page;page-break-after:always;min-height:280mm;padding:8mm;box-sizing:border-box}.receipt-page h2{font-size:16px;margin:0 0 6mm}.receipt-page img{max-width:100%;max-height:250mm;object-fit:contain}#progress{position:sticky;top:0;background:#fff;padding:16px;border-bottom:1px solid #ccc}@page{size:A4;margin:5mm}@media print{#progress{display:none}}</style></head><body><div id="progress">جارٍ تجهيز صور الأذون…</div><main id="pages"></main></body></html>`);
+    popup.document.close();
+    const progress = popup.document.getElementById("progress");
+    const pages = popup.document.getElementById("pages");
+    if (!pages || !progress) return;
+    const deviceId = window.localStorage.getItem(DEVICE_KEY) || "";
+    const urls: string[] = [];
+    let printed = 0;
+    try {
+      for (let offset = 0; offset < receipts.length; offset += 5) {
+        const batch = receipts.slice(offset, offset + 5);
+        const images = await Promise.all(batch.map(async (receipt) => {
+          const response = await fetch(`${IMAGE_ENDPOINT}?receipt=${receipt.receipt_number}`, {
+            headers: { "x-share-session": sessionToken, "x-share-device": deviceId }, cache: "no-store",
+          });
+          if (!response.ok) throw new Error(`print_image_${receipt.receipt_number}_${response.status}`);
+          const url = URL.createObjectURL(await response.blob());
+          urls.push(url);
+          return { receipt, url };
+        }));
+        for (const {receipt,url} of images) {
+          const page = popup.document.createElement("section");
+          page.className = "receipt-page";
+          const heading = popup.document.createElement("h2");
+          heading.textContent = `${receipt.receipt_code} — ${receipt.branch} — ${receipt.receipt_date}`;
+          const img = popup.document.createElement("img");
+          img.src = url;
+          img.alt = receipt.receipt_code;
+          page.append(heading,img);
+          pages.appendChild(page);
+          printed += 1;
+        }
+        progress.textContent = `تم تجهيز ${printed} من ${receipts.length} إذنًا…`;
+      }
+      // Wait for decoding before triggering the browser's PDF/print interface.
+      await Promise.all(Array.from(pages.querySelectorAll("img")).map((img) =>
+        img.decode().catch(() => { throw new Error("print_image_decode_failed"); })
+      ));
+      progress.textContent = "جميع الأذون جاهزة — اختر طباعة ثم حفظ بصيغة PDF.";
+      const button = popup.document.createElement("button");
+      button.textContent = "طباعة جميع الأذون / حفظ PDF";
+      button.onclick = () => popup.print();
+      progress.appendChild(button);
+    } catch (error) {
+      console.error(error);
+      progress.textContent = `تعذر تجهيز مجموعة الأذون بالكامل. تم تحميل ${printed} إذنًا فقط. لم يبدأ التصدير.`;
+    }
+    popup.addEventListener("pagehide", () => urls.forEach((url) => URL.revokeObjectURL(url)), { once: true });
+  };
+
   const fetchReport = async () => {
     if (!sessionToken) throw new Error("session_missing");
     return await rpc("auf_review_report", { p_session_token: sessionToken }) as ReviewReportPayloadV2;
@@ -459,6 +515,7 @@ export default function ReceiptReviewExperience() {
           <button className="excel" onClick={exportExcel} disabled={exporting !== null}><FileSpreadsheet size={17}/>{exporting === "excel" ? "جارٍ الإنشاء" : "Excel"}</button>
           <button className="pdf" onClick={exportPdf} disabled={exporting !== null}><FileText size={17}/>{exporting === "pdf" ? "جارٍ التجهيز" : "PDF"}</button>
           <button className="pdf" type="button" onClick={printCurrentReceipt} title="طباعة الإذن أو حفظه PDF" disabled={!secureImageUrl}><Printer size={17}/>طباعة الإذن</button>
+          <button className="pdf" type="button" onClick={()=>void printAllOriginalReceipts()} title="طباعة الأذون الـ120 وحفظها كملف PDF"><Printer size={17}/>طباعة 120 إذنًا</button>
         </div>
       </header>
 

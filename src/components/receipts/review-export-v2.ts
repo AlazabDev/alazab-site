@@ -268,11 +268,11 @@ export async function exportReviewWorkbookV2(report: ReviewReportPayloadV2) {
 
   // Financial detail: one row per maintenance item, directly comparable with the supplied reference register.
   const itemSheetRows: Array<Array<string | number | null>> = [
-    ["م","رقم إذن","التاريخ","الفرع","رقم البند","وصف الصيانة","الوحدة","الكمية","سعر الوحدة","إجمالي البند","ضريبة الإذن 14%","خصم الإذن 1%","صافي الإذن","حالة الإذن","ملاحظة البند"],
+    ["م","رقم إذن","التاريخ","الفرع","رقم البند","وصف الصيانة","الوحدة","الكمية","سعر الوحدة","إجمالي البند","ضريبة الإذن 14%","خصم الإذن 1%","صافي الإذن","حالة الإذن","حالة البند","ملاحظة البند"],
     ...report.rows.flatMap((row) => (row.items || []).map((item,index) => {
       const line = item.line_no || index + 1;
       const note = (row.item_notes || []).find((entry) => entry.line_no === line)?.comment || "";
-      return [0,row.receipt_code,row.receipt_date,row.branch,line,item.description || "",item.unit || "",n(item.quantity),n(item.unit_price),n(item.total),n(row.vat_14),n(row.withholding_1),n(row.net_total),row.review_result === "correct" ? "معتمد" : row.review_result === "incorrect" ? "غير معتمد" : "قيد المراجعة",note];
+      return [0,row.receipt_code,row.receipt_date,row.branch,line,item.description || "",item.unit || "",n(item.quantity),n(item.unit_price),n(item.total),n(row.vat_14),n(row.withholding_1),n(row.net_total),row.review_result === "correct" ? "معتمد" : row.review_result === "incorrect" ? "غير معتمد" : "قيد المراجعة",note ? "ملاحظة مسجلة" : "لم يراجع منفردًا",note];
     })),
   ];
   itemSheetRows.slice(1).forEach((row,index) => { row[0] = index + 1; });
@@ -285,7 +285,7 @@ export async function exportReviewWorkbookV2(report: ReviewReportPayloadV2) {
   const workbook = createWorkbook([
     { name:"ملخص المراجعة", rows:summaryRows, widths:[30,38], freezeTop:false },
     { name:"نتائج الأذون", rows:receiptRows, widths:[10,16,14,28,11,14,13,12,14,14,38,15,24] },
-    { name:"بنود الصيانة", rows:itemSheetRows, widths:[9,17,16,28,10,56,12,12,15,15,16,16,16,17,50] },
+    { name:"بنود الصيانة", rows:itemSheetRows, widths:[9,17,16,28,10,56,12,12,15,15,16,16,16,17,18,50] },
     { name:"ملاحظات البنود", rows:issueSheetRows, widths:[10,16,14,26,10,46,12,10,13,13,52] },
   ]);
 
@@ -483,10 +483,10 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
     ctx.font="bold 66px Arial, Tahoma, sans-serif";
     ctx.fillText("✓",width/2,y+90);
     ctx.font="bold 30px Arial, Tahoma, sans-serif";
-    ctx.fillText("تم اعتماد جميع الأذون بدون ملاحظات",width/2,y+150);
+    ctx.fillText("لا توجد ملاحظات مسجلة على الأذون",width/2,y+150);
     ctx.fillStyle="#667085";
     ctx.font="20px Arial, Tahoma, sans-serif";
-    ctx.fillText("لا توجد استثناءات أو بنود مخالفة مسجلة أثناء المراجعة.",width/2,y+195);
+    ctx.fillText("لا تعني هذه النتيجة تحقق كل بند منفردًا.",width/2,y+195);
     ctx.textAlign="right";
   } else {
     for (const row of incorrect) {

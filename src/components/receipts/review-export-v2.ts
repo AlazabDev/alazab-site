@@ -266,6 +266,17 @@ export async function exportReviewWorkbookV2(report: ReviewReportPayloadV2) {
     ]),
   ];
 
+  // Financial detail: one row per maintenance item, directly comparable with the supplied reference register.
+  const itemSheetRows: Array<Array<string | number | null>> = [
+    ["م","رقم إذن","التاريخ","الفرع","رقم البند","وصف الصيانة","الوحدة","الكمية","سعر الوحدة","إجمالي البند","ضريبة الإذن 14%","خصم الإذن 1%","صافي الإذن","حالة الإذن","ملاحظة البند"],
+    ...report.rows.flatMap((row) => (row.items || []).map((item,index) => {
+      const line = item.line_no || index + 1;
+      const note = (row.item_notes || []).find((entry) => entry.line_no === line)?.comment || "";
+      return [0,row.receipt_code,row.receipt_date,row.branch,line,item.description || "",item.unit || "",n(item.quantity),n(item.unit_price),n(item.total),n(row.vat_14),n(row.withholding_1),n(row.net_total),row.review_result === "correct" ? "معتمد" : row.review_result === "incorrect" ? "غير معتمد" : "قيد المراجعة",note];
+    })),
+  ];
+  itemSheetRows.slice(1).forEach((row,index) => { row[0] = index + 1; });
+
   const issueSheetRows: Array<Array<string | number | null>> = [
     ["رقم الإذن","الكود","التاريخ","الفرع","رقم البند","وصف البند","الوحدة","الكمية","سعر الوحدة","الإجمالي","ملاحظة المراجع"],
     ...issues.map((row) => [row.receipt_number,row.receipt_code,row.date,row.branch,row.line_no,row.description,row.unit,n(row.quantity),n(row.unit_price),n(row.total),row.comment]),
@@ -274,6 +285,7 @@ export async function exportReviewWorkbookV2(report: ReviewReportPayloadV2) {
   const workbook = createWorkbook([
     { name:"ملخص المراجعة", rows:summaryRows, widths:[30,38], freezeTop:false },
     { name:"نتائج الأذون", rows:receiptRows, widths:[10,16,14,28,11,14,13,12,14,14,38,15,24] },
+    { name:"بنود الصيانة", rows:itemSheetRows, widths:[9,17,16,28,10,56,12,12,15,15,16,16,16,17,50] },
     { name:"ملاحظات البنود", rows:issueSheetRows, widths:[10,16,14,26,10,46,12,10,13,13,52] },
   ]);
 
@@ -516,6 +528,43 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
       }
       y += 20;
     }
+  }
+
+  // Append the complete receipt register instead of exporting only a summary.
+  const perPage = 17;
+  for (let offset = 0; offset < report.rows.length; offset += perPage) {
+    startPage(true);
+    ctx.textAlign = "right";
+    ctx.fillStyle = "#030957";
+    ctx.font = "bold 24px Arial, Tahoma, sans-serif";
+    ctx.fillText("كشف الأذون التفصيلي — التاريخ والفرع والحالة والقيم المالية",width-margin,y);
+    y += 38;
+    roundedRect(margin,y,width-margin*2,55,8,"#030957");
+    ctx.fillStyle="#ffffff";
+    ctx.font="bold 16px Arial, Tahoma, sans-serif";
+    ctx.fillText("الإذن / الفرع",width-margin-12,y+35);
+    ctx.fillText("التاريخ",width-margin-390,y+35);
+    ctx.fillText("قبل الضريبة",width-margin-560,y+35);
+    ctx.fillText("الضريبة",width-margin-715,y+35);
+    ctx.fillText("الصافي",width-margin-850,y+35);
+    y += 62;
+    for (const row of report.rows.slice(offset, offset+perPage)) {
+      roundedRect(margin,y,width-margin*2,67,5,((y/67|0)%2)?"#f8fafc":"#ffffff","#e2e8f0");
+      ctx.fillStyle="#111827";ctx.font="bold 17px Arial, Tahoma, sans-serif";
+      ctx.fillText(row.receipt_code,width-margin-12,y+26);
+      ctx.font="15px Arial, Tahoma, sans-serif";
+      ctx.fillText(String(row.branch).slice(0,32),width-margin-12,y+51);
+      ctx.fillText(row.receipt_date,width-margin-390,y+34);
+      ctx.fillText(money.format(n(row.subtotal)),width-margin-560,y+34);
+      ctx.fillText(money.format(n(row.vat_14)),width-margin-715,y+34);
+      ctx.fillText(money.format(n(row.net_total)),width-margin-850,y+34);
+      ctx.fillStyle=row.review_result==="correct"?"#117a3f":row.review_result==="incorrect"?"#b42318":"#667085";
+      ctx.font="bold 13px Arial, Tahoma, sans-serif";
+      ctx.fillText(row.review_result==="correct"?"تم التحقق":row.review_result==="incorrect"?"اختلاف مسجل":"غير مكتمل",width-margin-390,y+54);
+      y+=72;
+    }
+    ctx.fillStyle="#030957";ctx.font="bold 20px Arial, Tahoma, sans-serif";
+    ctx.fillText(`إجمالي صافي الأذون: ${money.format(totalNet)} ج.م`,width-margin,y+30);
   }
 
   pages.forEach((page,index)=>{

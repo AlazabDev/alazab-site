@@ -280,9 +280,6 @@ importers:
       tailwind-merge:
         specifier: ^3.6.0
         version: 3.7.0
-      tailwindcss-animate:
-        specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@3.4.19)
       vaul:
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -332,6 +329,9 @@ importers:
       tailwindcss:
         specifier: 3.4.19
         version: 3.4.19
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@3.4.19)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3

@@ -77,12 +77,9 @@ const Header: React.FC = () => {
               <Globe className="h-4 w-4 sm:me-1" /><span className="hidden sm:inline">{language === 'ar' ? 'EN' : 'عربي'}</span>
             </Button>
 
-<<<<<<< Updated upstream
-            <a href="https://erp.alaza.cloud/apps" target="_blank" rel="noopener noreferrer" className="hidden h-10 items-center justify-center rounded-xl border-2 border-construction-primary bg-construction-accent px-3 text-sm font-extrabold text-construction-primary 2xl:flex">ERP</a>
-=======
             {/* ERP Link - Hidden on Mobile */}
             <a
-              href="https://erp.alazab.cloud/apps"
+              href="https://erp.alazab.com/desk"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden lg:flex h-10 min-w-14 items-center justify-center rounded-xl border-2 border-construction-primary bg-construction-accent px-3 text-sm font-extrabold tracking-wide text-construction-primary shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
@@ -91,7 +88,6 @@ const Header: React.FC = () => {
             >
               ERP
             </a>
->>>>>>> Stashed changes
 
             <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
               <SheetTrigger asChild>

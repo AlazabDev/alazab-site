@@ -7,8 +7,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
+node_moduls/
+server/node_modules/
 dist-ssr
 *.local
 
@@ -38,3 +38,15 @@ dist.next/
 *.backup-*
 *.bak.*
 supabase/migrations-bak/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Backup files
+*.bak
+backup/
+backups/
+*.backup

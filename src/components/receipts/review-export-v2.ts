@@ -567,6 +567,44 @@ function buildClientReportCanvases(report: ReviewReportPayloadV2): HTMLCanvasEle
     ctx.fillText(`إجمالي صافي الأذون: ${money.format(totalNet)} ج.م`,width-margin,y+30);
   }
 
+  // Itemized PDF ledger matching the level of detail in the supplied 22-page reference.
+  const itemLedger = report.rows.flatMap((row) => (row.items || []).map((item,index) => ({
+    code: row.receipt_code, date: row.receipt_date, branch: row.branch,
+    number: item.line_no || index+1, description: item.description || "—",
+    unit: item.unit || "", quantity: n(item.quantity), price: n(item.unit_price), total: n(item.total),
+  })));
+  for (let offset=0; offset<itemLedger.length; offset+=17) {
+    startPage(true);
+    ctx.textAlign="right";ctx.fillStyle="#030957";ctx.font="bold 25px Arial, Tahoma, sans-serif";
+    ctx.fillText(`كشف بنود الصيانة التفصيلي (${offset+1}–${Math.min(offset+17,itemLedger.length)} من ${itemLedger.length})`,width-margin,y);
+    y+=36;
+    roundedRect(margin,y,width-margin*2,50,8,"#030957");
+    ctx.fillStyle="#ffffff";ctx.font="bold 16px Arial, Tahoma, sans-serif";
+    ctx.fillText("الإذن",width-margin-12,y+32);
+    ctx.fillText("البند والوصف",width-margin-160,y+32);
+    ctx.fillText("الكمية",width-margin-700,y+32);
+    ctx.fillText("سعر الوحدة",width-margin-815,y+32);
+    ctx.fillText("الإجمالي",width-margin-960,y+32);
+    y+=60;
+    itemLedger.slice(offset,offset+17).forEach((item,index)=>{
+      roundedRect(margin,y,width-margin*2,69,5,index%2?"#f8fafc":"#ffffff","#e2e8f0");
+      ctx.fillStyle="#111827";ctx.font="bold 16px Arial, Tahoma, sans-serif";
+      ctx.fillText(item.code,width-margin-12,y+29);
+      ctx.font="14px Arial, Tahoma, sans-serif";
+      ctx.fillText(item.date,width-margin-12,y+51);
+      ctx.font="bold 16px Arial, Tahoma, sans-serif";
+      const description = String(item.description);
+      const display = description.length>68 ? description.slice(0,67)+"…" : description;
+      ctx.fillText(`${item.number}. ${display}`,width-margin-160,y+29,530);
+      ctx.font="14px Arial, Tahoma, sans-serif";
+      ctx.fillText(String(item.branch).slice(0,42),width-margin-160,y+52,525);
+      ctx.fillText(`${money.format(item.quantity)} ${item.unit}`,width-margin-700,y+36);
+      ctx.fillText(money.format(item.price),width-margin-815,y+36);
+      ctx.fillText(money.format(item.total),width-margin-960,y+36);
+      y+=74;
+    });
+  }
+
   pages.forEach((page,index)=>{
     const footer=page.getContext("2d");
     if(!footer) return;

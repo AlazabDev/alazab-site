@@ -73,6 +73,7 @@ const QuotationManagement = lazy(() => import('./pages/QuotationManagement'));
 const WebhookMonitorPage = lazy(() => import('./pages/WebhookMonitorPage'));
 const FacebookPage = lazy(() => import('./pages/FacebookPage'));
 const SitemapPage = lazy(() => import('./pages/SitemapPage'));
+const ThemeGuidePage = lazy(() => import('./pages/ThemeGuidePage'));
 const MetaAccountsPage = lazy(() => import('./pages/MetaAccountsPage'));
 const InternalWebhookPage = lazy(() => import('./pages/InternalWebhookPage'));
 const CostCalculator = lazy(() => import('./pages/CostCalculator'));
@@ -163,6 +164,7 @@ function App() {
                         <Route path="/security" element={<SecurityDisclosurePage />} />
                         <Route path="/facebook" element={<FacebookPage />} />
                         <Route path="/sitemap" element={<SitemapPage />} />
+                        <Route path="/theme" element={<ThemeGuidePage />} />
                         <Route path="/blogs" element={<ContentSectionPage section="blogs" />} />
                         <Route path="/blogs/:slug" element={<ContentArticlePage section="blogs" />} />
                         <Route path="/knowledge" element={<ContentSectionPage section="knowledge" />} />

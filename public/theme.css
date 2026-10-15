@@ -99,3 +99,42 @@
 @media (prefers-reduced-motion: reduce) {
   .az-button { transition: none; }
 }
+
+.az-link {
+  color: var(--az-color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.az-link:hover { color: var(--az-color-primary-hover); }
+
+.az-quote {
+  color: var(--az-color-text);
+  background: rgb(38 45 174 / 7%);
+  border-right: 4px solid var(--az-color-primary);
+  border-radius: var(--az-radius-md);
+  padding: 1rem;
+}
+
+.az-panel {
+  background: var(--az-white);
+  border: 1px solid var(--az-color-border);
+  border-radius: var(--az-radius-md);
+  padding: 0.75rem;
+}
+
+.az-stat-card {
+  background: var(--az-white);
+  border: 1px solid var(--az-color-border);
+  border-radius: var(--az-radius-md);
+  padding: 0.75rem;
+}
+
+.az-button-outline {
+  color: var(--az-color-primary);
+  background: var(--az-white);
+  border-color: var(--az-color-primary);
+}
+.az-button-outline:hover {
+  color: var(--az-white);
+  background: var(--az-color-primary);
+}

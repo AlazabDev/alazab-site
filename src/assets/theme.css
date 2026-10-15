@@ -1,0 +1,257 @@
+from pathlib import Path
+
+content = r"""/* =========================================================
+   Alazab Design System — Global Theme
+   Version: 1.0.0
+   Usage: include this file globally in your website.
+   Example: <link rel="stylesheet" href="/assets/theme.css">
+   ========================================================= */
+
+:root {
+  color-scheme: light;
+
+  /* Brand palette */
+  --color-gray-light: #E7E7E7;
+  --color-gray-pale: #F8F8F8;
+  --color-brown-dark: #170D02;
+  --color-white: #FFFFFF;
+  --color-gold: #FFB900;
+  --color-blue-royal: #262DAE;
+  --color-navy: #030957;
+  --color-red: #DC2626;
+  --color-green: #008000;
+
+  /* Semantic colors */
+  --color-primary: var(--color-blue-royal);
+  --color-primary-hover: #1D238C;
+  --color-primary-active: #171C70;
+  --color-accent: var(--color-gold);
+  --color-success: var(--color-green);
+  --color-danger: var(--color-red);
+  --color-text: var(--color-brown-dark);
+  --color-text-muted: #626262;
+  --color-background: var(--color-white);
+  --color-surface: var(--color-gray-pale);
+  --color-border: var(--color-gray-light);
+  --color-focus-ring: #262DAE;
+
+  /* Typography */
+  --font-family-base: Inter, "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --line-height-base: 1.5;
+
+  /* Layout and shape */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-pill: 999px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgb(23 13 2 / 8%);
+  --shadow-md: 0 4px 12px rgb(23 13 2 / 10%);
+}
+
+/* Consistent box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+  line-height: var(--line-height-base);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-md);
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Shared text styles */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  line-height: 1.2;
+  margin-block: 0 var(--space-4);
+}
+
+h1 { font-size: clamp(2rem, 4vw, 2.75rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h3 { font-size: var(--font-size-xl); }
+
+p {
+  margin-block: 0 var(--space-4);
+}
+
+small,
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+/* Shared controls: use these classes or map framework components to them */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.5rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease,
+              color 150ms ease, box-shadow 150ms ease;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  color: var(--color-white);
+}
+
+.btn-accent {
+  background: var(--color-accent);
+  color: var(--color-brown-dark);
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: #E6A600;
+  color: var(--color-brown-dark);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background: var(--color-gray-pale);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  color: var(--color-text);
+  font: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary);
+  outline: 2px solid rgb(38 45 174 / 15%);
+  outline-offset: 1px;
+}
+
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4);
+}
+
+.badge-success {
+  color: var(--color-white);
+  background: var(--color-success);
+}
+
+.badge-danger {
+  color: var(--color-white);
+  background: var(--color-danger);
+}
+
+.badge-gold {
+  color: var(--color-brown-dark);
+  background: var(--color-accent);
+}
+
+/* Utilities */
+.bg-surface { background: var(--color-surface); }
+.bg-navy { background: var(--color-navy); }
+.text-primary { color: var(--color-primary); }
+.text-gold { color: var(--color-accent); }
+.text-success { color: var(--color-success); }
+.text-danger { color: var(--color-danger); }
+.border-default { border: 1px solid var(--color-border); }
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+
+/* Optional right-to-left support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

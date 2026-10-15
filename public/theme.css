@@ -1,0 +1,101 @@
+/* Alazab Global Theme — public/theme.css
+ * Public URL after deployment: https://alazab.com/theme.css
+ * Brand palette: royal blue, deep navy, gold, green and red.
+ */
+:root {
+  --az-gray-100: #E7E7E7;
+  --az-gray-50: #F8F8F8;
+  --az-brown-950: #170D02;
+  --az-white: #FFFFFF;
+  --az-gold: #FFB900;
+  --az-blue-royal: #262DAE;
+  --az-navy: #030957;
+  --az-red: #DC2626;
+  --az-green: #008000;
+
+  --az-color-primary: var(--az-blue-royal);
+  --az-color-primary-hover: #1E248E;
+  --az-color-primary-active: var(--az-navy);
+  --az-color-accent: var(--az-gold);
+  --az-color-success: var(--az-green);
+  --az-color-danger: var(--az-red);
+  --az-color-text: var(--az-brown-950);
+  --az-color-text-muted: #626262;
+  --az-color-background: var(--az-white);
+  --az-color-surface: var(--az-gray-50);
+  --az-color-border: var(--az-gray-100);
+
+  --az-font-family: "IBM Plex Sans Arabic", "IBM Plex Sans", "Segoe UI", Tahoma, Arial, sans-serif;
+  --az-radius-sm: 4px;
+  --az-radius-md: 8px;
+  --az-radius-lg: 12px;
+  --az-shadow-sm: 0 1px 3px rgb(23 13 2 / 8%);
+  --az-shadow-md: 0 8px 24px rgb(23 13 2 / 12%);
+  --az-focus-ring: 0 0 0 3px rgb(38 45 174 / 22%);
+}
+
+/* Optional reusable classes for pages and components */
+.az-theme {
+  color: var(--az-color-text);
+  background: var(--az-color-background);
+  font-family: var(--az-font-family);
+}
+
+.az-surface {
+  background: var(--az-color-surface);
+  border: 1px solid var(--az-color-border);
+  border-radius: var(--az-radius-lg);
+}
+
+.az-text-primary { color: var(--az-color-primary); }
+.az-text-muted { color: var(--az-color-text-muted); }
+.az-text-gold { color: var(--az-color-accent); }
+.az-bg-primary { background: var(--az-color-primary); }
+.az-bg-navy { background: var(--az-navy); }
+.az-bg-gold { background: var(--az-color-accent); }
+.az-border-default { border-color: var(--az-color-border); }
+
+.az-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: var(--az-radius-md);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.az-button-primary {
+  color: var(--az-white);
+  background: var(--az-color-primary);
+}
+.az-button-primary:hover { background: var(--az-color-primary-hover); }
+
+.az-button-accent {
+  color: var(--az-brown-950);
+  background: var(--az-color-accent);
+}
+.az-button-accent:hover { background: #E6A600; }
+
+.az-card {
+  background: var(--az-white);
+  border: 1px solid var(--az-color-border);
+  border-radius: var(--az-radius-lg);
+  box-shadow: var(--az-shadow-sm);
+}
+
+.az-focusable:focus-visible,
+.az-button:focus-visible {
+  outline: none;
+  box-shadow: var(--az-focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .az-button { transition: none; }
+}

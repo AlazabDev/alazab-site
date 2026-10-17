@@ -37,7 +37,7 @@
     <meta property="og:url" content="https://alazab.com" />
     <link rel="canonical" href="https://alazab.com" />
 
-    <meta property="fb:app_id" content="889346333913449" />
+    <meta property="fb:app_id" content="1061494059972503" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@alazab_co" />
     <meta name="twitter:image" content="https://alazab.com/alazab-icon.png" />
@@ -100,7 +100,17 @@
       gtag('config', 'G-HYGP9YENF9');
     </script>
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/ar_AR/sdk.js#xfbml=1&version=v25.0&appId=615557577912061"></script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: '1061494059972503',
+          autoLogAppEvents: true,
+          xfbml: true,
+          version: 'v26.0'
+        });
+      };
+    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <div id="root"></div>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>

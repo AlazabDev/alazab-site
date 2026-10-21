@@ -66,6 +66,7 @@ const RefundPolicyPage = lazy(() => import('./pages/legal/RefundPolicyPage'));
 const AcceptableUsePolicyPage = lazy(() => import('./pages/legal/AcceptableUsePolicyPage'));
 const DisclaimerPage = lazy(() => import('./pages/legal/DisclaimerPage'));
 const SecurityDisclosurePage = lazy(() => import('./pages/legal/SecurityDisclosurePage'));
+const WhatsAppEmbeddedSignupPage = lazy(() => import('./pages/WhatsAppEmbeddedSignupPage'));
 const WhatsAppSetupPage = lazy(() => import('./pages/WhatsAppSetupPage'));
 const ResetPasswordPage = lazy(() => import('./pages/ResetPasswordPage'));
 const WhatsAppManagementPage = lazy(() => import('./pages/WhatsAppManagementPage'));
@@ -210,6 +211,7 @@ function App() {
                         <Route path="/whatsapp-management" element={adminPage(<WhatsAppManagementPage />)} />
                         <Route path="/quotation-management" element={adminPage(<QuotationManagement />)} />
                         <Route path="/webhook-monitor" element={adminPage(<WebhookMonitorPage />)} />
+                        <Route path="/whatsapp-connect" element={adminPage(<WhatsAppEmbeddedSignupPage />)} />
                         <Route path="/meta-accounts" element={adminPage(<MetaAccountsPage />)} />
                         <Route path="/internal-webhook" element={adminPage(<InternalWebhookPage />)} />
                       </Route>

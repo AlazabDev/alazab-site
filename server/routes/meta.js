@@ -56,6 +56,7 @@ router.get('/health', async (req, res) => {
 });
 
 router.use(requireAdminAccess);
+router.use('/embedded-signup', require('./whatsapp-embedded-signup'));
 
 // GET /api/meta/accounts
 router.get('/accounts', async (req, res) => {

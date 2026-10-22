@@ -32,8 +32,8 @@ const Hero: React.FC = () => {
           </h1>
           <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
             {t(
-              'شركة العزب (Alazab)، ومن خلال أربعة خطوط إنتاج متخصصة، تقدم حلولاً شاملة لا مثيل لها. خبرتنا تمتد لعقدين من الزمن، وتتجلى اليوم في: التشطيب الراقي للوحدات السكنية، هوية العلامة التجارية للمحلات التجارية الكبرى، UberFix للصيانة المعمارية المتطورة، و Laban Alasfour لتوفير أصعب الخامات.',
-              'Alazab, through four specialized production lines, offers unparalleled comprehensive solutions. Our expertise spans two decades and is now embodied in: Luxury Finishing for residential units, Brand Identity for major retail outlets, UberFix for advanced architectural maintenance, and Laban Alasfour for sourcing the rarest materials.'
+              'شركة العزب (Alazab)، ومن خلال أربعة خطوط إنتاج متخصصة، تقدم حلولاً شاملة لا مثيل لها. خبرتنا تمتد لعقدين من الزمن، وتتجلى اليوم في: التشطيب الراقي للوحدات السكنية، هوية العلامة التجارية للمحلات التجارية الكبرى، UberFix للصيانة المعمارية المتطورة، و Smart Light لتوفير أصعب الخامات.',
+              'Alazab, through four specialized production lines, offers unparalleled comprehensive solutions. Our expertise spans two decades and is now embodied in: Luxury Finishing for residential units, Brand Identity for major retail outlets, UberFix for advanced architectural maintenance, and Smart Light for sourcing the rarest materials.'
             )}
           </p>
           <div className="flex flex-wrap gap-4">

@@ -39,7 +39,7 @@ export const alazabFaq: AlazabFaqItem[] = [
     "brand_id": "alazab_group",
     "intent": "alazab_group.general",
     "question": "ما العلامات التابعة لمجموعة العزب؟",
-    "answer": "العلامات الأساسية هي: Alazab Group للتوجيه العام، Brand Identity للمساحات التجارية، Luxury Finishing للتشطيبات السكنية الراقية، UberFix للصيانة وإدارة المرافق، وLaban Alasfour للتوريدات والخامات والمنتجات المعمارية.",
+    "answer": "العلامات الأساسية هي: Alazab Group للتوجيه العام، Brand Identity للمساحات التجارية، Luxury Finishing للتشطيبات السكنية الراقية، UberFix للصيانة وإدارة المرافق، وSmart Light للتوريدات والخامات والمنتجات المعمارية.",
     "required_followup": [],
     "tags": [
       "علامات",
@@ -52,7 +52,7 @@ export const alazabFaq: AlazabFaqItem[] = [
     "brand_id": "alazab_group",
     "intent": "alazab_group.general",
     "question": "كيف أعرف المسار المناسب لطلبي؟",
-    "answer": "لو الطلب صيانة أو عطل فهو UberFix. لو فرع أو محل أو واجهة فهو Brand Identity. لو شقة أو فيلا أو تشطيب داخلي فهو Luxury Finishing. لو خامة أو قطعة أو توريد فهو Laban Alasfour. ولو الطلب غير واضح تبدأ من Alazab Group للتوجيه.",
+    "answer": "لو الطلب صيانة أو عطل فهو UberFix. لو فرع أو محل أو واجهة فهو Brand Identity. لو شقة أو فيلا أو تشطيب داخلي فهو Luxury Finishing. لو خامة أو قطعة أو توريد فهو Smart Light. ولو الطلب غير واضح تبدأ من Alazab Group للتوجيه.",
     "required_followup": [
       "هل طلبك صيانة أم تشطيب أم فرع تجاري أم توريد؟"
     ],
@@ -106,7 +106,7 @@ export const alazabFaq: AlazabFaqItem[] = [
     "brand_id": "alazab_group",
     "intent": "alazab_group.general",
     "question": "ما الفرق بين الموقع الرئيسي والمواقع الفرعية؟",
-    "answer": "الموقع الرئيسي alazab.com هو بوابة المجموعة والتوجيه العام. المواقع الفرعية مخصصة لمسارات محددة: Brand Identity للتجاري، Luxury Finishing للسكني، UberFix للصيانة، وLaban Alasfour للتوريدات.",
+    "answer": "الموقع الرئيسي alazab.com هو بوابة المجموعة والتوجيه العام. المواقع الفرعية مخصصة لمسارات محددة: Brand Identity للتجاري، Luxury Finishing للسكني، UberFix للصيانة، وSmart Light للتوريدات.",
     "required_followup": [],
     "tags": [
       "مواقع",
@@ -452,8 +452,8 @@ export const alazabFaq: AlazabFaqItem[] = [
     "id": "faq_033",
     "brand_id": "laban_alasfour",
     "intent": "laban_alasfour.general",
-    "question": "ما هو Laban Alasfour؟",
-    "answer": "Laban Alasfour هو مسار التوريدات والخامات والمنتجات المعمارية، خاصة المنتجات النادرة أو القطع التي يصعب الوصول إليها أو تحتاج بديلًا مناسبًا.",
+    "question": "ما هو Smart Light؟",
+    "answer": "Smart Light هو مسار التوريدات والخامات والمنتجات المعمارية، خاصة المنتجات النادرة أو القطع التي يصعب الوصول إليها أو تحتاج بديلًا مناسبًا.",
     "required_followup": [
       "ما نوع المنتج أو الخامة المطلوبة؟"
     ],
@@ -493,7 +493,7 @@ export const alazabFaq: AlazabFaqItem[] = [
     "id": "faq_036",
     "brand_id": "laban_alasfour",
     "intent": "laban_alasfour.general",
-    "question": "هل Laban Alasfour يخدم الصيانة؟",
+    "question": "هل Smart Light يخدم الصيانة؟",
     "answer": "نعم، يمكن أن يخدم طلبات الصيانة عند الحاجة إلى قطعة أو خامة أو بديل لإتمام الإصلاح، لكنه ليس مسار تسجيل البلاغ نفسه؛ البلاغ يذهب إلى UberFix.",
     "required_followup": [],
     "tags": [
@@ -534,8 +534,8 @@ export const alazabFaq: AlazabFaqItem[] = [
     "id": "faq_039",
     "brand_id": "laban_alasfour",
     "intent": "laban_alasfour.general",
-    "question": "ما الفرق بين Laban Alasfour وLuxury Finishing؟",
-    "answer": "Luxury Finishing ينفذ مسار تشطيب سكني، أما Laban Alasfour فيركز على توريد الخامات أو المنتجات أو البدائل التي قد تخدم التشطيب أو الصيانة أو المشاريع.",
+    "question": "ما الفرق بين Smart Light وLuxury Finishing؟",
+    "answer": "Luxury Finishing ينفذ مسار تشطيب سكني، أما Smart Light فيركز على توريد الخامات أو المنتجات أو البدائل التي قد تخدم التشطيب أو الصيانة أو المشاريع.",
     "required_followup": [],
     "tags": [
       "توجيه",
@@ -547,7 +547,7 @@ export const alazabFaq: AlazabFaqItem[] = [
     "id": "faq_040",
     "brand_id": "laban_alasfour",
     "intent": "laban_alasfour.general",
-    "question": "متى يتحول الطلب إلى Laban Alasfour؟",
+    "question": "متى يتحول الطلب إلى Smart Light؟",
     "answer": "عند وجود كلمات مثل خامة، توريد، قطعة، بديل، كود، مقاس، منتج، مورد، CAD، GLB، AR أو VR.",
     "required_followup": [],
     "tags": [

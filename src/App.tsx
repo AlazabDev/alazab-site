@@ -147,6 +147,7 @@ function App() {
                         <Route path="/services/uberfix" element={<UberFixPage />} />
                         <Route path="/services/maintenance-renovation" element={<MaintenanceRenovationPage />} />
                         <Route path="/services/general-supplies" element={<GeneralSuppliesPage />} />
+                        <Route path="/services/smart-light" element={<LabanAlasfourPage />} />
                         <Route path="/services/laban-alasfour" element={<LabanAlasfourPage />} />
                         <Route path="/uberfix-subscriptions" element={<UberFixSubscriptionsPage />} />
                         <Route path="/uberfix-subscriptions/register" element={<UberFixSubscriptionRegister />} />

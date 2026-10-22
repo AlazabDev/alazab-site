@@ -25,7 +25,7 @@ const Header: React.FC = () => {
     { name: t('التشطيب الراقي (Luxury Finishing)', 'Luxury Finishing'), href: '/services/luxury-finishing' },
     { name: t('هوية العلامة التجارية (Brand Identity)', 'Brand Identity'), href: '/services/brand-identity' },
     { name: t('أوبرفيكس (UberFix) - حلول الصيانة المعمارية', 'UberFix - Architectural Maintenance'), href: '/services/uberfix' },
-    { name: t('لبن العصفور (Laban Alasfour) - توريدات الخامات', 'Laban Alasfour - Raw Materials Supply'), href: '/services/laban-alasfour' },
+    { name: t('سمارت لايت (Smart Light) - توريدات الخامات', 'Smart Light - Raw Materials Supply'), href: '/services/smart-light' },
   ];
 
   const navigationItems = [

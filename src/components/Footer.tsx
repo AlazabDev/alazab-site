@@ -92,7 +92,7 @@ const Footer: React.FC = () => {
                 { to: '/services/luxury-finishing', label: 'التشطيب الراقي' },
                 { to: '/services/brand-identity', label: 'هوية العلامة التجارية' },
                 { to: '/services/uberfix', label: 'أوبرفيكس - الصيانة المعمارية' },
-                { to: '/services/laban-alasfour', label: 'لبن العصفور - التوريدات' },
+                { to: '/services/smart-light', label: 'سمارت لايت - التوريدات' },
               ].map((service) => (
                 <li key={service.to}>
                   <Link to={service.to} className="flex items-center gap-2 hover:text-construction-accent transition-colors">
@@ -111,7 +111,6 @@ const Footer: React.FC = () => {
               {[
                 { title: 'المقر الرئيسي - القاهرة', address: 'مصر، القاهرة، المعادي', phone: '201004006620+' },
                 { title: 'فرع الدقهلية - نبروه', address: 'مصر، الدقهلية، مدينة نبروه', phone: '201014536600+' },
-                { title: 'فرع الإسكندرية', address: 'مصر، الإسكندرية، سموحة', phone: '201004006620+' },
               ].map((branch) => (
                 <div key={branch.title} className="bg-white/5 rounded-lg p-3">
                   <p className="font-medium text-white text-xs mb-1">{branch.title}</p>

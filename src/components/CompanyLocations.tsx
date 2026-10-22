@@ -16,12 +16,6 @@ const CompanyLocations: React.FC = () => {
       address: "مصر، الدقهلية، مدينة نبروه، ش المحطة",
       phone: "+201014536600",
       iframe: "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d854.1247240780544!2d31.30022173046193!3d31.095862998400694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzHCsDA1JzQ1LjEiTiAzMcKwMTcnNTguNSJF!5e0!3m2!1sar!2seg!4v1749127640901!5m2!1sar!2seg"
-    },
-    {
-      title: "فرع الإسكندرية",
-      address: "مصر، الإسكندرية، سموحة، طريق الحرية",
-      phone: "+201004006620",
-      iframe: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d54678!2d29.9553!3d31.2156!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDEyJzU2LjIiTiAyOcKwNTcnMTkuMSJF!5e0!3m2!1sar!2seg!4v1749129206014!5m2!1sar!2seg"
     }
   ];
 
@@ -33,11 +27,11 @@ const CompanyLocations: React.FC = () => {
             مقراتنا وفروعنا في مصر
           </h2>
           <p className="text-construction-light max-w-2xl mx-auto">
-            نخدمكم من خلال شبكة فروع مصر — القاهرة والدقهلية والإسكندرية
+            نخدمكم من خلال شبكة فروع مصر — القاهرة (المعادي) والدقهلية (نبروه)
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {locations.map((location, index) => (
             <Card key={index} className="overflow-hidden bg-white">
               <CardHeader className="pb-4">

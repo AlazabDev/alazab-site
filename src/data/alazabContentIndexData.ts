@@ -147,7 +147,7 @@ export const alazabContentIndex: AlazabContentIndexItem[] = [
     "brand": "laban_alasfour",
     "published": true,
     "order": 5,
-    "description": "Smart Light هو مسار التوريدات العامة والخامات والمنتجات النادرة أو صعبة الوصول داخل مجموعة العزب."
+    "description": "Smart Light هو قطاع الإضاءة الذكية وحلول LED وأنظمة التحكم في مجموعة العزب."
   },
   {
     "path": "src/content/brands/luxury-finishing.md",

@@ -42,7 +42,7 @@ contentLevel: "production-final"
 | 2 | هوية العلامة التجارية | Brand Identity | Commercial Brand Spaces | `commercial_space` | https://brand-identity.alazab.com |
 | 3 | التشطيب الراقي | Luxury Finishing | Premium Residential Finishing | `luxury_finishing` | https://luxury-finishing.alazab.com |
 | 4 | أوبرفيكس | UberFix | Facilities Management | `maintenance` | https://uberfix.alazab.com |
-| 5 | لبن العصفور | Laban Alasfour | Supply & Rare Architectural Materials | `supply_request` | https://laban-alasfour.alazab.com |
+| 5 | سمارت لايت | Smart Light | Supply & Rare Architectural Materials | `supply_request` | https://smart-light.alazab.com |
 
 ## 5. نطاق العمل التشغيلي
 - إدارة وتشغيل وصيانة أكثر من 530 محل تجاري ضمن نطاق أعمال الصيانة والتشغيل.
@@ -55,7 +55,7 @@ contentLevel: "production-final"
 1. عند ذكر صيانة، عطل، بلاغ، فني، رقم طلب، فرع يحتاج إصلاح: المسار هو **UberFix**.
 2. عند ذكر فرع، محل، مطعم، كافيه، صيدلية، عيادة، واجهة، تجربة عميل، سلسلة فروع: المسار هو **Brand Identity**.
 3. عند ذكر شقة، فيلا، تشطيب، ديكور داخلي، خامات سكنية، تجديد وحدة: المسار هو **Luxury Finishing**.
-4. عند ذكر خامة، قطعة، بديل، توريد، منتج، كود، مقاس، CAD/GLB/AR/VR: المسار هو **Laban Alasfour**.
+4. عند ذكر خامة، قطعة، بديل، توريد، منتج، كود، مقاس، CAD/GLB/AR/VR: المسار هو **Smart Light**.
 5. عند عدم وضوح الطلب: المسار المؤقت هو **Alazab Group** لسؤال تصنيف واحد ثم التحويل.
 
 ## 7. سياسة إجابة المساعد
@@ -78,7 +78,7 @@ contentLevel: "production-final"
 ### Luxury Finishing
 نوع الوحدة، المساحة، حالة التشطيب الحالية، مستوى التشطيب المطلوب، الموقع، الصور أو المخطط، موعد البدء المتوقع.
 
-### Laban Alasfour
+### Smart Light
 نوع المنتج أو الخامة، صورة/كود/مقاس، الكمية، نفس المنتج أم بديل، ارتباط الطلب بمشروع أو صيانة، موعد الاحتياج.
 
 ## 9. الروابط الرسمية
@@ -87,7 +87,7 @@ contentLevel: "production-final"
 - Luxury Finishing: https://luxury-finishing.alazab.com
 - UberFix: https://uberfix.alazab.com
 - نموذج طلب الصيانة: https://uberfix.shop/service-request
-- Laban Alasfour: https://laban-alasfour.alazab.com
+- Smart Light: https://smart-light.alazab.com
 - جميع الروابط: https://linktr.ee/Alazab.co
 
 ## 10. سياسة عدم الاختراع

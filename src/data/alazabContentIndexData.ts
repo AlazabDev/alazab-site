@@ -92,7 +92,7 @@ export const alazabContentIndex: AlazabContentIndexItem[] = [
   {
     "path": "src/content/blogs/laban-alasfour-supply-model.md",
     "section": "blogs",
-    "title": "لبن العصفور: مسار الخامات والمنتجات صعبة الوصول",
+    "title": "سمارت لايت: مسار الخامات والمنتجات صعبة الوصول",
     "slug": "laban-alasfour-supply-model",
     "brand": "enterprise",
     "published": true,
@@ -142,12 +142,12 @@ export const alazabContentIndex: AlazabContentIndexItem[] = [
   {
     "path": "src/content/brands/laban-alasfour.md",
     "section": "brands",
-    "title": "لبن العصفور",
+    "title": "سمارت لايت",
     "slug": "laban-alasfour",
     "brand": "laban_alasfour",
     "published": true,
     "order": 5,
-    "description": "Laban Alasfour هو مسار التوريدات العامة والخامات والمنتجات النادرة أو صعبة الوصول داخل مجموعة العزب."
+    "description": "Smart Light هو مسار التوريدات العامة والخامات والمنتجات النادرة أو صعبة الوصول داخل مجموعة العزب."
   },
   {
     "path": "src/content/brands/luxury-finishing.md",
@@ -492,12 +492,12 @@ export const alazabContentIndex: AlazabContentIndexItem[] = [
   {
     "path": "src/content/faq/faq_033-ما-هو-laban-alasfour؟.md",
     "section": "faq",
-    "title": "ما هو Laban Alasfour؟",
+    "title": "ما هو Smart Light؟",
     "slug": "faq_033-ما-هو-laban-alasfour؟",
     "brand": "laban_alasfour",
     "published": true,
     "order": 33,
-    "description": "Laban Alasfour هو مسار التوريدات والخامات والمنتجات المعمارية، خاصة المنتجات النادرة أو القطع التي يصعب الوصول إليها أو تحتاج بديلًا مناسبًا."
+    "description": "Smart Light هو مسار التوريدات والخامات والمنتجات المعمارية، خاصة المنتجات النادرة أو القطع التي يصعب الوصول إليها أو تحتاج بديلًا مناسبًا."
   },
   {
     "path": "src/content/faq/faq_034-ما-البيانات-المطلوبه-لطلب-توريد؟.md",
@@ -522,7 +522,7 @@ export const alazabContentIndex: AlazabContentIndexItem[] = [
   {
     "path": "src/content/faq/faq_036-هل-laban-alasfour-يخدم-الصيانه؟.md",
     "section": "faq",
-    "title": "هل Laban Alasfour يخدم الصيانة؟",
+    "title": "هل Smart Light يخدم الصيانة؟",
     "slug": "faq_036-هل-laban-alasfour-يخدم-الصيانه؟",
     "brand": "laban_alasfour",
     "published": true,
@@ -552,17 +552,17 @@ export const alazabContentIndex: AlazabContentIndexItem[] = [
   {
     "path": "src/content/faq/faq_039-ما-الفرق-بين-laban-alasfour-وluxury-finishing؟.md",
     "section": "faq",
-    "title": "ما الفرق بين Laban Alasfour وLuxury Finishing؟",
+    "title": "ما الفرق بين Smart Light وLuxury Finishing؟",
     "slug": "faq_039-ما-الفرق-بين-laban-alasfour-وluxury-finishing؟",
     "brand": "laban_alasfour",
     "published": true,
     "order": 39,
-    "description": "Luxury Finishing ينفذ مسار تشطيب سكني، أما Laban Alasfour فيركز على توريد الخامات أو المنتجات أو البدائل التي قد تخدم التشطيب أو الصيانة أو المشاريع."
+    "description": "Luxury Finishing ينفذ مسار تشطيب سكني، أما Smart Light فيركز على توريد الخامات أو المنتجات أو البدائل التي قد تخدم التشطيب أو الصيانة أو المشاريع."
   },
   {
     "path": "src/content/faq/faq_040-متي-يتحول-الطلب-الي-laban-alasfour؟.md",
     "section": "faq",
-    "title": "متى يتحول الطلب إلى Laban Alasfour؟",
+    "title": "متى يتحول الطلب إلى Smart Light؟",
     "slug": "faq_040-متي-يتحول-الطلب-الي-laban-alasfour؟",
     "brand": "laban_alasfour",
     "published": true,
@@ -867,7 +867,7 @@ export const alazabContentIndex: AlazabContentIndexItem[] = [
     "brand": "enterprise",
     "published": true,
     "order": 12,
-    "description": "معرفة لبن العصفور الخاصة بالتوريدات والبدائل."
+    "description": "معرفة سمارت لايت الخاصة بالتوريدات والبدائل."
   }
 ];
 

@@ -24,7 +24,7 @@ contentLevel: "production-final"
 - Luxury Finishing: https://luxury-finishing.alazab.com
 - UberFix: https://uberfix.alazab.com
 - نموذج طلب الصيانة: https://uberfix.shop/service-request
-- Laban Alasfour: https://laban-alasfour.alazab.com
+- Smart Light: https://smart-light.alazab.com
 
 ## روابط التواصل
 

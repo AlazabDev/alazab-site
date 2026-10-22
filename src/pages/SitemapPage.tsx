@@ -47,7 +47,7 @@ const internalSections: SitemapSection[] = [
       { to: "/services/luxury-finishing", label: "التشطيبات الفاخرة" },
       { to: "/services/uberfix", label: "UberFix - الصيانة والتجديد" },
       { to: "/services/brand-identity", label: "الهوية البصرية" },
-      { to: "/services/laban-alasfour", label: "لبن العصفور للتوريدات" },
+      { to: "/services/smart-light", label: "سمارت لايت للتوريدات" },
     ],
   },
   {
@@ -106,7 +106,7 @@ const externalSections: SitemapSection[] = [
       { to: "https://brand-identity.alazab.com", label: "الهوية البصرية", external: true },
       { to: "https://uberfix.alazab.com", label: "UberFix", external: true },
       { to: "https://uberfix.shop/service-request", label: "طلب خدمة UberFix", external: true },
-      { to: "https://laban-alasfour.alazab.com", label: "لبن العصفور", external: true },
+      { to: "https://smart-light.alazab.com", label: "سمارت لايت", external: true },
       { to: "https://alazab-co.daftra.com", label: "دفترة المحاسبي", external: true, badge: "محاسبة" },
     ],
   },

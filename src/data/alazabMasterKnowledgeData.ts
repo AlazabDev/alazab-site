@@ -38,7 +38,7 @@ export const alazabMasterKnowledge: AlazabMasterKnowledge = {
       "luxury_finishing": "https://luxury-finishing.alazab.com",
       "uberfix": "https://uberfix.alazab.com",
       "uberfix_service_request": "https://uberfix.shop/service-request",
-      "laban_alasfour": "https://laban-alasfour.alazab.com",
+      "laban_alasfour": "https://smart-light.alazab.com",
       "linktree": "https://linktr.ee/Alazab.co"
     },
     "logo": {
@@ -395,14 +395,14 @@ export const alazabMasterKnowledge: AlazabMasterKnowledge = {
     },
     {
       "order": 5,
-      "name_ar": "لبن العصفور",
-      "name_en": "Laban Alasfour",
-      "url": "https://laban-alasfour.alazab.com",
+      "name_ar": "سمارت لايت",
+      "name_en": "Smart Light",
+      "url": "https://smart-light.alazab.com",
       "category": "Supply & Rare Architectural Materials",
       "route": "supply_request",
       "positioning": "مسار توريدات وخامات ومنتجات معمارية يصعب الوصول إليها، يخدم التنفيذ والصيانة والتشطيب ويستعد مستقبلًا لتجارب AR/VR وCAD/GLB.",
-      "short": "Laban Alasfour هو مسار التوريدات العامة والخامات والمنتجات النادرة أو صعبة الوصول داخل مجموعة العزب.",
-      "long": "لبن العصفور يخدم احتياجًا عمليًا متكررًا في التنفيذ والصيانة: الوصول إلى خامة، قطعة، بديل، أو منتج مناسب عندما لا يكون متاحًا بسهولة. المسار يربط الطلب بالصورة أو الكود أو المقاس أو الاستخدام، ثم يحدد هل المطلوب نفس المنتج، بديل مطابق، بديل اقتصادي، أو توريد مرتبط بمشروع. الرؤية المستقبلية تشمل عرض المنتجات بملفات منظمة مثل JSON وGLB وCAD وصور متعددة لتجارب AR/VR والتصميم الذكي.",
+      "short": "Smart Light هو مسار التوريدات العامة والخامات والمنتجات النادرة أو صعبة الوصول داخل مجموعة العزب.",
+      "long": "سمارت لايت يخدم احتياجًا عمليًا متكررًا في التنفيذ والصيانة: الوصول إلى خامة، قطعة، بديل، أو منتج مناسب عندما لا يكون متاحًا بسهولة. المسار يربط الطلب بالصورة أو الكود أو المقاس أو الاستخدام، ثم يحدد هل المطلوب نفس المنتج، بديل مطابق، بديل اقتصادي، أو توريد مرتبط بمشروع. الرؤية المستقبلية تشمل عرض المنتجات بملفات منظمة مثل JSON وGLB وCAD وصور متعددة لتجارب AR/VR والتصميم الذكي.",
       "services": [
         "توريد خامات ومنتجات معمارية",
         "البحث عن بدائل للخامات والقطع",
@@ -422,7 +422,7 @@ export const alazabMasterKnowledge: AlazabMasterKnowledge = {
         "توريد",
         "خامة",
         "خامات",
-        "لبن العصفور",
+        "سمارت لايت",
         "قطعة",
         "مش لاقي",
         "بديل",
@@ -444,7 +444,7 @@ export const alazabMasterKnowledge: AlazabMasterKnowledge = {
         "هل التوريد لمشروع، صيانة، أم تشطيب؟",
         "ما موعد الاحتياج؟"
       ],
-      "handoff": "حوّل إلى Laban Alasfour عند وجود طلب خامة أو قطعة أو منتج أو بديل أو توريد مرتبط بمشروع أو صيانة أو تشطيب.",
+      "handoff": "حوّل إلى Smart Light عند وجود طلب خامة أو قطعة أو منتج أو بديل أو توريد مرتبط بمشروع أو صيانة أو تشطيب.",
       "voice": "عملية ومرنة؛ تركّز على فهم المنتج المطلوب بدقة، ثم البحث عن نفس المنتج أو بديله المناسب.",
       "do": [
         "اطلب صورة أو كود أو مقاس عند الإمكان",

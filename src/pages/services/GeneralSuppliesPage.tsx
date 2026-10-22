@@ -53,7 +53,7 @@ const GeneralSuppliesPage: React.FC = () => {
               <Truck className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              توريدات لبن العصفور
+              توريدات سمارت لايت
             </h1>
             <p className="text-xl mb-8 leading-relaxed">
               ذراع التوريد داخل مجموعة العزب: نوصّل خامات ومعدات المشروع من المورد الأصلي للموقع، بفاتورة ضريبية وجدول تسليم ملتزم، ومن غير وسطاء يرفعوا التكلفة.

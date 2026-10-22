@@ -58,7 +58,7 @@ const CommandPalette: React.FC = () => {
           <CommandItem onSelect={() => go('/services/luxury-finishing')}><Sparkles className="mr-2 h-4 w-4" />{t('التشطيب الفاخر', 'Luxury Finishing')}</CommandItem>
           <CommandItem onSelect={() => go('/services/brand-identity')}><Palette className="mr-2 h-4 w-4" />{t('الهوية البصرية', 'Brand Identity')}</CommandItem>
           <CommandItem onSelect={() => go('/services/uberfix')}><Wrench className="mr-2 h-4 w-4" />{t('UberFix للصيانة', 'UberFix Maintenance')}</CommandItem>
-          <CommandItem onSelect={() => go('/services/laban-alasfour')}><Truck className="mr-2 h-4 w-4" />{t('لبن العصفور للتوريدات', 'Laban Alasfour Supplies')}</CommandItem>
+          <CommandItem onSelect={() => go('/services/smart-light')}><Truck className="mr-2 h-4 w-4" />{t('سمارت لايت للتوريدات', 'Smart Light Supplies')}</CommandItem>
         </CommandGroup>
 
         <CommandSeparator />

@@ -48,15 +48,15 @@ const premiumServices = [
   {
     id: "laban-alasfour",
     icon: Package,
-    titleAr: "لبن العصفور",
-    titleEn: "Laban Alasfour",
+    titleAr: "سمارت لايت",
+    titleEn: "Smart Light",
     taglineAr: "نوفر المستحيل... لنبني المستحيل",
     taglineEn: "We provide the impossible... to build the impossible",
     descriptionAr: "توريد خامات نادرة من 6 دول (إيطاليا، إسبانيا، البرازيل…): زجاج PDLC الذكي، أخشاب FSC، رخام طبيعي وإكسسوارات Grohe/Hansgrohe، بفاتورة ضريبية وتخليص جمركي كامل.",
     descriptionEn: "Sourcing rare materials from 6 countries (Italy, Spain, Brazil…): PDLC smart glass, FSC woods, natural marble and Grohe/Hansgrohe fixtures — with full tax invoice and customs clearance.",
     color: "bg-blue-50 text-blue-600",
     gradient: "from-blue-600 to-blue-800",
-    route: "/services/laban-alasfour"
+    route: "/services/smart-light"
   },
 ];
 

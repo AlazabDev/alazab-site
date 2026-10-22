@@ -272,15 +272,15 @@ export const alazabRoutingRules: AlazabRoutingRules = {
     {
       "route": "supply_request",
       "brand_id": "laban_alasfour",
-      "brand_ar": "لبن العصفور",
-      "brand_en": "Laban Alasfour",
-      "target_url": "https://laban-alasfour.alazab.com",
+      "brand_ar": "سمارت لايت",
+      "brand_en": "Smart Light",
+      "target_url": "https://smart-light.alazab.com",
       "priority": 5,
       "positive_signals": [
         "توريد",
         "خامة",
         "خامات",
-        "لبن العصفور",
+        "سمارت لايت",
         "قطعة",
         "مش لاقي",
         "بديل",
@@ -314,7 +314,7 @@ export const alazabRoutingRules: AlazabRoutingRules = {
         "delivery_location",
         "contact_phone"
       ],
-      "handoff_policy": "حوّل إلى Laban Alasfour عند وجود طلب خامة أو قطعة أو منتج أو بديل أو توريد مرتبط بمشروع أو صيانة أو تشطيب.",
+      "handoff_policy": "حوّل إلى Smart Light عند وجود طلب خامة أو قطعة أو منتج أو بديل أو توريد مرتبط بمشروع أو صيانة أو تشطيب.",
       "response_goal": "تحديد المسار الصحيح، جمع الحد الأدنى من البيانات، ثم تحويل الطلب للفريق المختص دون وعود غير مثبتة.",
       "allowed_commitments": [
         "جمع بيانات مبدئية",

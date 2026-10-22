@@ -1,7 +1,7 @@
 ---
 title: "طبقة معرفة التوريدات والخامات"
 slug: "supply-knowledge-layer"
-description: "معرفة لبن العصفور الخاصة بالتوريدات والبدائل."
+description: "معرفة سمارت لايت الخاصة بالتوريدات والبدائل."
 section: "knowledge"
 brand: "enterprise"
 language: "ar-EG"

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from './AppSidebar';
@@ -11,11 +10,11 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gray-50">
+      <div dir="ltr" className="flex min-h-svh w-full min-w-0 bg-gray-50">
         <AppSidebar />
-        <div className="flex-1 flex flex-col">
+        <div dir="rtl" className="flex min-h-svh min-w-0 flex-1 flex-col overflow-x-hidden">
           <DashboardHeader />
-          <main className="flex-1 p-6">
+          <main className="min-w-0 flex-1 p-4 sm:p-6">
             {children}
           </main>
         </div>

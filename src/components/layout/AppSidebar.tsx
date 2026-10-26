@@ -38,23 +38,23 @@ export function AppSidebar() {
   const renderItems = (items: typeof navigationItems) => items.map((item) => (
     <SidebarMenuItem key={item.title}>
       <SidebarMenuButton asChild>
-        <NavLink to={item.url} className={`flex items-center gap-3 rounded-lg p-3 transition-colors ${getNavClass(item.url)}`}>
-          <item.icon className="h-5 w-5" />
-          <span>{item.title}</span>
+        <NavLink to={item.url} className={`flex min-w-0 items-center gap-3 overflow-hidden rounded-lg px-2 py-2 transition-colors group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0 ${getNavClass(item.url)}`}>
+          <item.icon className="h-4 w-4 shrink-0" />
+          <span className="min-w-0 truncate group-data-[collapsible=icon]:hidden">{item.title}</span>
         </NavLink>
       </SidebarMenuButton>
     </SidebarMenuItem>
   ));
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="p-4">
+    <Sidebar side="left" collapsible="icon" className="shrink-0" >
+      <SidebarHeader dir="rtl" className="overflow-hidden p-2 group-data-[collapsible=icon]:items-center">
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-construction-primary"><Wrench className="h-4 w-4 text-white" /></div>
-          <div><h2 className="text-lg font-bold text-construction-primary">العزب للمقاولات</h2><p className="text-sm text-gray-500">إدارة المشاريع</p></div>
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-construction-primary"><Wrench className="h-4 w-4 text-white" /></div>
+          <div className="min-w-0 group-data-[collapsible=icon]:hidden"><h2 className="whitespace-nowrap text-lg font-bold text-construction-primary">العزب للمقاولات</h2><p className="text-sm text-gray-500">إدارة المشاريع</p></div>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent dir="rtl">
         <SidebarGroup>
           <SidebarGroupLabel>القائمة الرئيسية</SidebarGroupLabel>
           <SidebarGroupContent><SidebarMenu>{renderItems(navigationItems)}</SidebarMenu></SidebarGroupContent>
@@ -63,11 +63,11 @@ export function AppSidebar() {
           <SidebarGroupContent><SidebarMenu>{renderItems(bottomItems)}</SidebarMenu></SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4">
+      <SidebarFooter dir="rtl" className="overflow-hidden p-2 group-data-[collapsible=icon]:items-center">
         {profile && (
           <div className="flex items-center gap-3">
-            <UserAvatar className="h-8 w-8" />
-            <div className="min-w-0 flex-1">
+            <UserAvatar className="h-8 w-8 shrink-0" />
+            <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
               <p className="truncate text-sm font-medium text-gray-900">{profile.fullName}</p>
               <p className="truncate text-xs text-gray-500">{roleLabel}</p>
             </div>

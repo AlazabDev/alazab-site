@@ -52,3 +52,26 @@ Do not overwrite or duplicate the live server/.env. Before attaching the provide
 5. Foundry and ChatGPT end-to-end connection tests and verified Nginx deployment.
 
 No claim of finished production integration is made before these gates pass.
+
+
+## Remote MCP endpoints (ChatGPT and Microsoft Foundry)
+
+Both clients use the same production HTTPS MCP endpoint:
+
+```text
+https://alazab.com/meta/mcp
+```
+
+**ChatGPT:** Select OAuth when connecting a custom remote MCP server. The server publishes protected-resource metadata at `https://alazab.com/.well-known/oauth-protected-resource/meta/mcp`, authorization-server metadata at `https://alazab.com/.well-known/oauth-authorization-server/meta`, and OAuth routes under `https://alazab.com/meta/oauth/`. During OAuth consent, supply the existing `META_MCP_ADMIN_KEY` from the Oracle `server/.env` into the secure authorization page; do not use `META_ACCESS_TOKEN` or provide it to clients.
+
+**Microsoft Foundry:** Configure a remote MCP connection with **key-based authentication** using credential name `Authorization` and credential value `Bearer <META_MCP_FOUNDRY_KEY>`. The credential belongs in a Foundry project connection (not agent prompt text). No OAuth registration is required for this Foundry configuration.
+
+Run on Oracle after changes to `main`:
+
+```bash
+cd /var/www/core/alazab-site && git pull --ff-only origin main && sudo bash server/mcp/meta/deploy/install.sh
+```
+
+The single `server/.env` on Oracle supplies `META_ACCESS_TOKEN`, `META_BUSINESS_ID`, `META_MCP_ADMIN_KEY`, and `META_MCP_FOUNDRY_KEY`. No per-asset IDs are required for discovery. The proxy installation alters only the Meta MCP routes in the existing Nginx HTTPS virtual host; it creates no backup files.
+
+This README documents the code-level integration, not a claim of a successfully completed authorization through a particular ChatGPT or Foundry account.

@@ -17,7 +17,8 @@ const port = Number(env.META_MCP_PORT || '8187');
 if (host !== '127.0.0.1' && host !== '::1') throw new Error('Meta MCP must bind to loopback');
 if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid META_MCP_PORT');
 
-const businessAllowlist = new Set((env.META_ALLOWED_BUSINESS_IDS || '').split(',').map(s => s.trim()).filter(Boolean));
+const businessId = env.META_BUSINESS_ID || env.META_ALLOWED_BUSINESS_IDS?.split(',')[0]?.trim();
+const businessAllowlist = new Set([businessId].filter(Boolean));
 const wabaAllowlist = new Set((env.META_ALLOWED_WABA_IDS || '').split(',').map(s => s.trim()).filter(Boolean));
 const originAllowlist = new Set((env.META_MCP_ALLOWED_ORIGINS || 'https://alazab.com,https://chatgpt.com').split(',').map(s => s.trim()).filter(Boolean));
 const limitPages = Math.min(100, Math.max(1, Number(env.META_MAX_PAGES || 25)));
@@ -35,7 +36,7 @@ app.use((req, res, next) => {
 
 const required = ['META_ACCESS_TOKEN', 'META_MCP_ADMIN_KEY', 'META_MCP_FOUNDRY_KEY'];
 const missing = () => required.filter(k => !env[k]);
-const configured = () => !missing().length && businessAllowlist.size > 0 && wabaAllowlist.size > 0;
+const configured = () => !missing().length && businessAllowlist.size > 0;
 function roleFor(req) {
   const token = /^Bearer (.+)$/i.exec(req.get('authorization') || '')?.[1] || '';
   for (const [role, key] of [['admin', env.META_MCP_ADMIN_KEY], ['foundry', env.META_MCP_FOUNDRY_KEY]]) {
@@ -50,8 +51,17 @@ function checkBusiness(id, role) {
   if (businessAllowlist.size && !businessAllowlist.has(id)) throw new Error('Business not in approved inventory');
 }
 function checkWaba(id, role) {
-  if (role === 'foundry' && (!wabaAllowlist.size || !wabaAllowlist.has(id))) throw new Error('WABA is not authorized for Foundry');
-  if (wabaAllowlist.size && !wabaAllowlist.has(id)) throw new Error('WABA not in approved inventory');
+  if (wabaAllowlist.size && !wabaAllowlist.has(id)) throw new Error('WABA not allowed');
+  if (!businessAllowlist.size) throw new Error('Business not configured');
+}
+async function assertWabaOwnership(wabaId) {
+  const found = [];
+  for (const edge of ['owned_whatsapp_business_accounts', 'client_whatsapp_business_accounts']) {
+    try { found.push(...(await pages(businessId + '/' + edge, 'id')).data); } catch {}
+  }
+  if (!found.some(item => String(item.id) === String(wabaId))) {
+    throw new Error('WhatsApp account not accessible through configured business');
+  }
 }
 function safeError(error) {
   let out = String(error?.message || error || 'Unknown error');
@@ -108,8 +118,8 @@ function build(role) {
     return { connected: true, graph_version: version, principal: user, business_allowlist_count: businessAllowlist.size, waba_allowlist_count: wabaAllowlist.size };
   });
   tool(server, 'meta_list_businesses', 'Discover business portfolios granted to this Meta credential.', {}, async () => {
-    const result = await pages('me/businesses', 'id,name,verification_status,created_time,updated_time');
-    return { ...result, data: result.data.filter(b => businessAllowlist.size ? businessAllowlist.has(String(b.id)) : role === 'admin') };
+    const portfolio = await graph(businessId, { fields: 'id,name,verification_status,created_time,updated_time' });
+    return { data: [portfolio], complete: true, source: 'META_BUSINESS_ID' };
   });
   tool(server, 'meta_business_details', 'Read a business portfolio.', { business_id: numericId }, async ({ business_id }) => {
     checkBusiness(business_id, role);
@@ -149,10 +159,12 @@ function build(role) {
   });
   tool(server, 'meta_waba_phone_numbers', 'Read WhatsApp phone numbers, verification and quality.', { waba_id: numericId }, async ({ waba_id }) => {
     checkWaba(waba_id, role);
+    await assertWabaOwnership(waba_id);
     return pages(waba_id + '/phone_numbers', 'id,display_phone_number,verified_name,quality_rating,code_verification_status');
   });
   tool(server, 'meta_waba_templates', 'Read approved/pending WhatsApp templates.', { waba_id: numericId }, async ({ waba_id }) => {
     checkWaba(waba_id, role);
+    await assertWabaOwnership(waba_id);
     return pages(waba_id + '/message_templates', 'id,name,status,language,category');
   });
   tool(server, 'meta_ad_account_details', 'Read authorized Ad Account details, no campaigns are modified.', {

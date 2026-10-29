@@ -1,30 +1,23 @@
-# Meta MCP — Alazab
-The Meta MCP service lives at `server/mcp/meta` in the main `alazab-site` repository.
+# Meta MCP — integrated in Alazab server
+- Source directory: `server/mcp/meta/`
+- **One dependency manifest:** `server/package.json`
+- **One runtime environment:** `server/.env`; template: `server/.env.production.example`
+- No nested `package.json`, `node_modules`, or `.env`.
+- Server entry: `server/mcp/meta/src/server.mjs`
+- Public target: `https://alazab.com/meta/mcp`; private service `127.0.0.1:8187`
+- Provides read-only Meta business and assets inventory using granted Graph API permissions.
+- `META_MCP_ADMIN_KEY` is for administrative read-only access; `META_MCP_FOUNDRY_KEY` is further restricted by business and WABA allowlists.
+- ChatGPT/Foundry OAuth authorization-server functionality is NOT implemented yet. Static bearer keys may not satisfy remote MCP connector onboarding; do not expose publicly before completing authentication.
+- No production deployment or Nginx changes have been performed.
 
-- Production filesystem: `/var/www/core/alazab-site/server/mcp/meta`
-- Public MCP: `https://alazab.com/meta/mcp`
-- Private listener: `127.0.0.1:8187/mcp`
-- Clients: ChatGPT and Microsoft Foundry agents using Streamable HTTP.
-- Admin access: `META_MCP_ADMIN_KEY` (read-only inventory).
-- Foundry access: `META_MCP_FOUNDRY_KEY`, constrained by explicit business and WABA allowlists.
-- Meta Graph authentication: `META_ACCESS_TOKEN` with Meta-granted scopes; Threads requires its own token.
-- OAuth connection for ChatGPT/Foundry is not implemented in this initial service; static bearer credentials may be incompatible with some MCP hosts. Add OAuth 2.1/OIDC or a token-exchange gateway before production exposure.
-- Only read-only discovery tools are exposed. No messaging, campaign changes, deletes, or token management.
-- This code does **not** deploy itself and does not modify the site's current Nginx configuration.
-
-## Deployment on Oracle
+## Install on Oracle after reviewing root lockfile
 ```bash
 cd /var/www/core/alazab-site
 git pull --ff-only origin main
-cd server/mcp/meta
-pnpm install --frozen-lockfile=false
-node --check src/server.js
-sudo install -d -m 700 /etc/alazab
-sudo install -m 600 .env.example /etc/alazab/meta-mcp.env
-# Fill the env file with credentials. Never commit it.
-sudo cp deploy/meta-mcp.service /etc/systemd/system/alazab-meta-mcp.service
-sudo systemctl daemon-reload
-sudo systemctl enable --now alazab-meta-mcp
-curl -sS http://127.0.0.1:8187/health
+cd server
+npm install
+npm run mcp:meta:check
+# Configure credentials in existing server/.env
+npm run mcp:meta
 ```
-Install `deploy/nginx-location.conf` locations inside your existing alazab.com vhost and run `nginx -t` before reload. This must be done only after inspecting the existing config.
+For production use the provided `deploy/meta-mcp.service` systemd file (service working directory: `server`), and include `deploy/nginx-location.conf` locations in the EXISTING alazab.com Nginx vhost after inspection. Run `nginx -t` before reload.

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { z } from 'zod';
+import { mountOAuth } from './oauth.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 dotenv.config({ path: path.join(root, '.env'), quiet: true });
@@ -26,6 +27,7 @@ const api = 'https://graph.facebook.com/' + version;
 const numericId = z.string().regex(/^\d{5,30}$/);
 const app = express();
 app.disable('x-powered-by');
+const oauth = mountOAuth(app, env);
 app.use(express.json({ limit: '256kb' }));
 app.use((req, res, next) => {
   const origin = req.get('origin');
@@ -44,6 +46,7 @@ function roleFor(req) {
     const a = Buffer.from(token), b = Buffer.from(key);
     if (a.length === b.length && crypto.timingSafeEqual(a, b)) return role;
   }
+  if (oauth.verifyAccess(token)) return 'admin';
   return null;
 }
 function checkBusiness(id, role) {
@@ -209,7 +212,7 @@ app.get('/ready', async (_req, res) => {
 });
 app.all('/mcp', async (req, res) => {
   const role = roleFor(req);
-  if (!role) return res.status(401).set('WWW-Authenticate', 'Bearer realm="alazab-meta-mcp"').json({ error: 'Unauthorized' });
+  if (!role) return res.status(401).set('WWW-Authenticate', 'Bearer resource_metadata="' + oauth.resourceMetadataUrl + '", scope="meta:read"').json({ error: 'Unauthorized' });
   if (req.method !== 'POST') return res.status(405).set('Allow', 'POST').json({ error: 'POST only' });
   if (!configured()) return res.status(503).json({ error: 'Meta MCP credentials and allowlists must be configured' });
   const server = build(role);

@@ -50,7 +50,7 @@ export function mountOAuth(app, env) {
   const resourceMetadata = { resource, authorization_servers: [issuer], scopes_supported: ['meta:read'] };
   app.get('/.well-known/oauth-protected-resource', (_req, res) => res.json(resourceMetadata));
   app.get('/.well-known/oauth-authorization-server', (_req, res) => res.json(metadata));
-  app.post('/oauth/register', (req, res) => {
+  app.post('/oauth/register', express.json({ limit: '16kb' }), (req, res) => {
     const body = req.body || {};
     if (!Array.isArray(body.redirect_uris) || body.redirect_uris.length < 1 || body.redirect_uris.length > 5 || !body.redirect_uris.every(permitted))
       return res.status(400).json({ error: 'invalid_redirect_uri' });

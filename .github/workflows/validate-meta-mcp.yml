@@ -24,3 +24,4 @@ jobs:
           node-version: '22'
       - run: npm install --no-audit --no-fund
       - run: npm run mcp:meta:check
+      - run: node --test mcp/meta/test/smoke.mjs

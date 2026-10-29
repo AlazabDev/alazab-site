@@ -121,6 +121,17 @@ function build(role) {
     const portfolio = await graph(businessId, { fields: 'id,name,verification_status,created_time,updated_time' });
     return { data: [portfolio], complete: true, source: 'META_BUSINESS_ID' };
   });
+  tool(server, 'meta_my_portfolio', 'Read the configured Meta Business Portfolio; no ID input required.', {}, async () => {
+    return graph(businessId, { fields: 'id,name,verification_status' });
+  });
+  tool(server, 'meta_my_assets', 'Inventory all configured portfolio asset types without specifying business IDs. Reports permission failures per edge.', {}, async () => {
+    const inventory = {};
+    for (const [edge, fields] of Object.entries(edges)) {
+      try { inventory[edge] = await pages(businessId + '/' + edge, fields); }
+      catch (e) { inventory[edge] = { complete: false, error: safeError(e) }; }
+    }
+    return { business_id: businessId, inventory };
+  });
   tool(server, 'meta_business_details', 'Read a business portfolio.', { business_id: numericId }, async ({ business_id }) => {
     checkBusiness(business_id, role);
     return graph(business_id, { fields: 'id,name,verification_status,created_time,updated_time' });

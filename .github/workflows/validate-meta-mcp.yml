@@ -3,21 +3,24 @@ on:
   push:
     paths:
       - 'server/mcp/meta/**'
+      - 'server/package.json'
+      - 'server/.env.production.example'
       - '.github/workflows/validate-meta-mcp.yml'
   pull_request:
     paths:
       - 'server/mcp/meta/**'
+      - 'server/package.json'
       - '.github/workflows/validate-meta-mcp.yml'
 jobs:
   validate:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: server/mcp/meta
+        working-directory: server
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm install --no-audit --no-fund
-      - run: npm run check
+      - run: npm run mcp:meta:check

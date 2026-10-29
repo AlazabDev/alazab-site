@@ -35,6 +35,18 @@ if missing:
 print('Meta MCP environment: configured')
 PY
 
+# Never duplicate the alazab.com virtual host. Reject duplicate enabled aliases.
+python3 - "$NGINX_SITE" <<'PY'
+from pathlib import Path
+import sys
+target = Path(sys.argv[1]).resolve()
+enabled = Path('/etc/nginx/sites-enabled')
+aliases = [p.name for p in enabled.iterdir() if p.is_file() and p.resolve() == target]
+if len(aliases) != 1:
+    raise SystemExit('Expected exactly one enabled alazab.com link; found: ' + ', '.join(aliases))
+print('Nginx virtual host: unique')
+PY
+
 install -m 0644 "$DEPLOY/nginx-location.conf" "$NGINX_SNIPPET"
 # Modify ONLY the existing alazab.com HTTPS server block.
 # Preserve unrelated locations, HTTP/ACME, certificates and all other sites.

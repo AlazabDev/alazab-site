@@ -28,7 +28,9 @@
     "mcp:daftra:catalog": "python3 mcp/daftra/generate-catalog.py \"mcp/daftra/openapi/Default module.openapi.json\" --expect 301",
     "webhook:central": "node central-webhook/server.js",
     "webhook:central:init": "node central-webhook/init-db.js",
-    "webhook:central:check": "find central-webhook -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}"
+    "webhook:central:check": "find central-webhook -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}",
+    "mcp:meta": "node mcp/meta/src/server.mjs",
+    "mcp:meta:check": "node --check mcp/meta/src/server.mjs"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.42.0",
@@ -57,7 +59,8 @@
     "react-tiktok": "^1.0.0",
     "stripe": "^22.3.1",
     "winston": "^3.14.0",
-    "zod": "^3.25.76"
+    "zod": "^3.25.76",
+    "@modelcontextprotocol/sdk": "^1.20.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

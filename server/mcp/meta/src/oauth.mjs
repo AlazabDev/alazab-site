@@ -65,7 +65,7 @@ export function mountOAuth(app, env) {
     const { client_id, redirect_uri, response_type, code_challenge, code_challenge_method, state, resource: requestedResource } = body;
     if (!authClient(client_id, redirect_uri) || response_type !== 'code' ||
         !/^[A-Za-z0-9_-]{43,128}$/.test(code_challenge || '') || code_challenge_method !== 'S256' ||
-        requestedResource !== resource) return null;
+        (requestedResource && requestedResource !== resource)) return null;
     return { client_id, redirect_uri, code_challenge, state: String(state || ''), resource };
   }
   app.get('/oauth/authorize', (req, res) => {
@@ -93,7 +93,7 @@ export function mountOAuth(app, env) {
   app.post('/oauth/token', express.urlencoded({ extended: false, limit: '16kb' }), (req, res) => {
     res.set('Cache-Control', 'no-store');
     const b = req.body || {};
-    if (b.resource !== resource) return res.status(400).json({ error: 'invalid_target' });
+    if (b.resource && b.resource !== resource) return res.status(400).json({ error: 'invalid_target' });
     if (b.grant_type === 'authorization_code') {
       const p = codes.get(b.code);
       codes.delete(b.code);

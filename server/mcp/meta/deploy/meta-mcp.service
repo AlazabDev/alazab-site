@@ -1,0 +1,16 @@
+[Unit]
+Description=Alazab Meta MCP service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/core/alazab-site/server/mcp/meta
+EnvironmentFile=/etc/alazab/meta-mcp.env
+ExecStart=/usr/bin/node src/server.js
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

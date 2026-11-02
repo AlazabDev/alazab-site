@@ -51,6 +51,7 @@ const adminRoutes = require('./routes/admin');
 const mcpRoutes = require('./routes/mcp');
 const dynamicRoutes = require('./routes/dynamic-routes');
 const calWebhookRoutes = require('./routes/cal-webhook');
+const paytabsRoutes = require('./routes/paytabs');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -400,6 +401,9 @@ app.use(
 app.use(express.json({ limit: '10mb', verify: rawBodySaver }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// ── PayTabs IPN (raw body retained by JSON parser) ──────────────
+app.use('/api/paytabs/ipn', webhookLimiter, paytabsRoutes);
+
 // ── Cal.com webhook ────────────────────────────────────────────
 app.use('/api/cal/webhook', webhookLimiter, calWebhookRoutes);
 
@@ -460,6 +464,7 @@ const server = app.listen(PORT, '127.0.0.1', () => {
   logger.info('Auth:    /auth/v1/  API:     /api/v1/');
   logger.info('Webhook: GET|POST /api/webhook/whatsapp');
   logger.info('Cal:     POST /api/cal/webhook');
+  logger.info('PayTabs: POST /api/paytabs/ipn');
   logger.info('Eleven:  /api/elevenlabs/  Meta: /api/meta/');
   logger.info('Admin:   /api/admin/status (requires X-Admin-Key header)');
   logger.info('MCP:     /api/mcp/health  /api/mcp/tools  /api/mcp/call');

@@ -19,6 +19,7 @@ GET  /api/events/catalog                 X-Admin-Key required
 GET  /api/events/whatsapp                Meta webhook verification
 POST /api/events/whatsapp                WhatsApp Flow / command callback
 POST /api/events/github                  GitHub webhook
+POST /api/events/paytabs                 PayTabs IPN (native Signature HMAC-SHA256)
 POST /api/events/:source                 Signed generic webhook
 ```
 
@@ -103,3 +104,13 @@ Outbound WhatsApp delivery/status events are not re-notified to WhatsApp. Comman
 ## Production rule
 
 The WhatsApp control surface never accepts arbitrary command strings, arbitrary executable paths or arbitrary PM2 targets. Add a new operation to the command catalog explicitly when it is approved for remote execution.
+
+## PayTabs → WhatsApp admin notifications
+
+1. Define `PAYTABS_SERVER_KEY` in the central webhook process environment. Optionally constrain the merchant using `PAYTABS_PROFILE_ID`.
+2. Use the already configured `CENTRAL_WHATSAPP_ACCESS_TOKEN`, `CENTRAL_WHATSAPP_PHONE_NUMBER_ID`, and `CENTRAL_WHATSAPP_ADMIN_TO` (destination is different from sender).
+3. For notifications outside the 24-hour customer-service window, configure an approved utility template with one body variable via `CENTRAL_WHATSAPP_TEMPLATE_NAME` and `CENTRAL_WHATSAPP_TEMPLATE_LANGUAGE`.
+4. Configure PayTabs Dashboard → Developers → Payment Notification → Configuration with `Default Web` JSON and the public HTTPS URL `https://alazab.com/api/events/paytabs` once Nginx maps /api/events/ to the central-webhook listener.
+5. Validate locally: `node --check central-webhook/paytabs.js && npm run webhook:central:check`; run `pm2 restart alazab-central-webhook --update-env` after deploying and setting environment; verify local HTTP routing and a signed PayTabs test event.
+
+The endpoint verifies PayTabs native `Signature` against the **raw request body** and deduplicates the same transaction/status in PostgreSQL. It does not alter UberFix invoices or customer payment states; that remains owned by the existing UberFix PayTabs callback. Event storage, WhatsApp delivery status, and failed deliveries are recorded by the existing central webhook pipeline. A failed WhatsApp delivery does not imply that a notification reached the administrator: review `ops.central_events.notification_status` and retry via operational tooling.

@@ -7,6 +7,8 @@ const { persistEvent, markNotification, persistCommand, makeId } = require('./st
 const { notifyEvent, sendText, sendFlow, config: whatsappConfig } = require('./whatsapp');
 const { commandCatalog, requestCommand, confirmCommand, allowedSender } = require('./commands');
 
+const { paytabsRouter } = require('./paytabs');
+
 const router = express.Router();
 
 function adminAuthorized(req) {
@@ -178,6 +180,9 @@ router.post('/whatsapp', (req, res) => {
     }
   });
 });
+
+// Native PayTabs signature uses its raw JSON body; do not apply generic Azab signing.
+router.use('/paytabs', paytabsRouter(storeAndNotify));
 
 router.post('/:source', async (req, res) => {
   const source = String(req.params.source || '').toLowerCase();

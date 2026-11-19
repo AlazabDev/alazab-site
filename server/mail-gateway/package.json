@@ -1,0 +1,19 @@
+{
+  "name": "@alazab/mail-gateway",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs",
+    "check": "node --check index.mjs"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.4.0",
+    "imapflow": "^1.0.195",
+    "mailparser": "^3.7.2",
+    "nodemailer": "^7.0.10",
+    "pg": "^8.16.3"
+  }
+}

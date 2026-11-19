@@ -1,6 +1,78 @@
 #!/usr/bin/env bash
 set -u
 
+# Read-only discovery and missing-link audit. Run: bash ts-links.sh --missing
+# This mode deliberately avoids the legacy POST/PUT/DELETE probes below.
+audit_missing_links() {
+  local base="${2:-${BASE_URL:-https://alazab.com}}"
+  local report="${LINK_AUDIT_REPORT:-/tmp/alazab-missing-links.tsv}"
+  local tmp
+  tmp="$(mktemp)" || return 2
+  trap 'rm -f "$tmp"' RETURN
+
+  # The existing link-audit registry is the best currently available inventory.
+  # Its parser is static and can miss dynamically registered routes.
+  node - "$PWD" > "$tmp" <<'NODE'
+const {buildRegistry} = require('./scripts/link-audit');
+const routes = buildRegistry();
+const seen = new Set();
+for (const r of routes) {
+  if (r.method !== 'GET') continue;
+  if (/\bTEST_ID\b|\*/.test(r.path)) continue;
+  if (/[?&#]/.test(r.path)) continue;
+  if (seen.has(r.path)) continue;
+  seen.add(r.path);
+  process.stdout.write(r.path + '\n');
+}
+for (const p of ['/health','/ready','/api/health','/api/paytabs/ipn','/api/telemetry/health']) {
+  if (!seen.has(p)) process.stdout.write(p + '\n');
+}
+NODE
+  if [ "$?" -ne 0 ]; then
+    echo "ERROR: Could not enumerate routes from scripts/link-audit.js" >&2
+    return 2
+  fi
+
+  printf 'status\thttp\tpath\turl\n' > "$report"
+  local path url http result count=0 missing=0 broken=0 protected=0 suspect=0 alive=0
+  local response headers
+  response="$(mktemp)" || return 2
+  headers="$(mktemp)" || { rm -f "$response"; return 2; }
+  while IFS= read -r path; do
+    [ -n "$path" ] || continue
+    url="${base%/}$path"
+    # GET only; no credentials, redirects, or insecure TLS override.
+    http="$(curl -sS --max-time 12 --connect-timeout 4 -D "$headers" -o "$response" -w '%{http_code}' "$url" 2>/dev/null)" || http="000"
+    case "$http" in
+      404|410) result="MISSING"; missing=$((missing+1));;
+      401|403) result="PROTECTED"; protected=$((protected+1));;
+      000|5??) result="BROKEN"; broken=$((broken+1));;
+      200)
+        if [[ "$path" == /api/* ]] && grep -qi '^content-type: *text/html' "$headers"; then
+          result="SUSPECT_SPA"; suspect=$((suspect+1))
+        else result="OK"; alive=$((alive+1)); fi;;
+      301|302|303|307|308) result="REDIRECT"; alive=$((alive+1));;
+      405) result="METHOD_MISMATCH"; suspect=$((suspect+1));;
+      *) result="CHECK"; suspect=$((suspect+1));;
+    esac
+    printf '%s\t%s\t%s\t%s\n' "$result" "$http" "$path" "$url" >> "$report"
+    printf '%-16s %-4s %s\n' "$result" "$http" "$path"
+    count=$((count+1))
+  done < "$tmp"
+  rm -f "$response" "$headers"
+  printf '\nChecked: %s | OK/redirect: %s | Missing: %s | Broken: %s | Protected: %s | Needs review: %s\n' "$count" "$alive" "$missing" "$broken" "$protected" "$suspect"
+  printf 'Report: %s\n' "$report"
+  echo 'Coverage: static GET routes from link-audit registry + known endpoints; not all dynamic routes or other hosts.'
+  [ "$missing" -eq 0 ] && [ "$broken" -eq 0 ]
+}
+
+if [[ "${1:-}" == "--missing" ]]; then
+  cd "$(dirname "${BASH_SOURCE[0]}")" || exit 2
+  audit_missing_links "$@" 
+  exit $?
+fi
+
+
 BASE_URL="https://alazab.com"
 ENV_FILE=".env"
 

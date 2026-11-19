@@ -1,0 +1,17 @@
+[Unit]
+Description=Alazab Public Knowledge Base MCP
+After=network-online.target
+Wants=network-online.target
+[Service]
+Type=simple
+WorkingDirectory=/opt/alazab-kb
+EnvironmentFile=/etc/alazab-kb/service.env
+ExecStart=/opt/alazab-kb/.venv/bin/uvicorn server:app --host 127.0.0.1 --port 8189 --proxy-headers --forwarded-allow-ips=127.0.0.1
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target

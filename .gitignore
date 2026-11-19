@@ -27,6 +27,7 @@ keystore.properties
 android/app/*.keystore
 server/.env
 .env.local
+server/mcp/spapi/.env
 
 # Large production media (deployed directly to the server, not stored in Git)
 /public/media/hero.mp4

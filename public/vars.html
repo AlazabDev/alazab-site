@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل المتغيرات الكامل</title>
+    <style>
+        /* --- إعدادات عامة --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* --- الترويسة --- */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #0b1345;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* --- شريط البحث --- */
+        .search-box {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: #f4f6f9;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .search-box input:focus {
+            border-color: #0b1345;
+        }
+
+        /* --- الأقسام --- */
+        .section {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .section-title {
+            background-color: #0b1345;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* --- شبكة المتغيرات --- */
+        .variables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+        .variable-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 10px 15px;
+            transition: background-color 0.2s;
+        }
+        .variable-item:hover {
+            background-color: #eef2f7;
+        }
+        .variable-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            margin-left: 10px; /* مسافة لزر النسخ */
+        }
+        .variable-label {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 4px;
+        }
+        .variable-code {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #d35400;
+            font-size: 1rem;
+            word-break: break-all;
+        }
+        .copy-btn {
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+        .copy-btn:hover {
+            background-color: #e67e22;
+        }
+        .copy-btn.copied {
+            background-color: #27ae60;
+        }
+
+        /* --- تنبيه النسخ (Toast) --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* --- إخفاء العناصر غير المطابقة للبحث --- */
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- رسالة عدم وجود نتائج --- */
+        #no-results {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #888;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>دليل المتغيرات الكامل</h1>
+        <p>اضغط على زر "نسخ" لنسخ المتغير مباشرة</p>
+    </div>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="ابحث عن متغير أو وصف... (مثال: اسم العميل)" onkeyup="filterVariables()">
+    </div>
+
+    <div id="no-results">لا توجد نتائج مطابقة لبحثك.</div>
+
+    <!-- سيتم إدراج المتغيرات هنا تلقائياً بواسطة الجافاسكريبت -->
+    <div id="variablesContainer"></div>
+</div>
+
+<!-- عنصر التنبيه -->
+<div id="toast">تم النسخ!</div>
+
+<script>
+    // البيانات الكاملة للمتغيرات مقسمة حسب الأقسام
+    const data = [
+        {
+            section: "العميل",
+            variables: [
+                { label: "شركة العميل", code: "{%client_business_name%}" },
+                { label: "كود العميل", code: "{%client_number%}" },
+                { label: "اسم العميل الاول", code: "{%client_first_name%}" },
+                { label: "اسم العميل الأخير", code: "{%client_last_name%}" },
+                { label: "هاتف العميل", code: "{%client_phone%}" },
+                { label: "جوال العميل", code: "{%client_mobile%}" },
+                { label: "بريد العميل", code: "{%client_email%}" },
+                { label: "عنوان العميل الكامل", code: "{%client_full_address%}" },
+                { label: "شارع العميل", code: "{%client_address%}" },
+                { label: "الرمز البريدي", code: "{%client_postcode%}" },
+                { label: "المدينة", code: "{%client_city%}" },
+                { label: "المنطقة", code: "{%client_state%}" },
+                { label: "البلد", code: "{%client_country%}" },
+                { label: "اسم العميل الثانوي", code: "{%client_secondary_name%}" },
+                { label: "عنوان الشارع الثانوي", code: "{%client_secondary_address%}" },
+                { label: "الرمز البريدي الثاني للعمبل", code: "{%client_secondary_postcode%}" },
+                { label: "مدينة العميل الثاني", code: "{%client_secondary_city%}" },
+                { label: "ولاية العميل الثاني", code: "{%client_secondary_state%}" },
+                { label: "دولة العميل الثاني", code: "{%client_secondary_country%}" },
+                { label: "سجل تجاري", code: "{%client_bn1%}" },
+                { label: "الرقم الضريبي", code: "{%client_bn2%}" },
+                { label: "العميل Business Info 1", code: "{%client_business_registration_info1%}" },
+                { label: "العميل Business Info 2", code: "{%client_business_registration_info2%}" },
+                { label: "باركود العميل", code: "{%client_barcode%}" },
+                { label: "رقم باركود العميل", code: "{%client_barcode_number%}" },
+                { label: "العميل photo", code: "{%client_photo%}" },
+                { label: "العميل Status الإسم", code: "{%client_status_name%}" },
+                { label: "تصنيف العميل", code: "{%client_category%}" },
+                { label: "الحد الائتماني", code: "{%client_credit_limit%}" },
+                { label: "فترة السماح", code: "{%client_credit_period%}" },
+                { label: "مكان العميل", code: "{%client_location%}" },
+                { label: "العميل Starting Balance", code: "{%client_starting_balance%}" },
+                { label: "العميل National ID", code: "{%client_national_id%}" },
+                { label: "العميل National ID", code: "{%client-national-id%}" },
+                { label: "الرابط", code: "{%link%}" },
+                { label: "- العميل", code: "{%custom__field_7%}" },
+                { label: "رقم العقد - العميل", code: "{%custom_رقم_العقد_field_1%}" },
+                { label: "حالة العقد - العميل", code: "{%custom_حالة_العقد_field_2%}" },
+                { label: "نوع العقد - العميل", code: "{%custom_نوع_العقد_field_3%}" },
+                { label: "- العميل", code: "{%custom__field_4%}" },
+                { label: "رقم الوحدة - العميل", code: "{%custom_رقم_الوحدة_field_5%}" },
+                { label: "نوع الوحدة - العميل", code: "{%custom_نوع_الوحدة_field_6%}" },
+                { label: "الموقع - العميل", code: "{%custom_الموقع_field_39%}" },
+                { label: "رفع ملف - العميل", code: "{%custom_رفع_ملف_field_40%}" },
+                { label: "العميل - معرف الفرع", code: "{%client_branch_id%}" },
+                { label: "العميل - Branch Code", code: "{%client_branch_code%}" },
+                { label: "العميل - Branch الإسم", code: "{%client_branch_name%}" },
+                { label: "العميل - Branch Phone1", code: "{%client_branch_phone1%}" },
+                { label: "العميل - Branch Phone2", code: "{%client_branch_phone2%}" },
+                { label: "العميل - Branch Address1", code: "{%client_branch_address1%}" },
+                { label: "العميل - Branch Address2", code: "{%client_branch_address2%}" },
+                { label: "العميل - Branch City", code: "{%client_branch_city%}" },
+                { label: "العميل - Branch State", code: "{%client_branch_state%}" },
+                { label: "العميل - Branch Country", code: "{%client_branch_country%}" },
+                { label: "العميل - Branch Location", code: "{%client_branch_map_location%}" },
+                { label: "الرقم التعريفي للعضوية", code: "{%client_membership_id%}" },
+                { label: "تاريخ إنتهاء العضوية", code: "{%client_membership_expiry_date%}" },
+                { label: "تاريخ بداية العضوية", code: "{%client_membership_join_date%}" },
+                { label: "الباقة الحالية للعضوية", code: "{%client_membership_current_package%}" },
+                { label: "التاريخ المحلي الحالي", code: "{%current_date%}" },
+                { label: "الوقت المحلي الحالي", code: "{%current_time%}" },
+                { label: "Page number", code: "{%page_no%}" }
+            ]
+        },
+        {
+            section: "فاتورة",
+            variables: [
+                { label: "اسم العميل التجاري", code: "{%client_business_name%}" },
+                { label: "اسم العميل", code: "{%client_name%}" },
+                { label: "اسم العميل الاول", code: "{%client_first_name%}" },
+                { label: "اسم العميل الأخير", code: "{%client_last_name%}" },
+                { label: "عنوان العميل", code: "{%client_address%}" },
+                { label: "مدينة العميل", code: "{%client_city%}" },
+                { label: "محافظة/منطقة العميل", code: "{%client_state%}" },
+                { label: "الرقم البريدي للعميل", code: "{%client_postal_code%}" },
+                { label: "بلد العميل", code: "{%client_country%}" },
+                { label: "كود العميل", code: "{%client_number%}" },
+                { label: "رقم الفاتورة", code: "{%invoice_no%}" },
+                { label: "Invoice Order No", code: "{%invoice_order_no%}" },
+                { label: "تاريخ الفاتورة", code: "{%invoice_date%}" },
+                { label: "Invoice Manual Status", code: "{%manual_status%}" },
+                { label: "تاريخ الاستحقاق", code: "{%due_date%}" },
+                { label: "تاريخ الإصدار", code: "{%issue_date%}" },
+                { label: "Invoice subtotal", code: "{%invoice_subtotal%}" },
+                { label: "إجمالي الفاتورة", code: "{%invoice_total%}" },
+                { label: "المبلغ الواجب دفعه", code: "{%deposit%}" },
+                { label: "القيمة المدفوعة", code: "{%paid%}" },
+                { label: "المبلغ المتبقي", code: "{%unpaid%}" },
+                { label: "الخصم", code: "{%discount%}" },
+                { label: "أجمالى الضرائب", code: "{%tax-total%}" },
+                { label: "Item discount Total", code: "{%item-discount-total%}" },
+                { label: "رابط الدفع", code: "{%payment_link%}" },
+                { label: "رابط العرض", code: "{%view_link%}" },
+                { label: "رابط قصير", code: "{%short-link%}" },
+                { label: "ملاحظات الفاتورة", code: "{%invoice_notes%}" },
+                { label: "باركود الفاتوره", code: "{%invoice_barcode%}" },
+                { label: "رقم باركود الفاتوره", code: "{%invoice_barcode_number%}" },
+                { label: "Invoice currency code", code: "{%invoice_currency_code%}" },
+                { label: "تاريخ الإنشاء", code: "{%created_date%}" },
+                { label: "وقت الإنشاء", code: "{%created_time%}" },
+                { label: "العميل view link", code: "{%client_view_link%}" },
+                { label: "QR Code Link", code: "{%qr_code_link%}" },
+                { label: "QR Code Image", code: "{%qr_code_image%}" },
+                { label: "Owner view link", code: "{%owner_view_link%}" },
+                { label: "المستودع", code: "{%ware_house%}" },
+                { label: "Sales person", code: "{%sales_person%}" },
+                { label: "Invoice Item Count", code: "{%invoice_item_count%}" },
+                { label: "Invoice quantity count", code: "{%invoice_item_qty%}" },
+                { label: "Invoice payment status", code: "{%invoice_payment_status%}" },
+                { label: "العميل Balance", code: "{%extra_details.client_balance%}" },
+                { label: "Advanced العميل balance", code: "{%invoice_advanced_client_balance%}" },
+                { label: "Invoice Payment List", code: "{%invoice_payment_table%}" },
+                { label: "جدول الدفعات المقدمة", code: "{%advance_payments_table%}" },
+                { label: "مصدر الطلب", code: "{%order_source%}" },
+                { label: "نوع الفاتورة", code: "{%invoice_type%}" },
+                { label: "رقم عرض الأسعار", code: "{%estimate_no%}" },
+                { label: "نقاط الولاء المكتسبة", code: "{%extra_details.earned_loyalty_points%}" },
+                { label: "رصيد نقاط الولاء", code: "{%extra_details.loyalty_points_balance%}" },
+                { label: "تفقيط إجمالي الفاتورة", code: "{%invoice_total_spelled%}" },
+                { label: "تفقيط المبلغ الواجب دفعه", code: "{%deposit_spelled%}" },
+                { label: "تفقيط القيمة المدفوعة", code: "{%paid_spelled%}" },
+                { label: "تفقيط المبلغ المتبقي", code: "{%unpaid_spelled%}" },
+                { label: "تفقيط الخصم", code: "{%discount_spelled%}" },
+                { label: "- العميل", code: "{%custom__field_7%}" },
+                { label: "رقم العقد - العميل", code: "{%custom_رقم_العقد_field_1%}" },
+                { label: "حالة العقد - العميل", code: "{%custom_حالة_العقد_field_2%}" },
+                { label: "نوع العقد - العميل", code: "{%custom_نوع_العقد_field_3%}" },
+                { label: "- العميل", code: "{%custom__field_4%}" },
+                { label: "رقم الوحدة - العميل", code: "{%custom_رقم_الوحدة_field_5%}" },
+                { label: "نوع الوحدة - العميل", code: "{%custom_نوع_الوحدة_field_6%}" },
+                { label: "الموقع - العميل", code: "{%custom_الموقع_field_39%}" },
+                { label: "رفع ملف - العميل", code: "{%custom_رفع_ملف_field_40%}" },
+                { label: "التاريخ المحلي الحالي", code: "{%current_date%}" },
+                { label: "الوقت المحلي الحالي", code: "{%current_time%}" },
+                { label: "Page number", code: "{%page_no%}" },
+                { label: "البريد الإلكتروني - فاتورة", code: "{%custom_البريد_الإلكتروني_field_42%}" },
+                { label: "Invoice - معرف الفرع", code: "{%invoice_branch_id%}" },
+                { label: "Invoice - Branch Code", code: "{%invoice_branch_code%}" },
+                { label: "Invoice - Branch الإسم", code: "{%invoice_branch_name%}" },
+                { label: "Invoice - Branch Phone1", code: "{%invoice_branch_phone1%}" },
+                { label: "Invoice - Branch Phone2", code: "{%invoice_branch_phone2%}" },
+                { label: "Invoice - Branch Address1", code: "{%invoice_branch_address1%}" },
+                { label: "Invoice - Branch Address2", code: "{%invoice_branch_address2%}" },
+                { label: "Invoice - Branch City", code: "{%invoice_branch_city%}" },
+                { label: "Invoice - Branch State", code: "{%invoice_branch_state%}" },
+                { label: "Invoice - Branch Country", code: "{%invoice_branch_country%}" },
+                { label: "Invoice - Branch Location", code: "{%invoice_branch_map_location%}" }
+            ]
+        },
+        {
+            section: "مدفوعات الفواتير",
+            variables: [
+                { label: "رقم الدفع", code: "{%invoice_payment_No%}" },
+                { label: "وسيلة الدفع", code: "{%payment_method%}" },
+                { label: "أسم وسيلة الدفع", code: "{%payment_method_display%}" },
+                { label: "المبلغ", code: "{%amount%}" },
+                { label: "العملة", code: "{%currency_code%}" },
+                { label: "أضيف بواسطة", code: "{%added_by%}" },
+                { label: "التاريخ", code: "{%date%}" },
+                { label: "تاريخ الإصدار", code: "{%issue_date%}" },
+                { label: "البريد الإلكتروني", code: "{%email%}" },
+                { label: "الحالة", code: "{%status%}" },
+                { label: "حالة الدفع", code: "{%payment_status%}" },
+                { label: "الملاحظات", code: "{%notes%}" },
+                { label: "Response code", code: "{%response_code%}" },
+                { label: "Response message", code: "{%response_message%}" },
+                { label: "First name", code: "{%first_name%}" },
+                { label: "Last name", code: "{%last_name%}" },
+                { label: "العنوان 1", code: "{%address1%}" },
+                { label: "العنوان 2", code: "{%address2%}" },
+                { label: "المدينة", code: "{%city%}" },
+                { label: "المنطقة", code: "{%state%}" },
+                { label: "الرمز البريدي", code: "{%postal_code%}" },
+                { label: "Country code", code: "{%country_code%}" },
+                { label: "رقم المحمول", code: "{%phone1%}" },
+                { label: "رقم الهاتف", code: "{%phone2%}" },
+                { label: "Receipt notes", code: "{%receipt_notes%}" },
+                { label: "المرفق", code: "{%invoice_payment_attachment%}" },
+                { label: "رقم معّرف للتحويل", code: "{%transaction_id%}" },
+                { label: "خزينة", code: "{%treasury_name%}" },
+                { label: "تفقيط", code: "{%spelled_amount%}" },
+                { label: "ملاحظة العملة المعروضة", code: "{%payment_currency_note%}" },
+                { label: "سعر الصرف المستخدم", code: "{%payment_exchange_rate%}" }
+            ]
+        },
+        {
+            section: "بيانات العمل",
+            variables: [
+                { label: "اسم الشركة الاول", code: "{%site_first_name%}" },
+                { label: "اسم الشركة الأخير", code: "{%site_last_name%}" },
+                { label: "نطاق الشركة", code: "{%subdomain%}" },
+                { label: "الاسم التجاري", code: "{%site_business_name%}" },
+                { label: "بريد الشركة", code: "{%site_business_email%}" },
+                { label: "عنوان الشركة 1", code: "{%site_address1%}" },
+                { label: "عنوان الشركة 2", code: "{%site_address2%}" },
+                { label: "مدينة الشركة", code: "{%site_city%}" },
+                { label: "محافظة الشركة", code: "{%site_state%}" },
+                { label: "الرقم البريدي للشركة", code: "{%site_postal_code%}" },
+                { label: "هاتف الشركة", code: "{%site_telephone%}" },
+                { label: "جوال الشركة", code: "{%site_mobile%}" },
+                { label: "Current Time", code: "{%current_time%}" },
+                { label: "Site Logo", code: "{%site_logo%}" },
+                { label: "Business Full Address", code: "{%full_business_address%}" },
+                { label: "اسم النطاق الرئيسي", code: "{%domain_name_only%}" },
+                { label: "bn1 Code", code: "{%site_bn1%}" },
+                { label: "سجل تجاري", code: "{%site_bn1_label%}" },
+                { label: "bn2 Code", code: "{%site_bn2%}" },
+                { label: "الرقم الضريبي", code: "{%site_bn2_label%}" }
+            ]
+        },
+        {
+            section: "المورد",
+            variables: [
+                { label: "اسم شركة المورد", code: "{%supplier_business_name%}" },
+                { label: "رقم المورد", code: "{%supplier_number%}" },
+                { label: "اسم المورد الاول", code: "{%supplier_first_name%}" },
+                { label: "اسم المورد الاخير", code: "{%supplier_last_name%}" },
+                { label: "هاتف المورد", code: "{%supplier_phone%}" },
+                { label: "Supplier Mobile", code: "{%supplier_mobile%}" },
+                { label: "بريد المورد", code: "{%supplier_email%}" },
+                { label: "العنوان الكامل للمورد", code: "{%supplier_full_address%}" },
+                { label: "عنوان المورد", code: "{%supplier_address%}" },
+                { label: "الرمز البريدي", code: "{%supplier_postcode%}" },
+                { label: "المدينة", code: "{%supplier_city%}" },
+                { label: "المنطقة", code: "{%supplier_state%}" },
+                { label: "البلد", code: "{%supplier_country%}" },
+                { label: "Supplier Secondary الإسم", code: "{%supplier_secondary_name%}" },
+                { label: "عنوان الشارع الثانوي", code: "{%supplier_secondary_address%}" },
+                { label: "Supplier Secondary Postcode", code: "{%supplier_secondary_postcode%}" },
+                { label: "Supplier Secondary City", code: "{%supplier_secondary_city%}" },
+                { label: "Supplier Secondary State", code: "{%supplier_secondary_state%}" },
+                { label: "Supplier Secondary Country", code: "{%supplier_secondary_country%}" },
+                { label: "سجل تجاري", code: "{%supplier_bn1%}" },
+                { label: "الرقم الضريبي", code: "{%supplier_bn2%}" },
+                { label: "Supplier Business Info 1", code: "{%supplier_business_registration_info1%}" },
+                { label: "Supplier Business Info 2", code: "{%supplier_business_registration_info2%}" },
+                { label: "Multiple Dropdown", code: "{%le_custom_data_supplier_multiple_dropdown%}" },
+                { label: "Supplier - معرف الفرع", code: "{%supplier_branch_id%}" },
+                { label: "Supplier - Branch Code", code: "{%supplier_branch_code%}" },
+                { label: "Supplier - Branch الإسم", code: "{%supplier_branch_name%}" },
+                { label: "Supplier - Branch Phone1", code: "{%supplier_branch_phone1%}" },
+                { label: "Supplier - Branch Phone2", code: "{%supplier_branch_phone2%}" },
+                { label: "Supplier - Branch Address1", code: "{%supplier_branch_address1%}" },
+                { label: "Supplier - Branch Address2", code: "{%supplier_branch_address2%}" },
+                { label: "Supplier - Branch City", code: "{%supplier_branch_city%}" },
+                { label: "Supplier - Branch State", code: "{%supplier_branch_state%}" },
+                { label: "Supplier - Branch Country", code: "{%supplier_branch_country%}" },
+                { label: "Supplier - Branch Location", code: "{%supplier_branch_map_location%}" }
+            ]
+        },
+        {
+            section: "فواتير الشراء",
+            variables: [
+                { label: "الاسم التجاري", code: "{%business_name%}" },
+                { label: "بريد الشركة", code: "{%business_email%}" },
+                { label: "عنوان الشركة 1", code: "{%address1%}" },
+                { label: "عنوان الشركة 2", code: "{%address2%}" },
+                { label: "مدينة الشركة", code: "{%city%}" },
+                { label: "محافظة الشركة", code: "{%state%}" },
+                { label: "الرمز البريدي", code: "{%postal_code%}" },
+                { label: "هاتف الشركة", code: "{%telephone%}" },
+                { label: "جوال الشركة", code: "{%mobile%}" },
+                { label: "اسم شركة المورد", code: "{%supplier_business_name%}" },
+                { label: "اسم المورد", code: "{%supplier_name%}" },
+                { label: "عنوان المورد", code: "{%supplier_address%}" },
+                { label: "مدينة المورد", code: "{%supplier_city%}" },
+                { label: "ولاية المورد", code: "{%supplier_state%}" },
+                { label: "Purchase Invoice Type", code: "{%purchase_invoice_type%}" },
+                { label: "الرقم البريدي للمورد", code: "{%supplier_postal_code%}" },
+                { label: "بلد المورد", code: "{%supplier_country%}" },
+                { label: "رقم فاتورة الشراء", code: "{%purchaseorders_no%}" },
+                { label: "تاريخ فاتورة الشراء", code: "{%purchaseorders_date%}" },
+                { label: "إجمالي فاتورة الشراء", code: "{%purchaseorders_total%}" },
+                { label: "PurchaseOrder note", code: "{%po_note%}" },
+                { label: "المستودع", code: "{%ware_house%}" },
+                { label: "Purchase Invoice quantity count", code: "{%po_item_qty%}" },
+                { label: "الخصم", code: "{%discount%}" },
+                { label: "Item discount Total", code: "{%item-discount-total%}" },
+                { label: "Purchase Invoice Tax total", code: "{%purchaseorder_tax_total%}" },
+                { label: "Purchase Invoice subtotal", code: "{%purchaseorder_subtotal%}" },
+                { label: "أجمالى الضرائب", code: "{%tax-total%}" },
+                { label: "رصيد المورد", code: "{%extra_details.supplier_balance%}" },
+                { label: "Advanced Supplier balance", code: "{%purchase_order_advanced_supplier_balance%}" },
+                { label: "رقم فاتورة الشراء", code: "{%purchase_order_no%}" },
+                { label: "رابط عرض المورد", code: "{%supplier_view_link%}" },
+                { label: "Purchase Invoice total Spelled", code: "{%purchaseorder_total_spelled%}" },
+                { label: "Purchase Invoice total tax Spelled", code: "{%purchaseorder_total_tax_spelled%}" },
+                { label: "Purchase Order - معرف الفرع", code: "{%purchase_order_branch_id%}" },
+                { label: "Purchase Order - Branch Code", code: "{%purchase_order_branch_code%}" },
+                { label: "Purchase Order - Branch الإسم", code: "{%purchase_order_branch_name%}" },
+                { label: "Purchase Order - Branch Phone1", code: "{%purchase_order_branch_phone1%}" },
+                { label: "Purchase Order - Branch Phone2", code: "{%purchase_order_branch_phone2%}" },
+                { label: "Purchase Order - Branch Address1", code: "{%purchase_order_branch_address1%}" },
+                { label: "Purchase Order - Branch Address2", code: "{%purchase_order_branch_address2%}" },
+                { label: "Purchase Order - Branch City", code: "{%purchase_order_branch_city%}" },
+                { label: "Purchase Order - Branch State", code: "{%purchase_order_branch_state%}" },
+                { label: "Purchase Order - Branch Country", code: "{%purchase_order_branch_country%}" },
+                { label: "Purchase Order - Branch Location", code: "{%purchase_order_branch_map_location%}" },
+                { label: "التاريخ المحلي الحالي", code: "{%current_date%}" },
+                { label: "الوقت المحلي الحالي", code: "{%current_time%}" },
+                { label: "Page number", code: "{%page_no%}" }
+            ]
+        },
+        {
+            section: "أمر الشغل",
+            variables: [
+                { label: "رقم أمر الشغل", code: "{%work_order_number%}" },
+                { label: "عنوان أمر الشغل", code: "{%work_order_title%}" },
+                { label: "تاريخ ابتداء أمر الشغل", code: "{%work_order_start_date%}" },
+                { label: "تاريخ تسليم أمر الشغل", code: "{%work_order_delivery_date%}" },
+                { label: "وصف أمر الشغل", code: "{%work_order_description%}" },
+                { label: "ميزانية أمر الشغل", code: "{%work_order_budget%}" },
+                { label: "عملة ميزانية أمر الشغل", code: "{%work_order_budget_currency%}" },
+                { label: "حالة أمر الشغل", code: "{%work_order_status%}" },
+                { label: "Work Order Follow up status", code: "{%work_order_follow_up_status%}" },
+                { label: "إجمالي المدفوع لأمر الشغل", code: "{%work_order_spent%}" },
+                { label: "شريط تقدم ميزانية أمر الشغل", code: "{%work_order_budget_progress%}" },
+                { label: "حركة حساب أمر الشغل", code: "{%work_order_transaction_list%}" },
+                { label: "حركة حساب أمر الشغل", code: "{%work_order_transaction_list_title%}" },
+                { label: "Work Order Financial List", code: "{%work_order_financial_list%}" },
+                { label: "Work Order Financial List", code: "{%work_order_financial_list_title%}" },
+                { label: "Invoiced Products", code: "{%work_order_invoiced_products%}" },
+                { label: "الموظف المعين ﻷمر الشغل", code: "{%work_order_assigned_staffs%}" },
+                { label: "رقم جوال الموظف المعين ﻷمر الشغل", code: "{%work_order_assigned_staffs_mobile_number%}" },
+                { label: "رقم هاتف الموظف المعين ﻷمر الشغل", code: "{%work_order_assigned_staffs_phone_number%}" },
+                { label: "التاريخ المحلي الحالي", code: "{%current_date%}" },
+                { label: "الوقت المحلي الحالي", code: "{%current_datetime%}" },
+                { label: "نوع الاعمال المطلوب - WorkOrder", code: "{%custom_نوع_الاعمال_المطلوب_field_43%}" },
+                { label: "الموقع - WorkOrder", code: "{%custom_الموقع_field_44%}" },
+                { label: "معرض الصور - WorkOrder", code: "{%custom_معرض_الصور_field_45%}" },
+                { label: "حالة المشروع - WorkOrder", code: "{%custom_حالة_المشروع_field_46%}" },
+                { label: "عنوان الموقع - WorkOrder", code: "{%custom_عنوان_الموقع_field_17%}" },
+                { label: "مساحة الموقع - WorkOrder", code: "{%custom_مساحة_الموقع_field_18%}" },
+                { label: "عدد الغرف - WorkOrder", code: "{%custom_عدد_الغرف_field_19%}" },
+                { label: "رفع صورة - WorkOrder", code: "{%custom_رفع_صورة_field_28%}" },
+                { label: "- WorkOrder", code: "{%custom__field_33%}" },
+                { label: "مراحل اكتمل المشروع - WorkOrder", code: "{%custom_مراحل_اكتمل_المشروع_field_49%}" }
+            ]
+        },
+        {
+            section: "موظف",
+            variables: [
+                { label: "اسم الموظف", code: "{%staff_member_name%}" },
+                { label: "البريد الإلكتروني للموظف", code: "{%staff_member_email%}" },
+                { label: "هاتف الموظف", code: "{%staff_member_phone%}" },
+                { label: "جوال الموظف", code: "{%staff_member_mobile%}" },
+                { label: "عنوان الموظف 1", code: "{%staff_member_address1%}" },
+                { label: "عنوان الموظف 2", code: "{%staff_member_address2%}" },
+                { label: "مدينة الموظف", code: "{%staff_member_city%}" },
+                { label: "ولاية الموظف", code: "{%staff_member_state%}" },
+                { label: "الرقم البريدي للموظف", code: "{%staff_member_postalcode%}" },
+                { label: "بلد الموظف", code: "{%staff_member_country%}" },
+                { label: "Staff - معرف الفرع", code: "{%staff_branch_id%}" },
+                { label: "Staff - Branch Code", code: "{%staff_branch_code%}" },
+                { label: "Staff - Branch الإسم", code: "{%staff_branch_name%}" },
+                { label: "Staff - Branch Phone1", code: "{%staff_branch_phone1%}" },
+                { label: "Staff - Branch Phone2", code: "{%staff_branch_phone2%}" },
+                { label: "Staff - Branch Address1", code: "{%staff_branch_address1%}" },
+                { label: "Staff - Branch Address2", code: "{%staff_branch_address2%}" },
+                { label: "Staff - Branch City", code: "{%staff_branch_city%}" },
+                { label: "Staff - Branch State", code: "{%staff_branch_state%}" },
+                { label: "Staff - Branch Country", code: "{%staff_branch_country%}" },
+                { label: "Staff - Branch Location", code: "{%staff_branch_map_location%}" }
+            ]
+        },
+        {
+            section: "البيئة",
+            variables: [
+                { label: "التاريخ المحلي الحالي", code: "{%current_date%}" },
+                { label: "الوقت المحلي الحالي", code: "{%current_time%}" },
+                { label: "Page number", code: "{%page_no%}" }
+            ]
+        }
+    ];
+
+    // دالة لإنشاء العناصر ديناميكياً
+    function renderVariables() {
+        const container = document.getElementById('variablesContainer');
+        let html = '';
+
+        data.forEach(group => {
+            html += `
+                <div class="section" data-section="${group.section}">
+                    <h2 class="section-title">${group.section}</h2>
+                    <div class="variables-grid">
+            `;
+            group.variables.forEach(v => {
+                // إزالة الأقواس من الكود لعرضه كنص عادي
+                const displayCode = v.code;
+                html += `
+                    <div class="variable-item">
+                        <div class="variable-info">
+                            <span class="variable-label">${v.label}</span>
+                            <span class="variable-code" title="${v.code}">${displayCode}</span>
+                        </div>
+                        <button class="copy-btn" onclick="copyToClipboard('${v.code}', this)">نسخ</button>
+                    </div>
+                `;
+            });
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // دالة النسخ إلى الحافظة
+    function copyToClipboard(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            // تغيير نص الزر مؤقتاً
+            const originalText = btn.innerText;
+            btn.innerText = 'تم النسخ!';
+            btn.classList.add('copied');
+
+            // إظهار التنبيه
+            showToast();
+
+            // إعادة الزر لحالته الأصلية بعد ثانيتين
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }).catch(err => {
+            console.error('فشل في النسخ: ', err);
+            alert('حدث خطأ أثناء النسخ. يرجى المحاولة يدوياً.');
+        });
+    }
+
+    // دالة إظهار التنبيه
+    function showToast() {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+    }
+
+    // دالة البحث والفلترة
+    function filterVariables() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase().trim();
+        const sections = document.querySelectorAll('.section');
+        const noResults = document.getElementById('no-results');
+        let hasVisibleItems = false;
+
+        sections.forEach(section => {
+            const items = section.querySelectorAll('.variable-item');
+            let sectionHasVisible = false;
+
+            items.forEach(item => {
+                const label = item.querySelector('.variable-label').textContent.toLowerCase();
+                const code = item.querySelector('.variable-code').textContent.toLowerCase();
+
+                if (label.includes(filter) || code.includes(filter)) {
+                    item.classList.remove('hidden');
+                    sectionHasVisible = true;
+                    hasVisibleItems = true;
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+
+            // إخفاء القسم بالكامل إذا لم تكن هناك عناصر مرئية
+            if (sectionHasVisible) {
+                section.classList.remove('hidden');
+            } else {
+                section.classList.add('hidden');
+            }
+        });
+
+        // إظهار رسالة عدم وجود نتائج
+        if (hasVisibleItems) {
+            noResults.style.display = 'none';
+        } else {
+            noResults.style.display = 'block';
+        }
+    }
+
+    // التشغيل عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', () => {
+        renderVariables();
+    });
+</script>
+
+</body>
+</html>

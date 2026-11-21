@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملفات مشروع Badr Nursery</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 {
+            text-align: center;
+            color: #0b1345;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .search-box {
+            position: sticky;
+            top: 0;
+            background: #f0f2f5;
+            padding: 15px 0;
+            z-index: 10;
+            margin-bottom: 20px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        .search-box input:focus { border-color: #0b1345; }
+
+        .section {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .section-header {
+            background: #0b1345;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-header .count {
+            background: #f39c12;
+            color: #fff;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .card a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .preview {
+            height: 140px;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .preview .icon {
+            font-size: 40px;
+            color: #aaa;
+        }
+        .preview .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .info {
+            padding: 10px;
+            text-align: center;
+        }
+        .info .name {
+            font-size: 13px;
+            font-weight: bold;
+            color: #0b1345;
+            word-break: break-all;
+            margin-bottom: 4px;
+        }
+        .info .size {
+            font-size: 11px;
+            color: #888;
+        }
+        .hidden { display: none !important; }
+        #no-results {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #888;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>ملفات مشروع Badr Nursery</h1>
+    <p class="subtitle">معاينة وتحميل جميع الملفات من مخزن R2</p>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="🔍 ابحث باسم الملف..." onkeyup="filterFiles()">
+    </div>
+
+    <div id="no-results">لا توجد نتائج مطابقة.</div>
+    <div id="sectionsContainer"></div>
+</div>
+
+<script>
+    // النطاق الأساسي
+    const BASE_URL = "https://projects.alazab.store/";
+
+    // قائمة الملفات (تم نقلها من القائمة التي أرفقتها)
+    const files = [
+        // docs
+        "Badr_Nursery/docs/BN_CCTV_Finally.pdf",
+        "Badr_Nursery/docs/BN_CCTV_Summary.pdf",
+        "Badr_Nursery/docs/BN_CCTV_Summary_img.pdf",
+        "Badr_Nursery/docs/BN_CCTV_Work.docx",
+        "Badr_Nursery/docs/BN_CCTV_Work.xlsx",
+        "Badr_Nursery/docs/Badr_Nursery_CCTV_Finally.docx",
+        "Badr_Nursery/docs/Badr_Nursery_CCTV_Finally.xlsx",
+        // docs/arch
+        "Badr_Nursery/docs/arch/1.pdf",
+        "Badr_Nursery/docs/arch/2.pdf",
+        "Badr_Nursery/docs/arch/3.pdf",
+        "Badr_Nursery/docs/arch/4.pdf",
+        "Badr_Nursery/docs/arch/5.pdf",
+        "Badr_Nursery/docs/arch/6.pdf",
+        // docs/data
+        "Badr_Nursery/docs/data/23Device.csv",
+        "Badr_Nursery/docs/data/BN-All-Cam.csv",
+        "Badr_Nursery/docs/data/OnlineDevice.xlsx",
+        "Badr_Nursery/docs/data/PackageBatchTemplate.xlsx",
+        "Badr_Nursery/docs/data/all-data-sadp.csv",
+        "Badr_Nursery/docs/data/cam-data.csv",
+        // docs/datasheet
+        "Badr_Nursery/docs/datasheet/DS-2CD1021G0-I.pdf",
+        "Badr_Nursery/docs/datasheet/DS-2CD1023G2-LIUF.pdf",
+        "Badr_Nursery/docs/datasheet/DS-2CD1043G0-I.pdf",
+        "Badr_Nursery/docs/datasheet/DS-2CD1123G2-LIU.pdf",
+        "Badr_Nursery/docs/datasheet/DS-2CD1123G2-LIUF.pdf",
+        "Badr_Nursery/docs/datasheet/DS-2CD1153G0-I.pdf",
+        "Badr_Nursery/docs/datasheet/DS-2CD1323G2-LIU.pdf",
+        "Badr_Nursery/docs/datasheet/DS-3E0510P-EM(B).pdf",
+        "Badr_Nursery/docs/datasheet/DS-3E1310P-EM.pdf",
+        "Badr_Nursery/docs/datasheet/DS-7732NXI-K4ESTD.pdf",
+        "Badr_Nursery/docs/datasheet/DS-UPS2000_GER1200.pdf",
+        "Badr_Nursery/docs/datasheet/WDp-HDD-6T.pdf",
+        // img/cost
+        "Badr_Nursery/img/cost/#58951.jpg",
+        "Badr_Nursery/img/cost/1.jpeg",
+        "Badr_Nursery/img/cost/2.jpeg",
+        // img/product
+        "Badr_Nursery/img/product/1.png",
+        "Badr_Nursery/img/product/10-1.png",
+        "Badr_Nursery/img/product/10.png",
+        "Badr_Nursery/img/product/11.png",
+        "Badr_Nursery/img/product/12.png",
+        "Badr_Nursery/img/product/13.png",
+        "Badr_Nursery/img/product/14.png",
+        "Badr_Nursery/img/product/15.png",
+        "Badr_Nursery/img/product/16-1.png",
+        "Badr_Nursery/img/product/16.png",
+        "Badr_Nursery/img/product/17.png",
+        "Badr_Nursery/img/product/18.png",
+        "Badr_Nursery/img/product/19.png",
+        "Badr_Nursery/img/product/2.png",
+        "Badr_Nursery/img/product/20.png",
+        "Badr_Nursery/img/product/21.png",
+        "Badr_Nursery/img/product/22-1.jpeg",
+        "Badr_Nursery/img/product/22.png",
+        "Badr_Nursery/img/product/23.png",
+        "Badr_Nursery/img/product/24.png",
+        "Badr_Nursery/img/product/25.png",
+        "Badr_Nursery/img/product/26.png",
+        "Badr_Nursery/img/product/27.png",
+        "Badr_Nursery/img/product/28-1.jpg",
+        "Badr_Nursery/img/product/28.png",
+        "Badr_Nursery/img/product/29-1.png",
+        "Badr_Nursery/img/product/29-2.png",
+        "Badr_Nursery/img/product/29.png",
+        "Badr_Nursery/img/product/3.png",
+        "Badr_Nursery/img/product/30.png",
+        "Badr_Nursery/img/product/32.png",
+        "Badr_Nursery/img/product/4.png",
+        "Badr_Nursery/img/product/5.png",
+        "Badr_Nursery/img/product/6.png",
+        "Badr_Nursery/img/product/7.png",
+        "Badr_Nursery/img/product/8.png",
+        "Badr_Nursery/img/product/9.png",
+        // img/sn
+        "Badr_Nursery/img/sn/1.png",
+        "Badr_Nursery/img/sn/10.png",
+        "Badr_Nursery/img/sn/11.png",
+        "Badr_Nursery/img/sn/12.png",
+        "Badr_Nursery/img/sn/13.png",
+        "Badr_Nursery/img/sn/14.png",
+        "Badr_Nursery/img/sn/15.png",
+        "Badr_Nursery/img/sn/16.png",
+        "Badr_Nursery/img/sn/17.png",
+        "Badr_Nursery/img/sn/18.png",
+        "Badr_Nursery/img/sn/19.png",
+        "Badr_Nursery/img/sn/2.png",
+        "Badr_Nursery/img/sn/20.png",
+        "Badr_Nursery/img/sn/21.png",
+        "Badr_Nursery/img/sn/22.png",
+        "Badr_Nursery/img/sn/23.png",
+        "Badr_Nursery/img/sn/24.png",
+        "Badr_Nursery/img/sn/25.png",
+        "Badr_Nursery/img/sn/26.png",
+        "Badr_Nursery/img/sn/27.png",
+        "Badr_Nursery/img/sn/28.png",
+        "Badr_Nursery/img/sn/29.png",
+        "Badr_Nursery/img/sn/3.png",
+        "Badr_Nursery/img/sn/30.png",
+        "Badr_Nursery/img/sn/4.png",
+        "Badr_Nursery/img/sn/5.png",
+        "Badr_Nursery/img/sn/6.png",
+        "Badr_Nursery/img/sn/7.png",
+        "Badr_Nursery/img/sn/8.png",
+        "Badr_Nursery/img/sn/9.png",
+        "Badr_Nursery/img/sn/E18185566.png",
+        "Badr_Nursery/img/sn/E18186392.png",
+        "Badr_Nursery/img/sn/E88861698.png",
+        "Badr_Nursery/img/sn/E88862298.png",
+        "Badr_Nursery/img/sn/FR5983914.png",
+        "Badr_Nursery/img/sn/FR5983951.png",
+        "Badr_Nursery/img/sn/FR5983984.png",
+        "Badr_Nursery/img/sn/FR5984406.png",
+        "Badr_Nursery/img/sn/GS3961438.png",
+        "Badr_Nursery/img/sn/GS3961601.png",
+        "Badr_Nursery/img/sn/GS3961696.png",
+        "Badr_Nursery/img/sn/GS3961708.png",
+        "Badr_Nursery/img/sn/GS3961721.png",
+        "Badr_Nursery/img/sn/GS3961741.png",
+        "Badr_Nursery/img/sn/GS3961782.png",
+        "Badr_Nursery/img/sn/GS3961795.png",
+        "Badr_Nursery/img/sn/GS3961909.png",
+        "Badr_Nursery/img/sn/GV0683158.png",
+        "Badr_Nursery/img/sn/GV0683159.png",
+        "Badr_Nursery/img/sn/GV0683197.png",
+        "Badr_Nursery/img/sn/GV0683224.png",
+        "Badr_Nursery/img/sn/GV0683241.png",
+        "Badr_Nursery/img/sn/GV4127819.png",
+        "Badr_Nursery/img/sn/JC1205865892.png",
+        // vid
+        "Badr_Nursery/vid/1.jpeg",
+        "Badr_Nursery/vid/1.mp4",
+        "Badr_Nursery/vid/2.mp4",
+        "Badr_Nursery/vid/3.mp4",
+        "Badr_Nursery/vid/4.mp4",
+        "Badr_Nursery/vid/5.mp4",
+        "Badr_Nursery/vid/6.mp4",
+        "Badr_Nursery/vid/7.mp4",
+        "Badr_Nursery/vid/8.mp4"
+    ];
+
+    // دالة لتحديد نوع الملف من الامتداد
+    function getFileType(path) {
+        const ext = path.split('.').pop().toLowerCase();
+        if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext)) return 'image';
+        if (['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'].includes(ext)) return 'video';
+        if (['pdf'].includes(ext)) return 'pdf';
+        if (['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'csv', 'txt'].includes(ext)) return 'document';
+        return 'other';
+    }
+
+    // دالة للحصول على أيقونة حسب النوع
+    function getIcon(type) {
+        switch (type) {
+            case 'pdf': return '📄';
+            case 'document': return '📊';
+            case 'other': return '📁';
+            default: return '📎';
+        }
+    }
+
+    // دالة لإنشاء البطاقات
+    function createCard(file) {
+        const type = getFileType(file);
+        const url = BASE_URL + encodeURI(file);
+        const fileName = file.split('/').pop();
+        const size = ''; // الحجم غير متوفر في القائمة، يمكن إضافته يدوياً إن أردت
+
+        let previewHtml = '';
+        if (type === 'image') {
+            previewHtml = `<img src="${url}" alt="${fileName}" loading="lazy" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\\'icon\\'>🖼️</span>';" />`;
+        } else if (type === 'video') {
+            // محاولة عرض إطار من الفيديو باستخدام poster (يمكنك وضع مسار صورة poster إن وجدت)
+            previewHtml = `
+                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#222; color:#fff; position:relative;">
+                    <span style="font-size:30px;">🎬</span>
+                    <div class="play-icon">▶</div>
+                </div>
+            `;
+        } else {
+            previewHtml = `<span class="icon">${getIcon(type)}</span>`;
+        }
+
+        return `
+            <div class="card">
+                <a href="${url}" target="_blank" rel="noopener noreferrer">
+                    <div class="preview">${previewHtml}</div>
+                    <div class="info">
+                        <div class="name">${fileName}</div>
+                        <div class="size">${size}</div>
+                    </div>
+                </a>
+            </div>
+        `;
+    }
+
+    // دالة لبناء الأقسام
+    function renderSections() {
+        // تجميع الملفات حسب المجلد الرئيسي (docs, img, vid) أو حسب النوع
+        const groups = {
+            'المستندات (Documents)': [],
+            'صور المنتجات (Product Images)': [],
+            'الصور التسلسلية (Serial Images)': [],
+            'صور التكلفة (Cost Images)': [],
+            'الفيديوهات (Videos)': []
+        };
+
+        files.forEach(file => {
+            if (file.startsWith('Badr_Nursery/docs/')) {
+                groups['المستندات (Documents)'].push(file);
+            } else if (file.startsWith('Badr_Nursery/img/product/')) {
+                groups['صور المنتجات (Product Images)'].push(file);
+            } else if (file.startsWith('Badr_Nursery/img/sn/')) {
+                groups['الصور التسلسلية (Serial Images)'].push(file);
+            } else if (file.startsWith('Badr_Nursery/img/cost/')) {
+                groups['صور التكلفة (Cost Images)'].push(file);
+            } else if (file.startsWith('Badr_Nursery/vid/')) {
+                groups['الفيديوهات (Videos)'].push(file);
+            }
+        });
+
+        let html = '';
+        for (const [title, groupFiles] of Object.entries(groups)) {
+            if (groupFiles.length === 0) continue;
+
+            html += `
+                <div class="section" data-section="${title}">
+                    <div class="section-header">
+                        <span>${title}</span>
+                        <span class="count">${groupFiles.length}</span>
+                    </div>
+                    <div class="grid">
+                        ${groupFiles.map(createCard).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        document.getElementById('sectionsContainer').innerHTML = html;
+    }
+
+    // دالة البحث
+    function filterFiles() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const sections = document.querySelectorAll('.section');
+        const noResults = document.getElementById('no-results');
+        let found = false;
+
+        sections.forEach(section => {
+            const cards = section.querySelectorAll('.card');
+            let sectionHasVisible = false;
+
+            cards.forEach(card => {
+                const fileName = card.querySelector('.info .name').textContent.toLowerCase();
+                if (fileName.includes(query)) {
+                    card.classList.remove('hidden');
+                    sectionHasVisible = true;
+                    found = true;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            if (sectionHasVisible) {
+                section.classList.remove('hidden');
+            } else {
+                section.classList.add('hidden');
+            }
+        });
+
+        noResults.style.display = found ? 'none' : 'block';
+    }
+
+    // التشغيل
+    renderSections();
+</script>
+</body>
+</html>

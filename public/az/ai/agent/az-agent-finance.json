@@ -1,0 +1,107 @@
+{
+ "object": "agent",
+ "id": "az-agent-finance",
+ "name": "az-agent-finance",
+ "state": "enabled",
+ "configuration_state": "enabled",
+ "versions": {
+  "latest": {
+   "metadata": {},
+   "object": "agent.version",
+   "id": "az-agent-finance:6",
+   "name": "az-agent-finance",
+   "version": "6",
+   "description": "Previous agent v5 plus daftra MCP toolboxes",
+   "created_at": 1791534474,
+   "definition": {
+    "kind": "prompt",
+    "model": "az-model-finance",
+    "instructions": " Agent: az-agent-finance\n\nالدور:\nأنت وكيل التحليل المالي والإداري للعزب. وظيفتك تحليل البيانات المالية، المصروفات، الإيرادات، الفواتير، مؤشرات الأداء، ومساعدة الإدارة في الفهم لا في التنفيذ المباشر.\n\naz-model-finance\n\nنطاق العمل:\n\n1. تحليل الإيرادات والمصروفات.\n2. مراجعة مؤشرات الأداء.\n3. تلخيص تقارير مالية.\n4. اكتشاف التكرار أو الشذوذ في البيانات.\n5. إعداد ملخصات للإدارة.\n6. تصنيف بنود مالية.\n7. تحليل تكلفة مشاريع أو صيانة.\n8. مقارنة فترات زمنية.\n\nقواعد صارمة:\n\n1. لا تنفذ دفع أو تحويل أو اعتماد مالي.\n2. لا تغيّر فاتورة أو مصروف إلا عبر Tool رسمي.\n3. لا تخترع أرقامًا ناقصة.\n4. فرّق بين:\n\n   * رقم مؤكد من البيانات.\n   * استنتاج.\n   * توقع.\n5. عند وجود نقص في البيانات، اذكره بوضوح.\n6. لا تعرض بيانات عملاء أو أرقام حساسة إلا بقدر الحاجة.\n7. لا تعتبر التحليل المالي اعتمادًا نهائيًا.\n8. أي قرار مالي كبير يحتاج موافقة بشرية.\n\nأسلوب الرد:\n\n* ابدأ بالنتيجة.\n* ثم المؤشرات.\n* ثم المخاطر.\n* ثم التوصية.\n* ثم البيانات الناقصة.",
+    "temperature": 0.8,
+    "top_p": 0.1,
+    "tools": [
+     {
+      "type": "web_search"
+     },
+     {
+      "type": "mcp",
+      "server_label": "alazab_daftra",
+      "server_url": "https://az-ai-resource.services.ai.azure.com/api/projects/az-ai-gateway/toolboxes/daftra-toolbox/versions/3/mcp?api-version=v1",
+      "require_approval": "never",
+      "project_connection_id": "daftra-toolbox-mcp-connection"
+     }
+    ]
+   },
+   "draft": false,
+   "status": "active",
+   "instance_identity": {
+    "principal_id": "722b6802-ed2a-4d54-b60f-8c39b53eefe8",
+    "client_id": "722b6802-ed2a-4d54-b60f-8c39b53eefe8",
+    "status": "active"
+   },
+   "blueprint": {
+    "principal_id": "aab503d0-520f-4092-ae4e-7a9bd4b3d15f",
+    "client_id": "7271b146-b12e-4f10-a474-e6297f0ecd22",
+    "status": "active"
+   },
+   "blueprint_reference": {
+    "type": "ManagedAgentIdentityBlueprint",
+    "blueprint_id": "az-agent-finance-5d862"
+   },
+   "agent_guid": "5d8629a6-04da-4fbf-8eba-f78bf1bd4b2a"
+  }
+ },
+ "agent_endpoint": {
+  "version_selector": {
+   "version_selection_rules": [
+    {
+     "type": "FixedRatio",
+     "agent_version": "5",
+     "traffic_percentage": 100
+    }
+   ]
+  },
+  "protocols": [
+   "a2a",
+   "responses"
+  ],
+  "protocol_configuration": {
+   "responses": {},
+   "a2a": {}
+  },
+  "authorization_schemes": [
+   {
+    "type": "Entra",
+    "isolation_key_source": {
+     "kind": "Entra"
+    }
+   }
+  ],
+  "publish_approval_status": "not_published"
+ },
+ "instance_identity": {
+  "principal_id": "722b6802-ed2a-4d54-b60f-8c39b53eefe8",
+  "client_id": "722b6802-ed2a-4d54-b60f-8c39b53eefe8",
+  "status": "active"
+ },
+ "blueprint": {
+  "principal_id": "aab503d0-520f-4092-ae4e-7a9bd4b3d15f",
+  "client_id": "7271b146-b12e-4f10-a474-e6297f0ecd22",
+  "status": "active"
+ },
+ "blueprint_reference": {
+  "type": "ManagedAgentIdentityBlueprint",
+  "blueprint_id": "az-agent-finance-5d862"
+ },
+ "agent_card": {
+  "version": "1.0",
+  "description": "Financial analysis and reporting",
+  "skills": [
+   {
+    "id": "az-agent-finance",
+    "name": "Finance",
+    "description": "Financial analysis and reporting"
+   }
+  ]
+ }
+}

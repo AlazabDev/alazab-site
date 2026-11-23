@@ -1,0 +1,1589 @@
+[
+  {
+    "eta_uuid": "FNXKB7CD8ENEWRGFXBT8SQ5M10",
+    "eta_invoice_no": "46710",
+    "date": "2026-10-24",
+    "seller_tax_id": "331271184",
+    "seller_name": "احمد عبدالله عبدالعزيز ابوالعلا",
+    "currency": "EGP",
+    "eta_value": 50.0,
+    "eta_vat": 7.0,
+    "eta_total": 57.0,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 50.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/FNXKB7CD8ENEWRGFXBT8SQ5M10/share/6MG376ED2BH7VT5GXBT8SQ5M10xSrSNc1792873359",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-10-24",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "Extension Subscription",
+          "unit_price": 50.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "9XNJVA17QCHASF633G7TQV4M10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-25593019",
+    "date": "2026-10-14",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 96.7143,
+    "eta_vat": 13.54,
+    "eta_total": 110.2543,
+    "eta_discount": -41.4286,
+    "eta_withholding": 0.0,
+    "item_value_total": 96.7143,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/9XNJVA17QCHASF633G7TQV4M10/share/EPYXBX60MA7GY8MY3G7TQV4M10l0gnxo1791932308",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-10-14",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "رابو ماوس ان 100 سي 1 قطعه",
+          "unit_price": 96.7143,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "B5Q48HJKV64ZAZZB43X9XK3M10",
+    "eta_invoice_no": "612",
+    "date": "2026-09-28",
+    "seller_tax_id": "728497689",
+    "seller_name": "محمد عباس احمد ابوالعلا الزين للتوريدات الكهربائيه",
+    "currency": "EGP",
+    "eta_value": 23275.0,
+    "eta_vat": 3258.5,
+    "eta_total": 26533.5,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 23275.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/B5Q48HJKV64ZAZZB43X9XK3M10/share/P8SM2V5QYH8ZV1DA43X9XK3M10ZYFqv31790595888",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-09-28",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 575.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "بواطات -جلاندات-مستلزمات كهرباء مشترك",
+          "unit_price": 175.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 210.0,
+          "quantity": 40.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 40.0,
+          "quantity": 5.0
+        },
+        {
+          "item": "ترانس-استايتر-بادئ",
+          "unit_price": 35.0,
+          "quantity": 5.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "RDXY4DX4SM4NZ4CP6DM2XK3M10",
+    "eta_invoice_no": "611",
+    "date": "2026-09-28",
+    "seller_tax_id": "728497689",
+    "seller_name": "محمد عباس احمد ابوالعلا الزين للتوريدات الكهربائيه",
+    "currency": "EGP",
+    "eta_value": 186485.0,
+    "eta_vat": 26107.9,
+    "eta_total": 212592.9,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 186485.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/RDXY4DX4SM4NZ4CP6DM2XK3M10/share/RF8W54EFB82DKH2M7DM2XK3M10z92eW51790595649",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-09-28",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 17.5,
+          "quantity": 100.0
+        },
+        {
+          "item": "خرطوم فليكسيل",
+          "unit_price": 105.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 3878.0,
+          "quantity": 2.0
+        },
+        {
+          "item": "مواسير UPVC",
+          "unit_price": 800.0,
+          "quantity": 5.0
+        },
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 175.0,
+          "quantity": 12.0
+        },
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 175.0,
+          "quantity": 24.0
+        },
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 175.0,
+          "quantity": 14.0
+        },
+        {
+          "item": "اعواد دكت-تراى-بروفايل",
+          "unit_price": 105.0,
+          "quantity": 35.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 45.0,
+          "quantity": 20.0
+        },
+        {
+          "item": "اعواد دكت-تراى-بروفايل",
+          "unit_price": 10.0,
+          "quantity": 100.0
+        },
+        {
+          "item": "اعواد دكت-تراى-بروفايل",
+          "unit_price": 8.0,
+          "quantity": 100.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 3390.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 265.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "لمبه ليد و موفره",
+          "unit_price": 30.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "سلك تليفون",
+          "unit_price": 950.0,
+          "quantity": 4.0
+        },
+        {
+          "item": "سلك تليفون",
+          "unit_price": 675.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "بواطات -جلاندات-مستلزمات كهرباء مشترك",
+          "unit_price": 6.5,
+          "quantity": 25.0
+        },
+        {
+          "item": "بواطات -جلاندات-مستلزمات كهرباء مشترك",
+          "unit_price": 6.5,
+          "quantity": 25.0
+        },
+        {
+          "item": "بواطات -جلاندات-مستلزمات كهرباء مشترك",
+          "unit_price": 6.5,
+          "quantity": 20.0
+        },
+        {
+          "item": "بواطات -جلاندات-مستلزمات كهرباء مشترك",
+          "unit_price": 6.5,
+          "quantity": 20.0
+        },
+        {
+          "item": "بواطات -جلاندات-مستلزمات كهرباء مشترك",
+          "unit_price": 250.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "بواطات -جلاندات-مستلزمات كهرباء مشترك",
+          "unit_price": 290.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 45.0,
+          "quantity": 25.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 55.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "لوحات توزيع-تحكم-برايز",
+          "unit_price": 525.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 2150.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "لوحات توزيع-تحكم-برايز",
+          "unit_price": 475.0,
+          "quantity": 3.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 450.0,
+          "quantity": 30.0
+        },
+        {
+          "item": "خرطوم فليكسيل",
+          "unit_price": 125.0,
+          "quantity": 15.0
+        },
+        {
+          "item": "لوحات توزيع-تحكم-برايز",
+          "unit_price": 8.0,
+          "quantity": 500.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 2985.0,
+          "quantity": 5.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 265.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 16.0,
+          "quantity": 100.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 18.0,
+          "quantity": 40.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 70.0,
+          "quantity": 20.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 5.0,
+          "quantity": 100.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 18.0,
+          "quantity": 20.0
+        },
+        {
+          "item": "لمبه ليد و موفره",
+          "unit_price": 35.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "لمبه ليد و موفره",
+          "unit_price": 25.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "لمبه ليد و موفره",
+          "unit_price": 21.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 230.0,
+          "quantity": 20.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 160.0,
+          "quantity": 20.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 75.0,
+          "quantity": 20.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 40.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "لمبه ليد و موفره",
+          "unit_price": 35.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "لمبه ليد و موفره",
+          "unit_price": 25.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 60.0,
+          "quantity": 30.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 35.0,
+          "quantity": 20.0
+        },
+        {
+          "item": "كشافات اسبوت-ليد-عاده-بلاطات",
+          "unit_price": 265.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "لمبه ليد و موفره",
+          "unit_price": 27.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "ترانس-استايتر-بادئ",
+          "unit_price": 410.0,
+          "quantity": 15.0
+        },
+        {
+          "item": "ترانس-استايتر-بادئ",
+          "unit_price": 345.0,
+          "quantity": 25.0
+        },
+        {
+          "item": "ترانس-استايتر-بادئ",
+          "unit_price": 240.0,
+          "quantity": 25.0
+        },
+        {
+          "item": "ترانس-استايتر-بادئ",
+          "unit_price": 465.0,
+          "quantity": 15.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 6650.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 2360.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 1225.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 1850.0,
+          "quantity": 2.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 1541.0,
+          "quantity": 4.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 8200.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "CKCKZR14ESWHH6SX2VZGRK3M10",
+    "eta_invoice_no": "BA-4608",
+    "date": "2026-09-28",
+    "seller_tax_id": "289133904",
+    "seller_name": "المصريه لاوراق الملامين",
+    "currency": "EGP",
+    "eta_value": 46491.23,
+    "eta_vat": 6508.7722,
+    "eta_total": 53000.0022,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 46491.23,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/CKCKZR14ESWHH6SX2VZGRK3M10/share/WXRP4CK9VQNSA6JP2VZGRK3M10G9KZsn1790590877",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-09-28",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "اخشاب انتاج تام-MDFميلامين - 16.5 مم-كوارتز-كوارتز سمك 16.5مم وجهين ارو ابيض 010 اولي",
+          "unit_price": 929.8246,
+          "quantity": 50.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "KFE7RD8306VWKVC982BTJZ2M10",
+    "eta_invoice_no": "INV-60986",
+    "date": "2026-08-31",
+    "seller_tax_id": "667964487",
+    "seller_name": "شركه الخدمات الماليه العربيه مصر للاستشارات الماليه",
+    "currency": "EGP",
+    "eta_value": 3070.6,
+    "eta_vat": 429.88,
+    "eta_total": 3500.48,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 3070.6,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/KFE7RD8306VWKVC982BTJZ2M10/share/ZF020E6Q8XEVV4NE82BTJZ2M10iPpUew1789913803",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-08-31",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "رسوم التحصيل",
+          "unit_price": 3070.6,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "SD513J8N3RH64K26BM6ZV4QK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-8181773",
+    "date": "2026-04-26",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 42.0714,
+    "eta_vat": 5.89,
+    "eta_total": 47.9614,
+    "eta_discount": -2.5714,
+    "eta_withholding": 0.0,
+    "item_value_total": 42.0714,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/SD513J8N3RH64K26BM6ZV4QK10/share/HACA8EWMXV5HWXXXBM6ZV4QK10meL6BY1777206270",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-04-26",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "مصفاة استانلس ستيل للشاى وتوابل",
+          "unit_price": 42.0714,
+          "quantity": 1.0
+        },
+        {
+          "item": "مصفاة استانلس ستيل للشاى وتوابل",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "9R2CY9ME2SA6NYG49773SRPK10",
+    "eta_invoice_no": "INV-36601",
+    "date": "2026-03-31",
+    "seller_tax_id": "667964487",
+    "seller_name": "شركه الخدمات الماليه العربيه مصر للاستشارات الماليه",
+    "currency": "EGP",
+    "eta_value": 2080.0,
+    "eta_vat": 291.2,
+    "eta_total": 2371.2,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 2080.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/9R2CY9ME2SA6NYG49773SRPK10/share/HY30A02F2TXC54TA9773SRPK10IgrKnW1776800603",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-03-31",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "رسوم التحصيل",
+          "unit_price": 2080.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "DEJ5AJDS5M0QMPSN4K5GAGPK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-8514650",
+    "date": "2026-04-18",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 11.8571,
+    "eta_vat": 1.66,
+    "eta_total": 13.5171,
+    "eta_discount": -5.1429,
+    "eta_withholding": 0.0,
+    "item_value_total": 11.8571,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/DEJ5AJDS5M0QMPSN4K5GAGPK10/share/SC6Q6EDA1RKYE2XZ4K5GAGPK10BoIEq41776516863",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-04-18",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "Dental floss and floss to clean and take care of teeth and gums 30 pieces",
+          "unit_price": 11.8571,
+          "quantity": 1.0
+        },
+        {
+          "item": "Dental floss and floss to clean and take care of teeth and gums 30 pieces",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "0M7P8MWBKV8N7FQMHS1PBWMK10",
+    "eta_invoice_no": "9101348105",
+    "date": "2026-03-29",
+    "seller_tax_id": "200168959",
+    "seller_name": "شركه محجوب للتجاره والاستيراد",
+    "currency": "EGP",
+    "eta_value": 4179.16,
+    "eta_vat": 585.08,
+    "eta_total": 4764.24,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 4179.16,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/0M7P8MWBKV8N7FQMHS1PBWMK10/share/7R4S5CFJGH8G7SGMHS1PBWMK10xssAPa1774773274",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-03-29",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "استالس محلى",
+          "unit_price": 4179.16,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "HR1W3X372TQ2JR9FB8K0VJMK10",
+    "eta_invoice_no": "INV-31982",
+    "date": "2026-02-28",
+    "seller_tax_id": "667964487",
+    "seller_name": "شركه الخدمات الماليه العربيه مصر للاستشارات الماليه",
+    "currency": "EGP",
+    "eta_value": 702.0,
+    "eta_vat": 98.28,
+    "eta_total": 800.28,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 702.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/HR1W3X372TQ2JR9FB8K0VJMK10/share/MJBBJ8KSKE6ACZRTB8K0VJMK10t8Mc9n1774453804",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-28",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "رسوم التحصيل",
+          "unit_price": 702.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "6B6HJF7NDPGH0FR5EDQNCXKK10",
+    "eta_invoice_no": "86",
+    "date": "2026-03-17",
+    "seller_tax_id": "692325476",
+    "seller_name": "زوم لايت",
+    "currency": "EGP",
+    "eta_value": 9680.1,
+    "eta_vat": 1355.214,
+    "eta_total": 11035.314,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 9680.1,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/6B6HJF7NDPGH0FR5EDQNCXKK10/share/QTBQE31PEMFVZCZBFDQNCXKK10nACln41773734124",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-03-17",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "جهاز اضاءة J02",
+          "unit_price": 1822.0,
+          "quantity": 3.0
+        },
+        {
+          "item": "جهاز اضاءة B05",
+          "unit_price": 247.0,
+          "quantity": 3.0
+        },
+        {
+          "item": "جهاز اضاءة B05",
+          "unit_price": 247.0,
+          "quantity": 3.0
+        },
+        {
+          "item": "جهاز اضاءة D01",
+          "unit_price": 535.0,
+          "quantity": 3.0
+        },
+        {
+          "item": "جهاز اضاءة C03",
+          "unit_price": 375.7,
+          "quantity": 3.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "AW4W5PRTR8NXEGWZM05XQ3KK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-4954812",
+    "date": "2026-03-07",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 17.4286,
+    "eta_vat": 2.44,
+    "eta_total": 19.8686,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 17.4286,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/AW4W5PRTR8NXEGWZM05XQ3KK10/share/VNJKJ1PEKF20SG9ZM05XQ3KK10owDSPu1772873487",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-03-07",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "Kitchen Bathroom Sink Drain Plugs",
+          "unit_price": 17.4286,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "R6G6AYRH9E89R4KZP524X2KK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-4942620",
+    "date": "2026-03-07",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 29.5,
+    "eta_vat": 4.13,
+    "eta_total": 33.63,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 29.5,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/R6G6AYRH9E89R4KZP524X2KK10/share/W72R5E2K9Y3XAY99P524X2KK109dOn9R1772845402",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-03-07",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "حامل اسفنجي معلق من السيليكون لتخزين ادوات المطبخ - بينك",
+          "unit_price": 29.5,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "3AVX9BDYC35JFNY01Q5HJMJK10",
+    "eta_invoice_no": "81",
+    "date": "2026-03-01",
+    "seller_tax_id": "692325476",
+    "seller_name": "زوم لايت",
+    "currency": "EGP",
+    "eta_value": 47596.0,
+    "eta_vat": 6663.44,
+    "eta_total": 54259.44,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 47596.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/3AVX9BDYC35JFNY01Q5HJMJK10/share/JH1C8PKTAB0G06SX1Q5HJMJK107hSQrL1772364535",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-03-01",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "جهاز اضاءة E08",
+          "unit_price": 960.0,
+          "quantity": 3.0
+        },
+        {
+          "item": "جهاز اضاءة B05",
+          "unit_price": 220.0,
+          "quantity": 6.0
+        },
+        {
+          "item": "جهاز اضاءة B05",
+          "unit_price": 220.0,
+          "quantity": 6.0
+        },
+        {
+          "item": "جهاز اضاءة I02",
+          "unit_price": 1620.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "جهاز اضاءة C01",
+          "unit_price": 332.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "جهاز اضاءة F03",
+          "unit_price": 1000.0,
+          "quantity": 8.0
+        },
+        {
+          "item": "جهاز اضاءة M10",
+          "unit_price": 2700.0,
+          "quantity": 2.0
+        },
+        {
+          "item": "جهاز اضاءة D05",
+          "unit_price": 660.0,
+          "quantity": 2.0
+        },
+        {
+          "item": "جهاز اضاءة E03",
+          "unit_price": 800.0,
+          "quantity": 26.0
+        },
+        {
+          "item": "جهاز اضاءة A5",
+          "unit_price": 72.0,
+          "quantity": 2.0
+        },
+        {
+          "item": "جهاز اضاءة F05",
+          "unit_price": 1040.0,
+          "quantity": 2.0
+        },
+        {
+          "item": "جهاز اضاءة C06",
+          "unit_price": 476.0,
+          "quantity": 5.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "WY5HH35W58G7Y55REQFEN8JK10",
+    "eta_invoice_no": "2524",
+    "date": "2026-02-24",
+    "seller_tax_id": "773335226",
+    "seller_name": "ريو هايس لتجاره الادوات الكهربائيه",
+    "currency": "EGP",
+    "eta_value": 1000000.0,
+    "eta_vat": 140000.0,
+    "eta_total": 1140000.0,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 1000000.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/WY5HH35W58G7Y55REQFEN8JK10/share/K1GVRZGS3ESDZGRQEQFEN8JK103VG9X31771964940",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-24",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 1750.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 250.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 225.0,
+          "quantity": 350.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 3750.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 155.0,
+          "quantity": 1000.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 160.0,
+          "quantity": 1000.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 850.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 450.0,
+          "quantity": 200.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 10000.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 190.0,
+          "quantity": 500.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 140.0,
+          "quantity": 500.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 2350.0,
+          "quantity": 10.0
+        },
+        {
+          "item": "مستلزمات كهربائيه",
+          "unit_price": 750.0,
+          "quantity": 200.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "BFZWM7WV9GCA8APG01BGHZHK10",
+    "eta_invoice_no": "9101328321",
+    "date": "2026-02-21",
+    "seller_tax_id": "200168959",
+    "seller_name": "شركه محجوب للتجاره والاستيراد",
+    "currency": "EGP",
+    "eta_value": 4355.13,
+    "eta_vat": 609.72,
+    "eta_total": 4964.85,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 4355.13,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/BFZWM7WV9GCA8APG01BGHZHK10/share/0HFD2SKJ55VA8K6J01BGHZHK10Rq7pt81771658816",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-21",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "استالس محلى",
+          "unit_price": 4355.13,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "AZ8AQ5HQ5ZJ8EZPQ88WAASHK10",
+    "eta_invoice_no": "INV-27133",
+    "date": "2026-01-31",
+    "seller_tax_id": "667964487",
+    "seller_name": "شركه الخدمات الماليه العربيه مصر للاستشارات الماليه",
+    "currency": "EGP",
+    "eta_value": 1133.6,
+    "eta_vat": 158.7,
+    "eta_total": 1292.3,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 1133.6,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/AZ8AQ5HQ5ZJ8EZPQ88WAASHK10/share/B4QD554B1PFFN8D988WAASHK10bLIFbB1771449970",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-01-31",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "رسوم التحصيل",
+          "unit_price": 1133.6,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "09K2MKDH2RAHT0XHTMEC8HHK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3485883",
+    "date": "2026-02-15",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 164.9286,
+    "eta_vat": 23.09,
+    "eta_total": 188.0186,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 164.9286,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/09K2MKDH2RAHT0XHTMEC8HHK10/share/EVYW0Y6D1KFZ6JV6TMEC8HHK102CUNuO1771179489",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-15",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "منظم ورفوف تخزين الحمام والمطبخ 4 رفوف",
+          "unit_price": 164.9286,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "W0MQX1KAHEECZ7AS8ZCX6HHK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3490803",
+    "date": "2026-02-15",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 23.7143,
+    "eta_vat": 3.32,
+    "eta_total": 27.0343,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 23.7143,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/W0MQX1KAHEECZ7AS8ZCX6HHK10/share/YQZR7VB4R3JZ6DS48ZCX6HHK10HuAmdI1771177948",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-15",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "KBS Washing Machine Anti Vibration Stand with Suction Cup Kitchen Accessories Items Refrigerator Furniture Riser Leg Pad(4 Piece). (Round Washing Machine Pad)",
+          "unit_price": 23.7143,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "RHP350WKS1RR1HZX2CH4MEHK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3391794",
+    "date": "2026-02-14",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 16.4286,
+    "eta_vat": 2.3,
+    "eta_total": 18.7286,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 16.4286,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/RHP350WKS1RR1HZX2CH4MEHK10/share/E6K9JV834DHRPQN82CH4MEHK10w3t5Dg1771091150",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-14",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "Kitchen Scraper Metal Scraper Baking Knife For Cutting Mincing Scraping Chamber Large Rubber Handle Give You Comfortable Edge",
+          "unit_price": 16.4286,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "KNDT24WH9CCQX8VCWQS12BHK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3253431",
+    "date": "2026-02-13",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 19.2857,
+    "eta_vat": 2.7,
+    "eta_total": 21.9857,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 19.2857,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/KNDT24WH9CCQX8VCWQS12BHK10/share/2RB55ASQ4KNNCFW6WQS12BHK10s9RowU1770971522",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-13",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "items",
+          "unit_price": 19.2857,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "N6H59490P901NBW70M2VF9HK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3202483",
+    "date": "2026-02-12",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 3332.4286,
+    "eta_vat": 466.54,
+    "eta_total": 3798.9686,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 3332.4286,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/N6H59490P901NBW70M2VF9HK10/share/PP85A1J5320J5TZV0M2VF9HK10IUZDHA1770918873",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "مقلاة هوائية اسينشيال من فيليبسHD9200/91",
+          "unit_price": 3332.4286,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "KMCQZS5KCQSFAYTRRP01X8HK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3167296",
+    "date": "2026-02-12",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 2042.1428,
+    "eta_vat": 285.9,
+    "eta_total": 2328.0428,
+    "eta_discount": -2.8572,
+    "eta_withholding": 0.0,
+    "item_value_total": 2042.1428,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/KMCQZS5KCQSFAYTRRP01X8HK10/share/VTFA6K4KP7YD0M6QSP01X8HK10DYCqKV1770899145",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 1021.0714,
+          "quantity": 1.0
+        },
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 1021.0714,
+          "quantity": 1.0
+        },
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "VGH7DEMSN0RA1AFGRP01X8HK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3167638",
+    "date": "2026-02-12",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 41.2143,
+    "eta_vat": 5.77,
+    "eta_total": 46.9843,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 41.2143,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/VGH7DEMSN0RA1AFGRP01X8HK10/share/A906FJVR8EFHYV3ERP01X8HK10QsOY7r1770899145",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "Air Fryer Disposable Paper Liner 50Pcs, Round Air Fryer Paper Liners, Natural Parchment Paper for Air Fryer, Non-Stick Air Fryer Liners, Oil-Proof Paper Liner for Baking Roasting Microwave (6.3 Inch)",
+          "unit_price": 41.2143,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "0NXPNEDQFEP66TZGPNBVW8HK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3167120",
+    "date": "2026-02-12",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 2042.1428,
+    "eta_vat": 285.9,
+    "eta_total": 2328.0428,
+    "eta_discount": -2.8572,
+    "eta_withholding": 0.0,
+    "item_value_total": 2042.1428,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/0NXPNEDQFEP66TZGPNBVW8HK10/share/58WRCA4PH3NFPBYZPNBVW8HK100NItr91770898960",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 1021.0714,
+          "quantity": 1.0
+        },
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 1021.0714,
+          "quantity": 1.0
+        },
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "76W1RQ2RJA8T9WYN7H3KS8HK10",
+    "eta_invoice_no": "00137-2026-INV",
+    "date": "2026-02-12",
+    "seller_tax_id": "680157654",
+    "seller_name": "دفترة لتقنية المعلومات",
+    "currency": "EGP",
+    "eta_value": 15215.08,
+    "eta_vat": 2130.11121,
+    "eta_total": 17345.19121,
+    "eta_discount": -1690.5,
+    "eta_withholding": 0.0,
+    "item_value_total": 15215.08,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/76W1RQ2RJA8T9WYN7H3KS8HK10/share/CXP52P0SZTR6N4J47H3KS8HK10PbEW7E1770895543",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "الباقة المتقدمة",
+          "unit_price": 10557.94025,
+          "quantity": 1.0
+        },
+        {
+          "item": "اضافة موظف",
+          "unit_price": 1164.284938,
+          "quantity": 4.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "03Z8MWXAPBZAZRD7N7PPR8HK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3160853",
+    "date": "2026-02-12",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 1021.0714,
+    "eta_vat": 142.95,
+    "eta_total": 1164.0214,
+    "eta_discount": -1.4286,
+    "eta_withholding": 0.0,
+    "item_value_total": 1021.0714,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/03Z8MWXAPBZAZRD7N7PPR8HK10/share/WCT2SEFF3WP280B1N7PPR8HK10qBBdXn1770894612",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 1021.0714,
+          "quantity": 1.0
+        },
+        {
+          "item": "فلتر مياه تانك باور 5 مراحل ممتاز، ضمان سنة",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "N6TH2C36HT8MKKVFYRDSP8HK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-3159126",
+    "date": "2026-02-12",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 1128.0714,
+    "eta_vat": 157.93,
+    "eta_total": 1286.0014,
+    "eta_discount": -7.143,
+    "eta_withholding": 0.0,
+    "item_value_total": 1128.0714,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/N6TH2C36HT8MKKVFYRDSP8HK10/share/QE901W2KX7C095FKYRDSP8HK10dixLwd1770892605",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "items",
+          "unit_price": 23.7143,
+          "quantity": 1.0
+        },
+        {
+          "item": "تانك فلتر تانك برو اس – ٤ وظائف تنقية مدمجة 1 عدد",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "items",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "items",
+          "unit_price": 50.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "items",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "تانك فلتر تانك برو اس – ٤ وظائف تنقية مدمجة 1 عدد",
+          "unit_price": 876.2857,
+          "quantity": 1.0
+        },
+        {
+          "item": "TSWRK Oil Sprayer Easy Refill BBQ Cooking Spray Bottle Peanut Oil Spray Bottle Mist Air Sprayers Spritzer - Assorted Colors",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "TSWRK Oil Sprayer Easy Refill BBQ Cooking Spray Bottle Peanut Oil Spray Bottle Mist Air Sprayers Spritzer - Assorted Colors",
+          "unit_price": 50.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "items",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "items",
+          "unit_price": 128.0714,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "4Q0BKGDSGPA275FSK755Z3HK10",
+    "eta_invoice_no": "558",
+    "date": "2026-02-10",
+    "seller_tax_id": "728497689",
+    "seller_name": "محمد عباس احمد ابوالعلا الزين للتوريدات الكهربائيه",
+    "currency": "EGP",
+    "eta_value": 403960.0,
+    "eta_vat": 56554.4,
+    "eta_total": 460514.4,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 403960.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/4Q0BKGDSGPA275FSK755Z3HK10/share/J4NC74VPZD7TC9P3K755Z3HK10aM6kKX1770733606",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-10",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 19.0,
+          "quantity": 1000.0
+        },
+        {
+          "item": "لقمه - بريزه - دوى عاده",
+          "unit_price": 19.0,
+          "quantity": 1000.0
+        },
+        {
+          "item": "لقمه - بريزه - دوى عاده",
+          "unit_price": 14.0,
+          "quantity": 1000.0
+        },
+        {
+          "item": "لقمه - بريزه - دوى عاده",
+          "unit_price": 16.0,
+          "quantity": 1000.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 2332.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 1815.0,
+          "quantity": 50.0
+        },
+        {
+          "item": "سلك معزول نحاس",
+          "unit_price": 4950.0,
+          "quantity": 25.0
+        },
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 162.0,
+          "quantity": 30.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "YP8SM2C433TW74DPTEYQP3HK10",
+    "eta_invoice_no": "SQ4-INV-EG-2026-2950117",
+    "date": "2026-02-10",
+    "seller_tax_id": "340035072",
+    "seller_name": "Souq.com for E-Commerce LLC",
+    "currency": "EGP",
+    "eta_value": 131.1428,
+    "eta_vat": 18.36,
+    "eta_total": 149.5028,
+    "eta_discount": -7.7142,
+    "eta_withholding": 0.0,
+    "item_value_total": 131.1428,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/YP8SM2C433TW74DPTEYQP3HK10/share/NQ9QZ83DWBBAEP4TTEYQP3HK10sjqRHu1770724784",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-02-10",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "دراجون دراجون 1 غرام",
+          "unit_price": 37.3571,
+          "quantity": 1.0
+        },
+        {
+          "item": "دراجون دراجون 1 غرام",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        },
+        {
+          "item": "items",
+          "unit_price": 93.7857,
+          "quantity": 1.0
+        },
+        {
+          "item": "items",
+          "unit_price": 0.0,
+          "quantity": 1.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "WF3DJWFZTXBVVF7BMJ34VREK10",
+    "eta_invoice_no": "BA-3799",
+    "date": "2026-01-12",
+    "seller_tax_id": "289133904",
+    "seller_name": "المصريه لاوراق الملامين",
+    "currency": "EGP",
+    "eta_value": 3157.8948,
+    "eta_vat": 442.10528,
+    "eta_total": 3600.00008,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 3157.8948,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/WF3DJWFZTXBVVF7BMJ34VREK10/share/5TWYWVVJH2BAAW1EMJ34VREK10BwKMM21768212794",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-01-12",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "اخشاب انتاج تام-MDFميلامين - 16.5 مم-كوارتز-كوارتز سمك 16.5مم وجهين جوز كاكاو 065 اولي",
+          "unit_price": 789.4737,
+          "quantity": 2.0
+        },
+        {
+          "item": "اخشاب انتاج تام-MDFميلامين - 16.5 مم-كوارتز-كوارتز سمك 16.5مم وجهين بوخارست رصاصي 516 اولي",
+          "unit_price": 789.4737,
+          "quantity": 2.0
+        }
+      ]
+    }
+  },
+  {
+    "eta_uuid": "RTSYX88ESBSWYH9AHJW0B4EK10",
+    "eta_invoice_no": "544",
+    "date": "2026-01-04",
+    "seller_tax_id": "728497689",
+    "seller_name": "محمد عباس احمد ابوالعلا الزين للتوريدات الكهربائيه",
+    "currency": "EGP",
+    "eta_value": 255730.0,
+    "eta_vat": 35802.2,
+    "eta_total": 291532.2,
+    "eta_discount": 0.0,
+    "eta_withholding": 0.0,
+    "item_value_total": 255730.0,
+    "eta_url": "https://invoicing.eta.gov.eg/documents/RTSYX88ESBSWYH9AHJW0B4EK10/share/S2T7HZ4ZKHWJM1NRHJW0B4EK10JmfeL81767524823",
+    "daftra_supplier_id": null,
+    "daftra_draft_payload": {
+      "PurchaseOrder": {
+        "date": "2026-01-04",
+        "currency_code": "EGP"
+      },
+      "PurchaseOrderItem": [
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 150.0,
+          "quantity": 162.0
+        },
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 1000.0,
+          "quantity": 19.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 2000.0,
+          "quantity": 19.0
+        },
+        {
+          "item": "قواطع احاديه-ثلاثيه-مفاتيح-و سكينة فصل",
+          "unit_price": 1000.0,
+          "quantity": 108.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 1500.0,
+          "quantity": 14.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 270.0,
+          "quantity": 49.0
+        },
+        {
+          "item": "لقمه بريزه سخان-تكييف-ديفاتير-ديمر",
+          "unit_price": 2300.0,
+          "quantity": 14.0
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,235 @@
+{
+  "total_employees": 46,
+  "employees": [
+    {
+      "ID": "AZ-EMP-0005",
+      "Name": "Postmaster",
+      "Mail": "admin@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0006",
+      "Name": "Mohamed Azab",
+      "Mail": "mohamed@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0007",
+      "Name": "Dev Alazab",
+      "Mail": "dev@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0008",
+      "Name": "Chief Executive Officer",
+      "Mail": "ceo@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0009",
+      "Name": "General Manager",
+      "Mail": "manager@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0010",
+      "Name": "Board of Directors",
+      "Mail": "director@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0011",
+      "Name": "Finance Department",
+      "Mail": "finance@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0012",
+      "Name": "Accounting Department",
+      "Mail": "accounting@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0013",
+      "Name": "Projects Management",
+      "Mail": "projects@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0014",
+      "Name": "Engineering Team",
+      "Mail": "engineers@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0015",
+      "Name": "Architecture Department",
+      "Mail": "architecture@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0016",
+      "Name": "IT Department",
+      "Mail": "it@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0017",
+      "Name": "Technical Support",
+      "Mail": "support@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0018",
+      "Name": "Enterprise Systems",
+      "Mail": "systems@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0019",
+      "Name": "Human Resources",
+      "Mail": "hr@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0020",
+      "Name": "Public Relations",
+      "Mail": "pr@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0021",
+      "Name": "General Information",
+      "Mail": "info@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0022",
+      "Name": "Clients Relations",
+      "Mail": "clients@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0023",
+      "Name": "Customer Service",
+      "Mail": "customers@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0024",
+      "Name": "Abdelgany Azab",
+      "Mail": "abdelgany@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0025",
+      "Name": "Ahmed Allam",
+      "Mail": "ahmed.allam@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0026",
+      "Name": "Ahmed Nageh",
+      "Mail": "ahmed.nageh@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0027",
+      "Name": "Alazab Administrator",
+      "Mail": "administrator@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0028",
+      "Name": "AzServices",
+      "Mail": "az@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0029",
+      "Name": "CEO",
+      "Mail": "ceo.gm@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0030",
+      "Name": "Said ChatGpt",
+      "Mail": "said.ai@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0031",
+      "Name": "Elsaid Elmahdy",
+      "Mail": "elsaid.elmahdy@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0032",
+      "Name": "Hand Mohamed",
+      "Mail": "hand.mohamed@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0033",
+      "Name": "Luxury Finishing",
+      "Mail": "luxury-finishing@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0034",
+      "Name": "Magdy Azab",
+      "Mail": "magdy@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0035",
+      "Name": "Mahamoud Saad",
+      "Mail": "mahamoud.saad@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0036",
+      "Name": "Mohamed Abo Azab",
+      "Mail": "aboazab@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0037",
+      "Name": "Mohamed Elsaid",
+      "Mail": "mohamed.elsaid@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0038",
+      "Name": "Mohamed Saym",
+      "Mail": "mohamed.saym@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0039",
+      "Name": "P.M",
+      "Mail": "p.m@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0040",
+      "Name": "Tools Workshop",
+      "Mail": "tools.workshop@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0041",
+      "Name": "ERP System",
+      "Mail": "erp@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0042",
+      "Name": "Server Alazab",
+      "Mail": "server@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0043",
+      "Name": "DevOps",
+      "Mail": "devops@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0044",
+      "Name": "Hand Mohamed",
+      "Mail": "hand@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0045",
+      "Name": "Brand Identity",
+      "Mail": "brand-identity@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0046",
+      "Name": "Hello Alazab",
+      "Mail": "hello@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0047",
+      "Name": "Costs Management",
+      "Mail": "costs@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0048",
+      "Name": "Security",
+      "Mail": "security@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0049",
+      "Name": "UberFix",
+      "Mail": "uberfix@alazab.com"
+    },
+    {
+      "ID": "AZ-EMP-0050",
+      "Name": "Pilot",
+      "Mail": "pilot@alazab.com"
+    }
+  ]
+}

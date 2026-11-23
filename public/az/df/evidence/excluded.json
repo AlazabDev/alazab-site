@@ -1,0 +1,786 @@
+[
+  {
+    "uuid": "HB3T7VZZDJFJVD09XNNWANJK10",
+    "type": "اشعار دائن",
+    "status": "Valid",
+    "date": "2026-03-01",
+    "invoice_no": "SQ4-CN-EG-2026-354486",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "F0H8BJKQ26TVSSMM19PVVMHK10",
+    "type": "اشعار دائن",
+    "status": "Valid",
+    "date": "2026-02-17",
+    "invoice_no": "SQ4-CN-EG-2026-273133",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "9QF3T4RST6VPED6P7811FXFK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-12-31",
+    "invoice_no": "INV-23896",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "V3XPPBGX4Q83TA241TFJKAEK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-12-31",
+    "invoice_no": "428691",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "XS360V51YM9TF4DV2SRNE8DK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-12-24",
+    "invoice_no": "SQ4-INV-EG-2025-22413699",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "XQJ0Q633CPPDJDPC66GQ95CK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-12-11",
+    "invoice_no": "SQ4-INV-EG-2025-21541939",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "E2QNG7MVN22856DQE92DBTBK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-12-06",
+    "invoice_no": "SQ4-INV-EG-2025-21252415",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "ZFSQSASWXY9DYR4HFPACBTBK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-12-06",
+    "invoice_no": "SQ4-INV-EG-2025-21252327",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "FN4Z2SZ8W8DEYAMJFPACBTBK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-12-06",
+    "invoice_no": "SQ4-INV-EG-2025-21252287",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "YH1N5Z80JZKK60WCC3SBWABK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-11-30",
+    "invoice_no": "SQ4-INV-EG-2025-20720630",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "AQY20S7SFHTHPBM43QPBS7BK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-11-29",
+    "invoice_no": "SQ4-INV-EG-2025-20557987",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "88BXQHS30YS6NAXDBHFBRHAK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-11-21",
+    "invoice_no": "SQ4-INV-EG-2025-19518371",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "1VZYWS26K91AYG32AYWDNHAK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-11-21",
+    "invoice_no": "SQ4-INV-EG-2025-19513221",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "H92FR1E7ANG7H1RAD3T0QBAK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-11-18",
+    "invoice_no": "SQ4-INV-EG-2025-19288456",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "CYYG9DWEG5W9N3TW3K57P3AK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-11-15",
+    "invoice_no": "SQ4-INV-EG-2025-19060284",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "YN29TEWEZRWQBAW8VD12E3AK10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-11-15",
+    "invoice_no": "SQ4-INV-EG-2025-19048622",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "0CH221E0N06EFKA52C8E2Z6K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-10-07",
+    "invoice_no": "ORD-12246",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "WSXNQS88NKEYDD6KNBJM865K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-09-15",
+    "invoice_no": "25-MO012538",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "ZTVXCZPQY4NQP8GT2J8SAW4K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-09-11",
+    "invoice_no": "504",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "K1PKKPAVKHGD34F2RSXSD74K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-09-03",
+    "invoice_no": "1468",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "J6BFJN9SMDBV4QN0CM38A74K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-09-03",
+    "invoice_no": "BA-3213",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "W73YSZ2S3SXCF04NAD7JF33K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-08-20",
+    "invoice_no": "SQ4-INV-EG-2025-12826915",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "2PCTFNXV50K98W14W8XTWY2K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-08-18",
+    "invoice_no": "BA-3137",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "ESQZY2S7ENCPNZ2FMSSXVE2K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-08-12",
+    "invoice_no": "25-MO010603",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "1WHH12YE6V01GE54PXSJ691K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-07-28",
+    "invoice_no": "2897755",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "XMVNDKMM00Y39TDFCEVQ3S0K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-07-22",
+    "invoice_no": "BA-3028",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "VFYMQS4S6VY5Z2HVS15KZB0K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-07-17",
+    "invoice_no": "492",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "1RQM1TH09PKW6AEKFNSEH90K10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-07-16",
+    "invoice_no": "SQ4-INV-EG-2025-10607487",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "G6FNTPHYRVKKC7M7GTN328ZJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-07-03",
+    "invoice_no": "SQ4-INV-EG-2025-9910980",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "S44M4VC23HX8TYRQKRR5G5ZJ10",
+    "type": "اشعار دائن",
+    "status": "Valid",
+    "date": "2025-07-02",
+    "invoice_no": "2871587",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "FR6P8PXPSNBW98GRKRR5G5ZJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-07-02",
+    "invoice_no": "2871647",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "PN4B5PP189RXQYCA3Z2RBVYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-28",
+    "invoice_no": "2867164",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "1JQ6BZR999ENYX0YA8JTVNYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-26",
+    "invoice_no": "BA-2903",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "1SRG35D406QDNSCSGX7DKHYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-24",
+    "invoice_no": "SQ4-INV-EG-2025-9408798",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "BQ339DYFRMD8T7J3KH8VJHYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-24",
+    "invoice_no": "SQ4-INV-EG-2025-9408405",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "7QYGES430H44ZJ8226569HYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-24",
+    "invoice_no": "SQ4-INV-EG-2025-9396587",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "G12T55Y3HJHHM705FPDR8HYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-24",
+    "invoice_no": "SQ4-INV-EG-2025-9396345",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "SMP17KMPXQZC0Z9Y6NNA8HYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-24",
+    "invoice_no": "SQ4-INV-EG-2025-9396108",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "VNY80PFA768BKARNJT552HYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-24",
+    "invoice_no": "2862967",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "3MD0A3B0DA435GB1FRH7WGYJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-24",
+    "invoice_no": "SQ4-INV-EG-2025-9383538",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "3HB48PSECH55N4WH0DFTCVWJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-03",
+    "invoice_no": "300101000111202502422",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "0R9CWFW0PZFCCW84QZQAQRWJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-06-02",
+    "invoice_no": "300101000111202502399",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "T9B1Q90SXR8YY8QHVGRDGJWJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-05-31",
+    "invoice_no": "BA-2838",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "G09B11RC1NEX586XQFFFP8WJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-05-27",
+    "invoice_no": "25-DH006080",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "1E4H4SW9EX21C47ZX00384VJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-05-13",
+    "invoice_no": "9101107555",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "W1G278MNZC8RED0GCWZ284VJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-05-13",
+    "invoice_no": "9101107554",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "ZK5D6AHB812FMREG695NKDTJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-05-04",
+    "invoice_no": "467",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "WMQTNPB41EKFSGH7G8JQN6QJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-03-25",
+    "invoice_no": "453",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "W5BR6EJCE6MBH8V6VQNP94NJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-02-27",
+    "invoice_no": "SQ4-INV-EG-2025-3139862",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "GMRHX2EJH7AAZSHWTFXHFTKJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-02-11",
+    "invoice_no": "429",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "KV2Y4CZ0R9B02C8F4QV8TBJJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-01-24",
+    "invoice_no": "SQ4-INV-EG-2025-1070405",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "0WYMDMHJZC9RWYND5EPHWRGJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2025-01-04",
+    "invoice_no": "1070",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "GRZPHKC8JB7EX0T3DS4EJWFJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-12-24",
+    "invoice_no": "SQ4-INV-EG-2024-16009789",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "0F837PSD4STZ38QSHTGMAWFJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-12-24",
+    "invoice_no": "SQ4-INV-EG-2024-16004819",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "4TJG0JJ41BTP0T46MB1C6WFJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-12-24",
+    "invoice_no": "407",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "ZE2PDMB0ADFTN7HWC9ZMNXEJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-12-12",
+    "invoice_no": "402",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "XPGWS9TTJG8D8D520PDW3HEJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-12-07",
+    "invoice_no": "SQ4-INV-EG-2024-15233991",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "70X65P4FE6YBJA1D5DTN92DJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-11-19",
+    "invoice_no": "6646",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "20ESPTFDFAZ5ME5QB9R9W3CJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-11-07",
+    "invoice_no": "SQ4-INV-EG-2024-12781790",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "RPBHQR20SZHWKJ3H1XAHV6BJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-10-27",
+    "invoice_no": "379",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "SYHGPRRTGMJTDENYG03CDWAJ10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-10-23",
+    "invoice_no": "377",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "ZY4DFSYVMTEDZ25553JH2M9J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-10-07",
+    "invoice_no": "SQ4-INV-EG-2024-11444945",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "MJPG3S316Y1HE508SZ70Y48J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-09-19",
+    "invoice_no": "365",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "MZV1YJ1CEVQZSPFZNH0HN38J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-09-19",
+    "invoice_no": "SQ4-INV-EG-2024-10670762",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "8TSND1Q2YDRN2FG75GVPJG7J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-09-11",
+    "invoice_no": "1230",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "61TWPQ2BFSCPV4MC1C22S67J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-09-07",
+    "invoice_no": "SQ4-INV-EG-2024-10149508",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "5SF4GJ9DBA4HT91WWYJMTE6J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-08-29",
+    "invoice_no": "352",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "GMB3AQBRTA2X58MV3AZ40Q4J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-08-07",
+    "invoice_no": "SQ4-INV-EG-2024-8851185",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "HP873V9S8VWXZH81QDN2JB2J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-07-09",
+    "invoice_no": "320",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "N3GF3SB5VD8PA4D8THB9572J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-07-07",
+    "invoice_no": "SQ4-INV-EG-2024-7431760",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "3ST41HJ8ZD71FC7WJ76ZKF1J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-28",
+    "invoice_no": "316689",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "K533QT9GVKZZ66E9X5N3G00J10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-10",
+    "invoice_no": "5930",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "HV88QYQ3QGH2BQTYS03VCTZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-08",
+    "invoice_no": "SQ4-INV-EG-2024-6367017",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "DEK51P2TFKY4NMMY0KZCXSZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-07",
+    "invoice_no": "SQ4-INV-EG-2024-6360283",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "7CGZC1HAZZ9HX0FSES9ERRZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-07",
+    "invoice_no": "SQ4-INV-EG-2024-6339456",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "CDAA9AC01Y68WJAKJHXEJPZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-06",
+    "invoice_no": "SQ4-INV-EG-2024-6306374",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "H5WYXP6C4V1NBYWZMAS6GNZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-06",
+    "invoice_no": "SQ4-INV-EG-2024-6297033",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "11S2VVF3NJTQX6MZPJ02GNZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-06-06",
+    "invoice_no": "SQ4-INV-EG-2024-6296869",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "5ERRNV0TD16HT91CDXGN2JZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-31",
+    "invoice_no": "279582",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "3PF7C4G5E6GVMNSCMAWT9HZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-31",
+    "invoice_no": "274215",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "51J6NHFG77X1398371C2W4ZH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-30",
+    "invoice_no": "306",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "M0P33067CK1XFXHW4CVN4XYH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-27",
+    "invoice_no": "129396",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "K2J71NZRMZKTM25TWCW318YH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-19",
+    "invoice_no": "SQ4-INV-EG-2024-5262320",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "M2VSKW5W2WKT8MGAEK4TAHXH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-10",
+    "invoice_no": "SQ4-INV-EG-2024-5253397",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "0XV6JDFHAAQQ31RDCPCH8CXH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-08",
+    "invoice_no": "1372",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "BG59WMA9VZAD5Z2NE041C9XH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-07",
+    "invoice_no": "289",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "9MSKKJWD9JT4XC62MB8D32XH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-05-04",
+    "invoice_no": "1763",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "FBC25G44B0ZP6T5CZCKR96WH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-04-23",
+    "invoice_no": "SQ4-INV-EG-2024-4772715",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "J6HMWBKEY2C9DQCR2GC8NGVH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-04-15",
+    "invoice_no": "10155802",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "JV9WCX76KP31DMZYKE4WSWTH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-04-07",
+    "invoice_no": "SQ4-INV-EG-2024-4237366",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "F4QEAP3AT4SZ298F6BQ210TH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-03-27",
+    "invoice_no": "275",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "2X36PYKWQJ9YT68H4AG5CRSH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-03-24",
+    "invoice_no": "1245",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "1XS6BJ1QPA7P031YGS5SBRSH10",
+    "type": "فاتورة",
+    "status": "Cancelled",
+    "date": "2024-03-24",
+    "invoice_no": "1245",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "EDSRVZPFHYWWKCWNMD0KCSNH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-02-04",
+    "invoice_no": "01063",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "YXQ6JT52PAHYP0KKXH11GANH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-01-29",
+    "invoice_no": "237",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "F2EPWWERZJAQFGSM377898NH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-01-28",
+    "invoice_no": "236",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "TJG4Z778272YJVNGX7M4PRMH10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2024-01-22",
+    "invoice_no": "231",
+    "reason": "type/status/year filter"
+  },
+  {
+    "uuid": "8F93708MADPBZK3KB36KCJQG10",
+    "type": "فاتورة",
+    "status": "Valid",
+    "date": "2023-01-23",
+    "invoice_no": "00252",
+    "reason": "type/status/year filter"
+  }
+]

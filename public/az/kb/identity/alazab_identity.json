@@ -1,0 +1,338 @@
+{
+  "total_identities": 37,
+  "identities": [
+    {
+      "id": "9489caeb-77dd-4252-815f-b6ec70b19c52",
+      "displayName": "Abdelgany Azab",
+      "userPrincipalName": "abdelgany@alazab.com",
+      "Code": "AZ-EMP-10020",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "8b8f84e1-2229-48c3-89d3-2ab2490b555e",
+      "displayName": "Accounting Department",
+      "userPrincipalName": "accounting@alazab.com",
+      "Code": "AZ-EMP-10021",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "b49b302e-1d01-4c5b-9272-3682814d38ff",
+      "displayName": "Ahmed Allam",
+      "userPrincipalName": "ahmed.allam@alazab.com",
+      "Code": "AZ-EMP-10022",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "1c13f5eb-74f5-4da7-bddd-7a71fad4f175",
+      "displayName": "Ahmed Nageh",
+      "userPrincipalName": "ahmed.nageh@alazab.com",
+      "Code": "AZ-EMP-10023",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "ea855f43-1d42-4ace-a7dd-f4fdc6d0dbd8",
+      "displayName": "Ahmed Syam",
+      "userPrincipalName": "ahmed.syam@alazab.com",
+      "Code": "AZ-EMP-10024",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "ed41915e-f41a-4aac-a68a-97923d086a62",
+      "displayName": "Amr Khalud",
+      "userPrincipalName": "amr.khalud@alazab.com",
+      "Code": "AZ-EMP-10025",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "f1b079c0-b7d2-471b-b4cd-b41d20e8f989",
+      "displayName": "Architecture Department",
+      "userPrincipalName": "architecture@alazab.com",
+      "Code": "AZ-EMP-10026",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "df16bb8f-f2b8-4244-9a2f-2f0096f8045f",
+      "displayName": "Brand Identity",
+      "userPrincipalName": "brand-identity@alazab.com",
+      "Code": "AZ-EMP-10027",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "67ce628e-ab26-4ade-85e8-c561b2a0596e",
+      "displayName": "CEO",
+      "userPrincipalName": "ceo.gm@alazab.com",
+      "Code": "AZ-EMP-10028",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "13c36299-4a01-49df-b9a6-831c9f410adf",
+      "displayName": "Chief Executive Officer",
+      "userPrincipalName": "ceo@alazab.com",
+      "Code": "AZ-EMP-10029",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "cf5946fe-b7a5-4626-8b5d-ed96efe5cf60",
+      "displayName": "Clients Relations",
+      "userPrincipalName": "clients@alazab.com",
+      "Code": "AZ-EMP-10030",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "737a1b5a-54c2-479a-825d-1441cd7a7e7c",
+      "displayName": "Costs Management",
+      "userPrincipalName": "costs@alazab.com",
+      "Code": "AZ-EMP-10031",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "120e6190-fabf-4174-967f-c256787bce52",
+      "displayName": "Customer Service",
+      "userPrincipalName": "customers@alazab.com",
+      "Code": "AZ-EMP-10032",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "bc8d5b28-e25d-4eb2-be09-8ad2f9aae8bc",
+      "displayName": "Elsaid Azab",
+      "userPrincipalName": "elsaid@alazab.com",
+      "Code": "AZ-EMP-10033",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "f9078a09-efd8-4955-b4b6-926b04446c89",
+      "displayName": "Engineering Team",
+      "userPrincipalName": "engineers@alazab.com",
+      "Code": "AZ-EMP-10034",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "2e1d1c19-b96c-4700-b2f0-bae38791c68f",
+      "displayName": "Faten Allam",
+      "userPrincipalName": "faten.allam@alazab.com",
+      "Code": "AZ-EMP-10035",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "531441ff-e854-4d39-b926-39be282e8755",
+      "displayName": "Finance Department",
+      "userPrincipalName": "finance@alazab.com",
+      "Code": "AZ-EMP-10036",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "3ff0c3d0-33ed-4595-aea1-72516c9a727f",
+      "displayName": "General Information",
+      "userPrincipalName": "info@alazab.com",
+      "Code": "AZ-EMP-10037",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "f49e5732-99c5-4485-8ead-efa251471745",
+      "displayName": "General Manager",
+      "userPrincipalName": "manager@alazab.com",
+      "Code": "AZ-EMP-10038",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "a87908bd-eb6b-4265-b1eb-ce86f40e04cd",
+      "displayName": "Hand Mohamed",
+      "userPrincipalName": "hand.mohamed@alazab.com",
+      "Code": "AZ-EMP-10039",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "f4a2d0bb-dba1-4eca-9f0b-ab4baafeb9bd",
+      "displayName": "Hand Mohamed",
+      "userPrincipalName": "hand@alazab.com",
+      "Code": "AZ-EMP-10040",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "94d10bb6-b24c-499a-a0fd-a09d91fef1a5",
+      "displayName": "Hello Alazab",
+      "userPrincipalName": "hello@alazab.com",
+      "Code": "AZ-EMP-10041",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "a02c48a2-a70c-4dfe-8c52-877deca45af8",
+      "displayName": "Human Resources",
+      "userPrincipalName": "hr@alazab.com",
+      "Code": "AZ-EMP-10042",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "664229d2-6d22-40c1-ab4e-9883c230ee2f",
+      "displayName": "Ibrahim Eid",
+      "userPrincipalName": "ibrahim.eid@alazab.com",
+      "Code": "AZ-EMP-10043",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "d7f0c911-14b5-4724-816c-8d2e9cf825dc",
+      "displayName": "Karma Azab",
+      "userPrincipalName": "karma@alazab.com",
+      "Code": "AZ-EMP-10044",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "7f575548-018b-4fde-9939-0c575a083197",
+      "displayName": "Luxury Finishing",
+      "userPrincipalName": "luxury-finishing@alazab.com",
+      "Code": "AZ-EMP-10045",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "692514a7-b3f5-4144-92cc-ca7de846b148",
+      "displayName": "Magdy Azab",
+      "userPrincipalName": "magdy@alazab.com",
+      "Code": "AZ-EMP-10046",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "80bef5bb-0c79-419b-946f-5f64b3632675",
+      "displayName": "Mahamoud Saad",
+      "userPrincipalName": "mahamoud.saad@alazab.com",
+      "Code": "AZ-EMP-10047",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "5c4cfcbc-a980-47f3-a635-cd7f472a2554",
+      "displayName": "mahmoud sabak",
+      "userPrincipalName": "mahmoud.sabak@alazab.com",
+      "Code": "AZ-EMP-10048",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "b778f562-1f12-45c1-94bf-de4c94d92fa3",
+      "displayName": "Mohamed Abo Azab",
+      "userPrincipalName": "aboazab@alazab.com",
+      "Code": "AZ-EMP-10049",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "4891327a-c532-4f99-9dc2-5d023bfeb4f0",
+      "displayName": "mohamed elhadad",
+      "userPrincipalName": "mohamed.elhadad@alazab.com",
+      "Code": "AZ-EMP-10050",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "18a13128-cd64-4be6-b2c6-271efd28630e",
+      "displayName": "Mohamed Elsaid",
+      "userPrincipalName": "mohamed.elsaid@alazab.com",
+      "Code": "AZ-EMP-10051",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "2aaad032-6399-4520-a2e5-be87aa21f784",
+      "displayName": "Mohamed Saym",
+      "userPrincipalName": "mohamed.saym@alazab.com",
+      "Code": "AZ-EMP-10052",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "17d80cd8-2e18-44d7-bd10-896dadc81c79",
+      "displayName": "Projects Management",
+      "userPrincipalName": "projects@alazab.com",
+      "Code": "AZ-EMP-10053",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "65bd525b-827d-4634-8c81-963824ea91f9",
+      "displayName": "Public Relations",
+      "userPrincipalName": "pr@alazab.com",
+      "Code": "AZ-EMP-10054",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "0eb17e7a-80ba-450d-a434-5fd1e8d99527",
+      "displayName": "Saad Mahmoud",
+      "userPrincipalName": "saad.mahmoud@alazab.com",
+      "Code": "AZ-EMP-10055",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    },
+    {
+      "id": "bd508c97-e814-4692-9ec4-a844eff0300c",
+      "displayName": "UberFix",
+      "userPrincipalName": "uberfix@alazab.com",
+      "Code": "AZ-EMP-10056",
+      "userType": "Member",
+      "Company": "Alazab",
+      "Group": "All Domain Users"
+    }
+  ]
+}

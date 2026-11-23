@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "project": "Alazab Daftra Toolkit",
+  "modules": [
+    {
+      "id": "variables",
+      "name": "دليل متغيرات دفترة",
+      "status": "ready",
+      "entry": "./index.html",
+      "description": "بحث ونسخ متغيرات القوالب من مصدر JSON واحد",
+      "data": "./vars.json"
+    },
+    {
+      "id": "work-orders",
+      "name": "أوامر الشغل",
+      "status": "planned",
+      "description": "حالات المشروعات وتقارير الإغلاق"
+    },
+    {
+      "id": "invoices",
+      "name": "الفواتير",
+      "status": "planned",
+      "description": "قوالب وعمليات الفواتير"
+    },
+    {
+      "id": "suppliers",
+      "name": "الموردون",
+      "status": "planned",
+      "description": "تصنيفات الموردين وبياناتهم"
+    },
+    {
+      "id": "templates",
+      "name": "القوالب",
+      "status": "planned",
+      "description": "قوالب مستندات دفترة القابلة لإعادة الاستخدام"
+    },
+    {
+      "id": "reports",
+      "name": "التقارير",
+      "status": "planned",
+      "description": "تقارير العمل والبيانات التشغيلية"
+    }
+  ]
+}

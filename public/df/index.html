@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>دليل متغيرات دفترة | Alazab Construction</title>
+  <meta name="description" content="دليل موحد للبحث ونسخ متغيرات قوالب دفترة لشركة Alazab Construction">
+  <style>
+    :root{--navy:#030957;--navy2:#0b1345;--gold:#ffb900;--bg:#f4f6fb;--ink:#17233b;--muted:#64748b;--border:#e1e6ef;--white:#fff;--focus:#1d70b8}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.6}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 20px}.hero{background:linear-gradient(125deg,var(--navy),var(--navy2));color:#fff;padding:38px 0 28px}
+    .hero .eyebrow{color:#ffdf7b;font-size:13px;font-weight:700;letter-spacing:.04em}.hero h1{margin:8px 0 7px;font-size:clamp(23px,4vw,35px)}.hero p{margin:0;color:#dbe4ff;font-size:15px}
+    .toplinks{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.toplinks a{color:white;text-decoration:none;border:1px solid #ffffff55;border-radius:9px;padding:6px 13px;font-size:13px}.toplinks a:hover{background:#ffffff1a}
+    .toolbar{position:sticky;top:0;z-index:10;background:#f4f6fbf5;border-bottom:1px solid var(--border);padding:14px 0;backdrop-filter:blur(12px)}
+    .controls{display:grid;grid-template-columns:minmax(0,2fr) minmax(180px,1fr) auto;gap:10px}
+    input,select,button{font:inherit}input,select{width:100%;min-height:46px;border-radius:10px;border:1px solid #cbd5e1;background:#fff;color:var(--ink);padding:9px 13px;outline:none}
+    input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}button{cursor:pointer;border-radius:10px;border:1px solid var(--border);background:#fff;padding:8px 13px;color:var(--ink)}button:hover{background:#f5f8ff}
+    .metrics{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:13px;padding:13px 0 17px}
+    #message{margin:22px 0;padding:14px 17px;background:#fff7ed;border:1px solid #fdba74;color:#9a3412;border-radius:10px}#message[hidden],#empty[hidden]{display:none}
+    .sections{display:grid;gap:22px;margin-bottom:45px}.section{border:1px solid var(--border);border-radius:15px;background:#fff;overflow:hidden;box-shadow:0 3px 16px #0715450a}
+    .section-header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:16px 19px;background:var(--navy2);color:#fff}.section-header h2{margin:0;font-size:18px}.counter{background:#ffffff1e;border:1px solid #ffffff25;border-radius:8px;padding:1px 9px;font-size:13px}
+    .items{padding:17px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+    .item{border:1px solid var(--border);border-radius:11px;padding:13px;background:#fbfcff;display:flex;align-items:center;gap:10px;min-width:0}.item-info{min-width:0;flex:1}.label{font-size:14px;font-weight:600;margin-bottom:5px}.code{font:600 12px/1.5 Consolas,"Courier New",monospace;color:#a24600;direction:ltr;text-align:left;overflow-wrap:anywhere;unicode-bidi:plaintext}
+    .copy{flex-shrink:0;border:none;background:var(--gold);color:#1b2233;font-weight:700;padding:8px 12px}.copy:hover{background:#e8aa00}.copy.ok{background:#dcfce7;color:#166534}
+    .empty{background:white;border:1px dashed #cbd5e1;border-radius:12px;text-align:center;padding:30px;color:var(--muted)}footer{border-top:1px solid var(--border);padding:20px 0 30px;color:var(--muted);font-size:12px}
+    @media(max-width:650px){.controls{grid-template-columns:1fr 1fr}.controls input{grid-column:1/-1}.controls button{min-width:90px}.hero{padding:28px 0}.items{grid-template-columns:1fr}.wrap{padding:0 14px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <header class="hero"><div class="wrap">
+    <div class="eyebrow">ALAZAB CONSTRUCTION · DAFTRA</div>
+    <h1>دليل متغيرات دفترة</h1>
+    <p>مرجع موحّد للبحث عن متغيرات القوالب ونسخها كما هي، بدون تعديل.</p>
+    <nav class="toplinks" aria-label="روابط البيانات"><a href="./vars.json" target="_blank" rel="noopener">فتح المصدر JSON</a><a href="./vars.json" download="vars.json">تنزيل البيانات</a></nav>
+  </div></header>
+  <div class="toolbar"><div class="wrap"><div class="controls">
+    <input id="search" type="search" autocomplete="off" placeholder="ابحث بالاسم أو الكود..." aria-label="البحث في المتغيرات">
+    <select id="sectionFilter" aria-label="القسم"><option value="">جميع الأقسام</option></select>
+    <button id="reset" type="button">مسح البحث</button>
+  </div></div></div>
+  <main class="wrap">
+    <div class="metrics"><span id="resultCount" aria-live="polite">جارٍ تحميل المتغيرات...</span><span id="sourceName">المصدر: /df/vars.json</span></div>
+    <div id="message" role="alert" hidden></div>
+    <div id="empty" class="empty" hidden>لا توجد متغيرات مطابقة للبحث.</div>
+    <div id="sections" class="sections"></div>
+  </main>
+  <footer><div class="wrap">المتغيرات تُعرض حرفيًا من <b>vars.json</b>؛ تحديث الملف يحدّث الدليل دون تعديل صفحة HTML.</div></footer>
+  <script>
+    'use strict';
+    const state={sections:[]};
+    const $=id=>document.getElementById(id);
+    function make(tag,className,text){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;}
+    function validate(payload){
+      if(!payload||!Array.isArray(payload.sections))throw new Error('الملف لا يحتوي على قائمة أقسام صحيحة.');
+      for(const group of payload.sections){
+        if(typeof group.section!=='string'||!Array.isArray(group.variables))throw new Error('صيغة أحد الأقسام غير صحيحة.');
+        for(const item of group.variables)if(typeof item.label!=='string'||typeof item.code!=='string')throw new Error('يوجد متغير بصيغة غير صحيحة.');
+      }
+      return payload.sections;
+    }
+    async function copyCode(code,button){
+      try{
+        if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(code);}
+        else{const area=make('textarea');area.value=code;area.setAttribute('readonly','');area.style.cssText='position:fixed;top:-1000px;opacity:0';document.body.append(area);area.select();const ok=document.execCommand('copy');area.remove();if(!ok)throw new Error('Copy unavailable');}
+        const old=button.textContent;button.textContent='تم النسخ';button.classList.add('ok');setTimeout(()=>{button.textContent=old;button.classList.remove('ok');},1300);
+      }catch(e){$('message').hidden=false;$('message').textContent='تعذر النسخ تلقائيًا. يمكن تحديد الكود ونسخه يدويًا.';}
+    }
+    function render(){
+      const term=$('search').value.trim().toLocaleLowerCase();const selected=$('sectionFilter').value;
+      const root=$('sections');root.replaceChildren();let total=0,visibleSections=0;
+      for(const group of state.sections){
+        if(selected&&selected!==group.section)continue;
+        const matches=group.variables.filter(v=>(v.label+' '+v.code).toLocaleLowerCase().includes(term));
+        if(!matches.length)continue;
+        visibleSections++;total+=matches.length;
+        const section=make('section','section');const head=make('div','section-header');
+        head.append(make('h2','',group.section),make('span','counter',String(matches.length)));
+        const items=make('div','items');
+        for(const v of matches){
+          const row=make('article','item');const info=make('div','item-info');
+          info.append(make('div','label',v.label),make('div','code',v.code));
+          const btn=make('button','copy','نسخ');btn.type='button';btn.setAttribute('aria-label','نسخ المتغير '+v.label);btn.addEventListener('click',()=>copyCode(v.code,btn));
+          row.append(info,btn);items.append(row);
+        }
+        section.append(head,items);root.append(section);
+      }
+      $('resultCount').textContent=`${total} متغير · ${visibleSections} قسم`;
+      $('empty').hidden=total!==0;
+    }
+    async function init(){
+      try{
+        const res=await fetch('./vars.json',{cache:'no-cache',headers:{'Accept':'application/json'}});
+        if(!res.ok)throw new Error('HTTP '+res.status);
+        const data=await res.json();state.sections=validate(data);
+        const s=$('sectionFilter');for(const g of state.sections){const option=make('option','',g.section);option.value=g.section;s.append(option);}
+        render();
+      }catch(err){
+        $('resultCount').textContent='تعذر تحميل البيانات';
+        $('message').hidden=false;$('message').textContent='فشل تحميل /df/vars.json: '+err.message+' — تأكد من رفع الملفين إلى نفس المجلد وتشغيل الصفحة عبر HTTPS.';
+      }
+    }
+    $('search').addEventListener('input',render);$('sectionFilter').addEventListener('change',render);
+    $('reset').addEventListener('click',()=>{$('search').value='';$('sectionFilter').value='';render();$('search').focus();});
+    init();
+  </script>
+</body>
+</html>

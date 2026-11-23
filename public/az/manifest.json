@@ -1,0 +1,25 @@
+{
+  "portal": "alazab-az",
+  "base_url": "https://alazab.com/az/",
+  "audience": ["team", "ai-agents"],
+  "brand": {
+    "name": "العزب",
+    "primary_color": "#030957",
+    "accent_color": "#FFB900"
+  },
+  "modules": [
+    { "id": "bn-cctv", "path": "/az/BN-CCTV.html", "title": "BN-CCTV", "description": "صفحة ومنظومة كاميرات المراقبة BN-CCTV." },
+    { "id": "ai", "path": "/az/ai/", "title": "خدمة الذكاء الاصطناعي الداخلية", "description": "بوابة وخدمات الذكاء الاصطناعي الداخلية للفريق والوكلاء." },
+    { "id": "api", "path": "/az/api/", "title": "واجهة البرمجة والتكامل (API)", "description": "نقاط الربط والخدمات البرمجية والتكامل بين الأنظمة والوكلاء." },
+    { "id": "dd", "path": "/az/dd/", "title": "ديزاين ديمو", "description": "نماذج وعروض التصميم التجريبية (Design Demo)." },
+    { "id": "df", "path": "/az/df/", "title": "دفترة المحاسبي", "description": "نظام دفترة لإدارة الحسابات والقيود والعمليات المحاسبية." },
+    { "id": "eta", "path": "/az/eta/", "title": "الضرائب والفواتير الإلكترونية", "description": "خدمات التكامل مع منظومة الضرائب والفواتير الإلكترونية." },
+    { "id": "fb", "path": "/az/fb/", "title": "فرابية بانش", "description": "بيئة وإدارة تطبيقات فرابية بانش (Frappe Bench)." },
+    { "id": "gpt", "path": "/az/gpt/", "title": "معروف", "description": "خدمة وواجهة معروف الذكية." },
+    { "id": "kb", "path": "/az/kb/", "title": "قاعدة المعرفة", "description": "مرجع التوثيق والإجراءات والبيانات المعرفية للفريق والوكلاء." },
+    { "id": "mp", "path": "/az/mp/", "title": "ماجيك بلان للتصميمات", "description": "منظومة ماجيك بلان للمخططات والتصميمات." },
+    { "id": "pm", "path": "/az/pm/", "title": "إدارة المشروعات", "description": "متابعة وتنفيذ وإدارة المشروعات والفرق." },
+    { "id": "uf", "path": "/az/uf/", "title": "أوبرفيكس لإدارة الصيانات", "description": "نظام أوبرفيكس لتشغيل ومتابعة طلبات وأعمال الصيانة." },
+    { "id": "wa", "path": "/az/wa/", "title": "واتساب ميتا", "description": "تكامل وخدمات واتساب أعمال ميتا (WhatsApp Meta)." }
+  ]
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مشروعات العزب | Alazab Projects</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Tahoma,sans-serif;background:#f0f2f5;color:#222;padding:24px}
+  .wrap{max-width:1200px;margin:0 auto}
+  .top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+  h1{color:#0b1345;font-size:26px}
+  .sub{color:#667;font-size:14px;margin-top:4px}
+  .search{width:100%;margin:18px 0;position:sticky;top:0;background:#f0f2f5;padding:8px 0;z-index:5}
+  .search input{width:100%;padding:14px 18px;border:2px solid #ccd;border-radius:10px;font-size:16px;outline:none}
+  .search input:focus{border-color:#0b1345}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:22px}
+  .stat{background:#fff;border-radius:10px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+  .stat b{display:block;font-size:22px;color:#0b1345}
+  .stat span{font-size:13px;color:#778}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .card{background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.07);overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+  .card-head{background:#0b1345;color:#fff;padding:14px 16px;font-weight:700;font-size:17px}
+  .card-body{padding:14px 16px;flex:1}
+  .card-body p{color:#555;font-size:14px;line-height:1.6;margin-bottom:12px}
+  .meta{display:flex;gap:14px;font-size:12px;color:#778;flex-wrap:wrap}
+  .badge{display:inline-block;background:#f39c12;color:#fff;font-size:11px;padding:3px 9px;border-radius:20px;margin-bottom:8px}
+  .links{display:flex;gap:8px;padding:12px 16px;border-top:1px solid #eef;flex-wrap:wrap}
+  .btn{text-decoration:none;font-size:13px;font-weight:600;padding:8px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:6px}
+  .btn-primary{background:#f39c12;color:#fff}
+  .btn-primary:hover{background:#e67e22}
+  .btn-ghost{background:#eef2f7;color:#0b1345}
+  .btn-ghost:hover{background:#dde6f2}
+  .empty{display:none;text-align:center;color:#889;padding:50px;font-size:16px}
+  @media(max-width:520px){h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>مشروعات العزب</h1>
+      <div class="sub">دليل موحد لكل المشروعات والملفات والمستندات</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="statProjects">0</b><span>مشروع</span></div>
+    <div class="stat"><b id="statFiles">0</b><span>ملف</span></div>
+    <div class="stat"><b id="statCats">0</b><span>تصنيف</span></div>
+    <div class="stat"><b id="statUpdate">—</b><span>آخر تحديث للدليل</span></div>
+  </div>
+
+  <div class="search">
+    <input id="q" type="text" placeholder="🔍 ابحث باسم المشروع أو الوصف أو التصنيف..." oninput="filterCards()">
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">لا توجد نتائج مطابقة</div>
+</div>
+
+<script>
+/* ============================================================
+   بيانات المشروعات — عدّل/أضف هنا فقط
+   ============================================================ */
+const PROJECTS = [
+  {
+    id: "bader-nursery",
+    name: "Badr Nursery — CCTV",
+    category: "أنظمة مراقبة",
+    desc: "مشروع توريد وتركيب كاميرات مراقبة لمشروع Badr Nursery، يشمل المستندات الفنية، صور المنتجات، الأرقام التسلسلية، ومقاطع الفيديو.",
+    base: "https://projects.alazab.store/Badr_Nursery/",
+    detailPage: "./BN-CCTV.html",   // صفحة العرض التفصيلية إن وُجدت
+    counts: { docs: 36, images: 108, videos: 9 },
+    updated: "2026-11-21"
+  }
+
+  /* أضف مشروعاتك القادمة بنفس الشكل:
+  {
+    id: "project-2",
+    name: "اسم المشروع",
+    category: "التصنيف",
+    desc: "وصف مختصر",
+    base: "https://projects.alazab.store/Project2/",
+    detailPage: "./Project2.html",
+    counts: { docs: 10, images: 20, videos: 3 },
+    updated: "2026-11-22"
+  }
+  */
+];
+
+/* ============================================================
+   بناء الصفحة
+   ============================================================ */
+const grid = document.getElementById("grid");
+const empty = document.getElementById("empty");
+
+function cardHtml(p) {
+  const total = (p.counts?.docs||0)+(p.counts?.images||0)+(p.counts?.videos||0);
+  return `
+    <div class="card" data-text="${(p.name+' '+p.category+' '+p.desc).toLowerCase()}">
+      <div class="card-head">${p.name}</div>
+      <div class="card-body">
+        <span class="badge">${p.category}</span>
+        <p>${p.desc}</p>
+        <div class="meta">
+          <span>📄 ${p.counts?.docs||0} مستند</span>
+          <span>🖼️ ${p.counts?.images||0} صورة</span>
+          <span>🎬 ${p.counts?.videos||0} فيديو</span>
+          <span>📦 ${total} ملف</span>
+        </div>
+      </div>
+      <div class="links">
+        ${p.detailPage ? `<a class="btn btn-primary" href="${p.detailPage}">📂 عرض المشروع</a>` : ''}
+        <a class="btn btn-ghost" href="${p.base}" target="_blank" rel="noopener">🔗 فتح المخزن</a>
+      </div>
+    </div>
+  `;
+}
+
+function render() {
+  grid.innerHTML = PROJECTS.map(cardHtml).join("");
+  document.getElementById("statProjects").textContent = PROJECTS.length;
+  document.getElementById("statFiles").textContent =
+    PROJECTS.reduce((s,p)=>s+((p.counts?.docs||0)+(p.counts?.images||0)+(p.counts?.videos||0)),0);
+  document.getElementById("statCats").textContent = new Set(PROJECTS.map(p=>p.category)).size;
+  document.getElementById("statUpdate").textContent =
+    PROJECTS.map(p=>p.updated).sort().pop() || "—";
+}
+
+function filterCards() {
+  const q = document.getElementById("q").value.toLowerCase().trim();
+  let found = false;
+  document.querySelectorAll(".card").forEach(c => {
+    const match = c.dataset.text.includes(q);
+    c.style.display = match ? "" : "none";
+    if (match) found = true;
+  });
+  empty.style.display = found ? "none" : "block";
+}
+
+render();
+</script>
+</body>
+</html>

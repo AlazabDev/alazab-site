@@ -430,6 +430,14 @@ app.use('/api/ionic', ionicRoutes);
 
 app.use(dynamicRoutes.dynamicRouter);
 
+app.get('/api/tiktok/health', (req, res) => {
+  res.json({
+    status: 'online',
+    service: 'tiktok',
+    version: '1.0.0',
+  });
+});
+
 // ── 404 ───────────────────────────────────────────────────────
 app.use((req, res) => {
   res.status(404).json({
@@ -479,8 +487,16 @@ const server = app.listen(PORT, '127.0.0.1', () => {
   testDbConnection().catch((err) => logger.warn('DB connection test failed:', err.message));
 });
 
+server.on('error', (error) => {
+  logger.error('[LISTEN]', { code: error.code, message: error.message });
+  process.exit(['EADDRINUSE', 'EACCES'].includes(error.code) ? 78 : 1);
+});
+
 // ── Graceful shutdown ─────────────────────────────────────────
-async function shutdown(signal) {
+let shuttingDown = false;
+async function shutdown(signal, exitCode = 0) {
+  if (shuttingDown) return;
+  shuttingDown = true;
   logger.info(`[SHUTDOWN] ${signal} received — draining connections...`);
 
   server.close(async () => {
@@ -492,7 +508,7 @@ async function shutdown(signal) {
       /* ignore */
     }
     logger.info('[SHUTDOWN] Done. Exiting.');
-    process.exit(0);
+    process.exit(exitCode);
   });
 
   setTimeout(() => {
@@ -506,18 +522,11 @@ process.on('SIGINT', () => shutdown('SIGINT'));
 
 process.on('uncaughtException', (err) => {
   logger.error('[uncaughtException]', { message: err.message, stack: err.stack });
-  shutdown('uncaughtException');
+  shutdown('uncaughtException', 1);
 });
 process.on('unhandledRejection', (reason) => {
   logger.error('[unhandledRejection]', { reason: String(reason) });
-});
-
-app.get('/api/tiktok/health', (req, res) => {
-  res.json({
-    status: 'online',
-    service: 'tiktok',
-    version: '1.0.0',
-  });
+  shutdown('unhandledRejection', 1);
 });
 
 module.exports = app;

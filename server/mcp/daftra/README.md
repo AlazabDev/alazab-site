@@ -4,7 +4,7 @@ A server-side MCP gateway that turns business intent into verified Daftra API op
 
 ## Source contract
 
-The production source is `openapi/Default module.openapi.json`.
+The original production source is `openapi/Default module.openapi.json`. A clean checkout can use the pinned `public/az/api/daftra.openapi.json` via `source.js`: it has 305 operations; four new report paths are explicitly excluded and the renamed multi-entity group normalized to preserve the existing 301-operation scope. Both source hashes are checked and all manifest group/method counts are enforced. This is a compatibility projection, not a claim that the original and newer schemas are byte-identical.
 
 Expected immutable source facts:
 
@@ -77,7 +77,7 @@ At minimum:
 
 ```env
 MCP_DAFTRA_API_KEY=<server MCP bearer/API key>
-DAFTRA_OPENAPI_FILE=./mcp/daftra/openapi/Default module.openapi.json
+DAFTRA_OPENAPI_FILE=./mcp/daftra/openapi/Default module.openapi.json # optional: defaults to pinned tracked source when original absent
 DAFTRA_OPENAPI_EXPECT_OPERATIONS=301
 DAFTRA_OPENAPI_STRICT_HASH=true
 DAFTRA_BASE_URL=<actual Daftra API base URL>

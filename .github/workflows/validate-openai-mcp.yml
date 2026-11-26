@@ -4,12 +4,16 @@ on:
   push:
     paths:
       - 'server/mcp/openai/**'
+      - 'server/mcp/knowledge/**'
+      - 'server/deploy/nginx/api-alazab-knowledge-mcp.locations.conf'
       - 'server/ecosystem.config.js'
       - 'server/deploy/nginx/api-alazab-openai-mcp.locations.conf'
       - '.github/workflows/validate-openai-mcp.yml'
   pull_request:
     paths:
       - 'server/mcp/openai/**'
+      - 'server/mcp/knowledge/**'
+      - 'server/deploy/nginx/api-alazab-knowledge-mcp.locations.conf'
       - 'server/ecosystem.config.js'
       - 'server/deploy/nginx/api-alazab-openai-mcp.locations.conf'
       - '.github/workflows/validate-openai-mcp.yml'
@@ -43,3 +47,6 @@ jobs:
 
       - name: MCP protocol smoke test
         run: node mcp/openai/smoke-test.js
+
+      - name: Knowledge filesystem regression tests
+        run: npm run mcp:knowledge:test

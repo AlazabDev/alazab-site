@@ -18,7 +18,7 @@ ok "Node $(node -v)"
 pnpm install --frozen-lockfile
 pnpm run type-check
 pnpm run lint
-pnpm exec vitest run --passWithNoTests
+pnpm run test:ci
 pnpm run build
 [ -f dist/index.html ] || fail "frontend build did not produce dist/index.html"
 ok "frontend validation and build"
@@ -28,6 +28,10 @@ ok "frontend validation and build"
   npm ci
   npm run check
   npm run lint
+  npm run mcp:daftra:catalog
+  npm run mcp:daftra:smoke
+  npm run mcp:daftra:http-test
+  npm run mcp:knowledge:test
 )
 ok "backend validation"
 

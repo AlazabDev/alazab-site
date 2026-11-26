@@ -1,19 +1,9 @@
 'use strict';
 
-const fs = require('fs');
 const path = require('path');
-const crypto = require('crypto');
-
 const EXPECTED_MANIFEST = require('./catalog/manifest.json');
-const OPENAPI_FILE = process.env.DAFTRA_OPENAPI_FILE || path.join(__dirname, 'openapi', 'Default module.openapi.json');
-
-if (!fs.existsSync(OPENAPI_FILE)) {
-  throw new Error(`Daftra OpenAPI file is missing: ${OPENAPI_FILE}`);
-}
-
-const raw = fs.readFileSync(OPENAPI_FILE);
-const sourceSha256 = crypto.createHash('sha256').update(raw).digest('hex');
-const spec = JSON.parse(raw.toString('utf8'));
+const { loadSource, verifySummary } = require('./source');
+const { file: OPENAPI_FILE, sha: sourceSha256, spec, contract, strict } = loadSource();
 const ALLOWED_METHODS = new Set(['get', 'post', 'put', 'patch', 'delete']);
 
 function slug(value) {
@@ -86,13 +76,11 @@ if (new Set(operations.map((x) => x.key)).size !== operations.length) {
   throw new Error('Daftra OpenAPI generated duplicate operation keys');
 }
 
-const expectedCount = Number(process.env.DAFTRA_OPENAPI_EXPECT_OPERATIONS || EXPECTED_MANIFEST.operation_count || 0);
+const expectedCount = strict ? EXPECTED_MANIFEST.operation_count : Number(process.env.DAFTRA_OPENAPI_EXPECT_OPERATIONS || EXPECTED_MANIFEST.operation_count || 0);
 if (expectedCount && operations.length !== expectedCount) {
   throw new Error(`Daftra OpenAPI operation count mismatch: expected ${expectedCount}, got ${operations.length}`);
 }
-if (process.env.DAFTRA_OPENAPI_STRICT_HASH === 'true' && EXPECTED_MANIFEST.source_sha256 && sourceSha256 !== EXPECTED_MANIFEST.source_sha256) {
-  throw new Error(`Daftra OpenAPI SHA256 mismatch: expected ${EXPECTED_MANIFEST.source_sha256}, got ${sourceSha256}`);
-}
+
 
 const byKey = new Map(operations.map((op) => [op.key, op]));
 const groupCounts = new Map();
@@ -106,6 +94,7 @@ const catalogSummary = {
   version: '2.0.0',
   source_file: path.basename(OPENAPI_FILE),
   source_sha256: sourceSha256,
+  source_contract: contract,
   operation_count: operations.length,
   path_count: Object.keys(spec.paths || {}).length,
   group_count: groupCounts.size,
@@ -114,6 +103,8 @@ const catalogSummary = {
   domains: [...domainCounts.entries()].sort().map(([name, count]) => ({ name, count })),
   groups: [...groupCounts.entries()].sort().map(([name, count]) => ({ name, count })),
 };
+
+if (strict) verifySummary(catalogSummary);
 
 const ARABIC_ALIASES = new Map(Object.entries({
   'مصروف': 'expenses', 'مصروفات': 'expenses', 'نفقة': 'expenses', 'نفقات': 'expenses',

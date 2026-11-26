@@ -23,14 +23,16 @@
     "check:infra": "npm run check:postgres && npm run check:websocket",
     "mcp": "node mcp/server.js",
     "mcp:tools": "curl -sS http://127.0.0.1:${MCP_PORT:-4005}/tools | jq .",
-    "mcp:daftra": "node mcp/daftra/server.js",
-    "mcp:daftra:smoke": "node mcp/daftra/smoke-test.js",
-    "mcp:daftra:catalog": "python3 mcp/daftra/generate-catalog.py \"mcp/daftra/openapi/Default module.openapi.json\" --expect 301",
+    "mcp:daftra": "node mcp/daftra/bootstrap.js",
+    "mcp:daftra:smoke": "node -r dotenv/config mcp/daftra/smoke-test.js",
+    "mcp:daftra:catalog": "node mcp/daftra/validate-catalog.js",
     "webhook:central": "node central-webhook/server.js",
     "webhook:central:init": "node central-webhook/init-db.js",
     "webhook:central:check": "find central-webhook -name '*.js' -type f -print0 | xargs -0 -I{} node --check {}",
     "mcp:meta": "node mcp/meta/src/server.mjs",
-    "mcp:meta:check": "node --check mcp/meta/src/server.mjs"
+    "mcp:meta:check": "node --check mcp/meta/src/server.mjs",
+    "mcp:daftra:http-test": "node mcp/daftra/http-test.js",
+    "mcp:knowledge:test": "node --test mcp/knowledge/knowledge.test.js"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.42.0",

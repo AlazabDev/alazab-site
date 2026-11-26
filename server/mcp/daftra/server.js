@@ -22,6 +22,7 @@ const PUBLIC_KEY = process.env.MCP_DAFTRA_API_KEY;
 const EXPOSE_GROUP_TOOLS = String(process.env.DAFTRA_MCP_EXPOSE_GROUP_TOOLS || 'false').toLowerCase() === 'true';
 
 if (!PUBLIC_KEY) throw new Error('MCP_DAFTRA_API_KEY is missing');
+if (!Number.isInteger(PORT) || PORT < 1 || PORT > 65535) throw new Error('Invalid MCP_DAFTRA_PORT');
 
 const objectSchema = z.record(z.string(), z.unknown());
 
@@ -294,9 +295,42 @@ app.get('/healthz', (req, res) => res.json({
   group_count: catalogSummary.group_count,
   domain_count: catalogSummary.domain_count,
   exposed_group_tools: EXPOSE_GROUP_TOOLS,
+  source_contract: catalogSummary.source_contract,
 }));
 
 const handler = createMcpHandler(() => buildServer());
 const nodeHandler = toNodeHandler(handler);
-app.all('/mcp', (req, res) => void nodeHandler(req, res, req.body));
-app.listen(PORT, HOST, () => console.log(`Azab Daftra MCP v2 listening on http://${HOST}:${PORT}/mcp — ${catalogSummary.operation_count} operations / ${catalogSummary.group_count} actual groups`));
+app.all('/mcp', (req, res, next) => {
+  Promise.resolve().then(() => nodeHandler(req, res, req.body)).catch(next);
+});
+app.use((error, req, res, next) => {
+  console.error('[DAFTRA-MCP][REQUEST]', error.name || 'Error');
+  if (res.headersSent) return next(error);
+  return res.status(500).json({ jsonrpc: '2.0', id: req.body?.id ?? null,
+    error: { code: -32603, message: 'Internal MCP error' } });
+});
+
+function start() {
+  // Validate tool registration before advertising readiness.
+  buildServer();
+  const listener = app.listen(PORT, HOST, () => console.log(
+    'Azab Daftra MCP listening on http://' + HOST + ':' + PORT + '/mcp — ' +
+    catalogSummary.operation_count + ' operations / ' + catalogSummary.group_count + ' groups'));
+  listener.on('error', (error) => {
+    console.error('[DAFTRA-MCP][LISTEN]', error.code || error.name);
+    process.exit(['EADDRINUSE', 'EACCES'].includes(error.code) ? 78 : 1);
+  });
+  let stopping = false;
+  function shutdown() {
+    if (stopping) return;
+    stopping = true;
+    listener.close(() => process.exit(0));
+    setTimeout(() => process.exit(1), 4500).unref();
+  }
+  process.once('SIGTERM', shutdown);
+  process.once('SIGINT', shutdown);
+  return listener;
+}
+
+if (require.main === module) start();
+module.exports = { start, buildServer };

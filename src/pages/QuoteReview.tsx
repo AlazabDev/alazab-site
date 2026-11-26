@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -67,13 +67,8 @@ export default function QuoteReview() {
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [rejectionReason, setRejectionReason] = useState("");
 
-  useEffect(() => {
-    if (id) {
-      fetchQuoteData();
-    }
-  }, [id]);
-
-  const fetchQuoteData = async () => {
+  const fetchQuoteData = useCallback(async () => {
+    if (!id) return;
     setLoading(true);
     try {
       // Fetch document
@@ -106,7 +101,11 @@ export default function QuoteReview() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
+
+  useEffect(() => {
+    void fetchQuoteData();
+  }, [fetchQuoteData]);
 
   const handleApprove = async (itemId: string) => {
     setActionLoading(itemId);

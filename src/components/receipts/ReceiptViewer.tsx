@@ -170,6 +170,7 @@ export default function ReceiptViewer() {
   const [showOnlyErrors, setShowOnlyErrors] = useState(false);
 
   const currentReceipt = receipts[currentIndex] || null;
+  const currentReceiptNumber = currentReceipt?.receipt_number;
   const currentReview = currentReceipt
     ? reviews[currentReceipt.receipt_number]
     : undefined;
@@ -379,7 +380,7 @@ export default function ReceiptViewer() {
   }, [currentReceipt, resetImageState, reviews]);
 
   useEffect(() => {
-    if (!started || !sessionToken || !currentReceipt) return;
+    if (!started || !sessionToken || currentReceiptNumber == null) return;
 
     const deviceId = getStoredShareDevice();
     if (!deviceId) {
@@ -397,7 +398,7 @@ export default function ReceiptViewer() {
     void (async () => {
       try {
         const response = await fetch(
-          `${RECEIPT_IMAGE_ENDPOINT}?receipt=${currentReceipt.receipt_number}`,
+          `${RECEIPT_IMAGE_ENDPOINT}?receipt=${currentReceiptNumber}`,
           {
             method: "GET",
             headers: {
@@ -429,7 +430,7 @@ export default function ReceiptViewer() {
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
   }, [
-    currentReceipt?.receipt_number,
+    currentReceiptNumber,
     imageReloadNonce,
     sessionToken,
     started,

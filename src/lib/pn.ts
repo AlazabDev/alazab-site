@@ -1,7 +1,6 @@
 import { supabase } from '@/integrations/supabase/client';
 
 // Keep the untyped boundary inside this module until generated Supabase types are refreshed.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const db = supabase as any;
 
 export type PNStatus = 'open' | 'in_progress' | 'blocked' | 'done';

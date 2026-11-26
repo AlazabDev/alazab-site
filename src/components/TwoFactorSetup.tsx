@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const axios: any;
 
 interface TwoFactorSetupProps {

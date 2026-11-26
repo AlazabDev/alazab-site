@@ -17,7 +17,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const crypto = require('crypto');
-const path = require('path');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
@@ -26,7 +25,6 @@ require('dotenv').config();
 const logger = require('./logger');
 
 // ── Database ────────────────────────────────────────────────────
-const { createClient } = require('@supabase/supabase-js');
 
 // تحقق من وجود متغيرات Supabase
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {

@@ -8,7 +8,6 @@ const router = express.Router();
 
 const OPENAI_BASE_URL = process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1';
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY || '';
-const OPENAI_ADMIN_API_KEY = process.env.OPENAI_ADMIN_API_KEY || '';
 const OPENAI_WEBHOOK = process.env.OPENAI_WEBHOOK || '';
 const OPENAI_PROJECT_ID = process.env.OPENAI_PROJECT_ID || '';
 const OPENAI_SERVICE_TIER = process.env.OPENAI_SERVICE_TIER || 'default';

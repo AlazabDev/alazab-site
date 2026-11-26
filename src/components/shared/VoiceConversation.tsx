@@ -36,7 +36,6 @@ const VoiceConversationInner: React.FC<VoiceConversationProps> = ({ agentId, voi
   const conversation = useConversation({
     onConnect: () => console.log('ElevenLabs connected'),
     onDisconnect: () => console.log('ElevenLabs disconnected'),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onMessage: (message: any) => {
       if (message.type === 'user_transcript') {
         setTranscripts(prev => [...prev, { role: 'user', text: message.user_transcription_event?.user_transcript || '' }]);

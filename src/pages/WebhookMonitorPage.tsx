@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useCallback } from 'react';
 import { AdminDashboardLayout } from '@/components/admin/AdminDashboardLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

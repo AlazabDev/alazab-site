@@ -625,7 +625,7 @@ router.post('/create-invoice', requireAdminKey, async (req, res) => {
         });
 
         // حفظ في قاعدة البيانات
-        const savedInvoice = await db.createInvoice({
+        await db.createInvoice({
             stripeInvoiceId: finalInvoice.id,
             stripeCustomerId: stripeCustomer.id,
             customerId: customer.id,

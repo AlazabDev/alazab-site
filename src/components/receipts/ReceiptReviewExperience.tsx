@@ -134,6 +134,7 @@ export default function ReceiptReviewExperience() {
   const [successFlash, setSuccessFlash] = useState<number | null>(null);
 
   const current = receipts[currentIndex] || null;
+  const currentReceiptNumber = current?.receipt_number;
   const currentReview = current ? reviews[current.receipt_number] : undefined;
   const hasItemNotes = useMemo(
     () => Object.values(itemNotes).some((value) => value.trim().length > 0),
@@ -220,22 +221,22 @@ export default function ReceiptReviewExperience() {
   }, [loadState, reviewerName, rpc]);
 
   useEffect(() => {
-    if (!current || !sessionToken) return;
-    setJumpValue(String(current.receipt_number));
+    if (currentReceiptNumber == null || !sessionToken) return;
+    setJumpValue(String(currentReceiptNumber));
     setZoom(1);
     setRotation(0);
     setSelectedResult(currentReview?.result || null);
     setGeneralComment(currentReview?.error_comment || "");
     setItemNotes({});
-    void loadItemNotes(sessionToken, current.receipt_number);
+    void loadItemNotes(sessionToken, currentReceiptNumber);
     void rpc("auf_review_touch", {
       p_session_token: sessionToken,
-      p_receipt_number: current.receipt_number,
+      p_receipt_number: currentReceiptNumber,
     }).catch(console.error);
-  }, [current?.receipt_number, currentReview?.result, currentReview?.error_comment, loadItemNotes, rpc, sessionToken]);
+  }, [currentReceiptNumber, currentReview?.result, currentReview?.error_comment, loadItemNotes, rpc, sessionToken]);
 
   useEffect(() => {
-    if (!current || !sessionToken) return;
+    if (currentReceiptNumber == null || !sessionToken) return;
     const deviceId = window.localStorage.getItem(DEVICE_KEY) || "";
     const controller = new AbortController();
     let objectUrl = "";
@@ -243,7 +244,7 @@ export default function ReceiptReviewExperience() {
     setSecureImageUrl("");
     void (async () => {
       try {
-        const response = await fetch(`${IMAGE_ENDPOINT}?receipt=${current.receipt_number}`, {
+        const response = await fetch(`${IMAGE_ENDPOINT}?receipt=${currentReceiptNumber}`, {
           headers: { "x-share-session": sessionToken, "x-share-device": deviceId },
           cache: "no-store",
           signal: controller.signal,
@@ -264,7 +265,7 @@ export default function ReceiptReviewExperience() {
       controller.abort();
       if (objectUrl) URL.revokeObjectURL(objectUrl);
     };
-  }, [current?.receipt_number, sessionToken]);
+  }, [currentReceiptNumber, sessionToken]);
 
   useEffect(() => {
     const onFullscreen = () => setFullscreen(Boolean(document.fullscreenElement));

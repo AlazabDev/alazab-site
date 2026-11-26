@@ -268,15 +268,15 @@ router.post('/webhook', async (req, res) => {
 });
 
 // دوال مساعدة لمعالجة الأحداث
-async function handleCampaignStatusChange(data) {
+async function handleCampaignStatusChange(_data) {
     // تحديث حالة الحملة في قاعدة البيانات
 }
 
-async function handleBudgetUpdate(data) {
+async function handleBudgetUpdate(_data) {
     // تسجيل تغيير الميزانية للتحليل
 }
 
-async function handleConversionTracking(data) {
+async function handleConversionTracking(_data) {
     // تحديث بيانات التحويلات
 }
 

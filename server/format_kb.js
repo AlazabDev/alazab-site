@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 const filePath = '/var/www/core/alazab.com/src/content/alazab_kb.json';
 const backupPath = '/var/www/core/alazab.com/src/content/alazab_kb_backup.json';

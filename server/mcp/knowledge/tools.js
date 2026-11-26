@@ -13,7 +13,7 @@ function createStore(rootDir, { writable = false } = {}) {
   const root = realpathSync(rootDir);
   let writeQueue = Promise.resolve();
   function segments(relative = '') {
-    if (typeof relative !== 'string' || relative.length > 2048 || /[\\\u0000]/.test(relative) || path.isAbsolute(relative)) throw Error('Invalid relative path');
+    if (typeof relative !== 'string' || relative.length > 2048 || (relative.includes('\\') || relative.includes(String.fromCharCode(0))) || path.isAbsolute(relative)) throw Error('Invalid relative path');
     if (relative === '' || relative === '.') return [];
     const parts = relative.split('/');
     if (parts.some(p => !p || p.startsWith('.'))) throw Error('Hidden or traversal path denied');
@@ -135,7 +135,7 @@ function createStore(rootDir, { writable = false } = {}) {
       const text=content.trimEnd()+'\n';
       await atomicWrite(history,id+'.md',text);
       try { await atomicWrite(sessionDir,'latest.md',text); }
-      catch(error){throw Error('History saved as '+id+'; latest update failed: '+error.code);}
+      catch(error){throw Error('History saved as '+id+'; latest update failed: '+error.code, {cause:error});}
       return {id,path:'sessions/history/'+id+'.md',latest:'sessions/latest.md',bytes:Buffer.byteLength(text)};
     });
     writeQueue=task.catch(()=>{});

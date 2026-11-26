@@ -10,19 +10,13 @@ module.exports = [
   },
   js.configs.recommended,
   {
-    files: ["**/*.js"],
+    files: ["**/*.js", "**/*.mjs"],
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: "commonjs",
       globals: {
         console: "readonly",
         process: "readonly",
         Buffer: "readonly",
-        __dirname: "readonly",
-        __filename: "readonly",
-        require: "readonly",
-        module: "readonly",
-        exports: "readonly",
 
         setTimeout: "readonly",
         clearTimeout: "readonly",
@@ -33,6 +27,7 @@ module.exports = [
         URL: "readonly",
         URLSearchParams: "readonly",
         fetch: "readonly",
+        AbortSignal: "readonly",
       },
     },
     rules: {
@@ -41,4 +36,18 @@ module.exports = [
       "no-console": "off",
     },
   },
+  {
+    files: ["**/*.js"],
+    languageOptions: {
+      sourceType: "commonjs",
+      globals: {
+        __dirname: "readonly",
+        __filename: "readonly",
+        require: "readonly",
+        module: "readonly",
+        exports: "readonly",
+      },
+    },
+  },
+  { files: ["**/*.mjs"], languageOptions: { sourceType: "module" } },
 ];

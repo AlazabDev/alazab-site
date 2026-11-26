@@ -3,6 +3,13 @@ name: Validate Daftra MCP
 on:
   push:
     paths:
+      - 'server/pnpm-lock.yaml'
+      - 'server/pnpm-workspace.yaml'
+      - 'server/package-lock.json'
+      - 'server/package.json'
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'server/mcp/daftra/**'
       - 'public/az/api/daftra.openapi.json'
       - 'server/ecosystem.config.js'
@@ -12,6 +19,13 @@ on:
       - '.github/workflows/validate-daftra-mcp.yml'
   pull_request:
     paths:
+      - 'server/pnpm-lock.yaml'
+      - 'server/pnpm-workspace.yaml'
+      - 'server/package-lock.json'
+      - 'server/package.json'
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'server/mcp/daftra/**'
       - 'public/az/api/daftra.openapi.json'
       - 'server/ecosystem.config.js'
@@ -30,20 +44,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.19.0'
-          cache: npm
-          cache-dependency-path: server/package-lock.json
+      - name: Setup shared JavaScript toolchain
+        uses: ./.github/actions/setup-js
 
       - name: Install backend dependencies
-        run: npm ci
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then pnpm import; fi
+          pnpm install --frozen-lockfile
 
       - name: Validate pinned source contract
-        run: npm run mcp:daftra:catalog
+        run: pnpm run mcp:daftra:catalog
 
       - name: Syntax check Daftra MCP
         run: find mcp/daftra -name '*.js' -type f -print0 | xargs -0 -n1 node --check
@@ -51,7 +63,7 @@ jobs:
       - name: Registry and Arabic intent smoke test
         env:
           DAFTRA_OPENAPI_STRICT_HASH: 'true'
-        run: npm run mcp:daftra:smoke
+        run: pnpm run mcp:daftra:smoke
 
       - name: HTTP MCP smoke test
-        run: npm run mcp:daftra:http-test
+        run: pnpm run mcp:daftra:http-test

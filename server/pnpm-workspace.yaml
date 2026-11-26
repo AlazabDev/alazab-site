@@ -1,0 +1,8 @@
+packages:
+  - '.'
+
+# Retain the existing Node resolution layout during the npm-lock migration.
+nodeLinker: hoisted
+allowBuilds:
+  '@firebase/util': true
+  protobufjs: true

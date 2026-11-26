@@ -2,8 +2,11 @@ name: Receipts review build
 
 on:
   push:
-    branches: [main]
+    branches: [main, production]
     paths:
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'src/components/receipts/**'
       - 'src/pages/ReceiptsPage.tsx'
       - 'supabase/migrations/**'
@@ -14,14 +17,9 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 12.3.4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24.19.0
-          cache: pnpm
+      - uses: actions/checkout@v7.0.1
+      - name: Setup shared JavaScript toolchain
+        uses: ./.github/actions/setup-js
       - run: pnpm install --frozen-lockfile
       - run: pnpm run type-check
       - run: pnpm run build

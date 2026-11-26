@@ -3,8 +3,11 @@ name: Build Alazab Review Windows
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, production]
     paths:
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'desktop/review-client/**'
       - '.github/workflows/review-client-windows.yml'
 
@@ -13,22 +16,25 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
+
+      - name: Setup shared JavaScript toolchain
+        uses: ./.github/actions/setup-js
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cache Rust
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@v2.9.3
         with:
           workspaces: desktop/review-client/src-tauri
 
       - name: Build Windows installers
         working-directory: desktop/review-client
-        run: npx --yes @tauri-apps/cli@2 build
+        run: pnpm dlx @tauri-apps/cli@2.12.6 build
 
       - name: Upload installer artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: alazab-review-windows
           if-no-files-found: error

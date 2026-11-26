@@ -20,7 +20,7 @@
     "update:check": "ncu",
     "check:postgres": "node scripts/check-postgres.js",
     "check:websocket": "node scripts/check-websocket.js",
-    "check:infra": "npm run check:postgres && npm run check:websocket",
+    "check:infra": "pnpm run check:postgres && pnpm run check:websocket",
     "mcp": "node mcp/server.js",
     "mcp:tools": "curl -sS http://127.0.0.1:${MCP_PORT:-4005}/tools | jq .",
     "mcp:daftra": "node mcp/daftra/bootstrap.js",
@@ -79,5 +79,10 @@
   "allowScripts": {
     "protobufjs@7.6.5": true,
     "@firebase/util@1.15.3": true
+  },
+  "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": "24.19.0",
+    "pnpm": "12.21.0"
   }
 }

@@ -3,6 +3,13 @@ name: Validate OpenAI MCP
 on:
   push:
     paths:
+      - 'server/pnpm-lock.yaml'
+      - 'server/pnpm-workspace.yaml'
+      - 'server/package-lock.json'
+      - 'server/package.json'
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'server/mcp/openai/**'
       - 'server/mcp/knowledge/**'
       - 'server/deploy/nginx/api-alazab-knowledge-mcp.locations.conf'
@@ -11,6 +18,13 @@ on:
       - '.github/workflows/validate-openai-mcp.yml'
   pull_request:
     paths:
+      - 'server/pnpm-lock.yaml'
+      - 'server/pnpm-workspace.yaml'
+      - 'server/package-lock.json'
+      - 'server/package.json'
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'server/mcp/openai/**'
       - 'server/mcp/knowledge/**'
       - 'server/deploy/nginx/api-alazab-knowledge-mcp.locations.conf'
@@ -28,17 +42,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.19.0'
-          cache: npm
-          cache-dependency-path: server/package-lock.json
+      - name: Setup shared JavaScript toolchain
+        uses: ./.github/actions/setup-js
 
       - name: Install server dependencies
-        run: npm ci
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then pnpm import; fi
+          pnpm install --frozen-lockfile
 
       - name: Syntax check
         run: |
@@ -49,4 +61,4 @@ jobs:
         run: node mcp/openai/smoke-test.js
 
       - name: Knowledge filesystem regression tests
-        run: npm run mcp:knowledge:test
+        run: pnpm run mcp:knowledge:test

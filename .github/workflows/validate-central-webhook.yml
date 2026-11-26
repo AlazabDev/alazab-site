@@ -2,8 +2,15 @@ name: Validate Central Webhook
 
 on:
   push:
-    branches: [development]
+    branches: [development, main, production]
     paths:
+      - 'server/pnpm-lock.yaml'
+      - 'server/pnpm-workspace.yaml'
+      - 'server/package-lock.json'
+      - 'server/package.json'
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'server/central-webhook/**'
       - 'server/ecosystem.config.js'
       - 'server/package.json'
@@ -13,6 +20,13 @@ on:
       - '.github/workflows/validate-central-webhook.yml'
   pull_request:
     paths:
+      - 'server/pnpm-lock.yaml'
+      - 'server/pnpm-workspace.yaml'
+      - 'server/package-lock.json'
+      - 'server/package.json'
+      - '.github/actions/setup-js/**'
+      - '.node-version'
+      - 'package.json'
       - 'server/central-webhook/**'
       - 'server/ecosystem.config.js'
       - 'server/package.json'
@@ -26,16 +40,15 @@ jobs:
       run:
         working-directory: server
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24.19.0'
-          cache: npm
-          cache-dependency-path: server/package-lock.json
+      - uses: actions/checkout@v7.0.1
+      - name: Setup shared JavaScript toolchain
+        uses: ./.github/actions/setup-js
       - name: Install backend dependencies
-        run: npm ci --ignore-scripts
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then pnpm import; fi
+          pnpm install --frozen-lockfile --ignore-scripts
       - name: Syntax check central webhook
-        run: npm run webhook:central:check
+        run: pnpm run webhook:central:check
       - name: Syntax check PM2 config
         run: node --check ecosystem.config.js
       - name: Validate command safety invariants

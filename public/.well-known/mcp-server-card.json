@@ -1,0 +1,15 @@
+{
+  "name": "WAI MCP Server",
+  "description": "Authenticated image analysis and audio transcription",
+  "version": "1.0.0",
+  "transport": {
+    "type": "streamable-http",
+    "url": "https://wai.alazab.com/mcp"
+  },
+  "authentication": {
+    "required": true,
+    "schemes": [
+      "oauth2"
+    ]
+  }
+}

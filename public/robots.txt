@@ -13,4 +13,6 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://azab.services/sitemap.xml
+Sitemap: https://alazab.com/sitemap.xml
+
+Agentmap: https://alazab.com/.well-known/ard.json

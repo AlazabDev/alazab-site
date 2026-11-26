@@ -46,7 +46,7 @@ jobs:
         run: pnpm run type-check
 
       - name: Lint
-        run: pnpm run lint
+        run: pnpm run lint --max-warnings=0
 
       - name: Unit tests
         run: pnpm run test:ci
@@ -85,4 +85,4 @@ jobs:
         run: npm run check
 
       - name: Lint backend
-        run: npm run lint
+        run: npm run lint -- --max-warnings=0

@@ -31,7 +31,7 @@ const ALLOWED_TARGET_HOSTS = (process.env.DYNAMIC_PROXY_ALLOWED_HOSTS || '')
 function isAllowedTarget(target) {
   try {
     const u = new URL(target);
-    if (!/^https?:$/.test(u.protocol)) return false;
+    if (u.protocol !== 'https:' || u.username || u.password || (u.port && u.port !== '443')) return false;
     if (ALLOWED_TARGET_HOSTS.length === 0) return false;
     return ALLOWED_TARGET_HOSTS.includes(u.hostname.toLowerCase());
   } catch {
@@ -139,21 +139,25 @@ dynamicRouter.all('*', async (req, res, next) => {
     const response = await axios({
       method: req.method,
       url: match.target,
-      headers: { ...req.headers, host: new URL(match.target).host },
+      headers: Object.fromEntries(Object.entries(req.headers).filter(([key]) => ['accept','content-type'].includes(key.toLowerCase()))),
+      maxRedirects: 0,
+      timeout: 15000,
+      maxContentLength: 2 * 1024 * 1024,
+      maxBodyLength: 2 * 1024 * 1024,
       data: req.body,
       params: req.query,
       validateStatus: () => true
     });
 
     for (const [key, value] of Object.entries(response.headers)) {
-      if (!['transfer-encoding', 'connection'].includes(key.toLowerCase())) {
+      if (['content-type','cache-control'].includes(key.toLowerCase())) {
         res.setHeader(key, value);
       }
     }
 
     res.status(response.status).send(response.data);
   } catch (err) {
-    res.status(502).json({ error: 'Bad Gateway', details: err.message });
+    res.status(502).json({ error: 'Bad Gateway' });
   }
 });
 

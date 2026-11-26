@@ -27,6 +27,24 @@ function plan(input = {}) {
   }
 
   const intent = input.intent || [input.action, input.resource, input.description].filter(Boolean).join(' ');
+  // Only exact, reviewed command phrases receive deterministic routing.
+  // Other phrases retain the ambiguity gate; never guess a financial write.
+  const normalized = String(intent).normalize('NFKC').replace(/[أإآ]/g,'ا')
+    .replace(/[ًٌٍَُِّْـ]/g,'').replace(/ة/g,'ه').trim().replace(/\s+/g,' ');
+  const exact = {
+    'اضافه مصروف': 'daftra.raw.post.expenses_format',
+    'انشاء مصروف': 'daftra.raw.post.expenses_format',
+    'تسجيل مصروف': 'daftra.raw.post.expenses_format',
+    'انشاء فاتوره شراء': 'daftra.raw.post.purchase_invoices_format',
+    'اضافه فاتوره شراء': 'daftra.raw.post.purchase_invoices_format',
+    'تسجيل قيد محاسبي': 'daftra.raw.post.journals_format',
+    'عرض الموردين': 'daftra.raw.get.suppliers_format',
+    'قائمه الموردين': 'daftra.raw.get.suppliers_format',
+  };
+  if (Object.hasOwn(exact,normalized) && !input.action && !input.resource && !input.group && !input.domain && !input.method) {
+    const op = getOperation(exact[normalized]);
+    return {resolved:true, confidence:1, reason:'exact_reviewed_intent',risk:riskOf(op),operation:op,candidates:[{...op,score:10000}]};
+  }
   const candidates = searchOperations(intent, {
     action: input.action,
     resource: input.resource,

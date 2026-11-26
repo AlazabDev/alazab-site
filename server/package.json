@@ -41,6 +41,7 @@
     "@modelcontextprotocol/node": "^2.0.0",
     "@modelcontextprotocol/sdk": "^1.20.0",
     "@modelcontextprotocol/server": "^2.0.0",
+    "@modelcontextprotocol/server-filesystem": "2.4.0",
     "@supabase/supabase-js": "2.109.0",
     "@vonage/jwt": "^1.16.0",
     "axios": "^1.18.1",
@@ -51,6 +52,7 @@
     "express": "^4.22.2",
     "express-rate-limit": "^7.4.0",
     "facebook-nodejs-business-sdk": "^24.0.1",
+    "firebase-admin": "^14.5.1",
     "form-data": "^4.0.6",
     "helmet": "^8.0.0",
     "js-yaml": "^5.2.0",
@@ -59,6 +61,7 @@
     "react-helmet-async": "^3.0.0",
     "react-tiktok": "^1.0.0",
     "stripe": "^22.3.1",
+    "supergateway": "^2.3.2",
     "winston": "^3.14.0",
     "zod": "^4.6.7"
   },
@@ -66,11 +69,12 @@
     "@eslint/js": "^10.0.1",
     "@hono/node-server": "^2.0.11",
     "eslint": "^10.2.1",
-    "glob": "^13.0.6",
+    "glob": "^14.0.6",
     "npm-check-updates": "^22.0.1",
     "prettier": "^3.8.3"
   },
   "allowScripts": {
-    "protobufjs@7.6.5": true
+    "protobufjs@7.6.5": true,
+    "@firebase/util@1.15.3": true
   }
 }

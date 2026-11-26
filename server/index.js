@@ -419,6 +419,7 @@ app.use('/api/mcp', adminLimiter, mcpRoutes);
 // ── Auth + API + Meta routes ──────────────────────────────────
 app.use('/auth/v1', authLimiter, authRoutes);
 app.use('/api/v1', apiRoutes);
+app.use('/api/v1/firebase', require('./routes/firebase'));
 app.use('/api/meta', metaRoutes);
 app.use('/api/tiktok', tiktokRoutes);
 app.use('/api/stripe', stripeRoutes);

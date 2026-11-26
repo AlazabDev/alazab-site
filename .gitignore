@@ -51,3 +51,6 @@ out/
 backup/
 backups/
 *.backup
+
+# GSP Firebase
+/src/lib/firebase.js

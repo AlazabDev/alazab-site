@@ -54,3 +54,7 @@ backups/
 
 # GSP Firebase
 /src/lib/firebase.js
+
+# Alazab private environment files (all directories)
+.env.local
+.env.*.local

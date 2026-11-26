@@ -25,7 +25,7 @@ const cases = [
 
 for (const [intent, expected] of cases) {
   const resolved = plan({ intent });
-  assert.strictEqual(resolved.resolved, true, `intent did not resolve: ${intent}`);
+  assert.strictEqual(resolved.resolved, true, `intent did not resolve: ${intent}; candidates=${JSON.stringify(resolved.candidates.map(x=>({key:x.key,score:x.score})))}`);
   assert.strictEqual(resolved.operation.key, expected, `wrong operation for: ${intent}`);
 }
 

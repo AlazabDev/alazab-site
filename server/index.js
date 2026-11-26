@@ -55,7 +55,7 @@ const paytabsRoutes = require('./routes/paytabs');
 const telemetryRoutes = require('./routes/telemetry');
 
 const app = express();
-app.set('trust proxy', 1);
+app.set('trust proxy', 'loopback');
 
 const PORT = Number(process.env.PORT || 3004);
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -93,7 +93,7 @@ const STRIPE_ENV = [
 
 function maskValue(v) {
   if (!v) return 'missing';
-  return v.length <= 8 ? '••••••••' : `${v.slice(0, 4)}...${v.slice(-4)}`;
+  return 'configured';
 }
 
 for (const key of STRIPE_ENV) {
@@ -139,6 +139,7 @@ const allowedOrigins = [
   process.env.FRONTEND_URL || 'https://alazab.com',
   'https://www.alazab.com',
   'https://azab.services',
+  ...String(process.env.CORS_ALLOWED_ORIGINS || '').split(',').map(x=>x.trim()).filter(Boolean),
 ];
 
 if (NODE_ENV !== 'production') {
@@ -148,7 +149,7 @@ if (NODE_ENV !== 'production') {
 function isOriginAllowed(origin) {
   if (!origin) return true;
   if (allowedOrigins.includes(origin)) return true;
-  if (/^https:\/\/[a-z0-9-]+\.lovable\.app$/i.test(origin)) return true;
+  if (NODE_ENV !== 'production' && /^https:\/\/[a-z0-9-]+\.lovable\.app$/i.test(origin)) return true;
   return false;
 }
 
@@ -170,16 +171,7 @@ app.use(
 );
 
 // ── Rate limits ───────────────────────────────────────────────
-const rateLimitKeyGen = (req) => {
-  return req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.ip;
-};
-
-const skipLocal = (req) => {
-  const ip = rateLimitKeyGen(req);
-  if (ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1') return true;
-  if (process.env.ADMIN_API_KEY && req.headers['x-admin-key'] === process.env.ADMIN_API_KEY) return true;
-  return false;
-};
+const rateLimitKeyGen = (req) => req.ip;
 
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -188,7 +180,6 @@ const globalLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many requests' },
   keyGenerator: rateLimitKeyGen,
-  skip: skipLocal,
 });
 
 const authLimiter = rateLimit({
@@ -198,7 +189,6 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many authentication attempts' },
   keyGenerator: rateLimitKeyGen,
-  skip: skipLocal,
 });
 
 const webhookLimiter = rateLimit({
@@ -208,7 +198,6 @@ const webhookLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many webhook requests' },
   keyGenerator: rateLimitKeyGen,
-  skip: skipLocal,
 });
 
 const elevenlabsLimiter = rateLimit({
@@ -218,7 +207,6 @@ const elevenlabsLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many ElevenLabs requests' },
   keyGenerator: rateLimitKeyGen,
-  skip: skipLocal,
 });
 
 const adminLimiter = rateLimit({
@@ -228,7 +216,6 @@ const adminLimiter = rateLimit({
   legacyHeaders: false,
   message: { error: 'Too many admin requests' },
   keyGenerator: rateLimitKeyGen,
-  skip: skipLocal,
 });
 
 app.use(globalLimiter);
@@ -284,29 +271,11 @@ function verifyMetaSignature(req, res, next) {
 
 // ── Health / readiness ────────────────────────────────────────
 app.get('/health', (req, res) => {
-  res.status(200).json({
-    ok: true,
-    service: APP_NAME,
-    env: NODE_ENV,
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString(),
-    port: PORT,
-    pid: process.pid,
-    version: require('./package.json').version,
-  });
+  res.status(200).json({ ok: true });
 });
 
 app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    ok: true,
-    service: APP_NAME,
-    env: NODE_ENV,
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString(),
-    port: PORT,
-    pid: process.pid,
-    version: require('./package.json').version,
-  });
+  res.status(200).json({ ok: true });
 });
 
 app.get('/ready', (req, res) => {
@@ -318,7 +287,7 @@ app.get('/ready', (req, res) => {
     adminKey: Boolean(process.env.ADMIN_API_KEY),
   };
   const ready = checks.port;
-  res.status(ready ? 200 : 503).json({ ok: ready, checks, timestamp: new Date().toISOString() });
+  res.status(ready ? 200 : 503).json({ ok: ready });
 });
 
 // للـ Webhook (مهم: يكون قبل express.json) ───────────────────────

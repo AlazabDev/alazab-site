@@ -567,7 +567,7 @@ async function runTool(tool, payload) {
 }
 
 function validateInternalKey(req, res, next) {
-  if (!boolEnv('MCP_REQUIRE_INTERNAL_KEY', false)) return next();
+  if (process.env.NODE_ENV !== 'production' && !boolEnv('MCP_REQUIRE_INTERNAL_KEY', false)) return next();
   const expected = process.env.MCP_INTERNAL_KEY;
   const received = req.headers['x-mcp-key'] || req.headers['x-api-key'];
   if (!expected) return res.status(500).json({ ok: false, error: 'MCP_INTERNAL_KEY is missing' });

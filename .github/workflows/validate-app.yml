@@ -26,18 +26,11 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: false
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24.19.0
-          cache: pnpm
+      - name: Setup shared JavaScript toolchain
+        uses: ./.github/actions/setup-js
 
       - name: Install frontend dependencies
         run: pnpm install --frozen-lockfile
@@ -69,20 +62,25 @@ jobs:
         working-directory: server
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7.0.1
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24.19.0
-          cache: npm
-          cache-dependency-path: server/package-lock.json
+      - name: Setup shared JavaScript toolchain
+        uses: ./.github/actions/setup-js
 
       - name: Install backend dependencies
-        run: npm ci
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then pnpm import; fi
+          pnpm install --frozen-lockfile
+
+      - name: Publish migrated backend lockfile for review
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: server-pnpm-lock
+          path: server/pnpm-lock.yaml
+          if-no-files-found: error
 
       - name: Syntax check
-        run: npm run check
+        run: pnpm run check
 
       - name: Lint backend
-        run: npm run lint -- --max-warnings=0
+        run: pnpm run lint --max-warnings=0

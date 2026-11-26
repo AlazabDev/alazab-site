@@ -50,7 +50,7 @@ if (!fs.existsSync(CONFIG_FILE)) {
 function getEndpoints() {
   try {
     return JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
-  } catch (err) {
+  } catch {
     return [];
   }
 }
@@ -156,7 +156,7 @@ dynamicRouter.all('*', async (req, res, next) => {
     }
 
     res.status(response.status).send(response.data);
-  } catch (err) {
+  } catch {
     res.status(502).json({ error: 'Bad Gateway' });
   }
 });

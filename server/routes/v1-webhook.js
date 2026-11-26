@@ -13,7 +13,6 @@ router.post('/', async (req, res) => {
     const startTime = Date.now();
     const webhookData = req.body;
     const source = req.headers['user-agent'] || 'unknown';
-    const signature = req.headers['x-webhook-signature'] || req.headers['x-signature'];
     
     logger.info(`📨 Webhook V1 received from ${source}`);
     

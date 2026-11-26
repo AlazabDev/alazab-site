@@ -373,7 +373,7 @@ app.post('/daftra/sync-client', async (req, res) => {
 
 app.post('/daftra/create-invoice', async (req, res) => {
   try {
-    const { daftra_client_id, service_item, description, amount, quantity, draft, maintenance_request_id } = req.body;
+    const { daftra_client_id, service_item, description, amount, quantity, draft } = req.body;
     const invoice = await createDaftraInvoice({
       clientId: daftra_client_id,
       service: service_item,

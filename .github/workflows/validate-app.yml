@@ -5,11 +5,12 @@ on:
     branches:
       - development
       - main
+      - production
       - 'agent/**'
       - 'feature/**'
       - 'fix/**'
   pull_request:
-    branches: [main, development]
+    branches: [main, development, production]
   workflow_dispatch:
 
 permissions:

@@ -16,8 +16,7 @@ let dailyStats = {
  * يستقبل الإشعار اليومي من Supabase
  */
 router.post('/daily', async (req, res) => {
-  const startTime = Date.now();
-  const { timestamp, updates_count, updates, has_changes } = req.body;
+  const { updates_count, updates, has_changes } = req.body;
   
   // سجل الاستلام (دائماً)
   console.log(`\n📡 [Supabase Webhook] ${new Date().toISOString()}`);

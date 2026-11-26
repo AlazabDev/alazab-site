@@ -53,14 +53,14 @@ function checkBusiness(id, role) {
   if (role === 'foundry' && (!businessAllowlist.size || !businessAllowlist.has(id))) throw new Error('Business is not authorized for Foundry');
   if (businessAllowlist.size && !businessAllowlist.has(id)) throw new Error('Business not in approved inventory');
 }
-function checkWaba(id, role) {
+function checkWaba(id) {
   if (wabaAllowlist.size && !wabaAllowlist.has(id)) throw new Error('WABA not allowed');
   if (!businessAllowlist.size) throw new Error('Business not configured');
 }
 async function assertWabaOwnership(wabaId) {
   const found = [];
   for (const edge of ['owned_whatsapp_business_accounts', 'client_whatsapp_business_accounts']) {
-    try { found.push(...(await pages(businessId + '/' + edge, 'id')).data); } catch {}
+    try { found.push(...(await pages(businessId + '/' + edge, 'id')).data); } catch { /* An inaccessible edge grants no authorization. */ }
   }
   if (!found.some(item => String(item.id) === String(wabaId))) {
     throw new Error('WhatsApp account not accessible through configured business');
@@ -163,7 +163,7 @@ function build(role) {
     for (const b of businessAllowlist) {
       for (const edge of ['owned_pages', 'client_pages']) {
         try { if ((await pages(b + '/' + edge, 'id')).data.some(x => String(x.id) === page_id)) allowed = true; }
-        catch {}
+        catch { /* An inaccessible edge grants no authorization. */ }
         if (allowed) break;
       }
       if (allowed) break;
@@ -172,12 +172,12 @@ function build(role) {
     return graph(page_id, { fields: 'id,name,category,instagram_business_account{id,username},connected_instagram_account{id,username}' });
   });
   tool(server, 'meta_waba_phone_numbers', 'Read WhatsApp phone numbers, verification and quality.', { waba_id: numericId }, async ({ waba_id }) => {
-    checkWaba(waba_id, role);
+    checkWaba(waba_id);
     await assertWabaOwnership(waba_id);
     return pages(waba_id + '/phone_numbers', 'id,display_phone_number,verified_name,quality_rating,code_verification_status');
   });
   tool(server, 'meta_waba_templates', 'Read approved/pending WhatsApp templates.', { waba_id: numericId }, async ({ waba_id }) => {
-    checkWaba(waba_id, role);
+    checkWaba(waba_id);
     await assertWabaOwnership(waba_id);
     return pages(waba_id + '/message_templates', 'id,name,status,language,category');
   });
@@ -187,7 +187,7 @@ function build(role) {
     checkBusiness(business_id, role);
     const allowed = [];
     for (const edge of ['owned_ad_accounts', 'client_ad_accounts']) {
-      try { allowed.push(...(await pages(business_id + '/' + edge, 'id,account_id')).data); } catch {}
+      try { allowed.push(...(await pages(business_id + '/' + edge, 'id,account_id')).data); } catch { /* An inaccessible edge grants no authorization. */ }
     }
     const id = account_id.replace(/^act_/, '');
     if (!allowed.some(x => String(x.account_id) === id || String(x.id) === 'act_' + id)) throw new Error('Ad Account not in permitted business');

@@ -9,6 +9,25 @@
 module.exports = {
   apps: [
     {
+      name: 'alazab-knowledge-mcp',
+      script: './mcp/knowledge/server.js',
+      cwd: __dirname,
+      instances: 1,
+      exec_mode: 'fork',
+      watch: false,
+      autorestart: true,
+      min_uptime: '60s',
+      max_restarts: 3,
+      stop_exit_codes: [78],
+      exp_backoff_restart_delay: 4000,
+      max_memory_restart: '192M',
+      kill_timeout: 5000,
+      env_production: { NODE_ENV: 'production', KNOWLEDGE_MCP_PORT: 4018, KNOWLEDGE_MCP_AUTH_MODE: 'supabase' },
+      error_file: './logs/knowledge-mcp-error.log',
+      out_file: './logs/knowledge-mcp-out.log',
+      time: true,
+    },
+    {
       name: 'alazab-api',
       script: './bootstrap.js',
       cwd: __dirname,

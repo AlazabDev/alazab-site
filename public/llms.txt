@@ -6,38 +6,37 @@ Bilingual (Arabic/English) construction, fit-out, and facility maintenance compa
 
 ## Pages
 
-- [الرئيسية / Home](/): نظرة عامة على الشركة وخطوط الخدمة.
-- [من نحن / About](/about): تاريخ الشركة وفرق العمل والخبرة.
-- [الرئيس التنفيذي / CEO](/ceo): كلمة ورؤية الإدارة.
-- [الخدمات / Services](/services): جميع خطوط الخدمة والتخصصات.
-- [التشطيبات الفاخرة](/services/luxury-finishing): تشطيبات داخلية راقية للمحلات والمقار.
-- [UberFix للصيانة](/services/uberfix): صيانة الفروع والطوارئ بعقود شهرية.
-- [الهوية البصرية](/services/brand-identity): تصميم وتنفيذ هوية الفروع واللافتات.
-- [التوريدات العامة](/services/smart-light): توريد مواد ومستلزمات التشغيل.
-- [اشتراكات UberFix](/uberfix-subscriptions): خطط الاشتراك في الصيانة الدورية.
-- [المشروعات / Projects](/projects-gallery): معرض المشروعات المنفذة.
-- [أعمالنا / Portfolio](/portfolio): نماذج تنفيذ وصور للأعمال.
-- [معرض الأثاث](/furniture-gallery): مكتبة صور الأثاث والوحدات.
-- [حاسبة التكلفة](/cost-calculator): تقدير تقريبي لتكلفة التشطيب أو الصيانة.
-- [طلب صيانة](/maintenance-request): تسجيل طلب صيانة جديد.
-- [متابعة الصيانة](/maintenance-tracking): متابعة حالة طلب صيانة قائم.
-- [تواصل معنا / Contact](/contact): بيانات التواصل والفروع.
-- [المدونة / Blog](/blogs): مقالات عن الإنشاءات والتشطيبات.
-- [قاعدة المعرفة](/knowledge): أدلة فنية وشروحات.
-- [الأدلة الإرشادية](/guidance): إرشادات التشغيل والصيانة.
-- [العلامات التجارية](/brands): العلامات التي نخدمها ونتعامل معها.
-- [الأسئلة الشائعة / FAQ](/faq): إجابات الأسئلة المتكررة.
-- [خدمات الصيانة](/maintenance-services): تفاصيل خدمات الصيانة المتخصصة.
+- [الرئيسية / Home](https://alazab.com/): نظرة عامة على الشركة وخطوط الخدمة.
+- [من نحن / About](https://alazab.com/about): تاريخ الشركة وفرق العمل والخبرة.
+- [الرئيس التنفيذي / CEO](https://alazab.com/ceo): كلمة ورؤية الإدارة.
+- [الخدمات / Services](https://alazab.com/services): جميع خطوط الخدمة والتخصصات.
+- [التشطيبات الفاخرة](https://alazab.com/services/luxury-finishing): تشطيبات داخلية راقية للمحلات والمقار.
+- [UberFix للصيانة](https://alazab.com/services/uberfix): صيانة الفروع والطوارئ بعقود شهرية.
+- [الهوية البصرية](https://alazab.com/services/brand-identity): تصميم وتنفيذ هوية الفروع واللافتات.
+- [التوريدات العامة](https://alazab.com/services/smart-light): توريد مواد ومستلزمات التشغيل.
+- [اشتراكات UberFix](https://alazab.com/uberfix-subscriptions): خطط الاشتراك في الصيانة الدورية.
+- [المشروعات / Projects](https://alazab.com/projects-gallery): معرض المشروعات المنفذة.
+- [أعمالنا / Portfolio](https://alazab.com/portfolio): نماذج تنفيذ وصور للأعمال.
+- [معرض الأثاث](https://alazab.com/furniture-gallery): مكتبة صور الأثاث والوحدات.
+- [حاسبة التكلفة](https://alazab.com/cost-calculator): تقدير تقريبي لتكلفة التشطيب أو الصيانة.
+- [طلب صيانة](https://alazab.com/maintenance-request): تسجيل طلب صيانة جديد.
+- [تواصل معنا / Contact](https://alazab.com/contact): بيانات التواصل والفروع.
+- [المدونة / Blog](https://alazab.com/blogs): مقالات عن الإنشاءات والتشطيبات.
+- [قاعدة المعرفة](https://alazab.com/knowledge): أدلة فنية وشروحات.
+- [الأدلة الإرشادية](https://alazab.com/guidance): إرشادات التشغيل والصيانة.
+- [العلامات التجارية](https://alazab.com/brands): العلامات التي نخدمها ونتعامل معها.
+- [الأسئلة الشائعة / FAQ](https://alazab.com/faq): إجابات الأسئلة المتكررة.
+- [خدمات الصيانة](https://alazab.com/maintenance-services): تفاصيل خدمات الصيانة المتخصصة.
 
 ## Optional
 
-- [سياسة الخصوصية](/privacy-policy): كيفية معالجة البيانات.
-- [الشروط والأحكام](/terms-of-service): شروط استخدام الخدمات.
-- [سياسة الكوكيز](/cookie-policy): استخدام ملفات تعريف الارتباط.
-- [سياسة الاسترداد](/refund-policy): قواعد الاسترداد والإلغاء.
-- [الاستخدام المقبول](/acceptable-use): قواعد الاستخدام المسموح.
-- [إخلاء المسؤولية](/disclaimer): حدود المسؤولية.
-- [الإفصاح الأمني](/security): الإبلاغ عن الثغرات الأمنية.
-- [حذف البيانات](/data-deletion): طلب حذف البيانات الشخصية.
-- [التواصل القانوني](/legal-contact): بيانات الجهة القانونية.
-- [خريطة الموقع](/sitemap): فهرس صفحات الموقع.
+- [سياسة الخصوصية](https://alazab.com/privacy-policy): كيفية معالجة البيانات.
+- [الشروط والأحكام](https://alazab.com/terms-of-service): شروط استخدام الخدمات.
+- [سياسة الكوكيز](https://alazab.com/cookie-policy): استخدام ملفات تعريف الارتباط.
+- [سياسة الاسترداد](https://alazab.com/refund-policy): قواعد الاسترداد والإلغاء.
+- [الاستخدام المقبول](https://alazab.com/acceptable-use): قواعد الاستخدام المسموح.
+- [إخلاء المسؤولية](https://alazab.com/disclaimer): حدود المسؤولية.
+- [الإفصاح الأمني](https://alazab.com/security): الإبلاغ عن الثغرات الأمنية.
+- [حذف البيانات](https://alazab.com/data-deletion): طلب حذف البيانات الشخصية.
+- [التواصل القانوني](https://alazab.com/legal-contact): بيانات الجهة القانونية.
+- [خريطة الموقع](https://alazab.com/sitemap): فهرس صفحات الموقع.

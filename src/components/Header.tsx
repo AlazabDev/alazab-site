@@ -4,7 +4,7 @@ import { Menu, Globe, ChevronDown, Settings, User } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/shared/Logo';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
@@ -95,13 +95,11 @@ const Header: React.FC = () => {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side={language === 'ar' ? 'right' : 'left'} className="w-80 p-0"><AdvancedSidebar onClose={() => setIsSidebarOpen(false)} /></SheetContent>
+              <SheetContent side={language === 'ar' ? 'right' : 'left'} className="w-80 p-0"><SheetTitle className="sr-only">{t('القائمة الجانبية', 'Sidebar')}</SheetTitle><SheetDescription className="sr-only">{t('روابط التنقل والحساب', 'Navigation and account links')}</SheetDescription><AdvancedSidebar onClose={() => setIsSidebarOpen(false)} /></SheetContent>
             </Sheet>
 
             {!user && (
-              <Link to="/auth" className="hidden lg:block">
-                <Button variant="outline" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">{t('تسجيل الدخول', 'Login')}</Button>
-              </Link>
+              <Button asChild variant="outline" className="hidden lg:inline-flex border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"><Link to="/auth">{t('تسجيل الدخول', 'Login')}</Link></Button>
             )}
 
             {user && <UserAccountMenu />}
@@ -113,27 +111,29 @@ const Header: React.FC = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side={language === 'ar' ? 'right' : 'left'} className="w-[88vw] max-w-80">
+                <SheetTitle className="sr-only">{t('القائمة الرئيسية', 'Main menu')}</SheetTitle>
+                <SheetDescription className="sr-only">{t('روابط صفحات الموقع', 'Website navigation links')}</SheetDescription>
                 <nav className="mt-6 flex flex-col gap-3" aria-label={t('التنقل المتنقل', 'Mobile navigation')}>
                   {navigationItems.map((item) => item.isDropdown ? (
                     <div key={item.name}>
-                      <button type="button" onClick={() => setMobileProductsOpen((open) => !open)} className={`flex w-full items-center justify-between px-2 py-2 text-lg font-medium ${isActive(item.href) ? 'text-construction-accent' : 'text-gray-700 dark:text-foreground'}`}>
+                      <button type="button" aria-expanded={mobileProductsOpen} aria-controls="mobile-services-menu" onClick={() => setMobileProductsOpen((open) => !open)} className={`flex w-full items-center justify-between px-2 py-2 text-lg font-medium ${isActive(item.href) ? 'text-construction-accent' : 'text-gray-700 dark:text-foreground'}`}>
                         {item.name}<ChevronDown className={`h-4 w-4 transition-transform ${mobileProductsOpen ? 'rotate-180' : ''}`} />
                       </button>
-                      {mobileProductsOpen && <div className="mt-1 space-y-1 ps-4">{productionLines.map((line) => <Link key={line.href} to={line.href} onClick={() => setIsMenuOpen(false)} className="block rounded px-2 py-2 text-sm text-muted-foreground hover:text-construction-accent">{line.name}</Link>)}</div>}
+                      {<div id="mobile-services-menu" hidden={!mobileProductsOpen} className="mt-1 space-y-1 ps-4">{productionLines.map((line) => <Link key={line.href} to={line.href} onClick={() => setIsMenuOpen(false)} className="block rounded px-2 py-2 text-sm text-muted-foreground hover:text-construction-accent">{line.name}</Link>)}</div>}
                     </div>
                   ) : (
                     <Link key={item.name} to={item.href} onClick={() => setIsMenuOpen(false)} className={`px-2 py-2 text-lg font-medium ${isActive(item.href) ? 'text-construction-accent' : 'text-gray-700 dark:text-foreground'}`}>{item.name}</Link>
                   ))}
 
                   <div className="mt-3 space-y-2 border-t pt-5">
-                    <Link to="/maintenance-request" onClick={() => setIsMenuOpen(false)}><Button className="w-full">طلب صيانة</Button></Link>
+                    <Button asChild className="w-full"><Link to="/maintenance-request" onClick={() => setIsMenuOpen(false)}>طلب صيانة</Link></Button>
                     {user ? (
                       <>
-                        <Link to="/profile" onClick={() => setIsMenuOpen(false)}><Button variant="outline" className="w-full"><User className="me-2 h-4 w-4" />الملف الشخصي</Button></Link>
-                        <Link to="/settings" onClick={() => setIsMenuOpen(false)}><Button variant="outline" className="w-full"><Settings className="me-2 h-4 w-4" />الإعدادات</Button></Link>
+                        <Button asChild variant="outline" className="w-full"><Link to="/profile" onClick={() => setIsMenuOpen(false)}><User className="me-2 h-4 w-4" />الملف الشخصي</Link></Button>
+                        <Button asChild variant="outline" className="w-full"><Link to="/settings" onClick={() => setIsMenuOpen(false)}><Settings className="me-2 h-4 w-4" />الإعدادات</Link></Button>
                       </>
                     ) : (
-                      <Link to="/auth" onClick={() => setIsMenuOpen(false)}><Button variant="outline" className="w-full">{t('تسجيل الدخول', 'Login')}</Button></Link>
+                      <Button asChild variant="outline" className="w-full"><Link to="/auth" onClick={() => setIsMenuOpen(false)}>{t('تسجيل الدخول', 'Login')}</Link></Button>
                     )}
                   </div>
                 </nav>

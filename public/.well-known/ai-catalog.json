@@ -1,0 +1,16 @@
+{
+  "specVersion": "1.0",
+  "entries": [
+    {
+      "identifier": "urn:air:alazab.com:mcp:wai",
+      "displayName": "WAI authenticated media analysis",
+      "type": "application/mcp-server-card+json",
+      "url": "https://alazab.com/.well-known/mcp-server-card.json",
+      "description": "Authenticated image analysis and audio transcription.",
+      "representativeQueries": [
+        "Analyze an image with WAI",
+        "Transcribe audio with WAI"
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import { registerPublicAgentTools } from './lib/publicAgentTools';
 
 const routeRecoveryCallback = (): void => {
   const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
@@ -18,6 +19,8 @@ const routeRecoveryCallback = (): void => {
 };
 
 routeRecoveryCallback();
+
+void registerPublicAgentTools().catch((error: unknown) => console.warn('WebMCP registration unavailable', error));
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Root element not found');
